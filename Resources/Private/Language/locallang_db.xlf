@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2016-05-11T06:54:37Z">
+		<header>
+			<type>database</type>
+			<description>General language labels used in frontend and backend.</description>
+			<generator>LFEditor</generator>
+			<authorName>Fabian Galinski</authorName>
+			<authorEmail>fabian@sgalinski.de</authorEmail>
+		</header>
+		<body>
+		<trans-unit id="error.invalidSourceUrl">
+			<source>The Source URL "%s" is already redirected by another record.</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_category">
+			<source>Category</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_category.edit">
+			<source>Edit Category</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_category.new">
+			<source>Create new Category</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_category.title">
+			<source>Title</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_category.used_for_automated_routing">
+			<source>Used for automatically created redirects</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_log">
+			<source>Redirect Log</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_log.execution_duration">
+			<source>Execution Duration (ms)</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_log.source_url">
+			<source>Source URL</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_log.destination_url">
+			<source>Destination URL</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_log.redirect_url">
+			<source>Redirect URL</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_log.request_url">
+			<source>Request URL</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_pagenotfoundhandling">
+			<source>Page-Not-Found Handling</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_pagenotfoundhandling.function">
+			<source>Configuration</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_pagenotfoundhandling.functionBrowsePages">
+			<source>Browse Pages</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_pagenotfoundhandling.function_info">
+			<source>Configuration Options</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_pagenotfoundhandling.function_info_text">
+			<source><![CDATA[<p></p> <dl><dt>Page/Integer (Recommended)</dt><dd>Uid of the page whose content will be displayed</dd><dt>empty (default)</dt><dd>The next visible page upwards in the page tree is shown.</dd> <dt>'true'</dt><dd>An error message is shown.</dd><dt>String</dt><dd>Static HTML file to show (reads content and outputs with correct headers), e.g. 'notfound.html' or 'http://www.example.org/errors/notfound.html'.</dd></dl>]]></source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_pagenotfoundhandling.header">
+			<source>Status Header (Do not change this from 404 unless you know what you are doing!)</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route">
+			<source>Redirect</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.categories">
+			<source>Categories</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.crdate">
+			<source>Created</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.description">
+			<source>Description</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.destination_language">
+			<source>Language (Only for Page Id Destination)</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.destination_url">
+			<source>Destination URL (Examples: "/contact-us/" , "/contact-us/$1") or Page Id</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.permanently">
+			<source>301 (Permanent Redirect)</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.pid">
+			<source>Site-Root ID</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.redirect_code">
+			<source>Redirect code</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.redirect_url_parameters">
+			<source>Pass the url parameters to the redirect</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.regular_expression_info">
+			<source>Use the links bellow for more information about regular expressions</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.regular_expression_info_cheatsheet">
+			<source>Regular Expression Cheatsheet</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.regular_expression_info_tester">
+			<source>Regular Expression Tester</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.palettes.destination_url">
+			<source>Destination URL</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.palettes.source_url">
+			<source>Source URL</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.source_url">
+			<source>Source URL (Examples: "/contact/" , "^/contact/(.*)$")</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.source_url_case_sensitive">
+			<source>Case sensitive check</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.temporary">
+			<source>302 (Temporary Redirect)</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.title">
+			<source>Redirect</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.tstamp">
+			<source>Last Update</source>
+		</trans-unit>
+		<trans-unit id="tx_sgroutes_domain_model_route.use_regular_expression">
+			<source>Use regular expressions</source>
+		</trans-unit>
+		</body>
+	</file>
+</xliff>

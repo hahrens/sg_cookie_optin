@@ -1,0 +1,2 @@
+# cat=license; type=string; label=LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang.xlf:configuration.licenseKey
+key =

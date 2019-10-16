@@ -1,0 +1,30 @@
+{
+	"name": "sgalinski/sg-cookie-optin",
+	"type": "typo3-cms-extension",
+	"description": "This extensions adds a cookie optin for the frontend.",
+	"homepage": "https://www.sgalinski.de",
+	"license": [
+		"GPL-2.0-or-later"
+	],
+	"version": "1.0.0",
+	"support": {
+		"issues": "https://gitlab.sgalinski.de/typo3/sg_cookie_optin"
+	},
+	"require": {
+		"typo3/cms-core": "^7.6 || ^8.7 || ^9.5",
+		"php": "^5.5 || ^7.0"
+	},
+	"require-dev": {
+		"roave/security-advisories": "dev-master"
+	},
+	"suggest": {
+	},
+	"replace": {
+		"sg_cookie_optin": "self.version"
+	},
+	"autoload": {
+		"psr-4": {
+			"SGalinski\\SgCookieOptin\\": "Classes/"
+		}
+	}
+}
