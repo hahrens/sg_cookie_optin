@@ -26,6 +26,8 @@ namespace SGalinski\SgCookieOptin\UserFunction;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
 /**
  * Adds the Cookie Optin JavaScript if it's generated for the current page.
  */
@@ -33,13 +35,60 @@ class AddCookieOptinJsAndCss {
 	/**
 	 * Adds the Cookie Optin JavaScript if it's generated for the current page.
 	 *
+	 * Example line: fileadmin/sg_cookie_optin/siteroot-1/cookieOptin.js
+	 *
 	 * @param string $content
 	 * @param array $configuration
 	 * @return string
 	 */
 	public function addJavaScript($content, array $configuration) {
-		$test = 'sad';
-		debug(123);
-		die;
+		$rootPageId = $this->getRootPageId();
+		if ($rootPageId <= 0) {
+			return '';
+		}
+		
+		$file = PATH_site . 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/cookieOptin.js';
+		if (!file_exists($file)) {
+			return '';
+		}
+
+		return file_get_contents($file);
+	}
+
+	/**
+	 * Adds the Cookie Optin CSS if it's generated for the current page.
+	 *
+	 * Example line: fileadmin/sg_cookie_optin/siteroot-1/cookieOptin.css
+	 *
+	 * @param string $content
+	 * @param array $configuration
+	 * @return string
+	 */
+	public function addCSS($content, array $configuration) {
+		$rootPageId = $this->getRootPageId();
+		if ($rootPageId <= 0) {
+			return '';
+		}
+
+		$file = PATH_site . 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/cookieOptin.css';
+		if (!file_exists($file)) {
+			return '';
+		}
+
+		return file_get_contents($file);
+	}
+
+	/**
+	 * Returns always the first page within the rootline
+	 *
+	 * @return int
+	 */
+	protected function getRootPageId() {
+		/** @var TypoScriptFrontendController $typoScriptFrontendController */
+		$typoScriptFrontendController = $GLOBALS['TSFE'];
+
+		return (isset($typoScriptFrontendController->rootLine[0]['uid']) ?
+			(int) $typoScriptFrontendController->rootLine[0]['uid'] : -1
+		);
 	}
 }

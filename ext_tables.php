@@ -31,7 +31,33 @@ call_user_func(
 		);
 
 		if (TYPO3_MODE === 'BE') {
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
+				'tx_sgcookieoptin_domain_model_optin'
+			);
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
+				'tx_sgcookieoptin_domain_model_group'
+			);
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
+				'tx_sgcookieoptin_domain_model_script'
+			);
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
+				'tx_sgcookieoptin_domain_model_cookie'
+			);
 
+			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+				'SGalinski.' . $extKey,
+				'web',
+				'Optin',
+				'',
+				[
+					'Optin' => 'index',
+				],
+				[
+					'access' => 'user,group',
+					'icon' => 'EXT:' . $extKey . '/Resources/Public/Icons/module-sgcookieoptin.png',
+					'labels' => 'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang.xlf',
+				]
+			);
 		}
 
 	}, 'sg_cookie_optin'

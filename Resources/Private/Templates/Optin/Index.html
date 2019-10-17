@@ -1,0 +1,30 @@
+{namespace sg=SGalinski\SgCookieOptin\ViewHelpers}
+
+<f:layout name="Default" />
+
+<f:section name="content">
+	<f:flashMessages />
+
+	<f:if condition="{pages}">
+		<div class="row">
+			<div class="panel panel-default recordlist">
+				<div class="table-fit">
+					<table data-table="pages" class="table table-striped table-hover">
+						<tbody>
+							<f:for each="{pages}" as="page">
+								<tr data-uid="{page.pid}">
+									<td nowrap="nowrap" class="col-title">
+										<f:link.action action="index" additionalParams="{id: page.uid}">
+											<sg:backend.icon table="pages" row="{page}" clickMenu="0" />
+											{page._thePathFull}
+										</f:link.action>
+									</td>
+								</tr>
+							</f:for>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</f:if>
+</f:section>

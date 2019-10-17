@@ -9,162 +9,166 @@
 			<authorEmail>fabian@sgalinski.de</authorEmail>
 		</header>
 		<body>
-		<trans-unit id="error.invalidSourceUrl">
-			<source>The Source URL "%s" is already redirected by another record.</source>
-			<target>Die Quell-URL "%s" wird bereits von einer anderen Datensatz weitergeleitet.</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_category" approved="yes">
-			<source>Category</source>
-			<target>Kategorie</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_category.edit" approved="yes">
-			<source>Edit Category</source>
-			<target>Kategorie bearbeiten</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_category.new" approved="yes">
-			<source>Create new Category</source>
-			<target>Neue Kategorie erstellen</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_category.title" approved="yes">
-			<source>Title</source>
-			<target>Titel</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_category.used_for_automated_routing">
-			<source>Used for automatically created redirects</source>
-			<target>Wird für automatisch erstellte Weiterleitungen verwendet</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_log">
-			<source>Redirect Log</source>
-			<target>Redirect Log</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_log.execution_duration" approved="yes">
-			<source>Execution Duration (ms)</source>
-			<target>Ausführungsdauer (ms)</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_log.source_url">
-			<source>Source URL</source>
-			<target>Quell-URL</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_log.destination_url">
-			<source>Destination URL</source>
-			<target>Ziel-URL</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_log.redirect_url" approved="yes">
-			<source>Redirect URL</source>
-			<target>Weitergeleitete URL</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_log.request_url" approved="yes">
-			<source>Request URL</source>
-			<target>Original-Anfrage-URL</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_pagenotfoundhandling" approved="yes">
-			<source>Page-Not-Found Handling</source>
-			<target>Handling: "Seite nicht gefunden"</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_pagenotfoundhandling.function" approved="yes">
-			<source>Configuration</source>
-			<target>Konfiguration</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_pagenotfoundhandling.functionBrowsePages" approved="yes">
-			<source>Browse Pages</source>
-			<target>Seiten durchsuchen</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_pagenotfoundhandling.function_info" approved="yes">
-			<source>Configuration Options</source>
-			<target>Konfigurationsoptionen</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_pagenotfoundhandling.function_info_text" approved="yes">
-			<source><![CDATA[<p></p> <dl><dt>Page/Integer (Recommended)</dt><dd>Uid of the page whose content will be displayed</dd><dt>empty (default)</dt><dd>The next visible page upwards in the page tree is shown.</dd> <dt>'true'</dt><dd>An error message is shown.</dd><dt>String</dt><dd>Static HTML file to show (reads content and outputs with correct headers), e.g. 'notfound.html' or 'http://www.example.org/errors/notfound.html'.</dd></dl>]]></source>
-			<target><![CDATA[<p></p> <dl><dt>Seite/Integer (Empfohlen)</dt><dd>Uid der Seite, deren Inhalt angezeigt wird</dd><dt>leer (Standard)</dt><dd>Die nächste sichtbare Seite nach oben im Seitenbaum wird angezeigt.</dd><dt>'true'</dt><dd>Eine Fehlermeldung wird angezeigt.</dd><dt>String</dt><dd>Zu zeigende statische HTML-Datei (liest Inhalt und Ausgänge mit korrekten Headern), zB 'Notfound.html' oder 'http://www.example.org/errors/notfound.html'.</dd></dl>]]></target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_pagenotfoundhandling.header" approved="yes">
-			<source>Status Header (Do not change this from 404 unless you know what you are doing!)</source>
-			<target>Status Header (Ändern Sie das nicht von 404, es sei denn, Sie wissen, was Sie tun!)</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route" approved="yes">
-			<source>Redirect</source>
-			<target>Weiterleitung</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.categories" approved="yes">
-			<source>Categories</source>
-			<target>Kategorien</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.crdate" approved="yes">
-			<source>Created</source>
-			<target>Erstellt</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.description" approved="yes">
-			<source>Description</source>
-			<target>Beschreibung</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.destination_language">
-			<source>Language (Only for Page Id Destination)</source>
-			<target>Sprache (Nur für Seiten-ID-Ziel)</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.destination_url" approved="yes">
-			<source>Destination URL (Examples: "/contact-us/" , "/contact-us/$1") or Page Id</source>
-			<target>Ziel-URL (Beispiele: "/kontaktiere-uns/" , "/kontaktiere-uns/$1") oder Seiten-ID</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.permanently" approved="yes">
-			<source>301 (Permanent Redirect)</source>
-			<target>301 (Permanente Weiterleitung)</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.pid" approved="yes">
-			<source>Site-Root ID</source>
-			<target>Site-Root-ID</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.redirect_code" approved="yes">
-			<source>Redirect code</source>
-			<target>Weiterleitungs-Code</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.redirect_url_parameters" approved="yes">
-			<source>Pass the url parameters to the redirect</source>
-			<target>Übergib die URL-Parameter an die Weiterleitung</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.regular_expression_info" approved="yes">
-			<source>Use the links bellow for more information about regular expressions</source>
-			<target>Verwenden Sie die Links unten, um mehr über reguläre Ausdrücke zu lesen</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.regular_expression_info_cheatsheet" approved="yes">
-			<source>Regular Expression Cheatsheet</source>
-			<target>Reguläre Ausdrücke Cheatsheet</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.regular_expression_info_tester" approved="yes">
-			<source>Regular Expression Tester</source>
-			<target>Reguläre Ausdrücke Tester</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.palettes.destination_url">
-			<source>Destination URL</source>
-			<target>Ziel-URL</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.palettes.source_url">
-			<source>Source URL</source>
-			<target>Quell-URL</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.source_url" approved="yes">
-			<source>Source URL (Examples: "/contact/" , "^/contact/(.*)$")</source>
-			<target>Quell-URL (Beispiele: "/kontakt/" , "^/kontakt/(.*)$")</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.source_url_case_sensitive">
-			<source>Case sensitive check</source>
-			<target>Groß- und Kleinschreibung beachten</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.temporary" approved="yes">
-			<source>302 (Temporary Redirect)</source>
-			<target>302 (Temporäre Weiterleitung)</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.title" approved="yes">
-			<source>Redirect</source>
-			<target>Weiterleitung</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.tstamp" approved="yes">
-			<source>Last Update</source>
-			<target>Letztes Update</target>
-		</trans-unit>
-		<trans-unit id="tx_sgroutes_domain_model_route.use_regular_expression" approved="yes">
-			<source>Use regular expressions</source>
-			<target>Reguläre Ausdrücke verwenden</target>
-		</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_cookie" approved="yes">
+				<source><![CDATA[Cookie]]></source>
+				<target><![CDATA[Cookie]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.duration" approved="yes">
+				<source><![CDATA[Duration]]></source>
+				<target><![CDATA[Laufzeit]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.hidden" approved="yes">
+				<source><![CDATA[Deactivate]]></source>
+				<target><![CDATA[Deaktivieren]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.parent_group" approved="yes">
+				<source><![CDATA[Group]]></source>
+				<target><![CDATA[Gruppe]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.provider" approved="yes">
+				<source><![CDATA[Provider]]></source>
+				<target><![CDATA[Anbieter]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.purpose" approved="yes">
+				<source><![CDATA[Purpose]]></source>
+				<target><![CDATA[Zweck]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group" approved="yes">
+				<source><![CDATA[Group]]></source>
+				<target><![CDATA[Gruppe]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.cookies" approved="yes">
+				<source><![CDATA[Cookies]]></source>
+				<target><![CDATA[Cookies]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.description" approved="yes">
+				<source><![CDATA[Description]]></source>
+				<target><![CDATA[Beschreibung]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.group_name" approved="yes">
+				<source><![CDATA[Group Name (Technical Key)]]></source>
+				<target><![CDATA[Gruppen-Name (Technischer Schlüssel)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.hidden" approved="yes">
+				<source><![CDATA[Deactivate]]></source>
+				<target><![CDATA[Deaktivieren]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.parent_optin" approved="yes">
+				<source><![CDATA[Opt In]]></source>
+				<target><![CDATA[Opt-In]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.required" approved="yes">
+				<source><![CDATA[Required]]></source>
+				<target><![CDATA[Benötigt]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.scripts" approved="yes">
+				<source><![CDATA[Scripts]]></source>
+				<target><![CDATA[Scripte]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.title" approved="yes">
+				<source><![CDATA[Title]]></source>
+				<target><![CDATA[Titel]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin" approved="yes">
+				<source><![CDATA[Opt In]]></source>
+				<target><![CDATA[Opt-In]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_all_text" approved="yes">
+				<source><![CDATA[Button Text (All)]]></source>
+				<target><![CDATA[Button-Text (Alle)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_essential_text" approved="yes">
+				<source><![CDATA[Button Text (Essential)]]></source>
+				<target><![CDATA[Button-Text (Essenziell)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_specific_text" approved="yes">
+				<source><![CDATA[Button Text (Specific)]]></source>
+				<target><![CDATA[Button-Text (Spezifisch)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all" approved="yes">
+				<source><![CDATA[Color: Button "Accept All"]]></source>
+				<target><![CDATA[Farbe: Button "Aktzeptiere Alle"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all_text" approved="yes">
+				<source><![CDATA[Color: Button-Text "Accept All"]]></source>
+				<target><![CDATA[Farbe: Button-Text "Aktzeptiere Alle"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential" approved="yes">
+				<source><![CDATA[Color: Button "Accept Essential"]]></source>
+				<target><![CDATA[Farbe: Button "Aktzeptiere Essenzielle"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential_text" approved="yes">
+				<source><![CDATA[Color: Button-Text "Accept Essential"]]></source>
+				<target><![CDATA[Farbe: Button-Text "Aktzeptiere Essenzielle"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific" approved="yes">
+				<source><![CDATA[Color: Button "Accept Specific"]]></source>
+				<target><![CDATA[Farbe: Button "Aktzeptiere Spezifische"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific_text" approved="yes">
+				<source><![CDATA[Color: Button-Text "Accept Specific"]]></source>
+				<target><![CDATA[Farbe: Button-Text "Aktzeptiere Spezifische"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_checkbox" approved="yes">
+				<source><![CDATA[Color: Checkbox]]></source>
+				<target><![CDATA[Farbe: Checkbox]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_checkbox_required" approved="yes">
+				<source><![CDATA[Color: Checkbox "Essential"]]></source>
+				<target><![CDATA[Farbe: Checkbox "Essenziell"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_list" approved="yes">
+				<source><![CDATA[Color: List Entries]]></source>
+				<target><![CDATA[Farbe: Listen-Einträge]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_list_text" approved="yes">
+				<source><![CDATA[Color: List Entry Text ]]></source>
+				<target><![CDATA[Farbe: Listen-Eintrag-Text]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_text" approved="yes">
+				<source><![CDATA[Color: Text]]></source>
+				<target><![CDATA[Farbe: Text]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description" approved="yes">
+				<source><![CDATA[Description]]></source>
+				<target><![CDATA[Beschreibung]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.header" approved="yes">
+				<source><![CDATA[Header]]></source>
+				<target><![CDATA[Überschrift]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.navigation" approved="yes">
+				<source><![CDATA[Navigation]]></source>
+				<target><![CDATA[Navigation]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.groups" approved="yes">
+				<source><![CDATA[Groups]]></source>
+				<target><![CDATA[Gruppen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.color" approved="yes">
+				<source><![CDATA[Colors]]></source>
+				<target><![CDATA[Farben]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_script" approved="yes">
+				<source><![CDATA[Script]]></source>
+				<target><![CDATA[Script]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_script.hidden" approved="yes">
+				<source><![CDATA[Deactivate]]></source>
+				<target><![CDATA[Deaktivieren]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_script.parent_group" approved="yes">
+				<source><![CDATA[Group]]></source>
+				<target><![CDATA[Gruppe]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_script.script" approved="yes">
+				<source><![CDATA[Activation JavaScript]]></source>
+				<target><![CDATA[Aktivierungs JavaScript]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_script.title" approved="yes">
+				<source><![CDATA[Backend Title]]></source>
+				<target><![CDATA[Backend-Titel]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
