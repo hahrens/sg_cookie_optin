@@ -26,7 +26,8 @@ namespace SGalinski\SgCookieOptin\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use SGalinski\SgMail\Service\BackendService;
+use SGalinski\SgCookieOptin\Service\BackendService;
+use TYPO3\CMS\Backend\Controller\EditDocumentController;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -53,11 +54,9 @@ class OptinController extends ActionController {
 		// create doc header component
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
-
 		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
-			// Open the Form
-		} else {
-			$this->view->assign('pages', BackendService::getPages());
+			$this->view->assign('isSiteRoot', TRUE);
+			$this->view->assign('optins', BackendService::getOptins($pageUid));
 		}
 
 		$this->docHeaderComponent = GeneralUtility::makeInstance(DocHeaderComponent::class);
@@ -67,7 +66,9 @@ class OptinController extends ActionController {
 		$this->docHeaderComponent->setMetaInformation($pageInfo);
 		BackendService::makeButtons($this->docHeaderComponent, $this->request);
 
+		$this->view->assign('pages', BackendService::getPages());
 		$this->view->assign('docHeader', $this->docHeaderComponent->docHeaderContent());
 		$this->view->assign('typo3Version', VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version));
+		$this->view->assign('pageUid', $pageUid);
 	}
 }

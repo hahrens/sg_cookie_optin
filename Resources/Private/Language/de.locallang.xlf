@@ -9,6 +9,22 @@
 			<authorEmail>fabian@sgalinski.de</authorEmail>
 		</header>
 		<body>
+			<trans-unit id="backend.createRecord" approved="yes">
+				<source><![CDATA[Create a new record]]></source>
+				<target><![CDATA[Erstelle einen neuen Eintrag]]></target>
+			</trans-unit>
+			<trans-unit id="backend.moduleDescription" approved="yes">
+				<source><![CDATA[This module serves for the management of cookies. There can be a maximum of one entry per site root, if nothing exists, add one with the help of the button above.]]></source>
+				<target><![CDATA[Dieses Modul dient zu der Verwaltung von Cookies. Es kann pro Seiten-Root immer nur ein Eintrag existieren, sollte keiner existieren muss einer mit Hilfe des obigen Buttons angelegt werden.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.moduleHeader" approved="yes">
+				<source><![CDATA[Cookie Opt In]]></source>
+				<target><![CDATA[Cookie Opt In]]></target>
+			</trans-unit>
+			<trans-unit id="backend.no_site_root" approved="yes">
+				<source><![CDATA[Please select one of the following website roots:]]></source>
+				<target><![CDATA[Bitte wählen Sie eine der folgenden Webseiten:]]></target>
+			</trans-unit>
 			<trans-unit id="configuration.licenseKey" approved="yes">
 				<source>License Key</source>
 				<target>Lizenzschlüssel</target>
