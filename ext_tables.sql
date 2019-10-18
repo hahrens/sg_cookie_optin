@@ -20,6 +20,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	essential_scripts int(11) DEFAULT '0' NOT NULL,
 	essential_cookies int(11) DEFAULT '0' NOT NULL,
 
+	color_box varchar(255) DEFAULT '' NOT NULL,
 	color_text varchar(255) DEFAULT '' NOT NULL,
 	color_checkbox varchar(255) DEFAULT '' NOT NULL,
 	color_checkbox_required varchar(255) DEFAULT '' NOT NULL,
@@ -37,8 +38,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_table varchar(255) DEFAULT '' NOT NULL,
 	color_table_header_text varchar(255) DEFAULT '' NOT NULL,
 	color_Table_data_text varchar(255) DEFAULT '' NOT NULL,
-
-
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

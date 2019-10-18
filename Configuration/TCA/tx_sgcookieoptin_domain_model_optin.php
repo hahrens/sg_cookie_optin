@@ -60,13 +60,16 @@ return [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group, 
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color, 
-					color_text, --palette--;;color_checkbox, --palette--;;color_list,  --palette--;;color_button,
-					--palette--;;color_table,',
+					--palette--;;color_general, --palette--;;color_checkbox, --palette--;;color_list,  
+					--palette--;;color_button,	--palette--;;color_table,',
 		],
 	],
 	'palettes' => [
 		'language' => [
 			'showitem' => 'sys_language_uid, l10n_parent'
+		],
+		'color_general' => [
+			'showitem' => 'color_box, color_text'
 		],
 		'color_checkbox' => [
 			'showitem' => 'color_checkbox, color_checkbox_required'
@@ -227,6 +230,18 @@ return [
 					'expandSingle' => TRUE,
 				],
 				'maxitems' => 99999,
+			],
+		],
+		'color_box' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_box',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#373737',
+				'placeholder' => '#373737',
+				'eval' => 'trim, required'
 			],
 		],
 		'color_text' => [

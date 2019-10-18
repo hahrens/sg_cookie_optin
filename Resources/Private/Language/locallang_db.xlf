@@ -66,6 +66,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_specific_text">
 				<source><![CDATA[Button Text (Specific)]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_box">
+				<source><![CDATA[Color: Box]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all">
 				<source><![CDATA[Color: Button "Accept All"]]></source>
 			</trans-unit>
