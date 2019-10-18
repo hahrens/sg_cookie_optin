@@ -12,14 +12,17 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie">
 				<source><![CDATA[Cookie]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.duration">
-				<source><![CDATA[Duration]]></source>
+			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.lifetime">
+				<source><![CDATA[Lifetime]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.hidden">
 				<source><![CDATA[Deactivate]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.parent_group">
 				<source><![CDATA[Group]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.parent_optin">
+				<source><![CDATA[Opt In]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.provider">
 				<source><![CDATA[Provider]]></source>
@@ -37,16 +40,13 @@
 				<source><![CDATA[Description]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.group_name">
-				<source><![CDATA[Group Name (Technical Key)]]></source>
+				<source><![CDATA[Group Name (This is the key for the Google Tag Manager)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.hidden">
 				<source><![CDATA[Deactivate]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.parent_optin">
 				<source><![CDATA[Opt In]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_group.required">
-				<source><![CDATA[Required]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.scripts">
 				<source><![CDATA[Scripts]]></source>
@@ -102,17 +102,35 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description">
 				<source><![CDATA[Description]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_cookies">
+				<source><![CDATA[Cookies]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_description">
+				<source><![CDATA[Description]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_scripts">
+				<source><![CDATA[Scripts]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_title">
+				<source><![CDATA[Title]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.header">
 				<source><![CDATA[Header]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.navigation">
-				<source><![CDATA[Navigation]]></source>
+				<source><![CDATA[Opt In Footer (Add the imprint and the data policy)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.groups">
 				<source><![CDATA[Groups]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.color">
 				<source><![CDATA[Colors]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.essential">
+				<source><![CDATA[Essential Group]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.group">
+				<source><![CDATA[Additional Groups]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script">
 				<source><![CDATA[Script]]></source>
@@ -123,11 +141,14 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.parent_group">
 				<source><![CDATA[Group]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_script.parent_optin">
+				<source><![CDATA[Opt In]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.script">
-				<source><![CDATA[Activation JavaScript]]></source>
+				<source><![CDATA[JavaScript]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title">
-				<source><![CDATA[Backend Title]]></source>
+				<source><![CDATA[Script Name]]></source>
 			</trans-unit>
 		</body>
 	</file>

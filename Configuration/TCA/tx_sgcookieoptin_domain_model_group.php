@@ -46,7 +46,7 @@ return [
 	],
 	'interface' => [
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, group_name, 
-			description, required, parent_optin, scripts, cookies',
+			description, parent_optin, scripts, cookies',
 	],
 	'types' => [
 		'1' => [
@@ -57,7 +57,7 @@ return [
 	],
 	'palettes' => [
 		'language' => [
-			'showitem' => 'sys_language_uid, l10n_parent, --linebreak--, hidden, required'
+			'showitem' => 'sys_language_uid, l10n_parent, --linebreak--, hidden'
 		]
 	],
 	'columns' => [
@@ -138,14 +138,6 @@ return [
 			'config' => [
 				'type' => 'text',
 				'eval' => 'trim'
-			],
-		],
-		'required' => [
-			'exclude' => TRUE,
-			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.required',
-			'config' => [
-				'type' => 'check',
 			],
 		],
 		'parent_optin' => [

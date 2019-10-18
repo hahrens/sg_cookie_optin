@@ -32,7 +32,7 @@ return [
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
-		'searchFields' => 'header, description, accept_all_text, accept_specific_text, accept_essential_text',
+		'searchFields' => 'header, description, accept_all_text, accept_specific_text, accept_essential_text, essential_title, essential_description',
 		'delete' => 'deleted',
 		'hideTable' => FALSE,
 		'languageField' => 'sys_language_uid',
@@ -45,14 +45,17 @@ return [
 			navigation, accept_all_text, accept_specific_text, accept_essential_text, groups, 
 			color_text, color_checkbox, color_checkbox_required, color_button_all, color_button_all_text, 
 			color_button_specific, color_button_specific_text, color_button_essential, color_button_essential_text,
-			color_list, color_list_text',
+			color_list, color_list_text, essential_title, essential_description, essential_scripts, essential_cookies',
 	],
 	'types' => [
 		'1' => [
 			'showitem' => '--palette--;;language, header, accept_all_text, accept_specific_text, accept_essential_text, description, navigation, 
-				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.groups, groups,
-				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color, color_text, 
-				--palette--;;color_checkbox, --palette--;;color_button, --palette--;;color_list,',
+				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.essential, 
+					essential_title, essential_description, essential_scripts, essential_cookies,
+				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group, 
+					groups,
+				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color, 
+					color_text, --palette--;;color_checkbox, --palette--;;color_button, --palette--;;color_list,',
 		],
 	],
 	'palettes' => [
@@ -132,7 +135,7 @@ return [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.description',
 			'config' => [
 				'type' => 'text',
-				'default' => 'Wir nutzen Cookies auf unserer Website. Einige von ihnen sind essenziell, während andere uns helfen, diese Website und Ihre Erfahrung zu verbessern.',
+				'default' => 'Wir nutzen Cookies auf unserer Website. Einige von ihnen sind essentiell, während andere uns helfen, diese Website und Ihre Erfahrung zu verbessern.',
 				'eval' => 'trim'
 			],
 		],
@@ -162,7 +165,7 @@ return [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'default' => 'Nur essenzielle Cookies akzeptieren',
+				'default' => 'Nur essentielle Cookies akzeptieren',
 				'eval' => 'trim, required'
 			],
 		],
@@ -205,6 +208,7 @@ return [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
 				'default' => '#373737',
+				'placeholder' => '#373737',
 				'eval' => 'trim, required'
 			],
 		],
@@ -216,6 +220,7 @@ return [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
 				'default' => '#7B9B2C',
+				'placeholder' => '#7B9B2C',
 				'eval' => 'trim, required'
 			],
 		],
@@ -227,6 +232,7 @@ return [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
 				'default' => '#A5A5A5',
+				'placeholder' => '#A5A5A5',
 				'eval' => 'trim, required'
 			],
 		],
@@ -238,6 +244,7 @@ return [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
 				'default' => '#7B9B2C',
+				'placeholder' => '#7B9B2C',
 				'eval' => 'trim, required'
 			],
 		],
@@ -249,6 +256,7 @@ return [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
 				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
 				'eval' => 'trim, required'
 			],
 		],
@@ -260,6 +268,7 @@ return [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
 				'default' => '#7B9B2C',
+				'placeholder' => '#7B9B2C',
 				'eval' => 'trim, required'
 			],
 		],
@@ -271,6 +280,7 @@ return [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
 				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
 				'eval' => 'trim, required'
 			],
 		],
@@ -282,6 +292,7 @@ return [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
 				'default' => '#A5A5A5',
+				'placeholder' => '#A5A5A5',
 				'eval' => 'trim, required'
 			],
 		],
@@ -293,6 +304,7 @@ return [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
 				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
 				'eval' => 'trim, required'
 			],
 		],
@@ -304,6 +316,7 @@ return [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
 				'default' => '#A5A5A5',
+				'placeholder' => '#A5A5A5',
 				'eval' => 'trim, required'
 			],
 		],
@@ -315,7 +328,52 @@ return [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
 				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
 				'eval' => 'trim, required'
+			],
+		],
+		'essential_title' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.essential_title',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'eval' => 'trim, required'
+			],
+		],
+		'essential_description' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.essential_description',
+			'config' => [
+				'type' => 'text',
+				'eval' => 'trim'
+			],
+		],
+		'essential_scripts' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.essential_scripts',
+			'config' => [
+				'type' => 'inline',
+				'foreign_table' => 'tx_sgcookieoptin_domain_model_script',
+				'foreign_field' => 'parent_optin',
+				'appearance' => [
+					'expandSingle' => TRUE,
+				],
+				'maxitems' => 99999,
+			],
+		],
+		'essential_cookies' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.essential_cookies',
+			'config' => [
+				'type' => 'inline',
+				'foreign_table' => 'tx_sgcookieoptin_domain_model_cookie',
+				'foreign_field' => 'parent_optin',
+				'appearance' => [
+					'expandSingle' => TRUE,
+				],
+				'maxitems' => 99999,
 			],
 		],
 	],

@@ -8,7 +8,7 @@
  */
 
 (function() {
-	var COOKIE_NAME = 'sg_cookie_optin-cookie';
+	var COOKIE_NAME = 'cookie_optin';
 
 	var COOKIE_GROUPS = {
 		'essential': {
@@ -91,7 +91,7 @@
 
 		var description = document.createElement("P");
 		description.classList.add("sg-cookie-optin-box-description");
-		description.appendChild(document.createTextNode("Wir nutzen Cookies auf unserer Website. Einige von ihnen sind essenziell, während andere uns helfen, diese Website und Ihre Erfahrung zu verbessern."));
+		description.appendChild(document.createTextNode("Wir nutzen Cookies auf unserer Website. Einige von ihnen sind essentiell, während andere uns helfen, diese Website und Ihre Erfahrung zu verbessern."));
 
 		var cookieBox = document.createElement("DIV");
 		cookieBox.classList.add("sg-cookie-optin-box");
@@ -122,6 +122,7 @@
 				var link = document.createElement("A");
 				link.classList.add("sg-cookie-optin-box-footer-link");
 				link.setAttribute('href', linkData['url']);
+				link.setAttribute('target', '_blank');
 				link.appendChild(document.createTextNode(linkData['name']));
 
 				if (links.childElementCount > 0) {
@@ -138,6 +139,7 @@
 		var copyrightLink = document.createElement("A");
 		copyrightLink.classList.add("sg-cookie-optin-box-copyright-link");
 		copyrightLink.setAttribute('href', 'https://www.sgalinski.de/');
+		copyrightLink.setAttribute('target', '_blank');
 		copyrightLink.appendChild(document.createTextNode('© sgalinski Internet Services'));
 
 		var copyright = document.createElement("DIV");
@@ -208,7 +210,7 @@
 
 		var acceptEssentialButton = document.createElement("BUTTON");
 		acceptEssentialButton.classList.add("sg-cookie-optin-box-button-accept-essential");
-		acceptEssentialButton.appendChild(document.createTextNode("Nur essenzielle Cookies akzeptieren"));
+		acceptEssentialButton.appendChild(document.createTextNode("Nur essentielle Cookies akzeptieren"));
 		acceptEssentialButton.addEventListener("click", acceptEssentialCookies);
 
 		parentDOM.appendChild(acceptAllButton);

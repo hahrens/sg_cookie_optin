@@ -45,11 +45,12 @@ return [
 		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_script.svg'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, script, parent_group',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, script, parent_group, 
+			parent_optin',
 	],
 	'types' => [
 		'1' => [
-			'showitem' => '--palette--;;language, parent_group, title, script',
+			'showitem' => '--palette--;;language, title, script',
 		],
 	],
 	'palettes' => [
@@ -132,13 +133,28 @@ return [
 		],
 		'parent_group' => [
 			'exclude' => TRUE,
+			'displayCond' => 'FIELD:parent_optin:<=:0',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_script.parent_group',
 			'config' => [
 				'type' => 'group',
 				'internal_type' => 'db',
 				'allowed' => 'tx_sgcookieoptin_domain_model_group',
 				'size' => 1,
-				'minitems' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
+				'autoSizeMax' => 1,
+			],
+		],
+		'parent_optin' => [
+			'exclude' => TRUE,
+			'displayCond' => 'FIELD:parent_group:<=:0',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_script.parent_optin',
+			'config' => [
+				'type' => 'group',
+				'internal_type' => 'db',
+				'allowed' => 'tx_sgcookieoptin_domain_model_optin',
+				'size' => 1,
+				'minitems' => 0,
 				'maxitems' => 1,
 				'autoSizeMax' => 1,
 			],

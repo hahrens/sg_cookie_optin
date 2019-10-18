@@ -13,6 +13,11 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	accept_essential_text varchar(255) DEFAULT '' NOT NULL,
 	groups int(11) DEFAULT '0' NOT NULL,
 
+	essential_title varchar(255) DEFAULT '' NOT NULL,
+	essential_description text NOT NULL,
+	essential_scripts int(11) DEFAULT '0' NOT NULL,
+	essential_cookies int(11) DEFAULT '0' NOT NULL,
+
 	color_text varchar(255) DEFAULT '' NOT NULL,
 	color_checkbox varchar(255) DEFAULT '' NOT NULL,
 	color_checkbox_required varchar(255) DEFAULT '' NOT NULL,
@@ -49,7 +54,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_group (
 	title varchar(255) DEFAULT '' NOT NULL,
 	group_name varchar(255) DEFAULT '' NOT NULL,
 	description text NOT NULL,
-	required tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
 	scripts int(11) DEFAULT '0' NOT NULL,
 	cookies int(11) DEFAULT '0' NOT NULL,
@@ -81,6 +85,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_script (
 	title varchar(255) DEFAULT '' NOT NULL,
 	script text NOT NULL,
 	parent_group int(11) DEFAULT '0' NOT NULL,
+	parent_optin int(11) DEFAULT '0' NOT NULL,
 
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -103,8 +108,9 @@ CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
 
 	provider varchar(255) DEFAULT '' NOT NULL,
 	purpose text NOT NULL,
-	duration varchar(255) DEFAULT '' NOT NULL,
+	lifetime varchar(255) DEFAULT '' NOT NULL,
 	parent_group int(11) DEFAULT '0' NOT NULL,
+	parent_optin int(11) DEFAULT '0' NOT NULL,
 
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
