@@ -15,25 +15,66 @@
 			'label': 'Essenziell',
 			'description': 'Essenzielle Cookies ermöglichen grundlegende Funktionen und sind für die einwandfreie Funktion der Website erforderlich.',
 			'required': true,
-			'loadingJavaScript': 'console.log(123);',
+			'loadingJavaScript': '/fileadmin/sg_cookie_optin/siteroot-1/test.js',
+			'cookieData': [
+				{
+					'provider': 'Eigentümer dieser Website',
+					'purpose': 'Speichert die Einstellungen der Besucher, die in der Cookie Box von Borlabs Cookie ausgewählt wurden.',
+					'lifetime': '1 Jahr'
+				},
+				{
+					'provider': 'OnTheGoSystems Limited',
+					'purpose': 'Diese Website verwendet WPML. Dieses Cookie speichert die Sprachauswahl des Nutzers der Webseite.',
+					'lifetime': '30'
+				},
+				{
+					'provider': 'OnTheGoSystems Limited',
+					'purpose': 'Diese Website verwendet WPML. Dieses Cookie speichert die Sprachauswahl des Nutzers der Webseite.',
+					'lifetime': '30'
+				},
+				{
+					'provider': 'OnTheGoSystems Limited',
+					'purpose': 'Diese Website verwendet WPML. Dieses Cookie speichert die Sprachauswahl des Nutzers der Webseite.',
+					'lifetime': '30'
+				}
+			],
 		},
 		'stats': {
 			'label': 'Statistiken',
 			'description': 'Statistik Cookies erfassen Informationen anonym. Diese Informationen helfen uns zu verstehen, wie unsere Besucher unsere Website nutzen.',
 			'required': false,
-			'loadingJavaScript': 'console.log(312);',
+			'loadingJavaScript': '/fileadmin/sg_cookie_optin/siteroot-1/test.js',
+			'cookieData': [
+				{
+					'provider': 'Eigentümer dieser Website',
+					'purpose': 'Speichert die Einstellungen der Besucher, die in der Cookie Box von Borlabs Cookie ausgewählt wurden.',
+					'lifetime': '1 Jahr'
+				},
+				{
+					'provider': 'OnTheGoSystems Limited',
+					'purpose': 'Diese Website verwendet WPML. Dieses Cookie speichert die Sprachauswahl des Nutzers der Webseite.',
+					'lifetime': '30'
+				}
+			],
 		},
 		'stats1': {
 			'label': 'Statistiken1',
 			'description': 'Statistik Cookies erfassen Informationen anonym. Diese Informationen helfen uns zu verstehen, wie unsere Besucher unsere Website nutzen.',
 			'required': false,
-			'loadingJavaScript': 'console.log(312);',
+			'loadingJavaScript': '/fileadmin/sg_cookie_optin/siteroot-1/test.js',
 		},
 		'stats2': {
 			'label': 'Statistiken2',
 			'description': 'Statistik Cookies erfassen Informationen anonym. Diese Informationen helfen uns zu verstehen, wie unsere Besucher unsere Website nutzen.',
 			'required': false,
-			'loadingJavaScript': 'console.log(312);',
+			'loadingJavaScript': '/fileadmin/sg_cookie_optin/siteroot-1/test.js',
+			'cookieData': [
+				{
+					'provider': 'OnTheGoSystems Limited',
+					'purpose': 'Diese Website verwendet WPML. Dieses Cookie speichert die Sprachauswahl des Nutzers der Webseite.',
+					'lifetime': '30'
+				}
+			],
 		}
 	};
 
@@ -60,13 +101,26 @@
 
 		var splitedCookieValue = cookieValue.split('|');
 		for (var index in splitedCookieValue) {
-			if (splitedCookieValue.hasOwnProperty(index)) {
-				var cookieGroup = splitedCookieValue[index];
-				if (COOKIE_GROUPS.hasOwnProperty(cookieGroup) && COOKIE_GROUPS[cookieGroup]['loadingJavaScript'] !== '') {
-					var script = document.createElement("script");
-					script.appendChild(document.createTextNode(COOKIE_GROUPS[cookieGroup]['loadingJavaScript']));
-					document.body.appendChild(script);
-				}
+			if (!splitedCookieValue.hasOwnProperty(index)) {
+				continue;
+			}
+
+			var groupAndStatus = splitedCookieValue[index].split(':');
+			if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
+				continue;
+			}
+
+			var group = groupAndStatus[0];
+			var status = parseInt(groupAndStatus[1]);
+			if (!status) {
+				continue;
+			}
+
+			if (COOKIE_GROUPS.hasOwnProperty(group) && COOKIE_GROUPS[group]['loadingJavaScript'] !== '') {
+				var script = document.createElement("script");
+				script.setAttribute('src', COOKIE_GROUPS[group]['loadingJavaScript']);
+				script.setAttribute('type', 'text/javascript');
+				document.body.appendChild(script);
 			}
 		}
 	}
@@ -136,11 +190,14 @@
 			}
 		}
 
+		var lineBreak = document.createElement("BR");
 		var copyrightLink = document.createElement("A");
 		copyrightLink.classList.add("sg-cookie-optin-box-copyright-link");
-		copyrightLink.setAttribute('href', 'https://www.sgalinski.de/');
+		copyrightLink.setAttribute('href', 'https://www.sgalinski.de/typo3-produkte-webentwicklung/cookie-opt-in-fuer-typo3/');
 		copyrightLink.setAttribute('target', '_blank');
-		copyrightLink.appendChild(document.createTextNode('© sgalinski Internet Services'));
+		copyrightLink.appendChild(document.createTextNode('Powered by'));
+		copyrightLink.appendChild(lineBreak);
+		copyrightLink.appendChild(document.createTextNode('sgalinski Cookie Opt In'));
 
 		var copyright = document.createElement("DIV");
 		copyright.classList.add("sg-cookie-optin-box-copyright");
@@ -228,18 +285,37 @@
 		cookieList.classList.add("sg-cookie-optin-box-cookie-detail-list");
 
 		for (var groupName in COOKIE_GROUPS) {
+			if (!COOKIE_GROUPS.hasOwnProperty(groupName)) {
+				continue;
+			}
+
+			var groupData = COOKIE_GROUPS[groupName];
 			var header = document.createElement("STRONG");
 			header.classList.add("sg-cookie-optin-box-cookie-detail-header");
-			header.appendChild(document.createTextNode(COOKIE_GROUPS[groupName]['label']));
+			header.appendChild(document.createTextNode(groupData['label']));
 
 			var description = document.createElement("P");
 			description.classList.add("sg-cookie-optin-box-cookie-detail-description");
-			description.appendChild(document.createTextNode(COOKIE_GROUPS[groupName]['description']));
+			description.appendChild(document.createTextNode(groupData['description']));
 
 			var cookieListItem = document.createElement("LI");
 			cookieListItem.classList.add("sg-cookie-optin-box-cookie-detail-list-item");
 			cookieListItem.appendChild(header);
 			cookieListItem.appendChild(description);
+
+			if (groupData.hasOwnProperty('cookieData')) {
+				var cookieSublist = document.createElement("DIV");
+				cookieSublist.classList.add("sg-cookie-optin-box-cookie-detail-sublist");
+				addSubListTable(cookieSublist, groupData['cookieData']);
+
+				var openSubListLink = document.createElement("A");
+				openSubListLink.setAttribute('href', '#');
+				openSubListLink.appendChild(document.createTextNode('Weitere Cookie Informationen'));
+				openSubListLink.addEventListener("click", openSubList);
+
+				cookieListItem.appendChild(cookieSublist);
+				cookieListItem.appendChild(openSubListLink);
+			}
 
 			cookieList.appendChild(cookieListItem);
 		}
@@ -256,6 +332,45 @@
 
 		parentDOM.appendChild(cookieList);
 		parentDOM.appendChild(openMore);
+	}
+
+	/**
+	 * Returns the sublist table for the cookie details.
+	 *
+	 * @param {dom} parentDom
+	 * @param {array} cookieData
+	 * @return {void}
+	 */
+	function addSubListTable(parentDom, cookieData) {
+		if (cookieData.length <= 0) {
+			return;
+		}
+
+		for (var index in cookieData) {
+			if (!cookieData.hasOwnProperty(index)) {
+				continue;
+			}
+
+			var tbody = document.createElement("TBODY");
+			for (var headerText in cookieData[index]) {
+				var header = document.createElement("TH");
+				header.appendChild(document.createTextNode(headerText));
+
+				var data = document.createElement("TD");
+				data.appendChild(document.createTextNode(cookieData[index][headerText]));
+
+				var row = document.createElement("TR");
+				row.appendChild(header);
+				row.appendChild(data);
+
+				tbody.appendChild(row);
+			}
+
+			var table = document.createElement("TABLE");
+			table.appendChild(tbody);
+			parentDom.appendChild(table);
+		}
+
 	}
 
 	/**
@@ -277,6 +392,25 @@
 	}
 
 	/**
+	 * Opens the subList box.
+	 *
+	 * @param event
+	 * @return {void}
+	 */
+	function openSubList(event) {
+		var cookieList = event.target.previousSibling;
+		if (!cookieList) {
+			return;
+		}
+
+		if (cookieList.classList.contains('visible')) {
+			cookieList.classList.remove('visible');
+		} else {
+			cookieList.classList.add('visible');
+		}
+	}
+
+	/**
 	 * Accepts all cookies and saves them.
 	 *
 	 * @return {void}
@@ -284,7 +418,10 @@
 	function acceptAllCookies() {
 		var cookieData = '';
 		for (var groupName in COOKIE_GROUPS) {
-			cookieData += groupName + '|';
+			if (cookieData.length > 0) {
+				cookieData += '|';
+			}
+			cookieData += groupName + ':' + 1;
 		}
 
 		setCookie(COOKIE_NAME, cookieData, 30);
@@ -299,8 +436,19 @@
 	function acceptSpecificCookies() {
 		var cookieData = '';
 		var checkboxes = document.querySelectorAll('.sg-cookie-optin-checkbox:checked');
-		for (var index = 0; index < checkboxes.length; ++index) {
-			cookieData += checkboxes[index].value + '|';
+		for (var groupName in COOKIE_GROUPS) {
+			var status = 0;
+			for (var index = 0; index < checkboxes.length; ++index) {
+				if (checkboxes[index].value === groupName) {
+					status = 1;
+					break;
+				}
+			}
+
+			if (cookieData.length > 0) {
+				cookieData += '|';
+			}
+			cookieData += groupName + ':' + status;
 		}
 
 		setCookie(COOKIE_NAME, cookieData, 30);
@@ -315,10 +463,15 @@
 	function acceptEssentialCookies() {
 		var cookieData = '';
 		for (var groupName in COOKIE_GROUPS) {
+			var status = 0;
 			if (COOKIE_GROUPS[groupName]['required']) {
-				cookieData += groupName + '|';
+				status = 1;
 			}
 
+			if (cookieData.length > 0) {
+				cookieData += '|';
+			}
+			cookieData += groupName + ':' + status;
 		}
 
 		setCookie(COOKIE_NAME, cookieData, 30);
