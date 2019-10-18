@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2016-05-11T06:54:37Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-10-18T17:12:00Z">
 		<header>
 			<type>database</type>
 			<description>General language labels used in frontend and backend.</description>
@@ -12,11 +12,11 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie">
 				<source><![CDATA[Cookie]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.lifetime">
-				<source><![CDATA[Lifetime]]></source>
-			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.hidden">
 				<source><![CDATA[Deactivate]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.lifetime">
+				<source><![CDATA[Lifetime]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.parent_group">
 				<source><![CDATA[Group]]></source>
@@ -58,70 +58,70 @@
 				<source><![CDATA[Opt In]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_all_text">
-				<source><![CDATA[Button Text (All)]]></source>
+				<source><![CDATA[Button Text (Accept All Scripts & Cookies)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_essential_text">
-				<source><![CDATA[Button Text (Essential)]]></source>
+				<source><![CDATA[Button Text (Accept Essential Cookies & Scripts)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_specific_text">
-				<source><![CDATA[Button Text (Specific)]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_box">
-				<source><![CDATA[Color: Box]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all">
-				<source><![CDATA[Color: Button "Accept All"]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all_hover">
-				<source><![CDATA[Color: Button-Hover "Accept All"]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all_text">
-				<source><![CDATA[Color: Button-Text "Accept All"]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential">
-				<source><![CDATA[Color: Button "Accept Essential"]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential_hover">
-				<source><![CDATA[Color: Button-Hover "Accept Essential"]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential_text">
-				<source><![CDATA[Color: Button-Text "Accept Essential"]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific">
-				<source><![CDATA[Color: Button "Accept Specific"]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific_hover">
-				<source><![CDATA[Color: Button-Hover "Accept Specific"]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific_text">
-				<source><![CDATA[Color: Button-Text "Accept Specific"]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_checkbox">
-				<source><![CDATA[Color: Checkbox]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_checkbox_required">
-				<source><![CDATA[Color: Checkbox "Essential"]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_list">
-				<source><![CDATA[Color: List Entries]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_list_text">
-				<source><![CDATA[Color: List Entry Text ]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table">
-				<source><![CDATA[Color: Table]]></source>
+				<source><![CDATA[Button Text (Accept Choice of Cookies & Scripts)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text">
-				<source><![CDATA[Color: Table Data Text]]></source>
+				<source><![CDATA[Table Data Text]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_box">
+				<source><![CDATA[Window]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all">
+				<source><![CDATA[Button "Accept All"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all_hover">
+				<source><![CDATA[Button-Hover "Accept All"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all_text">
+				<source><![CDATA[Button-Text "Accept All"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential">
+				<source><![CDATA[Button "Accept Essential"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential_hover">
+				<source><![CDATA[Button-Hover "Accept Essential"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential_text">
+				<source><![CDATA[Button-Text "Accept Essential"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific">
+				<source><![CDATA[Button "Accept Specific"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific_hover">
+				<source><![CDATA[Button-Hover "Accept Specific"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific_text">
+				<source><![CDATA[Button-Text "Accept Specific"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_checkbox">
+				<source><![CDATA[Checkboxes for Optional Groups]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_checkbox_required">
+				<source><![CDATA[Checkbox for the Obligatory Group (is always checked)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_list">
+				<source><![CDATA[Background of the Entries in the List of Groups]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_list_text">
+				<source><![CDATA[Text Color in the List of Groups]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table">
+				<source><![CDATA[Table]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table_header_text">
-				<source><![CDATA[Color: Table Header Text]]></source>
+				<source><![CDATA[Table Header Text]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_text">
-				<source><![CDATA[Color: Text]]></source>
+				<source><![CDATA[Text]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description">
-				<source><![CDATA[Description]]></source>
+				<source><![CDATA[Explanation at top of Opt-In Window]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_cookies">
 				<source><![CDATA[Cookies]]></source>
@@ -136,28 +136,28 @@
 				<source><![CDATA[Title]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_box_link_text">
-				<source><![CDATA[Link Text: Extend Box]]></source>
+				<source><![CDATA[Link Text: Extend Box to See Information for all Groups]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_table_link_text">
-				<source><![CDATA[Link Text: Extend Table]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.header">
-				<source><![CDATA[Header]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.navigation">
-				<source><![CDATA[Opt In Footer (Add the imprint and the data policy)]]></source>
+				<source><![CDATA[Link Text: Open Table with Details of a Group]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.groups">
 				<source><![CDATA[Groups]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.header">
+				<source><![CDATA[Title of the Opt-In Window]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.navigation">
+				<source><![CDATA[Links at the Bottom of the Opt-In Window (Add Imprint and Data Policy!)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.color">
 				<source><![CDATA[Colors]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.essential">
-				<source><![CDATA[Essential Group]]></source>
+				<source><![CDATA[Group of essential Scripts & Cookies]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.group">
-				<source><![CDATA[Additional Groups]]></source>
+				<source><![CDATA[Other Groups of Scripts & Cookies]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script">
 				<source><![CDATA[Script]]></source>
