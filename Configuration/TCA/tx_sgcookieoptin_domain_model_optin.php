@@ -53,8 +53,8 @@ return [
 	'types' => [
 		'1' => [
 			'showitem' => '
-				--palette--;;language, header, accept_all_text, accept_specific_text, accept_essential_text, 
-					extend_box_link_text, extend_table_link_text, description, navigation, 
+				--palette--;;language, header, description, accept_all_text, accept_specific_text, accept_essential_text, 
+					extend_box_link_text, extend_table_link_text, navigation, 
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.essential, 
 					essential_title, essential_description, essential_scripts, essential_cookies,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group, 
