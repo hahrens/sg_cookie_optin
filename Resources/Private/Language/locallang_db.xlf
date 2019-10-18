@@ -114,6 +114,12 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_title">
 				<source><![CDATA[Title]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_box_link_text">
+				<source><![CDATA[Link Text: Extend Box]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_table_link_text">
+				<source><![CDATA[Link Text: Extend Table]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.header">
 				<source><![CDATA[Header]]></source>
 			</trans-unit>

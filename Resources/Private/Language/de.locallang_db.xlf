@@ -149,6 +149,14 @@
 				<source><![CDATA[Title]]></source>
 				<target><![CDATA[Titel]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_box_link_text" approved="yes">
+				<source><![CDATA[Link Text: Extend Box]]></source>
+				<target><![CDATA[Link-Text: Erweitere Box]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_table_link_text" approved="yes">
+				<source><![CDATA[Link Text: Extend Table]]></source>
+				<target><![CDATA[Link-Text: Erweitere Tabelle]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.header" approved="yes">
 				<source><![CDATA[Header]]></source>
 				<target><![CDATA[Überschrift]]></target>

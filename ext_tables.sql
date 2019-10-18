@@ -11,6 +11,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	accept_all_text varchar(255) DEFAULT '' NOT NULL,
 	accept_specific_text varchar(255) DEFAULT '' NOT NULL,
 	accept_essential_text varchar(255) DEFAULT '' NOT NULL,
+	extend_box_link_text varchar(255) DEFAULT '' NOT NULL,
+	extend_table_link_text varchar(255) DEFAULT '' NOT NULL,
 	groups int(11) DEFAULT '0' NOT NULL,
 
 	essential_title varchar(255) DEFAULT '' NOT NULL,

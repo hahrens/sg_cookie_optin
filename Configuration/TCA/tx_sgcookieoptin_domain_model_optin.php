@@ -32,7 +32,8 @@ return [
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
-		'searchFields' => 'header, description, accept_all_text, accept_specific_text, accept_essential_text, essential_title, essential_description',
+		'searchFields' => 'header, description, accept_all_text, accept_specific_text, accept_essential_text, 
+			essential_title, essential_description, extend_box_link_text, extend_table_link_text',
 		'delete' => 'deleted',
 		'hideTable' => FALSE,
 		'languageField' => 'sys_language_uid',
@@ -45,11 +46,14 @@ return [
 			navigation, accept_all_text, accept_specific_text, accept_essential_text, groups, 
 			color_text, color_checkbox, color_checkbox_required, color_button_all, color_button_all_text, 
 			color_button_specific, color_button_specific_text, color_button_essential, color_button_essential_text,
-			color_list, color_list_text, essential_title, essential_description, essential_scripts, essential_cookies',
+			color_list, color_list_text, essential_title, essential_description, essential_scripts, essential_cookies
+			extend_box_link_text, extend_table_link_text',
 	],
 	'types' => [
 		'1' => [
-			'showitem' => '--palette--;;language, header, accept_all_text, accept_specific_text, accept_essential_text, description, navigation, 
+			'showitem' => '
+				--palette--;;language, header, accept_all_text, accept_specific_text, accept_essential_text, 
+					extend_box_link_text, extend_table_link_text, description, navigation, 
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.essential, 
 					essential_title, essential_description, essential_scripts, essential_cookies,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group, 
@@ -166,6 +170,26 @@ return [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Nur essentielle Cookies akzeptieren',
+				'eval' => 'trim, required'
+			],
+		],
+		'extend_box_link_text' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.extend_box_link_text',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'Individuelle Cookie-Einstellungen',
+				'eval' => 'trim, required'
+			],
+		],
+		'extend_table_link_text' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.extend_table_link_text',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'Cookie-Informationen öffnen / schließen',
 				'eval' => 'trim, required'
 			],
 		],
