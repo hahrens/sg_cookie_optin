@@ -89,6 +89,10 @@
 				<source><![CDATA[Color: Button "Accept All"]]></source>
 				<target><![CDATA[Farbe: Button "Aktzeptiere Alle"]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all_hover" approved="yes">
+				<source><![CDATA[Color: Button-Hover "Accept All"]]></source>
+				<target><![CDATA[Farbe: Button-Hover "Aktzeptiere Alle"]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all_text" approved="yes">
 				<source><![CDATA[Color: Button-Text "Accept All"]]></source>
 				<target><![CDATA[Farbe: Button-Text "Aktzeptiere Alle"]]></target>
@@ -97,6 +101,10 @@
 				<source><![CDATA[Color: Button "Accept Essential"]]></source>
 				<target><![CDATA[Farbe: Button "Aktzeptiere Essentielle"]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential_hover" approved="yes">
+				<source><![CDATA[Color: Button-Hover "Accept Essential"]]></source>
+				<target><![CDATA[Farbe: Button-Hover "Aktzeptiere Essentielle"]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential_text" approved="yes">
 				<source><![CDATA[Color: Button-Text "Accept Essential"]]></source>
 				<target><![CDATA[Farbe: Button-Text "Aktzeptiere Essentielle"]]></target>
@@ -104,6 +112,10 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific" approved="yes">
 				<source><![CDATA[Color: Button "Accept Specific"]]></source>
 				<target><![CDATA[Farbe: Button "Aktzeptiere Spezifische"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific_hover" approved="yes">
+				<source><![CDATA[Color: Button-Hover "Accept Specific"]]></source>
+				<target><![CDATA[Farbe: Button-Hover "Aktzeptiere Spezifische"]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific_text" approved="yes">
 				<source><![CDATA[Color: Button-Text "Accept Specific"]]></source>
@@ -122,8 +134,20 @@
 				<target><![CDATA[Farbe: Listen-Einträge]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_list_text" approved="yes">
-				<source><![CDATA[Color: List Entry Text ]]></source>
+				<source><![CDATA[Color: List Entry Text]]></source>
 				<target><![CDATA[Farbe: Listen-Eintrag-Text]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table" approved="yes">
+				<source><![CDATA[Color: Table]]></source>
+				<target><![CDATA[Farbe: Tabelle]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text" approved="yes">
+				<source><![CDATA[Color: Table Data Text]]></source>
+				<target><![CDATA[Farbe: Tabellen-Daten-Text]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table_header_text" approved="yes">
+				<source><![CDATA[Color: Table Header Text]]></source>
+				<target><![CDATA[Farbe: Tabellen-Überschift-Text]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_text" approved="yes">
 				<source><![CDATA[Color: Text]]></source>

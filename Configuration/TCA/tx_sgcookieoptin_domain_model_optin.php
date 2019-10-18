@@ -47,7 +47,8 @@ return [
 			color_text, color_checkbox, color_checkbox_required, color_button_all, color_button_all_text, 
 			color_button_specific, color_button_specific_text, color_button_essential, color_button_essential_text,
 			color_list, color_list_text, essential_title, essential_description, essential_scripts, essential_cookies
-			extend_box_link_text, extend_table_link_text',
+			extend_box_link_text, extend_table_link_text, color_button_all_hover, color_button_specific_hover, 
+			color_button_essential_hover, color_table, color_table_header_text, color_Table_data_text',
 	],
 	'types' => [
 		'1' => [
@@ -59,7 +60,8 @@ return [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group, 
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color, 
-					color_text, --palette--;;color_checkbox, --palette--;;color_button, --palette--;;color_list,',
+					color_text, --palette--;;color_checkbox, --palette--;;color_list,  --palette--;;color_button,
+					--palette--;;color_table,',
 		],
 	],
 	'palettes' => [
@@ -70,12 +72,15 @@ return [
 			'showitem' => 'color_checkbox, color_checkbox_required'
 		],
 		'color_button' => [
-			'showitem' => 'color_button_all, color_button_all_text, --linebreak--,
-				color_button_specific, color_button_specific_text, --linebreak--,
-				color_button_essential, color_button_essential_text'
+			'showitem' => 'color_button_all, color_button_all_hover, color_button_all_text, --linebreak--,
+				color_button_specific, color_button_specific_hover, color_button_specific_text, --linebreak--,
+				color_button_essential, color_button_essential_hover, color_button_essential_text'
 		],
 		'color_list' => [
 			'showitem' => 'color_list, color_list_text'
+		],
+		'color_table' => [
+			'showitem' => 'color_table, color_table_header_text, color_Table_data_text'
 		],
 	],
 	'columns' => [
@@ -348,6 +353,78 @@ return [
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_list_text',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
+				'eval' => 'trim, required'
+			],
+		],
+		'color_button_all_hover' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_all_hover',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
+				'eval' => 'trim, required'
+			],
+		],
+		'color_button_specific_hover' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_specific_hover',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
+				'eval' => 'trim, required'
+			],
+		],
+		'color_button_essential_hover' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_essential_hover',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
+				'eval' => 'trim, required'
+			],
+		],
+		'color_table' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_table',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
+				'eval' => 'trim, required'
+			],
+		],
+		'color_table_header_text' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_table_header_text',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
+				'eval' => 'trim, required'
+			],
+		],
+		'color_Table_data_text' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_Table_data_text',
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',

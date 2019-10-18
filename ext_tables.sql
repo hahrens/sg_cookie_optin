@@ -24,13 +24,21 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_checkbox varchar(255) DEFAULT '' NOT NULL,
 	color_checkbox_required varchar(255) DEFAULT '' NOT NULL,
 	color_button_all varchar(255) DEFAULT '' NOT NULL,
+	color_button_all_hover varchar(255) DEFAULT '' NOT NULL,
 	color_button_all_text varchar(255) DEFAULT '' NOT NULL,
 	color_button_specific varchar(255) DEFAULT '' NOT NULL,
+	color_button_specific_hover varchar(255) DEFAULT '' NOT NULL,
 	color_button_specific_text varchar(255) DEFAULT '' NOT NULL,
 	color_button_essential varchar(255) DEFAULT '' NOT NULL,
+	color_button_essential_hover varchar(255) DEFAULT '' NOT NULL,
 	color_button_essential_text varchar(255) DEFAULT '' NOT NULL,
 	color_list varchar(255) DEFAULT '' NOT NULL,
 	color_list_text varchar(255) DEFAULT '' NOT NULL,
+	color_table varchar(255) DEFAULT '' NOT NULL,
+	color_table_header_text varchar(255) DEFAULT '' NOT NULL,
+	color_Table_data_text varchar(255) DEFAULT '' NOT NULL,
+
+
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,

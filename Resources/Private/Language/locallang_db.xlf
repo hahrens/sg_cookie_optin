@@ -69,17 +69,26 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all">
 				<source><![CDATA[Color: Button "Accept All"]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all_hover">
+				<source><![CDATA[Color: Button-Hover "Accept All"]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all_text">
 				<source><![CDATA[Color: Button-Text "Accept All"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential">
 				<source><![CDATA[Color: Button "Accept Essential"]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential_hover">
+				<source><![CDATA[Color: Button-Hover "Accept Essential"]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential_text">
 				<source><![CDATA[Color: Button-Text "Accept Essential"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific">
 				<source><![CDATA[Color: Button "Accept Specific"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific_hover">
+				<source><![CDATA[Color: Button-Hover "Accept Specific"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific_text">
 				<source><![CDATA[Color: Button-Text "Accept Specific"]]></source>
@@ -95,6 +104,15 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_list_text">
 				<source><![CDATA[Color: List Entry Text ]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table">
+				<source><![CDATA[Color: Table]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text">
+				<source><![CDATA[Color: Table Data Text]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table_header_text">
+				<source><![CDATA[Color: Table Header Text]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_text">
 				<source><![CDATA[Color: Text]]></source>
