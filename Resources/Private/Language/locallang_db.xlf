@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2019-10-21T11:02:33Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-10-21T11:35:13Z">
 		<header>
 			<type>database</type>
 			<description>General language labels used in frontend and backend.</description>
@@ -58,13 +58,16 @@
 				<source><![CDATA[Opt In]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_all_text">
-				<source><![CDATA[Button Text (Accept All Scripts & Cookies)]]></source>
+				<source><![CDATA[Button for Accepting all Scripts & Cookies]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_buttons_texts">
+				<source><![CDATA[Button Texts]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_essential_text">
-				<source><![CDATA[Button Text (Accept Essential Cookies & Scripts)]]></source>
+				<source><![CDATA[Button for Accepting Only Essential Cookies & Scripts]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_specific_text">
-				<source><![CDATA[Button Text (Accept Choice of Cookies & Scripts)]]></source>
+				<source><![CDATA[Button for Accepting Selected Cookies & Scripts]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text">
 				<source><![CDATA[Table Data Text]]></source>
@@ -136,16 +139,19 @@
 				<source><![CDATA[Group Title for Essential Cookies & Scripts the User has to Accept]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_box_link_text">
-				<source><![CDATA[Link Text: Extend Box to See Information for all Groups]]></source>
+				<source><![CDATA[Link for Displaying Information About the Groups]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_table_link_text">
-				<source><![CDATA[Link Text: Open Table with Details of a Group]]></source>
+				<source><![CDATA[Link to Display Information of Cookies & Scripts of a Group]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.groups">
 				<source><![CDATA[Groups]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.header">
 				<source><![CDATA[Title of the Opt-In Window]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.link_texts">
+				<source><![CDATA[Link Texts]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.navigation">
 				<source><![CDATA[Links at the Bottom of the Opt-In Window (Add Imprint and Data Policy!)]]></source>

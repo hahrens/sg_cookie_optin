@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2019-10-21T11:02:33Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2019-10-21T11:35:13Z">
 		<header>
 			<type>database</type>
 			<description>General language labels used in frontend and backend.</description>
@@ -74,16 +74,20 @@
 				<target><![CDATA[Opt-In]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_all_text" approved="yes">
-				<source><![CDATA[Button Text (Accept All Scripts & Cookies)]]></source>
-				<target><![CDATA[Button-Text (alle Cookies & Skripte akzeptieren)]]></target>
+				<source><![CDATA[Button for Accepting all Scripts & Cookies]]></source>
+				<target><![CDATA[Button zum Akzeptieren aller Skripte & Cookies]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_buttons_texts" approved="yes">
+				<source><![CDATA[Button Texts]]></source>
+				<target><![CDATA[Button-Texte]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_essential_text" approved="yes">
-				<source><![CDATA[Button Text (Accept Essential Cookies & Scripts)]]></source>
-				<target><![CDATA[Button-Text (essentielle Cookies & Skripte akzeptieren)]]></target>
+				<source><![CDATA[Button for Accepting Only Essential Cookies & Scripts]]></source>
+				<target><![CDATA[Button zum Akzeptieren ausschließlich essentieller Skripte & Cookies]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_specific_text" approved="yes">
-				<source><![CDATA[Button Text (Accept Choice of Cookies & Scripts)]]></source>
-				<target><![CDATA[Button-Text (ausgewählte Cookies & Skripte akzeptieren)]]></target>
+				<source><![CDATA[Button for Accepting Selected Cookies & Scripts]]></source>
+				<target><![CDATA[Button zum Akzeptieren ausgewählter Skripte & Cookies]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text" approved="yes">
 				<source><![CDATA[Table Data Text]]></source>
@@ -178,12 +182,12 @@
 				<target><![CDATA[Gruppentitel für essentielle Cookies & Skripte, die der Benutzer akzeptieren muss.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_box_link_text" approved="yes">
-				<source><![CDATA[Link Text: Extend Box to See Information for all Groups]]></source>
-				<target><![CDATA[Linktext: Erweiterung der Box zur Anzeige von Informationen für alle Gruppen]]></target>
+				<source><![CDATA[Link for Displaying Information About the Groups]]></source>
+				<target><![CDATA[Link zur Anzeige von Informationen der Gruppen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_table_link_text" approved="yes">
-				<source><![CDATA[Link Text: Open Table with Details of a Group]]></source>
-				<target><![CDATA[Linktext: Tabelle mit Details einer Gruppe öffnen]]></target>
+				<source><![CDATA[Link to Display Information of Cookies & Scripts of a Group]]></source>
+				<target><![CDATA[Link zur Anzeige von Informationen der Cookies & Skripte einer Gruppe]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.groups" approved="yes">
 				<source><![CDATA[Groups]]></source>
@@ -192,6 +196,10 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.header" approved="yes">
 				<source><![CDATA[Title of the Opt-In Window]]></source>
 				<target><![CDATA[Titel des Opt-In Fensters]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.link_texts" approved="yes">
+				<source><![CDATA[Link Texts]]></source>
+				<target><![CDATA[Linktexte]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.navigation" approved="yes">
 				<source><![CDATA[Links at the Bottom of the Opt-In Window (Add Imprint and Data Policy!)]]></source>

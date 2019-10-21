@@ -53,8 +53,7 @@ return [
 	'types' => [
 		'1' => [
 			'showitem' => '
-				--palette--;;language, header, description, accept_all_text, accept_specific_text, accept_essential_text, 
-					extend_box_link_text, extend_table_link_text, navigation, 
+				--palette--;;language, header, description, --palette--;;accept_buttons_texts, --palette--;;link_texts, navigation, 
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.essential, 
 					essential_title, essential_description, essential_scripts, essential_cookies,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group, 
@@ -67,6 +66,14 @@ return [
 	'palettes' => [
 		'language' => [
 			'showitem' => 'sys_language_uid, l10n_parent'
+		],
+		'accept_buttons_texts' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.accept_buttons_texts',
+			'showitem' => 'accept_all_text, accept_specific_text, accept_essential_text'
+		],
+		'link_texts' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.link_texts',
+			'showitem' => 'extend_box_link_text, extend_table_link_text'
 		],
 		'color_general' => [
 			'showitem' => 'color_box, color_text'
