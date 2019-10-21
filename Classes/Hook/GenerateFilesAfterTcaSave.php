@@ -26,6 +26,7 @@ namespace SGalinski\SgCookieOptin\Hook;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use SGalinski\SgCookieOptin\Service\LicensingService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
@@ -61,6 +62,10 @@ class GenerateFilesAfterTcaSave {
 	 */
 	public function processDatamap_afterAllOperations(DataHandler $dataHandler) {
 		if (!isset($dataHandler->datamap[self::TABLE_NAME])) {
+			return;
+		}
+
+		if (LicensingService::checkKey() !== LicensingService::STATE_LICENSE_VALID) {
 			return;
 		}
 

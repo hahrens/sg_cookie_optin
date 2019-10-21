@@ -9,8 +9,29 @@
 			<authorEmail>fabian@sgalinski.de</authorEmail>
 		</header>
 		<body>
+			<trans-unit id="backend.buyLicense">
+				<source><![CDATA[Buy license key]]></source>
+			</trans-unit>
 			<trans-unit id="backend.createRecord">
 				<source><![CDATA[Create a new record]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenseKey.invalid.description">
+				<source><![CDATA[The license key of this extension is invalid. Some functions are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenseKey.invalid.descriptionTYPO3-9">
+				<source><![CDATA[The license key of this extension is invalid. Some functions are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenseKey.invalid.header">
+				<source><![CDATA[The license key is invalid]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenseKey.notSet.description">
+				<source><![CDATA[The license key of this extension isn't set. Some functions are disabled. Please add a key, within the extension settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenseKey.notSet.descriptionTYPO3-9">
+				<source><![CDATA[The license key of this extension isn't set. Some functions are disabled. Please add a key, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenseKey.notSet.header">
+				<source><![CDATA[Missing license key]]></source>
 			</trans-unit>
 			<trans-unit id="backend.moduleDescription">
 				<source><![CDATA[This module serves for the management of cookies. There can be a maximum of one entry per site root, if nothing exists, add one with the help of the button below.]]></source>
@@ -20,6 +41,15 @@
 			</trans-unit>
 			<trans-unit id="backend.no_site_root">
 				<source><![CDATA[Please select one of the following website roots:]]></source>
+			</trans-unit>
+			<trans-unit id="backend.tooManyRecorsException.description">
+				<source><![CDATA[Please delete all the records in the list below, except one.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.tooManyRecorsException.header">
+				<source><![CDATA[Too many entries detected]]></source>
+			</trans-unit>
+			<trans-unit id="backend.toolForCookies">
+				<source><![CDATA[The following tool gives some useful information about the cookies, which are in use on the website:]]></source>
 			</trans-unit>
 			<trans-unit id="configuration.licenseKey">
 				<source>License Key</source>

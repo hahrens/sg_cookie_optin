@@ -18,6 +18,16 @@
 			</div>
 
 			<div class="module-docheader-bar module-docheader-bar-buttons t3js-module-docheader-bar t3js-module-docheader-bar-buttons">
+				<div class="module-docheader-bar-column-left">
+					<div class="btn-group" role="group" aria-label="">
+						<f:if condition="{invalidKey}">
+							<a href="https://www.sgalinski.de/typo3-produkte-webentwicklung/cookie-opt-in-fuer-typo3/" target="_bĺank" class="btn btn-default btn-sm">
+								<f:translate key="backend.buyLicense" />
+							</a>
+						</f:if>
+					</div>
+				</div>
+
 				<div class="module-docheader-bar-column-right">
 					<f:render partial="ButtonBar" arguments="{buttons: docHeader.buttons.right}" />
 				</div>

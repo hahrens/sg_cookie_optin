@@ -27,12 +27,15 @@ namespace SGalinski\SgCookieOptin\Controller;
  ***************************************************************/
 
 use SGalinski\SgCookieOptin\Service\BackendService;
+use SGalinski\SgCookieOptin\Service\LicensingService;
 use TYPO3\CMS\Backend\Controller\EditDocumentController;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Optin Controller
@@ -51,12 +54,57 @@ class OptinController extends ActionController {
 	 * @param array $parameters
 	 */
 	public function indexAction(array $parameters = []) {
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$keyState = LicensingService::checkKey();
+		if ($keyState === LicensingService::STATE_LICENSE_INVALID) {
+			if ($typo3Version < 9000000) {
+				$description = LocalizationUtility::translate(
+					'backend.licenseKey.invalid.description', 'sg_cookie_optin'
+				);
+			} else {
+				$description = LocalizationUtility::translate(
+					'backend.licenseKey.invalid.descriptionTYPO3-9', 'sg_cookie_optin'
+				);
+			}
+
+			$this->addFlashMessage(
+				$description,
+				LocalizationUtility::translate('backend.licenseKey.invalid.header', 'sg_cookie_optin'),
+				AbstractMessage::ERROR
+			);
+		} elseif ($keyState === LicensingService::STATE_LICENSE_NOT_SET) {
+			if ($typo3Version < 9000000) {
+				$description = LocalizationUtility::translate(
+					'backend.licenseKey.notSet.description', 'sg_cookie_optin'
+				);
+			} else {
+				$description = LocalizationUtility::translate(
+					'backend.licenseKey.notSet.descriptionTYPO3-9', 'sg_cookie_optin'
+				);
+			}
+
+			$this->addFlashMessage(
+				$description,
+				LocalizationUtility::translate('backend.licenseKey.notSet.header', 'sg_cookie_optin'),
+				AbstractMessage::WARNING
+			);
+		}
+
 		// create doc header component
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
+			$optIns = BackendService::getOptins($pageUid);
+			if (count($optIns) > 1) {
+				$this->addFlashMessage(
+					LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
+					LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
+					AbstractMessage::ERROR
+				);
+			}
+
 			$this->view->assign('isSiteRoot', TRUE);
-			$this->view->assign('optins', BackendService::getOptins($pageUid));
+			$this->view->assign('optins', $optIns);
 		}
 
 		$this->docHeaderComponent = GeneralUtility::makeInstance(DocHeaderComponent::class);
@@ -68,7 +116,8 @@ class OptinController extends ActionController {
 
 		$this->view->assign('pages', BackendService::getPages());
 		$this->view->assign('docHeader', $this->docHeaderComponent->docHeaderContent());
-		$this->view->assign('typo3Version', VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version));
+		$this->view->assign('typo3Version', $typo3Version);
 		$this->view->assign('pageUid', $pageUid);
+		$this->view->assign('invalidKey', $keyState !== LicensingService::STATE_LICENSE_VALID);
 	}
 }

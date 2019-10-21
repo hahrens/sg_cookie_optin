@@ -9,9 +9,37 @@
 			<authorEmail>fabian@sgalinski.de</authorEmail>
 		</header>
 		<body>
+			<trans-unit id="backend.buyLicense" approved="yes">
+				<source><![CDATA[Buy license key]]></source>
+				<target><![CDATA[Lizenzschlüssel kaufen]]></target>
+			</trans-unit>
 			<trans-unit id="backend.createRecord" approved="yes">
 				<source><![CDATA[Create a new record]]></source>
 				<target><![CDATA[Erstelle einen neuen Eintrag]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenseKey.invalid.description" approved="yes">
+				<source><![CDATA[The license key of this extension is invalid. Some functions are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
+				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist Invalide. Einige Funktionen sind deaktiviert. Bitte stelle sicher, dass die Lizenz korrekt eingefügt wurde. Diese können im backend Modul "Erweiterungen" unter "sg_cookie_optin" eingesehen werden.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenseKey.invalid.descriptionTYPO3-9" approved="yes">
+				<source><![CDATA[The license key of this extension is invalid. Some functions are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
+				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist Invalide. Einige Funktionen sind deaktiviert. Bitte stelle sicher, dass die Lizenz korrekt eingefügt wurde. Diese können im backend Modul "Einstellungen" unter "Extension Configuration" in "sg_cookie_optin" eingesehen werden.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenseKey.invalid.header" approved="yes">
+				<source><![CDATA[The license key is invalid]]></source>
+				<target><![CDATA[Der Lizenzschlüssel ist Invalide]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenseKey.notSet.description" approved="yes">
+				<source><![CDATA[The license key of this extension isn't set. Some functions are disabled. Please add a key, within the extension settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
+				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist nicht gesetzt. Einige Funktionen sind deaktiviert. Bitte füge eine Lizenz, in den Einstellungen, hinzu. Diese können im backend Modul "Erweiterungen" unter "sg_cookie_optin" eingesehen werden.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenseKey.notSet.descriptionTYPO3-9" approved="yes">
+				<source><![CDATA[The license key of this extension isn't set. Some functions are disabled. Please add a key, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
+				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist nicht gesetzt. Einige Funktionen sind deaktiviert. Bitte füge eine Lizenz in den Einstellungen hinzu. Diese können im backend Modul "Einstellungen" unter "Extension Configuration" in "sg_cookie_optin" eingesehen werden.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenseKey.notSet.header" approved="yes">
+				<source><![CDATA[Missing license key]]></source>
+				<target><![CDATA[Fehlender Lizenzschlüssel]]></target>
 			</trans-unit>
 			<trans-unit id="backend.moduleDescription" approved="yes">
 				<source><![CDATA[This module serves for the management of cookies. There can be a maximum of one entry per site root, if nothing exists, add one with the help of the button below.]]></source>
@@ -24,6 +52,18 @@
 			<trans-unit id="backend.no_site_root" approved="yes">
 				<source><![CDATA[Please select one of the following website roots:]]></source>
 				<target><![CDATA[Bitte wählen Sie eine der folgenden Webseiten:]]></target>
+			</trans-unit>
+			<trans-unit id="backend.tooManyRecorsException.description" approved="yes">
+				<source><![CDATA[Please delete all the records in the list below, except one.]]></source>
+				<target><![CDATA[Bitte lösche alle Einträge in der Liste, außer einen.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.tooManyRecorsException.header" approved="yes">
+				<source><![CDATA[Too many entries detected]]></source>
+				<target><![CDATA[Zu viele Einträge entdeckt]]></target>
+			</trans-unit>
+			<trans-unit id="backend.toolForCookies" approved="yes">
+				<source><![CDATA[The following tool gives some useful information about the cookies, which are in use on the website:]]></source>
+				<target><![CDATA[Das nachfolgende Tool stellt einige nützliche Information, über die auf der Website benutzten Cookies, dar:]]></target>
 			</trans-unit>
 			<trans-unit id="configuration.licenseKey" approved="yes">
 				<source>License Key</source>
