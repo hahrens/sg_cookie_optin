@@ -62,8 +62,8 @@
 				<target><![CDATA[Zu viele Einträge entdeckt]]></target>
 			</trans-unit>
 			<trans-unit id="backend.toolForCookies" approved="yes">
-				<source><![CDATA[The following tool gives some useful information about the cookies, which are in use on the website:]]></source>
-				<target><![CDATA[Das nachfolgende Tool stellt einige nützliche Information, über die auf der Website benutzten Cookies, dar:]]></target>
+				<source><![CDATA[The following tool delivers information about used cookies on your site. Use this information for the cookie instruction in the configuration. Beware that not all cookies might be listed. URL]]></source>
+				<target><![CDATA[Das nachfolgende Tool liefert Informationen zu verwendeten Cookies auf ihrer Website. Nutzen Sie diese für die Cookie-Instruktionen in der Konfiguration. Beachten Sie, dass die Liste nicht vollständig sein könnte. URL]]></target>
 			</trans-unit>
 			<trans-unit id="configuration.licenseKey" approved="yes">
 				<source>License Key</source>
