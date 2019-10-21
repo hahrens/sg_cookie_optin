@@ -118,7 +118,7 @@
 		var lineBreak = document.createElement("BR");
 		var copyrightLink = document.createElement("A");
 		copyrightLink.classList.add("sg-cookie-optin-box-copyright-link");
-		copyrightLink.setAttribute('href', 'https://www.sgalinski.de/typo3-produkte-webentwicklung/cookie-opt-in-fuer-typo3/');
+		copyrightLink.setAttribute('href', 'https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/');
 		copyrightLink.setAttribute('target', '_blank');
 		copyrightLink.appendChild(document.createTextNode('Powered by'));
 		copyrightLink.appendChild(lineBreak);
