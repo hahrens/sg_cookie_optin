@@ -50,13 +50,11 @@ return [
 	],
 	'types' => [
 		'1' => [
-			'showitem' => '--palette--;;language, provider, purpose, lifetime',
+			'showitem' => 'hidden, provider, purpose, lifetime',
 		],
 	],
 	'palettes' => [
-		'language' => [
-			'showitem' => 'sys_language_uid, l10n_parent, --linebreak--, hidden'
-		]
+
 	],
 	'columns' => [
 		'pid' => [

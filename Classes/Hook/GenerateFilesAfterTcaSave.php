@@ -64,9 +64,9 @@ class GenerateFilesAfterTcaSave {
 			return;
 		}
 
-		$fullData = [];
+		$originalRecord = [];
 		foreach ($dataHandler->datamap[self::TABLE_NAME] as $uid => $data) {
-			if (count($fullData) > 0) {
+			if (count($originalRecord) > 0) {
 				break;
 			}
 
@@ -78,27 +78,49 @@ class GenerateFilesAfterTcaSave {
 				$uid = (int) $dataHandler->substNEWwithIDs[$uid];
 			}
 
-			$data['uid'] = $uid;
-			$fullData = $this->getFullData($data, self::TABLE_NAME, $uid);
+			$uid = (isset($data['l10n_parent']) ? (int) $data['l10n_parent'] : $uid);
+			if ($uid <= 0) {
+				continue;
+			}
+
+			$originalRecord = BackendUtility::getRecord(self::TABLE_NAME, $uid);
 		}
 
-		if (count($fullData) <= 0) {
-			return;
-		}
-		
-		$siteRoot = (int) $dataHandler->getPID(self::TABLE_NAME, $fullData['uid']);
-		if ($siteRoot <= 0) {
-			return;
-		}
+		$languages = $this->getLanguages();
+		foreach ($languages as $language) {
+			$languageUid = (int) $language['uid'];
+			if ($languageUid < 0) {
+				continue;
+			}
 
-		$folderName = str_replace('#PID#', $siteRoot, self::FOLDER);
-		GeneralUtility::mkdir_deep(PATH_site . $folderName);
+			$translatedRecord = $originalRecord;
+			if ($languageUid > 0) {
+				$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+				$translatedRecord = $pageRepository->getRecordOverlay(self::TABLE_NAME, $originalRecord, $languageUid);
+			}
 
-		$this->createCSSFile($folderName, $fullData);
-		$this->createJavaScriptFile($folderName, $fullData);
-		$this->createScriptFile($folderName, 'essential', $fullData['essential_scripts']);
-		foreach ($fullData['groups'] as $group) {
-			$this->createScriptFile($folderName, $group['group_name'], $group['scripts']);
+			$fullData = $this->getFullData($translatedRecord, self::TABLE_NAME, $languageUid);
+			if (count($fullData) <= 0) {
+				return;
+			}
+
+			$siteRoot = (int) $dataHandler->getPID(self::TABLE_NAME, $fullData['uid']);
+			if ($siteRoot <= 0) {
+				return;
+			}
+
+			$folderName = str_replace('#PID#', $siteRoot, self::FOLDER);
+			GeneralUtility::mkdir_deep(PATH_site . $folderName);
+
+			$this->createJavaScriptFile($folderName, $fullData);
+
+			if ($languageUid === 0) {
+				$this->createCSSFile($folderName, $fullData);
+				$this->createActivationScriptFile($folderName, 'essential', $fullData['essential_scripts']);
+				foreach ($fullData['groups'] as $group) {
+					$this->createActivationScriptFile($folderName, $group['group_name'], $group['scripts']);
+				}
+			}
 		}
 	}
 
@@ -246,7 +268,7 @@ class GenerateFilesAfterTcaSave {
 	 * @param array $scripts
 	 * @return void
 	 */
-	protected function createScriptFile($folder, $groupName, array $scripts) {
+	protected function createActivationScriptFile($folder, $groupName, array $scripts) {
 		$content = '';
 		foreach ($scripts as $script) {
 			$scriptContent = trim($script['script']);
@@ -299,10 +321,11 @@ class GenerateFilesAfterTcaSave {
 	 *
 	 * @param array $data
 	 * @param int $parentUid
+	 * @param int $language
 	 *
 	 * @return array
 	 */
-	protected function getFullData(array $data, $table, $parentUid) {
+	protected function getFullData(array $data, $table, $language = 0) {
 		$fullData = [];
 		foreach ($data as $fieldName => $value) {
 			$tcaConfig = $this->getTCAConfigForInlineField($table, $fieldName);
@@ -320,16 +343,14 @@ class GenerateFilesAfterTcaSave {
 			}
 
 			$fullData[$fieldName] = [];
-			$inlineData = $this->getDataForInlineField($foreignTable, $foreignField, $parentUid);
+			$inlineData = $this->getDataForInlineField($foreignTable, $foreignField, (int) $data['uid'], $language);
 			if (\count($inlineData) > 0) {
 				foreach ($inlineData as $index => $inlineDataEntry) {
 					if (!isset($inlineDataEntry['uid'])) {
 						continue;
 					}
 
-					$fullData[$fieldName][$index] = $this->getFullData(
-						$inlineDataEntry, $foreignTable, (int) $inlineDataEntry['uid']
-					);
+					$fullData[$fieldName][$index] = $this->getFullData($inlineDataEntry, $foreignTable, $language);
 				}
 			}
 		}
@@ -352,8 +373,7 @@ class GenerateFilesAfterTcaSave {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows(
-				'*', $table, 'deleted=0 AND ' . $field . '=' . $parentUid . ' AND sys_language_uid=' . $language
-			);
+				'*', $table, 'deleted=0 AND ' . $field . '=' . $parentUid . ' AND sys_language_uid=0');
 		} else {
 			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 			$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
@@ -369,7 +389,7 @@ class GenerateFilesAfterTcaSave {
 					),
 					$queryBuilder->expr()->eq(
 						'sys_language_uid',
-						$language
+						0
 					)
 				);
 
@@ -383,10 +403,43 @@ class GenerateFilesAfterTcaSave {
 		$translatedRows = [];
 		$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		foreach ($rows as $row) {
-			$translatedRows[] = $row;
+			$translatedRows[] = $pageRepository->getRecordOverlay($table, $row, $language);
 		}
 
 		return $translatedRows;
+	}
+
+	/**
+	 * Returns all system languages.
+	 *
+	 * @return array
+	 */
+	protected function getLanguages() {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
+			/** @var DatabaseConnection $database */
+			$database = $GLOBALS['TYPO3_DB'];
+			$rows = $database->exec_SELECTgetRows('uid', 'sys_language', '');
+		} else {
+			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+			$queryBuilder = $connectionPool->getQueryBuilderForTable('sys_language');
+			$queryBuilder->getRestrictions()
+				->removeAll()
+				->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+			$queryBuilder->select('uid')->from('sys_language');
+			$rows = $queryBuilder->execute()->fetchAll();
+		}
+
+		if (is_array($rows)) {
+			$rows[] = [
+				'uid' => 0,
+			];
+		} else {
+			$rows = [[
+				'uid' => 0,
+			]];
+		}
+
+		return $rows;
 	}
 
 	/**

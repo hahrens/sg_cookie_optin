@@ -50,13 +50,11 @@ return [
 	],
 	'types' => [
 		'1' => [
-			'showitem' => '--palette--;;language, title, script',
+			'showitem' => 'hidden, title, script',
 		],
 	],
 	'palettes' => [
-		'language' => [
-			'showitem' => 'sys_language_uid, l10n_parent, --linebreak--, hidden'
-		]
+
 	],
 	'columns' => [
 		'pid' => [

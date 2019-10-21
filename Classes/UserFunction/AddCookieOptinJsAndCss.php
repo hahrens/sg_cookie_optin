@@ -47,10 +47,13 @@ class AddCookieOptinJsAndCss {
 			return '';
 		}
 
-		$fileName = 'cookieOptin_' . $this->getLanguage() . '.js';
-		$file = PATH_site . 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . $fileName;
+		$file = PATH_site . 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_' .
+			$this->getLanguage() . '.js';
 		if (!file_exists($file)) {
-			return '';
+			$file = PATH_site . 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_0.js';
+			if (!file_exists($file)) {
+				return '';
+			}
 		}
 
 		return file_get_contents($file);
