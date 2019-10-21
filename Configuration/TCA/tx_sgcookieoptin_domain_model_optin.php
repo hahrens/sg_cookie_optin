@@ -379,8 +379,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#8FAF2D',
-				'placeholder' => '#8FAF2D',
+				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
 				'eval' => 'trim, required'
 			],
 		],
@@ -391,8 +391,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#D7D7D7',
-				'placeholder' => '#D7D7D7',
+				'default' => '#8FAF2D',
+				'placeholder' => '#8FAF2D',
 				'eval' => 'trim, required'
 			],
 		],
@@ -415,8 +415,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
+				'default' => '#D7D7D7',
+				'placeholder' => '#D7D7D7',
 				'eval' => 'trim, required'
 			],
 		],

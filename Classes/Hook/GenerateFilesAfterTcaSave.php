@@ -305,12 +305,7 @@ class GenerateFilesAfterTcaSave {
 				continue;
 			}
 
-			$navigationEntryData = explode('_', $navigationEntry);
-			if (count($navigationEntryData) !== 2) {
-				continue;
-			}
-
-			$record = BackendUtility::getRecord($navigationEntryData[0], $navigationEntryData[1]);
+			$record = BackendUtility::getRecord('pages', $navigationEntry);
 			if (!$record) {
 				continue;
 			}
