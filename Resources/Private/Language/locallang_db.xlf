@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2019-10-21T17:32:28Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-10-21T18:03:58Z">
 		<header>
 			<type>database</type>
 			<description>General language labels used in frontend and backend.</description>
@@ -154,7 +154,7 @@
 				<source><![CDATA[Link for Displaying Information About the Groups]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_table_link_text">
-				<source><![CDATA[Link to Display Information of Cookies & Scripts of a Group]]></source>
+				<source><![CDATA[Link to Display Information of Cookies of a Group]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.groups">
 				<source><![CDATA[Groups]]></source>
