@@ -59,8 +59,8 @@ return [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group, 
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color, 
-					--palette--;;color_general, --palette--;;color_checkbox, --palette--;;color_list,  
-					--palette--;;color_button,	--palette--;;color_table,',
+					--palette--;;color_general, --palette--;;color_checkbox, --palette--;;color_button,
+					--palette--;;color_list, --palette--;;color_table',
 		],
 	],
 	'palettes' => [
@@ -79,17 +79,21 @@ return [
 			'showitem' => 'color_box, color_text'
 		],
 		'color_checkbox' => [
-			'showitem' => 'color_checkbox, color_checkbox_required'
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_checkboxes',
+			'showitem' => 'color_checkbox_required, color_checkbox'
 		],
 		'color_button' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_buttons',
 			'showitem' => 'color_button_all, color_button_all_hover, color_button_all_text, --linebreak--,
 				color_button_specific, color_button_specific_hover, color_button_specific_text, --linebreak--,
 				color_button_essential, color_button_essential_hover, color_button_essential_text'
 		],
 		'color_list' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_lists',
 			'showitem' => 'color_list, color_list_text'
 		],
 		'color_table' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_tables',
 			'showitem' => 'color_table, color_table_header_text, color_Table_data_text'
 		],
 	],

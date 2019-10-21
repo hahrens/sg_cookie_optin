@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2019-10-21T11:35:13Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-10-21T17:32:28Z">
 		<header>
 			<type>database</type>
 			<description>General language labels used in frontend and backend.</description>
@@ -70,7 +70,7 @@
 				<source><![CDATA[Button for Accepting Selected Cookies & Scripts]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text">
-				<source><![CDATA[Table Data Text]]></source>
+				<source><![CDATA[Data Text Color]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_box">
 				<source><![CDATA[Window]]></source>
@@ -94,34 +94,46 @@
 				<source><![CDATA[Button-Text "Accept Essential"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific">
-				<source><![CDATA[Button "Accept Specific"]]></source>
+				<source><![CDATA[Button "Accept Selected"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific_hover">
-				<source><![CDATA[Button-Hover "Accept Specific"]]></source>
+				<source><![CDATA[Button-Hover "Accept Selected"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific_text">
-				<source><![CDATA[Button-Text "Accept Specific"]]></source>
+				<source><![CDATA[Button-Text "Accept Selected"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_checkbox">
-				<source><![CDATA[Checkboxes for Optional Groups]]></source>
+				<source><![CDATA[Optional Cookies & Scripts]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_checkbox_required">
-				<source><![CDATA[Checkbox for the Obligatory Group (is always checked)]]></source>
+				<source><![CDATA[Essential Cookies & Scripts (always ticked off)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_list">
-				<source><![CDATA[Background of the Entries in the List of Groups]]></source>
+				<source><![CDATA[Background of the Info Boxes of the Groups]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_list_text">
-				<source><![CDATA[Text Color in the List of Groups]]></source>
+				<source><![CDATA[Text Color in the Info Boxes for the Groups]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table">
-				<source><![CDATA[Table]]></source>
+				<source><![CDATA[Cell Background]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table_header_text">
-				<source><![CDATA[Table Header Text]]></source>
+				<source><![CDATA[Text Color Row Title]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_text">
 				<source><![CDATA[Text]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.colors_buttons">
+				<source><![CDATA[Buttons]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.colors_checkboxes">
+				<source><![CDATA[Group Checkboxes]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.colors_lists">
+				<source><![CDATA[List of Group Details]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.colors_tables">
+				<source><![CDATA[Tables]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description">
 				<source><![CDATA[Explanation at top of Opt-In Window]]></source>
