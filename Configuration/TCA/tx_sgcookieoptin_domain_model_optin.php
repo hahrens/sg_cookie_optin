@@ -158,7 +158,7 @@ return [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.description',
 			'config' => [
 				'type' => 'text',
-				'default' => 'Wir nutzen Cookies auf unserer Website. Einige von ihnen sind essentiell, während andere uns helfen, diese Website und Ihre Erfahrung zu verbessern.',
+				'default' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
 				'eval' => 'trim'
 			],
 		],
@@ -198,7 +198,7 @@ return [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'default' => 'Individuelle Cookie-Einstellungen',
+				'default' => 'Weitere Informationen',
 				'eval' => 'trim, required'
 			],
 		],
@@ -474,7 +474,7 @@ return [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.essential_description',
 			'config' => [
 				'type' => 'text',
-				'default' => 'Essentielle Cookies ermöglichen grundlegende Funktionen und sind für die einwandfreie Funktion der Website erforderlich.',
+				'default' => 'Essentielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.',
 				'eval' => 'trim'
 			],
 		],
