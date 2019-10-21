@@ -28,7 +28,7 @@
 	font: inherit;
 	font-size: 100%;
 	vertical-align: baseline;
-	color: #373737;
+	color: ###COLOR_TEXT###;
 }
 
 #SgCookieOptin {
@@ -57,7 +57,7 @@
 	max-width: 500px;
 	max-height: 95%;
 
-	background: #FFF;
+	background: ###COLOR_BOX###;
 	border-radius: 5px;
 
 	font-size: 14px;
@@ -108,7 +108,7 @@
 	float: left;
 
 	border-radius: 5px;
-	border: 2px solid #7B9B2C;
+	border: 2px solid ###COLOR_CHECKBOX###;
 
 	background-color: #FFF;
 
@@ -117,13 +117,13 @@
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:checked + .sg-cookie-optin-checkbox-label::before {
 	box-shadow: inset 0 0 0 3px #FFF;
-	background-color: #7B9B2C;
+	background-color: ###COLOR_CHECKBOX###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:disabled + .sg-cookie-optin-checkbox-label::before {
 	box-shadow: inset 0 0 0 3px #FFF;
-	border-color: #A5A5A5;
-	background-color: #A5A5A5;
+	border-color: ###COLOR_CHECKBOX_REQUIRED###;
+	background-color: ###COLOR_CHECKBOX_REQUIRED###;
 
 	cursor: default;
 }
@@ -146,33 +146,35 @@
 	padding: 10px 0;
 	margin: 0 0 10px 0;
 
-	color: #FFF;
+	color: ###COLOR_BUTTON_ALL_TEXT###;
 	font-size: 16px;
 	text-align: center;
 
-	background-color: #7B9B2C;
+	background-color: ###COLOR_BUTTON_ALL###;
 
 	border-radius: 5px;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-specific {
-	background-color: #A5A5A5;
+	color: ###COLOR_BUTTON_SPECIFIC_TEXT###;
+	background-color: ###COLOR_BUTTON_SPECIFIC###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-essential {
-	background-color: #A5A5A5;
+	color: ###COLOR_BUTTON_ESSENTIAL_TEXT###;
+	background-color: ###COLOR_BUTTON_ESSENTIAL###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-all:hover {
-	background-color: #8FAF2D;
+	background-color: ###COLOR_BUTTON_ALL_HOVER###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-specific:hover {
-	background-color: #D7D7D7;
+	background-color: ###COLOR_BUTTON_SPECIFIC_HOVER###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-essential:hover {
-	background-color: #D7D7D7;
+	background-color: ###COLOR_BUTTON_ESSENTIAL_HOVER###;
 }
 
 /* Open More List */
@@ -182,7 +184,7 @@
 	overflow: hidden;
 	overflow-y: scroll;
 
-	border-top: 1px solid #A5A5A5;
+	border-top: 1px solid ###COLOR_LIST###;
 	list-style: none;
 
 	-moz-transition: all 1s ease-in-out;
@@ -204,7 +206,7 @@
 	padding: 10px;
 
 	border-radius: 5px;
-	background-color: #A5A5A5;
+	background-color: ###COLOR_LIST###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item a {
@@ -212,7 +214,7 @@
 	margin: 10px 0 0 0;
 
 	text-align: center;
-	color: #FFF;
+	color: ###COLOR_LIST_TEXT###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header,
@@ -220,7 +222,7 @@
 	display: block;
 	margin: 0 0 10px 0;
 
-	color: #FFF;
+	color: ###COLOR_LIST_TEXT###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header {
@@ -269,15 +271,19 @@
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table {
 	margin: 0 0 10px 0;
+	width: 100%;
+	background-color: ###COLOR_TABLE###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th,
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table td {
 	padding: 10px;
 	vertical-align: middle;
-	border-bottom: 1px solid #A5A5A5;
+	border-bottom: 1px solid ###COLOR_LIST###;
+	color: ###COLOR_TABLE_DATA_TEXT###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th {
 	font-weight: 600;
+	color: ###COLOR_TABLE_HEADER_TEXT###;
 }

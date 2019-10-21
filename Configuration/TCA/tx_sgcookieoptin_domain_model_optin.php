@@ -208,7 +208,7 @@ return [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'default' => 'Cookie-Informationen öffnen / schließen',
+				'default' => 'Cookie-Informationen',
 				'eval' => 'trim, required'
 			],
 		],
@@ -221,7 +221,7 @@ return [
 				'internal_type' => 'db',
 				'allowed' => 'pages',
 				'minitems' => 0,
-				'maxitems' => 3,
+				'maxitems' => 2,
 				'wizards' => [
 					'suggest' => [
 						'type' => 'suggest'
@@ -250,8 +250,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#373737',
-				'placeholder' => '#373737',
+				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
 				'eval' => 'trim, required'
 			],
 		],
@@ -322,8 +322,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#7B9B2C',
-				'placeholder' => '#7B9B2C',
+				'default' => '#A5A5A5',
+				'placeholder' => '#A5A5A5',
 				'eval' => 'trim, required'
 			],
 		],
@@ -382,8 +382,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
+				'default' => '#8FAF2D',
+				'placeholder' => '#8FAF2D',
 				'eval' => 'trim, required'
 			],
 		],
@@ -394,8 +394,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
+				'default' => '#D7D7D7',
+				'placeholder' => '#D7D7D7',
 				'eval' => 'trim, required'
 			],
 		],
@@ -406,8 +406,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
+				'default' => '#D7D7D7',
+				'placeholder' => '#D7D7D7',
 				'eval' => 'trim, required'
 			],
 		],
@@ -430,8 +430,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
+				'default' => '#373737',
+				'placeholder' => '#373737',
 				'eval' => 'trim, required'
 			],
 		],
@@ -442,8 +442,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
+				'default' => '#373737',
+				'placeholder' => '#373737',
 				'eval' => 'trim, required'
 			],
 		],
@@ -465,6 +465,7 @@ return [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
+				'default' => 'Essentiell',
 				'eval' => 'trim, required'
 			],
 		],
@@ -473,6 +474,7 @@ return [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.essential_description',
 			'config' => [
 				'type' => 'text',
+				'default' => 'Essentielle Cookies ermöglichen grundlegende Funktionen und sind für die einwandfreie Funktion der Website erforderlich.',
 				'eval' => 'trim'
 			],
 		],

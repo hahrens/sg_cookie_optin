@@ -7,7 +7,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 
 	header varchar(255) DEFAULT '' NOT NULL,
 	description text NOT NULL,
-	navigation int(11) unsigned DEFAULT '0' NOT NULL,
+	navigation varchar(255) DEFAULT '' NOT NULL,
 	accept_all_text varchar(255) DEFAULT '' NOT NULL,
 	accept_specific_text varchar(255) DEFAULT '' NOT NULL,
 	accept_essential_text varchar(255) DEFAULT '' NOT NULL,

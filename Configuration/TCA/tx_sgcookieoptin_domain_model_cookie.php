@@ -117,6 +117,7 @@ return [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
+				'placeholder' => 'Google Adwords',
 				'eval' => 'trim, required'
 			],
 		],
@@ -125,7 +126,8 @@ return [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_cookie.purpose',
 			'config' => [
 				'type' => 'text',
-				'eval' => 'trim'
+				'placeholder' => 'Cookie von Google zur Steuerung der erweiterten Script- und Ereignisbehandlung.',
+				'eval' => 'trim, required'
 			],
 		],
 		'lifetime' => [
@@ -134,7 +136,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim'
+				'placeholder' => '1 Jahr',
+				'eval' => 'trim, required'
 			],
 		],
 		'parent_group' => [

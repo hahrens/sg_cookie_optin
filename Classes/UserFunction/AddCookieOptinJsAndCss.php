@@ -46,8 +46,9 @@ class AddCookieOptinJsAndCss {
 		if ($rootPageId <= 0) {
 			return '';
 		}
-		
-		$file = PATH_site . 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/cookieOptin.js';
+
+		$fileName = 'cookieOptin_' . $this->getLanguage() . '.js';
+		$file = PATH_site . 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . $fileName;
 		if (!file_exists($file)) {
 			return '';
 		}
@@ -90,5 +91,16 @@ class AddCookieOptinJsAndCss {
 		return (isset($typoScriptFrontendController->rootLine[0]['uid']) ?
 			(int) $typoScriptFrontendController->rootLine[0]['uid'] : -1
 		);
+	}
+
+	/**
+	 * Returns always the first page within the rootline
+	 *
+	 * @return int
+	 */
+	protected function getLanguage() {
+		/** @var TypoScriptFrontendController $typoScriptFrontendController */
+		$typoScriptFrontendController = $GLOBALS['TSFE'];
+		return $typoScriptFrontendController->sys_language_uid;
 	}
 }

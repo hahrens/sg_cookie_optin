@@ -26,6 +26,13 @@
 
 call_user_func(
 	function ($extKey) {
+		// hook registration
+		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
+			\SGalinski\SgCookieOptin\Hook\GenerateFilesAfterTcaSave::class;
 
+		// User TSConfig
+		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(
+			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/User/HideTableButtons.tsconfig">'
+		);
 	}, 'sg_cookie_optin'
 );

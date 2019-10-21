@@ -10,84 +10,9 @@
 (function() {
 	var COOKIE_NAME = 'cookie_optin';
 
-	var COOKIE_GROUPS = {
-		'essential': {
-			'label': 'Essenziell',
-			'description': 'Essenzielle Cookies ermöglichen grundlegende Funktionen und sind für die einwandfreie Funktion der Website erforderlich.',
-			'required': true,
-			'loadingJavaScript': '/fileadmin/sg_cookie_optin/siteroot-1/test.js',
-			'cookieData': [
-				{
-					'provider': 'Eigentümer dieser Website',
-					'purpose': 'Speichert die Einstellungen der Besucher, die in der Cookie Box von Borlabs Cookie ausgewählt wurden.',
-					'lifetime': '1 Jahr'
-				},
-				{
-					'provider': 'OnTheGoSystems Limited',
-					'purpose': 'Diese Website verwendet WPML. Dieses Cookie speichert die Sprachauswahl des Nutzers der Webseite.',
-					'lifetime': '30'
-				},
-				{
-					'provider': 'OnTheGoSystems Limited',
-					'purpose': 'Diese Website verwendet WPML. Dieses Cookie speichert die Sprachauswahl des Nutzers der Webseite.',
-					'lifetime': '30'
-				},
-				{
-					'provider': 'OnTheGoSystems Limited',
-					'purpose': 'Diese Website verwendet WPML. Dieses Cookie speichert die Sprachauswahl des Nutzers der Webseite.',
-					'lifetime': '30'
-				}
-			],
-		},
-		'stats': {
-			'label': 'Statistiken',
-			'description': 'Statistik Cookies erfassen Informationen anonym. Diese Informationen helfen uns zu verstehen, wie unsere Besucher unsere Website nutzen.',
-			'required': false,
-			'loadingJavaScript': '/fileadmin/sg_cookie_optin/siteroot-1/test.js',
-			'cookieData': [
-				{
-					'provider': 'Eigentümer dieser Website',
-					'purpose': 'Speichert die Einstellungen der Besucher, die in der Cookie Box von Borlabs Cookie ausgewählt wurden.',
-					'lifetime': '1 Jahr'
-				},
-				{
-					'provider': 'OnTheGoSystems Limited',
-					'purpose': 'Diese Website verwendet WPML. Dieses Cookie speichert die Sprachauswahl des Nutzers der Webseite.',
-					'lifetime': '30'
-				}
-			],
-		},
-		'stats1': {
-			'label': 'Statistiken1',
-			'description': 'Statistik Cookies erfassen Informationen anonym. Diese Informationen helfen uns zu verstehen, wie unsere Besucher unsere Website nutzen.',
-			'required': false,
-			'loadingJavaScript': '/fileadmin/sg_cookie_optin/siteroot-1/test.js',
-		},
-		'stats2': {
-			'label': 'Statistiken2',
-			'description': 'Statistik Cookies erfassen Informationen anonym. Diese Informationen helfen uns zu verstehen, wie unsere Besucher unsere Website nutzen.',
-			'required': false,
-			'loadingJavaScript': '/fileadmin/sg_cookie_optin/siteroot-1/test.js',
-			'cookieData': [
-				{
-					'provider': 'OnTheGoSystems Limited',
-					'purpose': 'Diese Website verwendet WPML. Dieses Cookie speichert die Sprachauswahl des Nutzers der Webseite.',
-					'lifetime': '30'
-				}
-			],
-		}
-	};
-
-	var FOOTER_LINKS = {
-		0: {
-			'url': 'https://www.website-base.dev/datenschutz/',
-			'name': 'Datenschutz'
-		},
-		1: {
-			'url': 'https://www.website-base.dev/impressum/',
-			'name': 'Impressum'
-		}
-	};
+	var COOKIE_GROUPS = ###COOKIE_GROUPS###;
+	var FOOTER_LINKS = ###FOOTER_LINKS###;
+	var TEXT_ENTRIES = ###TEXT_ENTRIES###;
 
 	/**
 	 * Initializes the whole functionality.
@@ -141,11 +66,11 @@
 	function showCookieOptin() {
 		var header = document.createElement("STRONG");
 		header.classList.add("sg-cookie-optin-box-header");
-		header.appendChild(document.createTextNode("Datenschutzeinstellungen"));
+		header.appendChild(document.createTextNode(TEXT_ENTRIES.header));
 
 		var description = document.createElement("P");
 		description.classList.add("sg-cookie-optin-box-description");
-		description.appendChild(document.createTextNode("Wir nutzen Cookies auf unserer Website. Einige von ihnen sind essentiell, während andere uns helfen, diese Website und Ihre Erfahrung zu verbessern."));
+		description.appendChild(document.createTextNode(TEXT_ENTRIES.description));
 
 		var cookieBox = document.createElement("DIV");
 		cookieBox.classList.add("sg-cookie-optin-box");
@@ -257,17 +182,17 @@
 	function addAllButtons(parentDOM) {
 		var acceptAllButton = document.createElement("BUTTON");
 		acceptAllButton.classList.add("sg-cookie-optin-box-button-accept-all");
-		acceptAllButton.appendChild(document.createTextNode("Alle akzeptieren"));
+		acceptAllButton.appendChild(document.createTextNode(TEXT_ENTRIES.accept_all_text));
 		acceptAllButton.addEventListener("click", acceptAllCookies);
 
 		var acceptSpecificButton = document.createElement("BUTTON");
 		acceptSpecificButton.classList.add("sg-cookie-optin-box-button-accept-specific");
-		acceptSpecificButton.appendChild(document.createTextNode("Speichern & schließen"));
+		acceptSpecificButton.appendChild(document.createTextNode(TEXT_ENTRIES.accept_specific_text));
 		acceptSpecificButton.addEventListener("click", acceptSpecificCookies);
 
 		var acceptEssentialButton = document.createElement("BUTTON");
 		acceptEssentialButton.classList.add("sg-cookie-optin-box-button-accept-essential");
-		acceptEssentialButton.appendChild(document.createTextNode("Nur essentielle Cookies akzeptieren"));
+		acceptEssentialButton.appendChild(document.createTextNode(TEXT_ENTRIES.accept_essential_text));
 		acceptEssentialButton.addEventListener("click", acceptEssentialCookies);
 
 		parentDOM.appendChild(acceptAllButton);
@@ -303,14 +228,14 @@
 			cookieListItem.appendChild(header);
 			cookieListItem.appendChild(description);
 
-			if (groupData.hasOwnProperty('cookieData')) {
+			if (groupData.hasOwnProperty('cookieData') && groupData['cookieData'].length > 0) {
 				var cookieSublist = document.createElement("DIV");
 				cookieSublist.classList.add("sg-cookie-optin-box-cookie-detail-sublist");
 				addSubListTable(cookieSublist, groupData['cookieData']);
 
 				var openSubListLink = document.createElement("A");
 				openSubListLink.setAttribute('href', '#');
-				openSubListLink.appendChild(document.createTextNode('Weitere Cookie Informationen'));
+				openSubListLink.appendChild(document.createTextNode(TEXT_ENTRIES.extend_table_link_text));
 				openSubListLink.addEventListener("click", openSubList);
 
 				cookieListItem.appendChild(cookieSublist);
@@ -323,7 +248,7 @@
 		var openMoreLink = document.createElement("A");
 		openMoreLink.classList.add("sg-cookie-optin-box-open-more-link");
 		openMoreLink.setAttribute('href', '#');
-		openMoreLink.appendChild(document.createTextNode('Individuelle Cookie-Einstellungen'));
+		openMoreLink.appendChild(document.createTextNode(TEXT_ENTRIES.extend_box_link_text));
 		openMoreLink.addEventListener("click", openCookieDetails);
 
 		var openMore = document.createElement("DIV");

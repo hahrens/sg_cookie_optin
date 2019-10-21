@@ -1,0 +1,4 @@
+options {
+	saveDocNew.tx_sgcookieoptin_domain_model_optin = 0
+	saveDocView.tx_sgcookieoptin_domain_model_optin = 0
+}
