@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2019-10-18T17:12:00Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-10-21T11:02:33Z">
 		<header>
 			<type>database</type>
 			<description>General language labels used in frontend and backend.</description>
@@ -37,10 +37,10 @@
 				<source><![CDATA[Cookies]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.description">
-				<source><![CDATA[Description]]></source>
+				<source><![CDATA[Description (explains the use of these scripts & cookies)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.group_name">
-				<source><![CDATA[Group Name (This is the key for the Google Tag Manager)]]></source>
+				<source><![CDATA[Group Key for Google Tag Manager]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.hidden">
 				<source><![CDATA[Deactivate]]></source>
@@ -52,7 +52,7 @@
 				<source><![CDATA[Scripts]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.title">
-				<source><![CDATA[Title]]></source>
+				<source><![CDATA[Group Title]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin">
 				<source><![CDATA[Opt In]]></source>
@@ -127,13 +127,13 @@
 				<source><![CDATA[Cookies]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_description">
-				<source><![CDATA[Description]]></source>
+				<source><![CDATA[Description (explains the use of these scripts & cookies)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_scripts">
 				<source><![CDATA[Scripts]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_title">
-				<source><![CDATA[Title]]></source>
+				<source><![CDATA[Group Title for Essential Cookies & Scripts the User has to Accept]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_box_link_text">
 				<source><![CDATA[Link Text: Extend Box to See Information for all Groups]]></source>
@@ -172,7 +172,7 @@
 				<source><![CDATA[Opt In]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.script">
-				<source><![CDATA[JavaScript]]></source>
+				<source><![CDATA[JavaScript that shall be loaded if the user accepts this group]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title">
 				<source><![CDATA[Script Name]]></source>
