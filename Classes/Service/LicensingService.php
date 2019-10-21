@@ -40,7 +40,7 @@ class LicensingService {
 	 * @return boolean
 	 */
 	public static function checkKey() {
-		$configuration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sg_cookie_optin'];
+		$configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['sg_cookie_optin'], [FALSE]);
 		if (!isset($configuration['key'])) {
 			return self::STATE_LICENSE_NOT_SET;
 		}

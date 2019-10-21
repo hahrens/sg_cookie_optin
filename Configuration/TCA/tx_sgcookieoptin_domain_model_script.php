@@ -39,13 +39,10 @@ return [
 		],
 		'default_sortby' => 'ORDER BY sorting DESC',
 		'hideTable' => TRUE,
-		'languageField' => 'sys_language_uid',
-		'transOrigPointerField' => 'l10n_parent',
-		'transOrigDiffSourceField' => 'l10n_diffsource',
 		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_script.svg'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, script, parent_group, 
+		'showRecordFieldList' => 'hidden, title, script, parent_group, 
 			parent_optin',
 	],
 	'types' => [
@@ -70,44 +67,6 @@ return [
 			'config' => [
 				'type' => 'check',
 			],
-		],
-		'sys_language_uid' => [
-			'exclude' => TRUE,
-			'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
-			'config' => [
-				'type' => 'select',
-				'renderType' => 'selectSingle',
-				'special' => 'languages',
-				'default' => 0,
-				'items' => [
-					[
-						'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.allLanguages',
-						-1,
-						'flags-multiple'
-					]
-				]
-			]
-		],
-		'l10n_parent' => [
-			'displayCond' => 'FIELD:sys_language_uid:>:0',
-			'exclude' => TRUE,
-			'label' => 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
-			'config' => [
-				'type' => 'select',
-				'renderType' => 'selectSingle',
-				'items' => [
-					['', 0]
-				],
-				'foreign_table' => 'tx_sgcookieoptin_domain_model_script',
-				'foreign_table_where' => 'AND tx_sgcookieoptin_domain_model_script.uid=###REC_FIELD_l10n_parent### AND tx_sgcookieoptin_domain_model_script.sys_language_uid IN (-1,0)',
-				'default' => 0
-			]
-		],
-		'l10n_diffsource' => [
-			'config' => [
-				'type' => 'passthrough',
-				'default' => ''
-			]
 		],
 		'title' => [
 			'exclude' => TRUE,

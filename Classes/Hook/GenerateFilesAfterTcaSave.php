@@ -369,11 +369,13 @@ class GenerateFilesAfterTcaSave {
 	 * @return array
 	 */
 	protected function getDataForInlineField($table, $field, $parentUid, $language = 0) {
+		$languageField = $this->getTCALanguageField($table);
 		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows(
-				'*', $table, 'deleted=0 AND ' . $field . '=' . $parentUid . ' AND sys_language_uid=0');
+				'*', $table, 'deleted=0 AND ' . $field . '=' . $parentUid .
+				($languageField ? ' AND ' . $languageField . '=0' : ''));
 		} else {
 			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 			$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
@@ -386,12 +388,17 @@ class GenerateFilesAfterTcaSave {
 					$queryBuilder->expr()->eq(
 						$field,
 						$parentUid
-					),
+					)
+				);
+
+			if ($languageField) {
+				$queryBuilder->andWhere(
 					$queryBuilder->expr()->eq(
-						'sys_language_uid',
+						$languageField,
 						0
 					)
 				);
+			}
 
 			$rows = $queryBuilder->execute()->fetchAll();
 		}
@@ -470,5 +477,25 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		return $tableColumn['config'];
+	}
+
+	/**
+	 * Returns the language field of the given table.
+	 *
+	 * @param string $table
+	 *
+	 * @return string
+	 */
+	protected function getTCALanguageField($table) {
+		$tableData = $GLOBALS['TCA'][$table];
+		if (!is_array($tableData)) {
+			return '';
+		}
+
+		if (!isset($tableData['ctrl'])) {
+			return '';
+		}
+
+		return (isset($tableData['ctrl']['languageField']) ? $tableData['ctrl']['languageField'] : '');
 	}
 }

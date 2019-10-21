@@ -36,6 +36,15 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  * Class IconViewHelper
  **/
 class IconViewHelper extends AbstractViewHelper {
+	/**
+	 * @var boolean
+	 */
+	protected $escapeOutput = FALSE;
+
+	/**
+	 * @var boolean
+	 */
+	protected $escapeChildren = FALSE;
 
 	/**
 	 * Register the ViewHelper arguments

@@ -427,8 +427,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#373737',
-				'placeholder' => '#373737',
+				'default' => '#FFFFFF',
+				'placeholder' => '#FFFFFF',
 				'eval' => 'trim, required'
 			],
 		],
@@ -451,8 +451,8 @@ return [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
+				'default' => '#373737',
+				'placeholder' => '#373737',
 				'eval' => 'trim, required'
 			],
 		],
