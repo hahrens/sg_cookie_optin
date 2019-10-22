@@ -16,19 +16,19 @@
 				<source><![CDATA[Create a new record]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.description">
-				<source><![CDATA[The license key of this extension is invalid. Some functions are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
+				<source><![CDATA[The license key of this extension is invalid. Some functions like the important file generation are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.descriptionTYPO3-9">
-				<source><![CDATA[The license key of this extension is invalid. Some functions are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
+				<source><![CDATA[The license key of this extension is invalid. Some functions like the important file generation are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.header">
 				<source><![CDATA[The license key is invalid]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.notSet.description">
-				<source><![CDATA[The license key of this extension isn't set. Some functions are disabled. Please add a key, within the extension settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
+				<source><![CDATA[The license key of this extension isn't set. Some functions like the important file generation are disabled. Please add a key, within the extension settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.notSet.descriptionTYPO3-9">
-				<source><![CDATA[The license key of this extension isn't set. Some functions are disabled. Please add a key, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
+				<source><![CDATA[The license key of this extension isn't set. Some functions like the important file generation are disabled. Please add a key, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.notSet.header">
 				<source><![CDATA[Missing license key]]></source>

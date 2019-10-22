@@ -19,11 +19,11 @@
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.description" approved="yes">
 				<source><![CDATA[The license key of this extension is invalid. Some functions are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
-				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist Invalide. Einige Funktionen sind deaktiviert. Bitte stelle sicher, dass die Lizenz korrekt eingefügt wurde. Diese können im backend Modul "Erweiterungen" unter "sg_cookie_optin" eingesehen werden.]]></target>
+				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist ungültig. Einige Funktionen wie die notwendige Dateigenerierung sind deaktiviert. Bitte stelle sicher, dass die Lizenz korrekt eingefügt wurde. Diese können im Backend-Modul "Erweiterungen" unter "sg_cookie_optin" eingesehen werden.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.descriptionTYPO3-9" approved="yes">
 				<source><![CDATA[The license key of this extension is invalid. Some functions are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
-				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist Invalide. Einige Funktionen sind deaktiviert. Bitte stelle sicher, dass die Lizenz korrekt eingefügt wurde. Diese können im backend Modul "Einstellungen" unter "Extension Configuration" in "sg_cookie_optin" eingesehen werden.]]></target>
+				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist ungültig. Einige Funktionen wie die notwendige Dateigenerierung sind deaktiviert. Bitte stelle sicher, dass die Lizenz korrekt eingefügt wurde. Diese können im Backend-Modul "Einstellungen" unter "Extension Configuration" in "sg_cookie_optin" eingesehen werden.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.header" approved="yes">
 				<source><![CDATA[The license key is invalid]]></source>
@@ -31,11 +31,11 @@
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.notSet.description" approved="yes">
 				<source><![CDATA[The license key of this extension isn't set. Some functions are disabled. Please add a key, within the extension settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
-				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist nicht gesetzt. Einige Funktionen sind deaktiviert. Bitte füge eine Lizenz, in den Einstellungen, hinzu. Diese können im backend Modul "Erweiterungen" unter "sg_cookie_optin" eingesehen werden.]]></target>
+				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist nicht gesetzt. Einige Funktionen wie die notwendige Dateigenerierung sind deaktiviert. Bitte füge eine Lizenz, in den Einstellungen, hinzu. Diese können im Backend-Modul "Erweiterungen" unter "sg_cookie_optin" eingesehen werden.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.notSet.descriptionTYPO3-9" approved="yes">
 				<source><![CDATA[The license key of this extension isn't set. Some functions are disabled. Please add a key, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
-				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist nicht gesetzt. Einige Funktionen sind deaktiviert. Bitte füge eine Lizenz in den Einstellungen hinzu. Diese können im backend Modul "Einstellungen" unter "Extension Configuration" in "sg_cookie_optin" eingesehen werden.]]></target>
+				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist nicht gesetzt. Einige Funktionen wie die notwendige Dateigenerierung sind deaktiviert. Bitte füge eine Lizenz in den Einstellungen hinzu. Diese können im Backend-Modul "Einstellungen" unter "Extension Configuration" in "sg_cookie_optin" eingesehen werden.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.notSet.header" approved="yes">
 				<source><![CDATA[Missing license key]]></source>
