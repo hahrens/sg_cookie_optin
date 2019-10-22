@@ -159,6 +159,7 @@ return [
 				'type' => 'inline',
 				'foreign_table' => 'tx_sgcookieoptin_domain_model_script',
 				'foreign_field' => 'parent_group',
+				'foreign_sortby' => 'sorting',
 				'appearance' => [
 					'expandSingle' => TRUE,
 					'showPossibleLocalizationRecords' => TRUE,
@@ -175,6 +176,7 @@ return [
 				'type' => 'inline',
 				'foreign_table' => 'tx_sgcookieoptin_domain_model_cookie',
 				'foreign_field' => 'parent_group',
+				'foreign_sortby' => 'sorting',
 				'appearance' => [
 					'expandSingle' => TRUE,
 					'showPossibleLocalizationRecords' => TRUE,
