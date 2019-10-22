@@ -53,6 +53,10 @@
 				<source><![CDATA[Please select one of the following website roots:]]></source>
 				<target><![CDATA[Bitte wählen Sie eine der folgenden Webseiten:]]></target>
 			</trans-unit>
+			<trans-unit id="backend.productInformation" approved="yes">
+				<source><![CDATA[Product Information]]></source>
+				<target><![CDATA[Produkt-Informationen]]></target>
+			</trans-unit>
 			<trans-unit id="backend.tooManyRecorsException.description" approved="yes">
 				<source><![CDATA[Please delete all the records in the list below, except one.]]></source>
 				<target><![CDATA[Bitte lösche alle Einträge in der Liste, außer einen.]]></target>
