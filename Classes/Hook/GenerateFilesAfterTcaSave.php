@@ -399,7 +399,7 @@ class GenerateFilesAfterTcaSave {
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows(
 				'*', $table, 'deleted=0 AND ' . $field . '=' . $parentUid .
-				($languageField ? ' AND ' . $languageField . '=0' : ''));
+				($languageField ? ' AND ' . $languageField . '=0' : ''), '', 'sorting ASC');
 		} else {
 			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 			$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
@@ -408,6 +408,7 @@ class GenerateFilesAfterTcaSave {
 				->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 			$queryBuilder->select('*')
 				->from($table)
+				->orderBy('sorting', 'ASC')
 				->where(
 					$queryBuilder->expr()->eq(
 						$field,
