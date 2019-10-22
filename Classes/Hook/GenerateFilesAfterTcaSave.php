@@ -185,6 +185,7 @@ class GenerateFilesAfterTcaSave {
 				'url' => $uriBuilder->reset()
 					->setCreateAbsoluteUri(FALSE)
 					->setTargetPageUid($pageData['uid'])
+					->setArguments(['disableOptIn' => TRUE])
 					->buildFrontendUri(),
 				'name' => $contentObject->crop($pageData['title'], 15 . '|...|0'),
 			];

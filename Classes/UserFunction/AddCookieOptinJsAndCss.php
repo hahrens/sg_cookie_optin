@@ -26,6 +26,7 @@ namespace SGalinski\SgCookieOptin\UserFunction;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -42,6 +43,11 @@ class AddCookieOptinJsAndCss {
 	 * @return string
 	 */
 	public function addJavaScript($content, array $configuration) {
+		$disableOptIn = (bool) GeneralUtility::_GP('disableOptIn');
+		if ($disableOptIn) {
+			return '';
+		}
+
 		$rootPageId = $this->getRootPageId();
 		if ($rootPageId <= 0) {
 			return '';
@@ -69,6 +75,11 @@ class AddCookieOptinJsAndCss {
 	 * @return string
 	 */
 	public function addCSS($content, array $configuration) {
+		$disableOptIn = (bool) GeneralUtility::_GP('disableOptIn');
+		if ($disableOptIn) {
+			return '';
+		}
+
 		$rootPageId = $this->getRootPageId();
 		if ($rootPageId <= 0) {
 			return '';

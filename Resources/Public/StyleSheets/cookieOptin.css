@@ -255,10 +255,10 @@
 	overflow-y: scroll;
 	list-style: none;
 
-	-moz-transition: all 1s ease-in-out;
-	-o-transition: all 1s ease-in-out;
-	-webkit-transition: all 1s ease-in-out;
-	transition: all 1s ease-in-out;
+	-moz-transition: max-height .5s ease-in-out;
+	-o-transition: max-height .5s ease-in-out;
+	-webkit-transition: max-height .5s ease-in-out;
+	transition: max-height .5s ease-in-out;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist::-webkit-scrollbar {
