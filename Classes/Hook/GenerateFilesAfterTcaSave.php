@@ -178,17 +178,22 @@ class GenerateFilesAfterTcaSave {
 
 		$footerLinks = [];
 		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-		$uriBuilder = $objectManager->get(UriBuilder::class);
 		$contentObject = $objectManager->get(ContentObjectRenderer::class);
+		$uriBuilder = $objectManager->get(UriBuilder::class);
 		foreach ($this->getPagesFromNavigation($data['navigation']) as $pageData) {
-			$footerLinks[] = [
-				'url' => $uriBuilder->reset()
-					->setCreateAbsoluteUri(FALSE)
-					->setTargetPageUid($pageData['uid'])
-					->setArguments(['disableOptIn' => TRUE])
-					->buildFrontendUri(),
-				'name' => $contentObject->crop($pageData['title'], 15 . '|...|0'),
-			];
+			try {
+				$footerLinks[] = [
+					'url' => $uriBuilder->reset()
+						->setCreateAbsoluteUri(FALSE)
+						->setTargetPageUid($pageData['uid'])
+						->setArguments(['disableOptIn' => TRUE])
+						->buildFrontendUri(),
+					'name' => $contentObject->crop($pageData['title'], 15 . '|...|0'),
+				];
+			} catch (\Error $exception) {
+				// Occurs on the first creation of the translation.
+				continue;
+			}
 		}
 
 		$textEntries = [
@@ -328,6 +333,7 @@ class GenerateFilesAfterTcaSave {
 	 */
 	protected function getFullData(array $data, $table, $language = 0) {
 		$fullData = [];
+		$parentUid = (!empty($data['l10n_parent']) ? (int) $data['l10n_parent'] : (int) $data['uid']);
 		foreach ($data as $fieldName => $value) {
 			$tcaConfig = $this->getTCAConfigForInlineField($table, $fieldName);
 			if (count($tcaConfig) <= 0) {
@@ -344,7 +350,7 @@ class GenerateFilesAfterTcaSave {
 			}
 
 			$fullData[$fieldName] = [];
-			$inlineData = $this->getDataForInlineField($foreignTable, $foreignField, (int) $data['uid'], $language);
+			$inlineData = $this->getDataForInlineField($foreignTable, $foreignField, $parentUid, $language);
 			if (\count($inlineData) > 0) {
 				foreach ($inlineData as $index => $inlineDataEntry) {
 					if (!isset($inlineDataEntry['uid'])) {

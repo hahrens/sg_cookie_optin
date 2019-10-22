@@ -236,6 +236,9 @@ return [
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
 					'expandSingle' => TRUE,
+					'showPossibleLocalizationRecords' => TRUE,
+					'showRemovedLocalizationRecords' => FALSE,
+					'showAllLocalizationLink' => TRUE,
 				],
 				'maxitems' => 99999,
 			],
@@ -485,6 +488,9 @@ return [
 				'foreign_field' => 'parent_optin',
 				'appearance' => [
 					'expandSingle' => TRUE,
+					'showPossibleLocalizationRecords' => TRUE,
+					'showRemovedLocalizationRecords' => FALSE,
+					'showAllLocalizationLink' => TRUE,
 				],
 				'maxitems' => 99999,
 			],
@@ -498,6 +504,9 @@ return [
 				'foreign_field' => 'parent_optin',
 				'appearance' => [
 					'expandSingle' => TRUE,
+					'showPossibleLocalizationRecords' => TRUE,
+					'showRemovedLocalizationRecords' => FALSE,
+					'showAllLocalizationLink' => TRUE,
 				],
 				'maxitems' => 99999,
 			],
