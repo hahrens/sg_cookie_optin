@@ -50,7 +50,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
-	KEY language (l10n_parent, sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 );
 
 #
@@ -81,7 +81,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_group (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY parent_optin (parent_optin),
-	KEY language (l10n_parent, sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 );
 
 #
@@ -135,5 +135,5 @@ CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY parent_group (parent_group),
-	KEY language (l10n_parent, sys_language_uid)
+	KEY language (l10n_parent,sys_language_uid)
 );

@@ -27,7 +27,7 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
  ***************************************************************/
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class EditLink

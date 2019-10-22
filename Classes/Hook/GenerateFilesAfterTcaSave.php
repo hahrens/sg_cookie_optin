@@ -89,6 +89,9 @@ class GenerateFilesAfterTcaSave {
 			}
 
 			$originalRecord = BackendUtility::getRecord(self::TABLE_NAME, $uid);
+			if (isset($originalRecord['l10n_parent']) && (int) $originalRecord['l10n_parent'] > 0) {
+				$originalRecord = BackendUtility::getRecord(self::TABLE_NAME, (int) $originalRecord['l10n_parent']);
+			}
 		}
 
 		$languages = $this->getLanguages();
@@ -117,7 +120,7 @@ class GenerateFilesAfterTcaSave {
 			$folderName = str_replace('#PID#', $siteRoot, self::FOLDER);
 			GeneralUtility::mkdir_deep(PATH_site . $folderName);
 
-			$this->createJavaScriptFile($folderName, $fullData);
+			$this->createJavaScriptFile($folderName, $fullData, $languageUid);
 
 			if ($languageUid === 0) {
 				$this->createCSSFile($folderName, $fullData);
@@ -134,9 +137,10 @@ class GenerateFilesAfterTcaSave {
 	 *
 	 * @param string $folder
 	 * @param array $data
+	 * @param int $languageUid
 	 * @return void
 	 */
-	protected function createJavaScriptFile($folder, array $data) {
+	protected function createJavaScriptFile($folder, array $data, $languageUid = 0) {
 		$content = file_get_contents(PATH_site . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME);
 
 		$cookieGroups = [
@@ -148,7 +152,7 @@ class GenerateFilesAfterTcaSave {
 				'cookieData' => [],
 			],
 		];
-		
+
 		foreach ($data['essential_cookies'] as $cookieData) {
 			$cookieGroups['essential']['cookieData'][] = [
 				'provider' => $cookieData['provider'],
@@ -180,16 +184,23 @@ class GenerateFilesAfterTcaSave {
 		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 		$contentObject = $objectManager->get(ContentObjectRenderer::class);
 		$uriBuilder = $objectManager->get(UriBuilder::class);
-		foreach ($this->getPagesFromNavigation($data['navigation']) as $pageData) {
+		foreach ($this->getPagesFromNavigation($data['navigation'], $languageUid) as $pageData) {
 			try {
-				$footerLinks[] = [
-					'url' => $uriBuilder->reset()
-						->setCreateAbsoluteUri(FALSE)
-						->setTargetPageUid($pageData['uid'])
-						->setArguments(['disableOptIn' => TRUE])
-						->buildFrontendUri(),
-					'name' => $contentObject->crop($pageData['title'], 15 . '|...|0'),
-				];
+				if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 8000000) {
+					$footerLinks[] = [
+						'url' => $uriBuilder->reset()
+							->setCreateAbsoluteUri(FALSE)
+							->setTargetPageUid($pageData['uid'])
+							->setArguments(['disableOptIn' => TRUE])
+							->buildFrontendUri(),
+						'name' => $contentObject->crop($pageData['title'], 15 . '|...|0'),
+					];
+				} else {
+					$footerLinks[] = [
+						'url' => '/index.php?id=' . $pageData['uid'] . '&disableOptIn=1',
+						'name' => $pageData['title'],
+					];
+				}
 			} catch (\Error $exception) {
 				// Occurs on the first creation of the translation.
 				continue;
@@ -297,15 +308,17 @@ class GenerateFilesAfterTcaSave {
 	 * Returns an array with page data out of the given data string.
 	 *
 	 * @param string $navigationData
+	 * @param int $languageUid
 	 * @return array
 	 */
-	protected function getPagesFromNavigation($navigationData) {
+	protected function getPagesFromNavigation($navigationData, $languageUid = 0) {
 		if (!$navigationData) {
 			return [];
 		}
 
 		$records= [];
 		$navigationEntries = explode(',', $navigationData);
+		$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		foreach ($navigationEntries as $navigationEntry) {
 			if (!$navigationEntry) {
 				continue;
@@ -314,6 +327,10 @@ class GenerateFilesAfterTcaSave {
 			$record = BackendUtility::getRecord('pages', $navigationEntry);
 			if (!$record) {
 				continue;
+			}
+
+			if ($languageUid > 0) {
+				$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid);
 			}
 
 			$records[] = $record;

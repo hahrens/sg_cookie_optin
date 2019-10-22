@@ -24,7 +24,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-return [
+$configuration = [
 	'ctrl' => [
 		'title' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin',
 		'label' => 'header',
@@ -513,3 +513,35 @@ return [
 		],
 	],
 ];
+
+// The color picker isn't available in TYPO3 7.X
+if (TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 8000000) {
+	unset(
+		$configuration['columns']['color_box']['config']['renderType'],
+		$configuration['columns']['color_text']['config']['renderType'],
+		$configuration['columns']['color_checkbox']['config']['renderType'],
+		$configuration['columns']['color_checkbox_required']['config']['renderType'],
+		$configuration['columns']['color_button_all']['config']['renderType'],
+		$configuration['columns']['color_button_all_text']['config']['renderType'],
+		$configuration['columns']['color_button_specific']['config']['renderType'],
+		$configuration['columns']['color_button_specific_text']['config']['renderType'],
+		$configuration['columns']['color_button_essential']['config']['renderType'],
+		$configuration['columns']['color_button_essential_text']['config']['renderType'],
+		$configuration['columns']['color_list']['config']['renderType'],
+		$configuration['columns']['color_list_text']['config']['renderType'],
+		$configuration['columns']['essential_title']['config']['renderType'],
+		$configuration['columns']['essential_description']['config']['renderType'],
+		$configuration['columns']['essential_scripts']['config']['renderType'],
+		$configuration['columns']['essential_cookies']['config']['renderType'],
+		$configuration['columns']['extend_box_link_text']['config']['renderType'],
+		$configuration['columns']['extend_table_link_text']['config']['renderType'],
+		$configuration['columns']['color_button_all_hover']['config']['renderType'],
+		$configuration['columns']['color_button_specific_hover']['config']['renderType'],
+		$configuration['columns']['color_button_essential_hover']['config']['renderType'],
+		$configuration['columns']['color_table']['config']['renderType'],
+		$configuration['columns']['color_table_header_text']['config']['renderType'],
+		$configuration['columns']['color_Table_data_text']['config']['renderType']
+	);
+}
+
+return $configuration;
