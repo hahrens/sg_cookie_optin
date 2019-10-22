@@ -3,8 +3,9 @@
  *
  * (c) sgalinski Internet Services (https://www.sgalinski.de)
  *
- * Details about the license can be found on the site behind the following link:
- * https://www.sgalinski.de/licenses/spl/
+ * Commercial license
+ * You can buy a license key on the following site:
+ * https://www.sgalinski.de/en/typo3-produkte-webentwicklung/sgalinski-cookie-optin/
  */
 
 (function() {
@@ -56,7 +57,10 @@
 	 * @return {void}
 	 */
 	function hideAndReloadCookieOptIn() {
-		document.querySelector('#SgCookieOptin').remove();
+		// Because of the IE11 no .remove();
+		var optin = document.querySelector('#SgCookieOptin');
+		optin.parentNode.removeChild(optin);
+
 		initialize();
 	}
 

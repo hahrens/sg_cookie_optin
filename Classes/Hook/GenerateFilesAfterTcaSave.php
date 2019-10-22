@@ -193,7 +193,7 @@ class GenerateFilesAfterTcaSave {
 							->setTargetPageUid($pageData['uid'])
 							->setArguments(['disableOptIn' => TRUE])
 							->buildFrontendUri(),
-						'name' => $contentObject->crop($pageData['title'], 15 . '|...|0'),
+						'name' => $contentObject->crop($pageData['title'], 20 . '|...|0'),
 					];
 				} else {
 					$footerLinks[] = [

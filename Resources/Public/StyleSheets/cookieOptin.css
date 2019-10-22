@@ -3,9 +3,11 @@
  *
  * (c) sgalinski Internet Services (https://www.sgalinski.de)
  *
- * Details about the license can be found on the site behind the following link:
- * https://www.sgalinski.de/licenses/spl/
+ * Commercial license
+ * You can buy a license key on the following site:
+ * https://www.sgalinski.de/en/typo3-produkte-webentwicklung/sgalinski-cookie-optin/
  */
+
 
 #SgCookieOptin,
 #SgCookieOptin * table,
@@ -35,6 +37,7 @@
 #SgCookieOptin {
 	display: flex;
 	justify-content: center;
+	align-items: baseline;
 	height: 100%;
 	width: 100%;
 
@@ -49,8 +52,11 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box {
-	position: fixed;
+	position: relative;
 	overflow: auto;
+
+	/* Hide the Scrollbar in IE*/
+	-ms-overflow-style: none;
 
 	padding: 20px;
 	margin: 25px 0;
@@ -183,15 +189,14 @@
 	padding: 10px 0 0 0;
 	max-height: 0;
 	overflow: hidden;
-	overflow-y: scroll;
 
 	border-top: 1px solid ###COLOR_LIST###;
 	list-style: none;
 
-	-moz-transition: all 1s ease-in-out;
-	-o-transition: all 1s ease-in-out;
-	-webkit-transition: all 1s ease-in-out;
-	transition: all 1s ease-in-out;
+	-moz-transition: max-height .5s ease-in-out;
+	-o-transition: max-height .5s ease-in-out;
+	-webkit-transition: max-height .5s ease-in-out;
+	transition: max-height .5s ease-in-out;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list::-webkit-scrollbar {
@@ -200,6 +205,10 @@
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list.visible {
 	max-height: 2000px;
+	overflow-y: auto;
+
+	/* Hide the Scrollbar in IE*/
+	-ms-overflow-style: none;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item {
@@ -253,7 +262,6 @@
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist {
 	max-height: 0;
 	overflow: hidden;
-	overflow-y: scroll;
 	list-style: none;
 
 	-moz-transition: max-height .5s ease-in-out;
@@ -268,6 +276,10 @@
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist.visible {
 	max-height: 1000px;
+	overflow-y: auto;
+
+	/* Hide the Scrollbar in IE*/
+	-ms-overflow-style: none;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table {
