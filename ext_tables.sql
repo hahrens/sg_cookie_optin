@@ -21,6 +21,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	essential_cookies int(11) DEFAULT '0' NOT NULL,
 
 	color_box varchar(255) DEFAULT '' NOT NULL,
+	color_headline varchar(255) DEFAULT '' NOT NULL,
 	color_text varchar(255) DEFAULT '' NOT NULL,
 	color_checkbox varchar(255) DEFAULT '' NOT NULL,
 	color_checkbox_required varchar(255) DEFAULT '' NOT NULL,
@@ -115,6 +116,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) unsigned DEFAULT '0' NOT NULL,
 
+	name varchar(255) DEFAULT '' NOT NULL,
 	provider varchar(255) DEFAULT '' NOT NULL,
 	purpose text NOT NULL,
 	lifetime varchar(255) DEFAULT '' NOT NULL,

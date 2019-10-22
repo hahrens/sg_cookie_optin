@@ -21,6 +21,10 @@
 				<source><![CDATA[Lifetime]]></source>
 				<target><![CDATA[Lebenszeit]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.name" approved="yes">
+				<source><![CDATA[Name]]></source>
+				<target><![CDATA[Name]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie.parent_group" approved="yes">
 				<source><![CDATA[Group]]></source>
 				<target><![CDATA[Gruppe]]></target>
@@ -140,6 +144,10 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_checkbox_required" approved="yes">
 				<source><![CDATA[Essential Cookies & Scripts (always ticked off)]]></source>
 				<target><![CDATA[Essentielle Cookies & Skripte (immer abgehakt)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_headline" approved="yes">
+				<source><![CDATA[Headline]]></source>
+				<target><![CDATA[Überschrift]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_list" approved="yes">
 				<source><![CDATA[Background of the Info Boxes of the Groups]]></source>

@@ -111,7 +111,7 @@
 				if (links.childElementCount > 0) {
 					var divider = document.createElement("SPAN");
 					divider.classList.add("sg-cookie-optin-box-footer-divider");
-					divider.appendChild(document.createTextNode('|'));
+					divider.appendChild(document.createTextNode(' | '));
 					links.appendChild(divider);
 				}
 

@@ -155,9 +155,10 @@ class GenerateFilesAfterTcaSave {
 
 		foreach ($data['essential_cookies'] as $cookieData) {
 			$cookieGroups['essential']['cookieData'][] = [
-				'provider' => $cookieData['provider'],
-				'purpose' => $cookieData['purpose'],
-				'lifetime' => $cookieData['lifetime'],
+				'Name' => $cookieData['name'],
+				'Provider' => $cookieData['provider'],
+				'Purpose' => $cookieData['purpose'],
+				'Lifetime' => $cookieData['lifetime'],
 			];
 		}
 
@@ -173,9 +174,10 @@ class GenerateFilesAfterTcaSave {
 
 			foreach ($group['cookies'] as $cookieData) {
 				$cookieGroups[$groupName]['cookieData'][] = [
-					'provider' => $cookieData['provider'],
-					'purpose' => $cookieData['purpose'],
-					'lifetime' => $cookieData['lifetime'],
+					'Name' => $cookieData['name'],
+					'Provider' => $cookieData['provider'],
+					'Purpose' => $cookieData['purpose'],
+					'Lifetime' => $cookieData['lifetime'],
 				];
 			}
 		}
@@ -242,6 +244,7 @@ class GenerateFilesAfterTcaSave {
 		$content = file_get_contents(PATH_site . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
 		$content = str_replace([
 			'###COLOR_BOX###',
+			'###COLOR_HEADLINE###',
 			'###COLOR_TEXT###',
 			'###COLOR_CHECKBOX###',
 			'###COLOR_CHECKBOX_REQUIRED###',
@@ -261,6 +264,7 @@ class GenerateFilesAfterTcaSave {
 			'###COLOR_TABLE_DATA_TEXT###',
 		], [
 			$data['color_box'],
+			$data['color_headline'],
 			$data['color_text'],
 			$data['color_checkbox'],
 			$data['color_checkbox_required'],

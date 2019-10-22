@@ -86,6 +86,7 @@
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-header {
 	font-size: 22px;
+	color: ###COLOR_HEADLINE###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description {

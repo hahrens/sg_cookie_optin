@@ -44,11 +44,12 @@ $configuration = [
 	'interface' => [
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, header, description, 
 			navigation, accept_all_text, accept_specific_text, accept_essential_text, groups, 
-			color_text, color_checkbox, color_checkbox_required, color_button_all, color_button_all_text, 
-			color_button_specific, color_button_specific_text, color_button_essential, color_button_essential_text,
-			color_list, color_list_text, essential_title, essential_description, essential_scripts, essential_cookies
-			extend_box_link_text, extend_table_link_text, color_button_all_hover, color_button_specific_hover, 
-			color_button_essential_hover, color_table, color_table_header_text, color_Table_data_text',
+			color_text, color_box, color_headline, color_checkbox, color_checkbox_required, color_button_all, 
+			color_button_all_text, color_button_specific, color_button_specific_text, color_button_essential, 
+			color_button_essential_text, color_list, color_list_text, essential_title, essential_description, 
+			essential_scripts, essential_cookies, extend_box_link_text, extend_table_link_text, color_button_all_hover, 
+			color_button_specific_hover, color_button_essential_hover, color_table, color_table_header_text, 
+			color_Table_data_text',
 	],
 	'types' => [
 		'1' => [
@@ -73,7 +74,7 @@ $configuration = [
 			'showitem' => 'extend_box_link_text, extend_table_link_text'
 		],
 		'color_general' => [
-			'showitem' => 'color_box, color_text'
+			'showitem' => 'color_box, color_headline, color_text'
 		],
 		'color_checkbox' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_checkboxes',
@@ -252,6 +253,18 @@ $configuration = [
 				'renderType' => 'colorpicker',
 				'default' => '#FFFFFF',
 				'placeholder' => '#FFFFFF',
+				'eval' => 'trim, required'
+			],
+		],
+		'color_headline' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_headline',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#373737',
+				'placeholder' => '#373737',
 				'eval' => 'trim, required'
 			],
 		],
@@ -520,6 +533,7 @@ $configuration = [
 if (TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 8000000) {
 	unset(
 		$configuration['columns']['color_box']['config']['renderType'],
+		$configuration['columns']['color_headline']['config']['renderType'],
 		$configuration['columns']['color_text']['config']['renderType'],
 		$configuration['columns']['color_checkbox']['config']['renderType'],
 		$configuration['columns']['color_checkbox_required']['config']['renderType'],

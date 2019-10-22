@@ -32,7 +32,7 @@ return [
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
-		'searchFields' => 'provider, purpose, lifetime',
+		'searchFields' => 'name, provider, purpose, lifetime',
 		'delete' => 'deleted',
 		'enablecolumns' => [
 			'disabled' => 'hidden',
@@ -45,12 +45,12 @@ return [
 		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_cookie.svg'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, provider, purpose, lifetime, 
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, provider, purpose, lifetime, 
 			parent_group, parent_optin',
 	],
 	'types' => [
 		'1' => [
-			'showitem' => 'hidden, provider, purpose, lifetime',
+			'showitem' => 'hidden, name, provider, purpose, lifetime',
 		],
 	],
 	'palettes' => [
@@ -108,6 +108,16 @@ return [
 				'type' => 'passthrough',
 				'default' => ''
 			]
+		],
+		'name' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_cookie.name',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'placeholder' => '_ga',
+				'eval' => 'trim, required'
+			],
 		],
 		'provider' => [
 			'exclude' => TRUE,
