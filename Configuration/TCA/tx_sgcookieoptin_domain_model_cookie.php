@@ -27,7 +27,9 @@
 return [
 	'ctrl' => [
 		'title' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_cookie',
-		'label' => 'provider',
+		'label' => 'name',
+		'label_alt' => 'provider',
+		'label_alt_force' => 1,
 		'tstamp' => 'tstamp',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',

@@ -104,9 +104,14 @@ CREATE TABLE tx_sgcookieoptin_domain_model_script (
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
 	PRIMARY KEY (uid),
 	KEY parent (pid),
-	KEY parent_group (parent_group)
+	KEY parent_group (parent_group),
+	KEY language (l10n_parent,sys_language_uid)
 );
 
 #

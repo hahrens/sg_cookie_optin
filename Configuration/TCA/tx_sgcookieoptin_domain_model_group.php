@@ -127,7 +127,7 @@ return [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'eval' => 'trim, required, uniqueInPid, alphanum_x, lower'
+				'eval' => 'trim, required, alphanum_x, lower'
 			],
 		],
 		'description' => [

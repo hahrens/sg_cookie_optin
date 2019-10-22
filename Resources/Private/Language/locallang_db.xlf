@@ -43,7 +43,7 @@
 				<source><![CDATA[Description (explains the use of these scripts & cookies)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.group_name">
-				<source><![CDATA[Group Key for Google Tag Manager]]></source>
+				<source><![CDATA[Group Key for Google Tag Manager (Do not change while on live mode!)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.hidden">
 				<source><![CDATA[Deactivate]]></source>
