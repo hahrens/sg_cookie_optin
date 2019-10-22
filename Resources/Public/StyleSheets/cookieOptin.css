@@ -55,8 +55,11 @@
 	position: relative;
 	overflow: auto;
 
-	/* Hide the Scrollbar in IE*/
+	/* Hide the Scrollbar in IE */
 	-ms-overflow-style: none;
+
+	/* Hide the Scrollbar in FF */
+	scrollbar-width: none;
 
 	padding: 20px;
 	margin: 25px 0;
@@ -207,8 +210,11 @@
 	max-height: 2000px;
 	overflow-y: auto;
 
-	/* Hide the Scrollbar in IE*/
+	/* Hide the Scrollbar in IE */
 	-ms-overflow-style: none;
+
+	/* Hide the Scrollbar in FF */
+	scrollbar-width: none;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-list-item {
@@ -278,8 +284,11 @@
 	max-height: 1000px;
 	overflow-y: auto;
 
-	/* Hide the Scrollbar in IE*/
+	/* Hide the Scrollbar in IE */
 	-ms-overflow-style: none;
+
+	/* Hide the Scrollbar in FF */
+	scrollbar-width: none;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table {
