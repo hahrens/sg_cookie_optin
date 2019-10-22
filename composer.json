@@ -6,7 +6,7 @@
 	"license": [
 		"GPL-2.0-or-later"
 	],
-	"version": "1.6.2",
+	"version": "1.6.3",
 	"support": {
 		"issues": "https://gitlab.sgalinski.de/typo3/sg_cookie_optin"
 	},
