@@ -37,6 +37,7 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
@@ -94,6 +95,27 @@ class GenerateFilesAfterTcaSave {
 			}
 		}
 
+		$siteRoot = (int) $dataHandler->getPID(self::TABLE_NAME, $originalRecord['uid']);
+		if ($siteRoot <= 0) {
+			return;
+		}
+
+		$folderName = str_replace('#PID#', $siteRoot, self::FOLDER);
+		// First remove the folder with all files and then create it again. So no data artifacts are kept.
+		GeneralUtility::rmdir(PATH_site . $folderName, TRUE);
+		GeneralUtility::mkdir_deep(PATH_site . $folderName);
+
+		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		if ($currentVersion >= 8000000 && $currentVersion < 9000000) {
+			// Needed for the getRecordOverlay function in TYPO3 8.
+			// Fixes this bug: explode() expects parameter 2 to be string, null given
+			// In: Database/Query/Restriction/FrontendGroupRestriction.php in line 36.
+
+			/** @var TypoScriptFrontendController $tsfe */
+			$tsfe = $GLOBALS['TSFE'];
+			$tsfe->gr_list = '';
+		}
+
 		$languages = $this->getLanguages();
 		foreach ($languages as $language) {
 			$languageUid = (int) $language['uid'];
@@ -112,23 +134,21 @@ class GenerateFilesAfterTcaSave {
 				return;
 			}
 
-			$siteRoot = (int) $dataHandler->getPID(self::TABLE_NAME, $fullData['uid']);
-			if ($siteRoot <= 0) {
-				return;
-			}
-
-			$folderName = str_replace('#PID#', $siteRoot, self::FOLDER);
-			GeneralUtility::mkdir_deep(PATH_site . $folderName);
-
-			$this->createJavaScriptFile($folderName, $fullData, $languageUid);
-
+			$loadingScripts = [];
 			if ($languageUid === 0) {
 				$this->createCSSFile($folderName, $fullData);
-				$this->createActivationScriptFile($folderName, 'essential', $fullData['essential_scripts']);
+				$loadingScripts['essential'] = $this->createActivationScriptFile(
+					$folderName, 'essential', $fullData['essential_scripts']
+				);
+
 				foreach ($fullData['groups'] as $group) {
-					$this->createActivationScriptFile($folderName, $group['group_name'], $group['scripts']);
+					$loadingScripts[$group['group_name']] = $this->createActivationScriptFile(
+						$folderName, $group['group_name'], $group['scripts']
+					);
 				}
 			}
+
+			$this->createJavaScriptFile($folderName, $fullData, $loadingScripts, $languageUid);
 		}
 	}
 
@@ -137,10 +157,11 @@ class GenerateFilesAfterTcaSave {
 	 *
 	 * @param string $folder
 	 * @param array $data
+	 * @param array $loadingScripts
 	 * @param int $languageUid
 	 * @return void
 	 */
-	protected function createJavaScriptFile($folder, array $data, $languageUid = 0) {
+	protected function createJavaScriptFile($folder, array $data, array $loadingScripts, $languageUid = 0) {
 		$content = file_get_contents(PATH_site . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME);
 
 		$cookieGroups = [
@@ -148,7 +169,7 @@ class GenerateFilesAfterTcaSave {
 				'label' => $data['essential_title'],
 				'description' => $data['essential_description'],
 				'required' => TRUE,
-				'loadingJavaScript' => '/' . $folder . 'essential.js',
+				'loadingJavaScript' => isset($loadingScripts['essential']) ? $loadingScripts['essential'] : '',
 				'cookieData' => [],
 			],
 		];
@@ -168,7 +189,7 @@ class GenerateFilesAfterTcaSave {
 				'label' => $group['title'],
 				'description' => $group['description'],
 				'required' => FALSE,
-				'loadingJavaScript' => '/' . $folder . $groupName . '.js',
+				'loadingJavaScript' => isset($loadingScripts[$groupName]) ? $loadingScripts[$groupName] : '',
 				'cookieData' => [],
 			];
 
@@ -217,6 +238,10 @@ class GenerateFilesAfterTcaSave {
 			'accept_essential_text' => $data['accept_essential_text'],
 			'extend_box_link_text' => $data['extend_box_link_text'],
 			'extend_table_link_text' => $data['extend_table_link_text'],
+			'cookie_name_text' => $data['cookie_name_text'],
+			'cookie_provider_text' => $data['cookie_provider_text'],
+			'cookie_purpose_text' => $data['cookie_purpose_text'],
+			'cookie_lifetime_text' => $data['cookie_lifetime_text'],
 		];
 		$content = str_replace([
 			'###COOKIE_GROUPS###',
@@ -292,7 +317,7 @@ class GenerateFilesAfterTcaSave {
 	 * @param string $folder
 	 * @param string $groupName
 	 * @param array $scripts
-	 * @return void
+	 * @return string
 	 */
 	protected function createActivationScriptFile($folder, $groupName, array $scripts) {
 		$content = '';
@@ -305,7 +330,13 @@ class GenerateFilesAfterTcaSave {
 			$content .= '//Script: ' . $script['title'] . "\n\n" . $scriptContent . "\n\n";
 		}
 
+		if (empty($content)) {
+			return '';
+		}
+
+		$file = $folder . $groupName . '.js';
 		file_put_contents(PATH_site . $folder . $groupName . '.js', $content);
+		return '/' . $file;
 	}
 
 	/**

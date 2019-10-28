@@ -185,6 +185,26 @@
 				<source><![CDATA[Tables]]></source>
 				<target><![CDATA[Tabellen]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_lifetime_text" approved="yes">
+				<source><![CDATA[Header for the cookie lifetime]]></source>
+				<target><![CDATA[Überschrift für die Cookie-Laufzeit]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_name_text" approved="yes">
+				<source><![CDATA[Header for the cookie name]]></source>
+				<target><![CDATA[Überschrift für den Cookie-Namen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_provider_text" approved="yes">
+				<source><![CDATA[Header for the cookie provider]]></source>
+				<target><![CDATA[Überschrift für den Cookie-Anbieter]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_purpose_text" approved="yes">
+				<source><![CDATA[Header for the cookie purpose]]></source>
+				<target><![CDATA[Überschrift für den Cookie-Zweck]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_texts" approved="yes">
+				<source><![CDATA[Cookie Information Texts]]></source>
+				<target><![CDATA[Cookie-Informationstexte]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description" approved="yes">
 				<source><![CDATA[Explanation at top of Opt-In Window]]></source>
 				<target><![CDATA[Erklärung oben im Auswahlfenster]]></target>

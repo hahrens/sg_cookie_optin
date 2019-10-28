@@ -53,16 +53,21 @@ class AddCookieOptinJsAndCss {
 			return '';
 		}
 
-		$file = PATH_site . 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_' .
+		$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_' .
 			$this->getLanguage() . '.js';
-		if (!file_exists($file)) {
-			$file = PATH_site . 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_0.js';
-			if (!file_exists($file)) {
+		if (!file_exists(PATH_site . $file)) {
+			$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_0.js';
+			if (!file_exists(PATH_site . $file)) {
 				return '';
 			}
 		}
 
-		return file_get_contents($file);
+		$cacheBuster = filemtime(PATH_site . $file);
+		if (!$cacheBuster) {
+			$cacheBuster = '';
+		}
+
+		return '<script src="/' . $file . '?' . $cacheBuster . '" type="text/javascript"></script>';
 	}
 
 	/**
@@ -85,12 +90,17 @@ class AddCookieOptinJsAndCss {
 			return '';
 		}
 
-		$file = PATH_site . 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/cookieOptin.css';
-		if (!file_exists($file)) {
+		$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/cookieOptin.css';
+		if (!file_exists(PATH_site . $file)) {
 			return '';
 		}
 
-		return file_get_contents($file);
+		$cacheBuster = filemtime(PATH_site . $file);
+		if (!$cacheBuster) {
+			$cacheBuster = '';
+		}
+
+		return '<link rel="stylesheet" type="text/css" href="/' . $file . '?' . $cacheBuster . '" media="all">';
 	}
 
 	/**

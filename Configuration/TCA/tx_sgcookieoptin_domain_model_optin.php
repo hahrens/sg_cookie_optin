@@ -33,7 +33,8 @@ $configuration = [
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
 		'searchFields' => 'header, description, accept_all_text, accept_specific_text, accept_essential_text, 
-			essential_title, essential_description, extend_box_link_text, extend_table_link_text',
+			essential_title, essential_description, extend_box_link_text, extend_table_link_text, cookie_name_text, 
+			cookie_provider_text, cookie_purpose_text, cookie_lifetime_text',
 		'delete' => 'deleted',
 		'hideTable' => FALSE,
 		'languageField' => 'sys_language_uid',
@@ -49,12 +50,12 @@ $configuration = [
 			color_button_essential_text, color_list, color_list_text, essential_title, essential_description, 
 			essential_scripts, essential_cookies, extend_box_link_text, extend_table_link_text, color_button_all_hover, 
 			color_button_specific_hover, color_button_essential_hover, color_table, color_table_header_text, 
-			color_Table_data_text',
+			color_Table_data_text, cookie_name_text, cookie_provider_text, cookie_purpose_text, cookie_lifetime_text',
 	],
 	'types' => [
 		'1' => [
 			'showitem' => '
-				header, description, --palette--;;accept_buttons_texts, --palette--;;link_texts, navigation, 
+				header, description, --palette--;;accept_buttons_texts, --palette--;;link_texts, --palette--;;cookie_texts, navigation, 
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.essential, 
 					essential_title, essential_description, essential_scripts, essential_cookies,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group, 
@@ -72,6 +73,11 @@ $configuration = [
 		'link_texts' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.link_texts',
 			'showitem' => 'extend_box_link_text, extend_table_link_text'
+		],
+		'cookie_texts' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.cookie_texts',
+			'showitem' => 'cookie_name_text, cookie_provider_text, --linebreak--,
+			 	cookie_purpose_text, cookie_lifetime_text'
 		],
 		'color_general' => [
 			'showitem' => 'color_box, color_headline, color_text'
@@ -207,6 +213,46 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Cookie-Informationen',
+				'eval' => 'trim, required'
+			],
+		],
+		'cookie_name_text' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.cookie_name_text',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'Name',
+				'eval' => 'trim, required'
+			],
+		],
+		'cookie_provider_text' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.cookie_provider_text',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'Anbieter',
+				'eval' => 'trim, required'
+			],
+		],
+		'cookie_purpose_text' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.cookie_purpose_text',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'Zweck',
+				'eval' => 'trim, required'
+			],
+		],
+		'cookie_lifetime_text' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.cookie_lifetime_text',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'Laufzeit',
 				'eval' => 'trim, required'
 			],
 		],

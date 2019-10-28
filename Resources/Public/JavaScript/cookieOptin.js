@@ -17,10 +17,15 @@
 
 	/**
 	 * Initializes the whole functionality.
+	 *
+	 * @param {boolean} ignoreShowOptInParameter
+	 * @return {void}
 	 */
-	function initialize() {
+	function initialize(ignoreShowOptInParameter) {
+		// noinspection EqualityComparisonWithCoercionJS
+		var showOptIn = getParameterByName('showOptIn') == true;
 		var cookieValue = getCookie(COOKIE_NAME);
-		if (!cookieValue) {
+		if (!cookieValue || showOptIn && !ignoreShowOptInParameter) {
 			showCookieOptin();
 			return;
 		}
@@ -61,7 +66,7 @@
 		var optin = document.querySelector('#SgCookieOptin');
 		optin.parentNode.removeChild(optin);
 
-		initialize();
+		initialize(true);
 	}
 
 	/**
@@ -280,26 +285,56 @@
 				continue;
 			}
 
+			var name = document.createElement("TH");
+			name.appendChild(document.createTextNode(TEXT_ENTRIES.cookie_name_text));
+
+			var nameData = document.createElement("TD");
+			nameData.appendChild(document.createTextNode(cookieData[index]['Name']));
+
+			var nameRow = document.createElement("TR");
+			nameRow.appendChild(name);
+			nameRow.appendChild(nameData);
+
+			var provider = document.createElement("TH");
+			provider.appendChild(document.createTextNode(TEXT_ENTRIES.cookie_provider_text));
+
+			var providerData = document.createElement("TD");
+			providerData.appendChild(document.createTextNode(cookieData[index]['Provider']));
+
+			var providerRow = document.createElement("TR");
+			providerRow.appendChild(provider);
+			providerRow.appendChild(providerData);
+
+			var purpose = document.createElement("TH");
+			purpose.appendChild(document.createTextNode(TEXT_ENTRIES.cookie_purpose_text));
+
+			var purposeData = document.createElement("TD");
+			purposeData.appendChild(document.createTextNode(cookieData[index]['Purpose']));
+
+			var purposeRow = document.createElement("TR");
+			purposeRow.appendChild(purpose);
+			purposeRow.appendChild(purposeData);
+
+			var lifetime = document.createElement("TH");
+			lifetime.appendChild(document.createTextNode(TEXT_ENTRIES.cookie_lifetime_text));
+
+			var lifetimeData = document.createElement("TD");
+			lifetimeData.appendChild(document.createTextNode(cookieData[index]['Lifetime']));
+
+			var lifetimeRow = document.createElement("TR");
+			lifetimeRow.appendChild(lifetime);
+			lifetimeRow.appendChild(lifetimeData);
+
 			var tbody = document.createElement("TBODY");
-			for (var headerText in cookieData[index]) {
-				var header = document.createElement("TH");
-				header.appendChild(document.createTextNode(headerText));
-
-				var data = document.createElement("TD");
-				data.appendChild(document.createTextNode(cookieData[index][headerText]));
-
-				var row = document.createElement("TR");
-				row.appendChild(header);
-				row.appendChild(data);
-
-				tbody.appendChild(row);
-			}
+			tbody.appendChild(nameRow);
+			tbody.appendChild(providerRow);
+			tbody.appendChild(purposeRow);
+			tbody.appendChild(lifetimeRow);
 
 			var table = document.createElement("TABLE");
 			table.appendChild(tbody);
 			parentDom.appendChild(table);
 		}
-
 	}
 
 	/**
@@ -440,5 +475,31 @@
 		setCookie(name, '', -1);
 	}
 
-	initialize();
+	/**
+	 * Returns the value of a query parameter as a string, or null on error.
+	 *
+	 * @param {string} name
+	 * @param {string} url
+	 * @return {string|null}
+	 */
+	function getParameterByName(name, url) {
+		if (!url) {
+			url = window.location.href;
+		}
+
+		name = name.replace(/[\[\]]/g, '\\$&');
+		var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+			results = regex.exec(url);
+		if (!results) {
+			return null;
+		}
+
+		if (!results[2]) {
+			return '';
+		}
+
+		return decodeURIComponent(results[2].replace(/\+/g, ' '));
+	}
+
+	initialize(false);
 })();
