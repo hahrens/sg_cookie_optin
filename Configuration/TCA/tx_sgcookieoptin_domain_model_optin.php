@@ -154,6 +154,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Datenschutzeinstellungen',
+				'placeholder' => 'Datenschutzeinstellungen',
 				'eval' => 'trim, required'
 			],
 		],
@@ -163,6 +164,7 @@ $configuration = [
 			'config' => [
 				'type' => 'text',
 				'default' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
+				'placeholder' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
 				'eval' => 'trim'
 			],
 		],
@@ -173,6 +175,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Alle akzeptieren',
+				'placeholder' => 'Alle akzeptieren',
 				'eval' => 'trim, required'
 			],
 		],
@@ -183,6 +186,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Speichern & schließen',
+				'placeholder' => 'Speichern & schließen',
 				'eval' => 'trim, required'
 			],
 		],
@@ -193,6 +197,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Nur essentielle Cookies akzeptieren',
+				'placeholder' => 'Nur essentielle Cookies akzeptieren',
 				'eval' => 'trim, required'
 			],
 		],
@@ -203,6 +208,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Weitere Informationen',
+				'placeholder' => 'Weitere Informationen',
 				'eval' => 'trim, required'
 			],
 		],
@@ -213,6 +219,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Cookie-Informationen',
+				'placeholder' => 'Cookie-Informationen',
 				'eval' => 'trim, required'
 			],
 		],
@@ -223,6 +230,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Name',
+				'placeholder' => 'Name',
 				'eval' => 'trim, required'
 			],
 		],
@@ -233,6 +241,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Anbieter',
+				'placeholder' => 'Anbieter',
 				'eval' => 'trim, required'
 			],
 		],
@@ -243,6 +252,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Zweck',
+				'placeholder' => 'Zweck',
 				'eval' => 'trim, required'
 			],
 		],
@@ -253,6 +263,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Laufzeit',
+				'placeholder' => 'Laufzeit',
 				'eval' => 'trim, required'
 			],
 		],
@@ -525,6 +536,7 @@ $configuration = [
 				'type' => 'input',
 				'size' => 30,
 				'default' => 'Essentiell',
+				'placeholder' => 'Essentiell',
 				'eval' => 'trim, required'
 			],
 		],
@@ -534,6 +546,7 @@ $configuration = [
 			'config' => [
 				'type' => 'text',
 				'default' => 'Essentielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.',
+				'placeholder' => 'Essentielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.',
 				'eval' => 'trim'
 			],
 		],
