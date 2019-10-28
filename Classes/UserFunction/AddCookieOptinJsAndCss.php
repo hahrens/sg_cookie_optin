@@ -26,6 +26,7 @@ namespace SGalinski\SgCookieOptin\UserFunction;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use SGalinski\SgCookieOptin\Service\LicensingService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -43,6 +44,13 @@ class AddCookieOptinJsAndCss {
 	 * @return string
 	 */
 	public function addJavaScript($content, array $configuration) {
+		if (LicensingService::checkKey() !== LicensingService::STATE_LICENSE_VALID
+			&& !LicensingService::isInDemoMode()
+		) {
+			LicensingService::removeAllCookieOptInFiles();
+			return '';
+		}
+
 		$disableOptIn = (bool) GeneralUtility::_GP('disableOptIn');
 		if ($disableOptIn) {
 			return '';

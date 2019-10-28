@@ -28,13 +28,14 @@ namespace SGalinski\SgCookieOptin\Controller;
 
 use SGalinski\SgCookieOptin\Service\BackendService;
 use SGalinski\SgCookieOptin\Service\LicensingService;
-use TYPO3\CMS\Backend\Controller\EditDocumentController;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
+use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -56,7 +57,21 @@ class OptinController extends ActionController {
 	public function indexAction(array $parameters = []) {
 		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 		$keyState = LicensingService::checkKey();
-		if ($keyState === LicensingService::STATE_LICENSE_INVALID) {
+		$isInDemoMode = LicensingService::isInDemoMode();
+		if ($keyState !== LicensingService::STATE_LICENSE_VALID && $isInDemoMode) {
+			// - 1 because the flash message would show 00:00:00 instead of 23:59:59
+			$this->addFlashMessage(
+				LocalizationUtility::translate(
+					'backend.licenseKey.isInDemoMode.description', 'sg_cookie_optin', [
+						date('H:i:s', mktime(0, 0, LicensingService::getRemainingTimeInDemoMode() - 1))
+					]
+				),
+				LocalizationUtility::translate('backend.licenseKey.isInDemoMode.header', 'sg_cookie_optin'),
+				AbstractMessage::INFO
+			);
+		} elseif ($keyState === LicensingService::STATE_LICENSE_INVALID) {
+			LicensingService::removeAllCookieOptInFiles();
+
 			if ($typo3Version < 9000000) {
 				$description = LocalizationUtility::translate(
 					'backend.licenseKey.invalid.description', 'sg_cookie_optin'
@@ -73,6 +88,8 @@ class OptinController extends ActionController {
 				AbstractMessage::ERROR
 			);
 		} elseif ($keyState === LicensingService::STATE_LICENSE_NOT_SET) {
+			LicensingService::removeAllCookieOptInFiles();
+
 			if ($typo3Version < 9000000) {
 				$description = LocalizationUtility::translate(
 					'backend.licenseKey.notSet.description', 'sg_cookie_optin'
@@ -119,5 +136,22 @@ class OptinController extends ActionController {
 		$this->view->assign('typo3Version', $typo3Version);
 		$this->view->assign('pageUid', $pageUid);
 		$this->view->assign('invalidKey', $keyState !== LicensingService::STATE_LICENSE_VALID);
+		$this->view->assign('showDemoButton', !$isInDemoMode && LicensingService::isDemoModeAcceptable());
+	}
+
+	/**
+	 * Activates the demo mode for the given instance.
+	 *
+	 * @throws StopActionException
+	 * @throws UnsupportedRequestTypeException
+	 * @return void
+	 */
+	public function activateDemoModeAction() {
+		if (LicensingService::isInDemoMode() || !LicensingService::isDemoModeAcceptable()) {
+			$this->redirect('index');
+		}
+
+		LicensingService::activateDemoMode();
+		$this->redirect('index');
 	}
 }

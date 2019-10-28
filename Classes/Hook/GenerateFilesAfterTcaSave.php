@@ -66,7 +66,9 @@ class GenerateFilesAfterTcaSave {
 			return;
 		}
 
-		if (LicensingService::checkKey() !== LicensingService::STATE_LICENSE_VALID) {
+		if (LicensingService::checkKey() !== LicensingService::STATE_LICENSE_VALID
+			&& !LicensingService::isInDemoMode()
+		) {
 			return;
 		}
 

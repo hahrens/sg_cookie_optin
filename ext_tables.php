@@ -50,7 +50,7 @@ call_user_func(
 				'Optin',
 				'',
 				[
-					'Optin' => 'index',
+					'Optin' => 'index, activateDemoMode',
 				],
 				[
 					'access' => 'user,group',
