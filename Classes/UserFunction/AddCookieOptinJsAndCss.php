@@ -75,7 +75,7 @@ class AddCookieOptinJsAndCss {
 			$cacheBuster = '';
 		}
 
-		return '<script src="/' . $file . '?' . $cacheBuster . '" type="text/javascript"></script>';
+		return '<script src="/' . $file . '?' . $cacheBuster . '" type="text/javascript" data-ignore="1"></script>';
 	}
 
 	/**
