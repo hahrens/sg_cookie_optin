@@ -1,0 +1,18 @@
+<f:if condition="{invalidKey}">
+	<f:then>
+		<a href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/" target="_bĺank" class="btn btn-default btn-sm btn-danger">
+			<f:translate key="backend.buyLicense" />
+		</a>
+
+		<f:if condition="{showDemoButton}">
+			<f:link.action class="btn btn-default btn-sm btn-info" action="activateDemoMode">
+				<f:translate key="backend.activateDemoMode" />
+			</f:link.action>
+		</f:if>
+	</f:then>
+	<f:else>
+		<a href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/" target="_bĺank" class="btn btn-default">
+			<f:translate key="backend.productInformation" />
+		</a>
+	</f:else>
+</f:if>

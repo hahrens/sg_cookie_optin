@@ -124,15 +124,18 @@ class OptinController extends ActionController {
 			$this->view->assign('optins', $optIns);
 		}
 
-		$this->docHeaderComponent = GeneralUtility::makeInstance(DocHeaderComponent::class);
-		if ($pageInfo === FALSE) {
-			$pageInfo = ['uid' => $pageUid];
+		// the docHeaderComponent do not exist below version 7
+		if ($typo3Version > 7000000) {
+			$this->docHeaderComponent = GeneralUtility::makeInstance(DocHeaderComponent::class);
+			if ($pageInfo === FALSE) {
+				$pageInfo = ['uid' => $pageUid];
+			}
+			$this->docHeaderComponent->setMetaInformation($pageInfo);
+			BackendService::makeButtons($this->docHeaderComponent, $this->request);
+			$this->view->assign('docHeader', $this->docHeaderComponent->docHeaderContent());
 		}
-		$this->docHeaderComponent->setMetaInformation($pageInfo);
-		BackendService::makeButtons($this->docHeaderComponent, $this->request);
 
 		$this->view->assign('pages', BackendService::getPages());
-		$this->view->assign('docHeader', $this->docHeaderComponent->docHeaderContent());
 		$this->view->assign('typo3Version', $typo3Version);
 		$this->view->assign('pageUid', $pageUid);
 		$this->view->assign('invalidKey', $keyState !== LicensingService::STATE_LICENSE_VALID);

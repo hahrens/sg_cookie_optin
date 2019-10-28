@@ -52,7 +52,12 @@ class LicensingService {
 	 */
 	public static function checkKey() {
 		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) {
-			$configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['sg_cookie_optin'], [FALSE]);
+			// the "options" parameter of unserialize exists since PHP 7.0.0
+			if (version_compare(phpversion(), '7.0.0', '>=')) {
+				$configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['sg_cookie_optin'], [FALSE]);
+			} else {
+				$configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['sg_cookie_optin']);
+			}
 		} else {
 			$configuration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sg_cookie_optin'];
 		}

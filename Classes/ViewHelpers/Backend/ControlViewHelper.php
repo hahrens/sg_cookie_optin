@@ -28,6 +28,7 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -62,7 +63,8 @@ class ControlViewHelper extends AbstractViewHelper {
 		$pageRenderer->loadRequireJsModule('TYPO3/CMS/Backend/AjaxDataHandler');
 		$pageRenderer->addInlineLanguageLabelFile('EXT:backend/Resources/Private/Language/locallang_alt_doc.xlf');
 
-		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '9.0.0', '<')) {
+		$currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
+		if (version_compare($currentTypo3Version, '9.0.0', '<')) {
 			$languageService = GeneralUtility::makeInstance(\TYPO3\CMS\Lang\LanguageService::class);
 		} else {
 			$languageService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Localization\LanguageService::class);
@@ -73,7 +75,15 @@ class ControlViewHelper extends AbstractViewHelper {
 		$databaseRecordList = GeneralUtility::makeInstance(DatabaseRecordList::class);
 		$pageInfo = BackendUtility::readPageAccess($row['pid'], $GLOBALS['BE_USER']->getPagePermsClause(1));
 		$databaseRecordList->calcPerms = $GLOBALS['BE_USER']->calcPerms($pageInfo);
-		return $databaseRecordList->makeControl($table, $row);
-	}
 
+		if (version_compare($currentTypo3Version, '7.0.0', '<')
+			&& ExtensionManagementUtility::isLoaded('gridelements')) {
+			// in old versions of gridelements the "makeControl" function
+			// was xclassed with a 3rd (mandatory) parameter "$level"
+			// @see gridelements/Classes/Xclass/DatabaseRecordList.php
+			return $databaseRecordList->makeControl($table, $row, 0);
+		} else {
+			return $databaseRecordList->makeControl($table, $row);
+		}
+	}
 }
