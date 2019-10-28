@@ -54,7 +54,7 @@ class BackendService {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows(
-				'*', 'pages', 'deleted=0 AND is_siteroot=1'
+				'*', 'pages', 'deleted=0 AND is_siteroot=1 AND t3ver_oid=0'
 			);
 		} else {
 			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
@@ -68,6 +68,10 @@ class BackendService {
 					$queryBuilder->expr()->eq(
 						'is_siteroot',
 						1
+					),
+					$queryBuilder->expr()->eq(
+						't3ver_oid',
+						0
 					),
 					$queryBuilder->expr()->eq(
 						'sys_language_uid',
