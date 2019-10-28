@@ -2,6 +2,8 @@
 
 namespace SGalinski\SgCookieOptin\Service;
 
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
 /***************************************************************
  *  Copyright notice
  *
@@ -40,7 +42,12 @@ class LicensingService {
 	 * @return boolean
 	 */
 	public static function checkKey() {
-		$configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['sg_cookie_optin'], [FALSE]);
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) {
+			$configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['sg_cookie_optin'], [FALSE]);
+		} else {
+			$configuration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sg_cookie_optin'];
+		}
+
 		if (!isset($configuration['key'])) {
 			return self::STATE_LICENSE_NOT_SET;
 		}
