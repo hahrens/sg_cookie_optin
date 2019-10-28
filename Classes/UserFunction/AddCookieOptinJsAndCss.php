@@ -27,7 +27,6 @@ namespace SGalinski\SgCookieOptin\UserFunction;
  ***************************************************************/
 
 use SGalinski\SgCookieOptin\Service\LicensingService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -48,11 +47,6 @@ class AddCookieOptinJsAndCss {
 			&& !LicensingService::isInDemoMode()
 		) {
 			LicensingService::removeAllCookieOptInFiles();
-			return '';
-		}
-
-		$disableOptIn = (bool) GeneralUtility::_GP('disableOptIn');
-		if ($disableOptIn) {
 			return '';
 		}
 
@@ -88,11 +82,6 @@ class AddCookieOptinJsAndCss {
 	 * @return string
 	 */
 	public function addCSS($content, array $configuration) {
-		$disableOptIn = (bool) GeneralUtility::_GP('disableOptIn');
-		if ($disableOptIn) {
-			return '';
-		}
-
 		$rootPageId = $this->getRootPageId();
 		if ($rootPageId <= 0) {
 			return '';

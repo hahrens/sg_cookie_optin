@@ -23,6 +23,12 @@
 	 */
 	function initialize(ignoreShowOptInParameter) {
 		// noinspection EqualityComparisonWithCoercionJS
+		var disableOptIn = getParameterByName('disableOptIn') == true;
+		if (disableOptIn) {
+			return;
+		}
+
+		// noinspection EqualityComparisonWithCoercionJS
 		var showOptIn = getParameterByName('showOptIn') == true;
 		var cookieValue = getCookie(COOKIE_NAME);
 		if (!cookieValue || showOptIn && !ignoreShowOptInParameter) {
