@@ -9,6 +9,10 @@
 			<authorEmail>fabian@sgalinski.de</authorEmail>
 		</header>
 		<body>
+			<trans-unit id="backend.addOpenUpLinkToDataPrivacy" approved="yes">
+				<source><![CDATA[In addition, a link should be placed on the data protection page which calls the cookie popup again so that the user can adjust his settings. To do this, an "external URL" must be stored in the TYPO3-RTE, which e.g. calls the homepage with the following parameter "?showOptIn=1". Example URL: https://www.sgalinski.de/?showOptIn=1 ]]></source>
+				<target><![CDATA[Zudem sollte ein Link auf die Datenschutzseite gelegt werden, welches das Cookie-Popup erneut aufruft, damit der Nutzer seine Einstellungen anpassen kann. Dazu muss man im TYPO3-RTE eine "Externe URL" hinterlegen, welches z.B. die Homepage mit dem folgenden Parameter aufruft "?showOptIn=1". Beispiel-URL: https://www.sgalinski.de/?showOptIn=1]]></target>
+			</trans-unit>
 			<trans-unit id="backend.addScripts" approved="yes">
 				<source><![CDATA[All cookie related scripts needs to be added to the configuration and don't load them anywhere else!]]></source>
 				<target><![CDATA[Es müssen alle Cookie-bezogenen Skripte zur Konfiguration hinzugefügt werden und diese dürfen nirgendwo sonst geladen werden!]]></target>

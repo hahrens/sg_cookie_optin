@@ -66,7 +66,7 @@ Just add the parameter "?disableOptIn=1" to your URL, so the necessary JavaScrip
 loaded anymore. Here is an example:
 
 ``` 
-https://www.website-base.dev/impressum/?disableOptIn=1 
+https://www.sgalinski.de/?disableOptIn=1 
 ```
 
 ### Show the cookie opt in, after accepting it
@@ -75,5 +75,5 @@ Just add the parameter "?showOptIn=1" to your URL, so the dialog shows up again 
 Here is an example:
 
 ``` 
-https://www.website-base.dev/impressum/?showOptIn=1 
+https://www.sgalinski.de/?showOptIn=1 
 ```
