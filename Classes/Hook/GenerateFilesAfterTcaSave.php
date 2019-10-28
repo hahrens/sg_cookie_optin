@@ -46,7 +46,8 @@ use TYPO3\CMS\Frontend\Page\PageRepository;
 class GenerateFilesAfterTcaSave {
 	const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
 
-	const FOLDER = 'fileadmin/sg_cookie_optin/siteroot-#PID#/';
+	const FOLDER_FILEADMIN = 'fileadmin/sg_cookie_optin/';
+	const FOLDER_SITEROOT = 'siteroot-#PID#/';
 
 	const TEMPLATE_JAVA_SCRIPT_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/JavaScript/';
 	const TEMPLATE_JAVA_SCRIPT_NAME = 'cookieOptin.js';
@@ -102,7 +103,7 @@ class GenerateFilesAfterTcaSave {
 			return;
 		}
 
-		$folderName = str_replace('#PID#', $siteRoot, self::FOLDER);
+		$folderName = str_replace('#PID#', $siteRoot, self::FOLDER_FILEADMIN . self::FOLDER_SITEROOT);
 		// First remove the folder with all files and then create it again. So no data artifacts are kept.
 		GeneralUtility::rmdir(PATH_site . $folderName, TRUE);
 		GeneralUtility::mkdir_deep(PATH_site . $folderName);
@@ -158,6 +159,8 @@ class GenerateFilesAfterTcaSave {
 			// Restores the old gr_list value. So the other calls aren't affected anymore.
 			$typoScriptFrontendController->gr_list = $originalGrList;
 		}
+
+		GeneralUtility::fixPermissions(PATH_site . self::FOLDER_FILEADMIN, TRUE);
 	}
 
 	/**
