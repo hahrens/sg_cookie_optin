@@ -20,7 +20,7 @@
 	"suggest": {
 	},
 	"replace": {
-		"sg_cookie_optin": "self.version"
+		"sgalinski/sg_cookie_optin": "self.version"
 	},
 	"autoload": {
 		"psr-4": {
