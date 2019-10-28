@@ -348,7 +348,9 @@
 	 *
 	 * @return {void}
 	 */
-	function openCookieDetails() {
+	function openCookieDetails(event) {
+		event.preventDefault();
+
 		var cookieDetailList = document.querySelector('.sg-cookie-optin-box-cookie-detail-list');
 		if (!cookieDetailList) {
 			return;
@@ -368,6 +370,8 @@
 	 * @return {void}
 	 */
 	function openSubList(event) {
+		event.preventDefault();
+
 		var cookieList = event.target.previousSibling;
 		if (!cookieList) {
 			return;
