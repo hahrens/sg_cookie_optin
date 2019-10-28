@@ -1,9 +1,9 @@
-page.jsFooterInline {
+page.footerData {
 	935 = USER
 	935.userFunc = SGalinski\SgCookieOptin\UserFunction\AddCookieOptinJsAndCss->addJavaScript
 }
 
-page.cssInline {
+page.headerData {
 	935 = USER
 	935.userFunc = SGalinski\SgCookieOptin\UserFunction\AddCookieOptinJsAndCss->addCSS
 }
