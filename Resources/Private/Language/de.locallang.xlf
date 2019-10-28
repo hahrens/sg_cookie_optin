@@ -9,6 +9,10 @@
 			<authorEmail>fabian@sgalinski.de</authorEmail>
 		</header>
 		<body>
+			<trans-unit id="backend.addScripts" approved="yes">
+				<source><![CDATA[All cookie related scripts needs to be added to the configuration and don't load them anywhere else!]]></source>
+				<target><![CDATA[Es müssen alle Cookie-bezogenen Skripte zur Konfiguration hinzugefügt werden und diese dürfen nirgendwo sonst geladen werden!]]></target>
+			</trans-unit>
 			<trans-unit id="backend.buyLicense" approved="yes">
 				<source><![CDATA[Buy license key]]></source>
 				<target><![CDATA[Lizenzschlüssel kaufen]]></target>

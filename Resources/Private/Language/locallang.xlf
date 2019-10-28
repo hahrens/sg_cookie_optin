@@ -9,6 +9,9 @@
 			<authorEmail>fabian@sgalinski.de</authorEmail>
 		</header>
 		<body>
+			<trans-unit id="backend.addScripts">
+				<source><![CDATA[All cookie related scripts needs to be added to the configuration and don't load them anywhere else!]]></source>
+			</trans-unit>
 			<trans-unit id="backend.buyLicense">
 				<source><![CDATA[Buy license key]]></source>
 			</trans-unit>
