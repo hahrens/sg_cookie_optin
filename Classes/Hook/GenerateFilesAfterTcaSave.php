@@ -105,15 +105,16 @@ class GenerateFilesAfterTcaSave {
 		GeneralUtility::rmdir(PATH_site . $folderName, TRUE);
 		GeneralUtility::mkdir_deep(PATH_site . $folderName);
 
+		/** @var TypoScriptFrontendController $typoScriptFrontendController */
+		$typoScriptFrontendController = $GLOBALS['TSFE'];
 		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$originalGrList = '';
 		if ($currentVersion >= 8000000 && $currentVersion < 9000000) {
 			// Needed for the getRecordOverlay function in TYPO3 8.
 			// Fixes this bug: explode() expects parameter 2 to be string, null given
 			// In: Database/Query/Restriction/FrontendGroupRestriction.php in line 36.
-
-			/** @var TypoScriptFrontendController $tsfe */
-			$tsfe = $GLOBALS['TSFE'];
-			$tsfe->gr_list = '';
+			$originalGrList = $typoScriptFrontendController->gr_list;
+			$typoScriptFrontendController->gr_list = '';
 		}
 
 		$languages = $this->getLanguages();
@@ -149,6 +150,11 @@ class GenerateFilesAfterTcaSave {
 			}
 
 			$this->createJavaScriptFile($folderName, $fullData, $loadingScripts, $languageUid);
+		}
+
+		if ($currentVersion >= 8000000 && $currentVersion < 9000000) {
+			// Restores the old gr_list value. So the other calls aren't affected anymore.
+			$typoScriptFrontendController->gr_list = $originalGrList;
 		}
 	}
 
@@ -327,10 +333,10 @@ class GenerateFilesAfterTcaSave {
 				continue;
 			}
 
-			$content .= '//Script: ' . $script['title'] . "\n\n" . $scriptContent . "\n\n";
+			$content .= '// Script: ' . $script['title'] . "\n\n" . $scriptContent . "\n\n";
 		}
 
-		if (empty($content)) {
+		if ($content === '') {
 			return '';
 		}
 
