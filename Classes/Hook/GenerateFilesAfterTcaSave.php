@@ -120,6 +120,19 @@ class GenerateFilesAfterTcaSave {
 			$typoScriptFrontendController->gr_list = '';
 		}
 
+		$loadingScripts = [];
+		$fullData = $this->getFullData($originalRecord, self::TABLE_NAME);
+		$this->createCSSFile($folderName, $fullData);
+		$loadingScripts['essential'] = $this->createActivationScriptFile(
+			$folderName, 'essential', $fullData['essential_scripts']
+		);
+
+		foreach ($fullData['groups'] as $group) {
+			$loadingScripts[$group['group_name']] = $this->createActivationScriptFile(
+				$folderName, $group['group_name'], $group['scripts']
+			);
+		}
+
 		$languages = $this->getLanguages();
 		foreach ($languages as $language) {
 			$languageUid = (int) $language['uid'];
@@ -136,20 +149,6 @@ class GenerateFilesAfterTcaSave {
 			$fullData = $this->getFullData($translatedRecord, self::TABLE_NAME, $languageUid);
 			if (count($fullData) <= 0) {
 				return;
-			}
-
-			$loadingScripts = [];
-			if ($languageUid === 0) {
-				$this->createCSSFile($folderName, $fullData);
-				$loadingScripts['essential'] = $this->createActivationScriptFile(
-					$folderName, 'essential', $fullData['essential_scripts']
-				);
-
-				foreach ($fullData['groups'] as $group) {
-					$loadingScripts[$group['group_name']] = $this->createActivationScriptFile(
-						$folderName, $group['group_name'], $group['scripts']
-					);
-				}
 			}
 
 			$this->createJavaScriptFile($folderName, $fullData, $loadingScripts, $languageUid);
