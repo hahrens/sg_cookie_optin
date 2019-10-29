@@ -112,7 +112,7 @@ class GenerateFilesAfterTcaSave {
 		$typoScriptFrontendController = $GLOBALS['TSFE'];
 		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 		$originalGrList = '';
-		if ($currentVersion >= 8000000 && $currentVersion < 9000000) {
+		if ($typoScriptFrontendController && $currentVersion >= 8000000 && $currentVersion < 9000000) {
 			// Needed for the getRecordOverlay function in TYPO3 8.
 			// Fixes this bug: explode() expects parameter 2 to be string, null given
 			// In: Database/Query/Restriction/FrontendGroupRestriction.php in line 36.
@@ -154,7 +154,7 @@ class GenerateFilesAfterTcaSave {
 			$this->createJavaScriptFile($folderName, $fullData, $loadingScripts, $languageUid);
 		}
 
-		if ($currentVersion >= 8000000 && $currentVersion < 9000000) {
+		if ($typoScriptFrontendController && $currentVersion >= 8000000 && $currentVersion < 9000000) {
 			// Restores the old gr_list value. So the other calls aren't affected anymore.
 			$typoScriptFrontendController->gr_list = $originalGrList;
 		}
