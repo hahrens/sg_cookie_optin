@@ -32,6 +32,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -122,6 +123,10 @@ class GenerateFilesAfterTcaSave {
 		if ($currentVersion >= 9000000) {
 			$typoScriptFrontendController->settingLanguage();
 		} else {
+			if (!is_object($GLOBALS['TT'])) {
+				$GLOBALS['TT'] = new NullTimeTracker();
+			}
+
 			// prevents a possible crash
 			$typoScriptFrontendController->getPageRenderer()->setBackPath('');
 
@@ -374,6 +379,7 @@ class GenerateFilesAfterTcaSave {
 		$records = [];
 		$navigationEntries = GeneralUtility::trimExplode(',', $navigationData);
 		$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 		foreach ($navigationEntries as $navigationEntry) {
 			if (!$navigationEntry) {
 				continue;
@@ -385,7 +391,11 @@ class GenerateFilesAfterTcaSave {
 			}
 
 			if ($languageUid > 0) {
-				$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid);
+				if ($versionNumber >= 9000000) {
+					$record = $pageRepository->getRecordOverlay('pages', $record, $languageUid);
+				} else {
+					$record = $pageRepository->getPageOverlay($record, $languageUid);
+				}
 			}
 
 			$records[] = $record;
