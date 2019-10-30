@@ -127,8 +127,10 @@ class GenerateFilesAfterTcaSave {
 				$GLOBALS['TT'] = new NullTimeTracker();
 			}
 
-			// prevents a possible crash
-			$typoScriptFrontendController->getPageRenderer()->setBackPath('');
+			if ($currentVersion < 8000000) {
+				// prevents a possible crash
+				$typoScriptFrontendController->getPageRenderer()->setBackPath('');
+			}
 
 			$typoScriptFrontendController->initFEuser();
 			$typoScriptFrontendController->initUserGroups();
