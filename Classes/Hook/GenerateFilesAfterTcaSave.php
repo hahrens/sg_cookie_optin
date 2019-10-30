@@ -37,6 +37,7 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+use TYPO3\CMS\Frontend\Page\PageGenerator;
 use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
@@ -107,26 +108,36 @@ class GenerateFilesAfterTcaSave {
 		// First remove the folder with all files and then create it again. So no data artifacts are kept.
 		GeneralUtility::rmdir(PATH_site . $folderName, TRUE);
 		GeneralUtility::mkdir_deep(PATH_site . $folderName);
+		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 
 		/** @var TypoScriptFrontendController $typoScriptFrontendController */
-		$typoScriptFrontendController = $GLOBALS['TSFE'];
-		if (!$typoScriptFrontendController) {
+		$originalTSFE = $typoScriptFrontendController = $GLOBALS['TSFE'];
+		if (!($typoScriptFrontendController instanceof TypoScriptFrontendController)) {
 			$typoScriptFrontendController = $GLOBALS['TSFE'] = new TypoScriptFrontendController(
 				$GLOBALS['TYPO3_CONF_VARS'], $siteRoot, 0
 			);
 		}
 
 		// required in order to generate the menu links later on
-		$typoScriptFrontendController->settingLanguage();
+		if ($currentVersion >= 9000000) {
+			$typoScriptFrontendController->settingLanguage();
+		} else {
+			// prevents a possible crash
+			$typoScriptFrontendController->getPageRenderer()->setBackPath('');
 
-		$originalGrList = '';
-		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-		if ($currentVersion >= 8000000 && $currentVersion < 9000000) {
-			// Needed for the getRecordOverlay function in TYPO3 8.
-			// Fixes this bug: explode() expects parameter 2 to be string, null given
-			// In: Database/Query/Restriction/FrontendGroupRestriction.php in line 36.
-			$originalGrList = $typoScriptFrontendController->gr_list;
-			$typoScriptFrontendController->gr_list = '';
+			$typoScriptFrontendController->initFEuser();
+			$typoScriptFrontendController->initUserGroups();
+			$typoScriptFrontendController->fetch_the_id();
+			$typoScriptFrontendController->getPageAndRootline();
+			$typoScriptFrontendController->initTemplate();
+			$typoScriptFrontendController->no_cache = TRUE;
+			$typoScriptFrontendController->getConfigArray();
+			$typoScriptFrontendController->settingLanguage();
+			$typoScriptFrontendController->settingLocale();
+			$typoScriptFrontendController->convPOSTCharset();
+			$typoScriptFrontendController->absRefPrefix = '/';
+			PageGenerator::pagegenInit();
+			$typoScriptFrontendController->newCObj();
 		}
 
 		$loadingScripts = [];
@@ -163,12 +174,10 @@ class GenerateFilesAfterTcaSave {
 			$this->createJavaScriptFile($folderName, $fullData, $loadingScripts, $languageUid);
 		}
 
-		if ($currentVersion >= 8000000 && $currentVersion < 9000000) {
-			// Restores the old gr_list value. So the other calls aren't affected anymore.
-			$typoScriptFrontendController->gr_list = $originalGrList;
-		}
-
 		GeneralUtility::fixPermissions(PATH_site . self::FOLDER_FILEADMIN, TRUE);
+
+		// reset the TSFE to it's previous state to not influence remaining code
+		$GLOBALS['TSFE'] = $originalTSFE;
 	}
 
 	/**
@@ -227,15 +236,8 @@ class GenerateFilesAfterTcaSave {
 		$contentObject = $objectManager->get(ContentObjectRenderer::class);
 		foreach ($this->getPagesFromNavigation($data['navigation'], $languageUid) as $pageData) {
 			try {
-				$conf = [
-					'parameter' => $pageData['uid'],
-					'additionalParams' => '&disableOptIn=1&L=' . $languageUid,
-					'useCashHash' => FALSE,
-					'returnLast' => 'url',
-					'forceAbsoluteUrl' => TRUE
-				];
 				$footerLinks[] = [
-					'url' => $contentObject->typolink_URL($conf),
+					'url' => $contentObject->getTypoLink_URL($pageData['uid'], '&disableOptIn=1&L=' . $languageUid),
 					'name' => $contentObject->crop($pageData['title'], 20 . '|...|0'),
 				];
 			} catch (\Error $exception) {
@@ -370,7 +372,7 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		$records = [];
-		$navigationEntries = explode(',', $navigationData);
+		$navigationEntries = GeneralUtility::trimExplode(',', $navigationData);
 		$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		foreach ($navigationEntries as $navigationEntry) {
 			if (!$navigationEntry) {
