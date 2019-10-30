@@ -110,9 +110,12 @@ class GenerateFilesAfterTcaSave {
 
 		/** @var TypoScriptFrontendController $typoScriptFrontendController */
 		$typoScriptFrontendController = $GLOBALS['TSFE'];
+		if (!$typoScriptFrontendController) {
+			$typoScriptFrontendController = $GLOBALS['TSFE'] =new TypoScriptFrontendController(NULL, $siteRoot, 0);
+		}
 		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 		$originalGrList = '';
-		if ($typoScriptFrontendController && $currentVersion >= 8000000 && $currentVersion < 9000000) {
+		if ($currentVersion >= 8000000 && $currentVersion < 9000000) {
 			// Needed for the getRecordOverlay function in TYPO3 8.
 			// Fixes this bug: explode() expects parameter 2 to be string, null given
 			// In: Database/Query/Restriction/FrontendGroupRestriction.php in line 36.
@@ -154,7 +157,7 @@ class GenerateFilesAfterTcaSave {
 			$this->createJavaScriptFile($folderName, $fullData, $loadingScripts, $languageUid);
 		}
 
-		if ($typoScriptFrontendController && $currentVersion >= 8000000 && $currentVersion < 9000000) {
+		if ($currentVersion >= 8000000 && $currentVersion < 9000000) {
 			// Restores the old gr_list value. So the other calls aren't affected anymore.
 			$typoScriptFrontendController->gr_list = $originalGrList;
 		}
@@ -253,15 +256,17 @@ class GenerateFilesAfterTcaSave {
 			'cookie_purpose_text' => $data['cookie_purpose_text'],
 			'cookie_lifetime_text' => $data['cookie_lifetime_text'],
 		];
-		$content = str_replace([
-			'###COOKIE_GROUPS###',
-			'###FOOTER_LINKS###',
-			'###TEXT_ENTRIES###',
-		], [
+		$content = str_replace(
+			[
+				'###COOKIE_GROUPS###',
+				'###FOOTER_LINKS###',
+				'###TEXT_ENTRIES###',
+			], [
 			json_encode($cookieGroups),
 			json_encode($footerLinks),
 			json_encode($textEntries)
-		], $content);
+		], $content
+		);
 		file_put_contents(
 			PATH_site . $folder . str_replace('#LANG#', $data['sys_language_uid'], self::TEMPLATE_JAVA_SCRIPT_NEW_NAME),
 			$content
@@ -277,27 +282,28 @@ class GenerateFilesAfterTcaSave {
 	 */
 	protected function createCSSFile($folder, array $data) {
 		$content = file_get_contents(PATH_site . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
-		$content = str_replace([
-			'###COLOR_BOX###',
-			'###COLOR_HEADLINE###',
-			'###COLOR_TEXT###',
-			'###COLOR_CHECKBOX###',
-			'###COLOR_CHECKBOX_REQUIRED###',
-			'###COLOR_BUTTON_ALL###',
-			'###COLOR_BUTTON_ALL_HOVER###',
-			'###COLOR_BUTTON_ALL_TEXT###',
-			'###COLOR_BUTTON_SPECIFIC###',
-			'###COLOR_BUTTON_SPECIFIC_HOVER###',
-			'###COLOR_BUTTON_SPECIFIC_TEXT###',
-			'###COLOR_BUTTON_ESSENTIAL###',
-			'###COLOR_BUTTON_ESSENTIAL_HOVER###',
-			'###COLOR_BUTTON_ESSENTIAL_TEXT###',
-			'###COLOR_LIST###',
-			'###COLOR_LIST_TEXT###',
-			'###COLOR_TABLE###',
-			'###COLOR_TABLE_HEADER_TEXT###',
-			'###COLOR_TABLE_DATA_TEXT###',
-		], [
+		$content = str_replace(
+			[
+				'###COLOR_BOX###',
+				'###COLOR_HEADLINE###',
+				'###COLOR_TEXT###',
+				'###COLOR_CHECKBOX###',
+				'###COLOR_CHECKBOX_REQUIRED###',
+				'###COLOR_BUTTON_ALL###',
+				'###COLOR_BUTTON_ALL_HOVER###',
+				'###COLOR_BUTTON_ALL_TEXT###',
+				'###COLOR_BUTTON_SPECIFIC###',
+				'###COLOR_BUTTON_SPECIFIC_HOVER###',
+				'###COLOR_BUTTON_SPECIFIC_TEXT###',
+				'###COLOR_BUTTON_ESSENTIAL###',
+				'###COLOR_BUTTON_ESSENTIAL_HOVER###',
+				'###COLOR_BUTTON_ESSENTIAL_TEXT###',
+				'###COLOR_LIST###',
+				'###COLOR_LIST_TEXT###',
+				'###COLOR_TABLE###',
+				'###COLOR_TABLE_HEADER_TEXT###',
+				'###COLOR_TABLE_DATA_TEXT###',
+			], [
 			$data['color_box'],
 			$data['color_headline'],
 			$data['color_text'],
@@ -317,7 +323,8 @@ class GenerateFilesAfterTcaSave {
 			$data['color_table'],
 			$data['color_table_header_text'],
 			$data['color_Table_data_text'],
-		], $content);
+		], $content
+		);
 		file_put_contents(PATH_site . $folder . self::TEMPLATE_STYLE_SHEET_NAME, $content);
 	}
 
@@ -361,7 +368,7 @@ class GenerateFilesAfterTcaSave {
 			return [];
 		}
 
-		$records= [];
+		$records = [];
 		$navigationEntries = explode(',', $navigationData);
 		$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		foreach ($navigationEntries as $navigationEntry) {
@@ -444,7 +451,8 @@ class GenerateFilesAfterTcaSave {
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows(
 				'*', $table, 'deleted=0 AND ' . $field . '=' . $parentUid .
-				($languageField ? ' AND ' . $languageField . '=0' : ''), '', 'sorting ASC');
+				($languageField ? ' AND ' . $languageField . '=0' : ''), '', 'sorting ASC'
+			);
 		} else {
 			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 			$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
