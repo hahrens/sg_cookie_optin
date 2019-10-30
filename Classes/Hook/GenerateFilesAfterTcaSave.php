@@ -34,7 +34,6 @@ use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -61,6 +60,7 @@ class GenerateFilesAfterTcaSave {
 	 *
 	 * @param DataHandler $dataHandler
 	 * @return void
+	 * @throws \TYPO3\CMS\Core\Http\ImmediateResponseException
 	 */
 	public function processDatamap_afterAllOperations(DataHandler $dataHandler) {
 		if (!isset($dataHandler->datamap[self::TABLE_NAME])) {
@@ -111,10 +111,16 @@ class GenerateFilesAfterTcaSave {
 		/** @var TypoScriptFrontendController $typoScriptFrontendController */
 		$typoScriptFrontendController = $GLOBALS['TSFE'];
 		if (!$typoScriptFrontendController) {
-			$typoScriptFrontendController = $GLOBALS['TSFE'] =new TypoScriptFrontendController(NULL, $siteRoot, 0);
+			$typoScriptFrontendController = $GLOBALS['TSFE'] = new TypoScriptFrontendController(
+				$GLOBALS['TYPO3_CONF_VARS'], $siteRoot, 0
+			);
 		}
-		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+
+		// required in order to generate the menu links later on
+		$typoScriptFrontendController->settingLanguage();
+
 		$originalGrList = '';
+		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 		if ($currentVersion >= 8000000 && $currentVersion < 9000000) {
 			// Needed for the getRecordOverlay function in TYPO3 8.
 			// Fixes this bug: explode() expects parameter 2 to be string, null given
@@ -219,24 +225,19 @@ class GenerateFilesAfterTcaSave {
 		$footerLinks = [];
 		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 		$contentObject = $objectManager->get(ContentObjectRenderer::class);
-		$uriBuilder = $objectManager->get(UriBuilder::class);
 		foreach ($this->getPagesFromNavigation($data['navigation'], $languageUid) as $pageData) {
 			try {
-				if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 8000000) {
-					$footerLinks[] = [
-						'url' => $uriBuilder->reset()
-							->setCreateAbsoluteUri(FALSE)
-							->setTargetPageUid($pageData['uid'])
-							->setArguments(['disableOptIn' => TRUE])
-							->buildFrontendUri(),
-						'name' => $contentObject->crop($pageData['title'], 20 . '|...|0'),
-					];
-				} else {
-					$footerLinks[] = [
-						'url' => '/index.php?id=' . $pageData['uid'] . '&disableOptIn=1',
-						'name' => $pageData['title'],
-					];
-				}
+				$conf = [
+					'parameter' => $pageData['uid'],
+					'additionalParams' => '&disableOptIn=1&L=' . $languageUid,
+					'useCashHash' => FALSE,
+					'returnLast' => 'url',
+					'forceAbsoluteUrl' => TRUE
+				];
+				$footerLinks[] = [
+					'url' => $contentObject->typolink_URL($conf),
+					'name' => $contentObject->crop($pageData['title'], 20 . '|...|0'),
+				];
 			} catch (\Error $exception) {
 				// Occurs on the first creation of the translation.
 				continue;
