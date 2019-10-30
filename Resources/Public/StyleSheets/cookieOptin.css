@@ -154,6 +154,7 @@
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-essential {
 	display: block;
 	width: 100%;
+	cursor: pointer;
 
 	padding: 10px 0;
 	margin: 0 0 10px 0;
