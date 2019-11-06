@@ -245,7 +245,7 @@ class GenerateFilesAfterTcaSave {
 			try {
 				$footerLinks[] = [
 					'url' => $contentObject->getTypoLink_URL($pageData['uid'], '&disableOptIn=1&L=' . $languageUid),
-					'name' => $contentObject->crop($pageData['title'], 20 . '|...|0'),
+					'name' => $contentObject->crop($pageData['title'], 35 . '|...|0'),
 				];
 			} catch (\Error $exception) {
 				// Occurs on the first creation of the translation.
