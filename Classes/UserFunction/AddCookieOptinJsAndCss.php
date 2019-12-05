@@ -27,6 +27,11 @@ namespace SGalinski\SgCookieOptin\UserFunction;
  ***************************************************************/
 
 use SGalinski\SgCookieOptin\Service\LicensingService;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\DatabaseConnection;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -51,7 +56,7 @@ class AddCookieOptinJsAndCss {
 		}
 
 		$rootPageId = $this->getRootPageId();
-		if ($rootPageId <= 0) {
+		if ($rootPageId <= 0 || !$this->isConfigurationOnPage($rootPageId)) {
 			return '';
 		}
 
@@ -83,7 +88,7 @@ class AddCookieOptinJsAndCss {
 	 */
 	public function addCSS($content, array $configuration) {
 		$rootPageId = $this->getRootPageId();
-		if ($rootPageId <= 0) {
+		if ($rootPageId <= 0 || !$this->isConfigurationOnPage($rootPageId)) {
 			return '';
 		}
 
@@ -101,6 +106,41 @@ class AddCookieOptinJsAndCss {
 	}
 
 	/**
+	 * Returns true, if a configuration is on the given page id.
+	 *
+	 * @param int $pageUid
+	 *
+	 * @return boolean
+	 */
+	protected function isConfigurationOnPage($pageUid) {
+		$pageUid = (int) $pageUid;
+		if ($pageUid <= 0) {
+			return FALSE;
+		}
+
+		$table = 'tx_sgcookieoptin_domain_model_optin';
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
+			/** @var DatabaseConnection $database */
+			$database = $GLOBALS['TYPO3_DB'];
+			$rows = $database->exec_SELECTgetSingleRow('uid', $table, 'deleted=0 AND pid =' . $pageUid);
+		} else {
+			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+			$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
+			$queryBuilder->getRestrictions()
+				->removeAll()
+				->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+			$rows = $queryBuilder->select('uid')
+				->from($table)
+				->setMaxResults(1)
+				->where(
+					$queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pageUid, \PDO::PARAM_INT))
+				)->execute()->fetchAll();
+		}
+
+		return is_array($rows) && count($rows) > 0;
+	}
+
+	/**is_siteroot
 	 * Returns always the first page within the rootline
 	 *
 	 * @return int
@@ -109,9 +149,22 @@ class AddCookieOptinJsAndCss {
 		/** @var TypoScriptFrontendController $typoScriptFrontendController */
 		$typoScriptFrontendController = $GLOBALS['TSFE'];
 
-		return (isset($typoScriptFrontendController->rootLine[0]['uid']) ?
-			(int) $typoScriptFrontendController->rootLine[0]['uid'] : -1
-		);
+		$siteRootId = -1;
+		foreach ($typoScriptFrontendController->rootLine as $rootLineEntry) {
+			if (!isset($rootLineEntry['is_siteroot'])) {
+				continue;
+			}
+
+			$isSiteRoot = (boolean) $rootLineEntry['is_siteroot'];
+			if (!$isSiteRoot) {
+				continue;
+			}
+
+			$siteRootId = (int) $rootLineEntry['uid'];
+			break;
+		}
+
+		return $siteRootId;
 	}
 
 	/**
