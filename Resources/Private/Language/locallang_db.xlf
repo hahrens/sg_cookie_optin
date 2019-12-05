@@ -172,10 +172,16 @@
 				<source><![CDATA[Group Title for Essential Cookies & Scripts the User has to Accept]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_box_link_text">
-				<source><![CDATA[Link for Displaying Information About the Groups]]></source>
+				<source><![CDATA[Link for Displaying Information About the Groups (closed)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_box_link_text_close">
+				<source><![CDATA[Link for Displaying Information About the Groups (open)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_table_link_text">
-				<source><![CDATA[Link to Display Information of Cookies of a Group]]></source>
+				<source><![CDATA[Link to Display Information of Cookies of a Group (closed)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_table_link_text_close">
+				<source><![CDATA[Link to Display Information of Cookies of a Group (open)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.groups">
 				<source><![CDATA[Groups]]></source>

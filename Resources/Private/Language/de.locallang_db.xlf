@@ -226,12 +226,20 @@
 				<target><![CDATA[Gruppentitel für essentielle Cookies & Skripte, die der Benutzer akzeptieren muss.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_box_link_text" approved="yes">
-				<source><![CDATA[Link for Displaying Information About the Groups]]></source>
-				<target><![CDATA[Link zur Anzeige von Informationen der Gruppen]]></target>
+				<source><![CDATA[Link for Displaying Information About the Groups (closed)]]></source>
+				<target><![CDATA[Link zur Anzeige von Informationen der Gruppen (geschlossen)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_box_link_text_close" approved="yes">
+				<source><![CDATA[Link for Displaying Information About the Groups (open)]]></source>
+				<target><![CDATA[Link zur Anzeige von Informationen der Gruppen (geöffnet)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_table_link_text" approved="yes">
-				<source><![CDATA[Link to Display Information of Cookies of a Group]]></source>
-				<target><![CDATA[Link zur Anzeige von Informationen der Cookies einer Gruppe]]></target>
+				<source><![CDATA[Link to Display Information of Cookies of a Group (closed)]]></source>
+				<target><![CDATA[Link zur Anzeige von Informationen der Cookies einer Gruppe (geschlossen)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_table_link_text_close" approved="yes">
+				<source><![CDATA[Link to Display Information of Cookies of a Group (open)]]></source>
+				<target><![CDATA[Link zur Anzeige von Informationen der Cookies einer Gruppe (geöffnet)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.groups" approved="yes">
 				<source><![CDATA[Groups]]></source>

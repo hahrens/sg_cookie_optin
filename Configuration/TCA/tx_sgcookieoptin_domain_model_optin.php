@@ -33,10 +33,10 @@ $configuration = [
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
 		'searchFields' => 'header, description, accept_all_text, accept_specific_text, accept_essential_text, 
-			essential_title, essential_description, extend_box_link_text, extend_table_link_text, cookie_name_text, 
-			cookie_provider_text, cookie_purpose_text, cookie_lifetime_text, iframe_title, iframe_description,
-			iframe_button_allow_all_text, iframe_button_allow_one_text, iframe_button_load_one_text, 
-			iframe_open_settings_text',
+			essential_title, essential_description, extend_box_link_text, extend_box_link_text_close, 
+			extend_table_link_text, extend_table_link_text_close, cookie_name_text, cookie_provider_text, 
+			cookie_purpose_text, cookie_lifetime_text, iframe_title, iframe_description, iframe_button_allow_all_text, 
+			iframe_button_allow_one_text, iframe_button_load_one_text, iframe_open_settings_text',
 		'delete' => 'deleted',
 		'hideTable' => FALSE,
 		'languageField' => 'sys_language_uid',
@@ -50,14 +50,14 @@ $configuration = [
 			color_text, color_box, color_headline, color_checkbox, color_checkbox_required, color_button_all, 
 			color_button_all_text, color_button_specific, color_button_specific_text, color_button_essential, 
 			color_button_essential_text, color_list, color_list_text, essential_title, essential_description, 
-			essential_scripts, essential_cookies, extend_box_link_text, extend_table_link_text, color_button_all_hover, 
-			color_button_specific_hover, color_button_essential_hover, color_table, color_table_header_text, 
-			color_Table_data_text, color_button_close, color_button_close_hover, color_button_close_text,
-			cookie_name_text, cookie_provider_text, cookie_purpose_text, cookie_lifetime_text, iframe_enabled, 
-			iframe_title, iframe_description, iframe_button_allow_all_text, iframe_button_allow_one_text, 
-			iframe_button_load_one_text, iframe_open_settings_text, iframe_color_consent_box_background, 
-			iframe_color_button_load_one, iframe_color_button_load_one_hover, iframe_color_button_load_one_text, 
-			iframe_color_open_settings',
+			essential_scripts, essential_cookies, extend_box_link_text, extend_box_link_text_close, 
+			extend_table_link_text, extend_table_link_text_close, color_button_all_hover, color_button_specific_hover, 
+			color_button_essential_hover, color_table, color_table_header_text, color_Table_data_text, 
+			color_button_close, color_button_close_hover, color_button_close_text, cookie_name_text, 
+			cookie_provider_text, cookie_purpose_text, cookie_lifetime_text, iframe_enabled, iframe_title, 
+			iframe_description, iframe_button_allow_all_text, iframe_button_allow_one_text, iframe_button_load_one_text, 
+			iframe_open_settings_text, iframe_color_consent_box_background, iframe_color_button_load_one, 
+			iframe_color_button_load_one_hover, iframe_color_button_load_one_text, iframe_color_open_settings',
 	],
 	'types' => [
 		'1' => [
@@ -83,7 +83,8 @@ $configuration = [
 		],
 		'link_texts' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.link_texts',
-			'showitem' => 'extend_box_link_text, extend_table_link_text'
+			'showitem' => 'extend_box_link_text, extend_box_link_text_close, --linebreak--, 
+				extend_table_link_text, extend_table_link_text_close'
 		],
 		'cookie_texts' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.cookie_texts',
@@ -240,8 +241,19 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'default' => 'Weitere Informationen',
-				'placeholder' => 'Weitere Informationen',
+				'default' => 'Weitere Informationen öffnen',
+				'placeholder' => 'Weitere Informationen öffnen',
+				'eval' => 'trim, required'
+			],
+		],
+		'extend_box_link_text_close' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.extend_box_link_text_close',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'Weitere Informationen schließen',
+				'placeholder' => 'Weitere Informationen schließen',
 				'eval' => 'trim, required'
 			],
 		],
@@ -251,8 +263,19 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'default' => 'Cookie-Informationen',
-				'placeholder' => 'Cookie-Informationen',
+				'default' => 'Cookie-Informationen öffnen',
+				'placeholder' => 'Cookie-Informationen öffnen',
+				'eval' => 'trim, required'
+			],
+		],
+		'extend_table_link_text_close' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.extend_table_link_text_close',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'Cookie-Informationen schließen',
+				'placeholder' => 'Cookie-Informationen schließen',
 				'eval' => 'trim, required'
 			],
 		],

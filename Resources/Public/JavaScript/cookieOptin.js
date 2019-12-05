@@ -411,15 +411,22 @@
 	function openCookieDetails(event) {
 		event.preventDefault();
 
-		var cookieDetailList = document.querySelector('.sg-cookie-optin-box-cookie-detail-list');
+		var openMoreElement = event.target.parentNode;
+		if (!openMoreElement) {
+			return;
+		}
+
+		var cookieDetailList = openMoreElement.previousSibling;
 		if (!cookieDetailList) {
 			return;
 		}
 
 		if (cookieDetailList.classList.contains('visible')) {
 			cookieDetailList.classList.remove('visible');
+			event.target.innerHTML = TEXT_ENTRIES.extend_box_link_text;
 		} else {
 			cookieDetailList.classList.add('visible');
+			event.target.innerHTML = TEXT_ENTRIES.extend_box_link_text_close;
 		}
 	}
 
@@ -439,8 +446,10 @@
 
 		if (cookieList.classList.contains('visible')) {
 			cookieList.classList.remove('visible');
+			event.target.innerHTML = TEXT_ENTRIES.extend_table_link_text;
 		} else {
 			cookieList.classList.add('visible');
+			event.target.innerHTML = TEXT_ENTRIES.extend_table_link_text_close;
 		}
 	}
 
