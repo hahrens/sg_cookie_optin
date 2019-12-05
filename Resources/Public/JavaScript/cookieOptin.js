@@ -172,9 +172,22 @@
 	 * @return {void}
 	 */
 	function addCookieList(parentDOM) {
+		var statusMap = {};
+		var cookieValue = getCookie(COOKIE_NAME);
+		if (cookieValue) {
+			var splitedCookieValue = cookieValue.split('|');
+			for (var splitedCookieValueEntry of splitedCookieValue) {
+				var groupAndStatus = splitedCookieValueEntry.split(':');
+				if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
+					continue;
+				}
+
+				statusMap[groupAndStatus[0]] = parseInt(groupAndStatus[1]);
+			}
+		}
+
 		var cookieList = document.createElement('UL');
 		cookieList.classList.add('sg-cookie-optin-box-cookie-list');
-
 		for (var groupName in COOKIE_GROUPS) {
 			var cookieListItemCheckbox = document.createElement('INPUT');
 			cookieListItemCheckbox.classList.add('sg-cookie-optin-checkbox');
@@ -186,6 +199,10 @@
 			if (COOKIE_GROUPS[groupName]['required']) {
 				cookieListItemCheckbox.setAttribute('checked', '1');
 				cookieListItemCheckbox.setAttribute('disabled', '1');
+			}
+
+			if (statusMap.hasOwnProperty(groupName) && statusMap[groupName] === 1) {
+				cookieListItemCheckbox.setAttribute('checked', '1');
 			}
 
 			var cookieListItemCheckboxLabel = document.createElement('LABEL');
@@ -476,8 +493,12 @@
 
 		setCookie(COOKIE_NAME, cookieData, SETTINGS.cookie_lifetime);
 
-		if (SETTINGS.iframe_enabled && iframeGroupFoundAndActive) {
-			acceptAllIFrames();
+		if (SETTINGS.iframe_enabled) {
+			if (iframeGroupFoundAndActive) {
+				acceptAllIFrames();
+			} else {
+				checkForIFrames();
+			}
 		}
 
 		hideAndReloadCookieOptIn();
@@ -514,6 +535,15 @@
 	function checkForIFrames() {
 		if (!SETTINGS.iframe_enabled) {
 			return;
+		}
+
+		if (!iFrameObserver) {
+			var iframes = document.querySelectorAll('iframe');
+			if (iframes.length > 0) {
+				for (var iframe of iframes) {
+					replaceIFrameWithConsent(iframe);
+				}
+			}
 		}
 
 		var cookieValue = getCookie(COOKIE_NAME);
@@ -675,7 +705,7 @@
 	 * @return {void}
 	 */
 	function acceptAllIFrames() {
-		if (SETTINGS.iframe_enabled) {
+		if (SETTINGS.iframe_enabled && iFrameObserver) {
 			iFrameObserver.disconnect();
 		}
 
@@ -749,6 +779,8 @@
 	}
 
 	/**
+	 * todo Optimize the cookie handling with hasSetting, addSetting, removeSetting and use it everywhere.
+	 *
 	 * Returns the cookie, found with the given name, or null.
 	 *
 	 * @param {string} name
