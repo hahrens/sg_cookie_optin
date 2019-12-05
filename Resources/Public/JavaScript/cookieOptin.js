@@ -86,7 +86,7 @@
 		var closeButton = document.createElement('SPAN');
 		closeButton.classList.add('sg-cookie-optin-box-close-button');
 		closeButton.addEventListener('click', acceptEssentialCookies);
-		closeButton.appendChild(document.createTextNode('X'));
+		closeButton.appendChild(document.createTextNode('✕'));
 
 		var header = document.createElement('STRONG');
 		header.classList.add('sg-cookie-optin-box-header');
