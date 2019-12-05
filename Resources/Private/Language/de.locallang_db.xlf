@@ -285,6 +285,86 @@
 				<source><![CDATA[Script Name]]></source>
 				<target><![CDATA[Skript-Name]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_enabled" approved="yes">
+				<source><![CDATA[Activate opt in for external content (iframe)]]></source>
+				<target><![CDATA[Aktiviere den Opt-In für externe Inhalte (iframe)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_title" approved="yes">
+				<source><![CDATA[Title (Shown in the opt in)]]></source>
+				<target><![CDATA[Titel (Dargestellt im Opt-In)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_description" approved="yes">
+				<source><![CDATA[Description (Shown in the opt in)]]></source>
+				<target><![CDATA[Beschreibung (Dargestellt im Opt-In)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_allow_all_text" approved="yes">
+				<source><![CDATA[Button: "Allow all external content"]]></source>
+				<target><![CDATA[Button: "Alle externen Inhalte erlauben"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_allow_one_text" approved="yes">
+				<source><![CDATA[Button: "Allow once"]]></source>
+				<target><![CDATA[Button: "Einmalig erlauben"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_text" approved="yes">
+				<source><![CDATA[Button: "Load external content"]]></source>
+				<target><![CDATA[Button: "Externen Inhalt laden"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_open_settings_text" approved="yes">
+				<source><![CDATA[Link: "Open settings"]]></source>
+				<target><![CDATA[Link: "Einstellungen öffnen"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_color_consent_box_background" approved="yes">
+				<source><![CDATA[Container]]></source>
+				<target><![CDATA[Container]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_color_button_load_one" approved="yes">
+				<source><![CDATA[Button: "Load external content"]]></source>
+				<target><![CDATA[Button: "Externen Inhalt laden"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_color_button_load_one_hover" approved="yes">
+				<source><![CDATA[Button-Hover: "Load external content"]]></source>
+				<target><![CDATA[Button-Hover: "Externen Inhalt laden"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_color_button_load_one_text" approved="yes">
+				<source><![CDATA[Button-Text: "Load external content"]]></source>
+				<target><![CDATA[Button-Text: "Externen Inhalt laden"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_color_open_settings" approved="yes">
+				<source><![CDATA[Link: "Open settings"]]></source>
+				<target><![CDATA[Link: "Einstellungen öffnen"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_texts" approved="yes">
+				<source><![CDATA[Texts]]></source>
+				<target><![CDATA[Texte]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_colors" approved="yes">
+				<source><![CDATA[Colors]]></source>
+				<target><![CDATA[Farben]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframes" approved="yes">
+				<source><![CDATA[External Content]]></source>
+				<target><![CDATA[Externe Inhalte]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_close" approved="yes">
+				<source><![CDATA[Button: "Close"]]></source>
+				<target><![CDATA[Button: "Schließen"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_close_hover" approved="yes">
+				<source><![CDATA[Button-Hover: "Close"]]></source>
+				<target><![CDATA[Button-Hover: "Schließen"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_close_text" approved="yes">
+				<source><![CDATA[Button-Text: "Close"]]></source>
+				<target><![CDATA[Button-Text: "Schließen"]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_lifetime" approved="yes">
+				<source><![CDATA[Cookie lifetime in days]]></source>
+				<target><![CDATA[Cookie-Laufzeit in Tagen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.settings" approved="yes">
+				<source><![CDATA[Settings]]></source>
+				<target><![CDATA[Einstellungen]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

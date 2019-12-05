@@ -216,6 +216,66 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title">
 				<source><![CDATA[Script Name]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_enabled">
+				<source><![CDATA[Activate opt in for external content (iframe)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_title">
+				<source><![CDATA[Title (Shown in the opt in)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_description">
+				<source><![CDATA[Description (Shown in the opt in)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_allow_all_text">
+				<source><![CDATA[Button: "Allow all external content"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_allow_one_text">
+				<source><![CDATA[Button: "Allow once"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_text">
+				<source><![CDATA[Button: "Load external content"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_open_settings_text">
+				<source><![CDATA[Link: "Open settings"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_color_consent_box_background">
+				<source><![CDATA[Container]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_color_button_load_one">
+				<source><![CDATA[Button: "Load external content"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_color_button_load_one_hover">
+				<source><![CDATA[Button-Hover: "Load external content"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_color_button_load_one_text">
+				<source><![CDATA[Button-Text: "Load external content"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_color_open_settings">
+				<source><![CDATA[Link: "Open settings"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_texts">
+				<source><![CDATA[Texts]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_colors">
+				<source><![CDATA[Colors]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframes">
+				<source><![CDATA[External content]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_close">
+				<source><![CDATA[Button: "Close"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_close_hover">
+				<source><![CDATA[Button-Hover: "Close"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_close_text">
+				<source><![CDATA[Button-Text: "Close"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_lifetime">
+				<source><![CDATA[Cookie lifetime in days]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.settings">
+				<source><![CDATA[Settings]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

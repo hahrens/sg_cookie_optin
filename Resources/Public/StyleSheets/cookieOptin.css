@@ -35,6 +35,21 @@
 	line-height: 1.6;
 }
 
+.sg-cookie-optin-iframe-consent,
+.sg-cookie-optin-iframe-consent * div,
+.sg-cookie-optin-iframe-consent * button,
+.sg-cookie-optin-iframe-consent * a {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: none;
+	color: ###COLOR_TEXT###;
+	line-height: 1.6;
+}
+
 #SgCookieOptin {
 	display: flex;
 	justify-content: center;
@@ -79,6 +94,21 @@
 }
 
 /* Header */
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-close-button {
+	padding: 5px 11px;
+	float: right;
+
+	cursor: pointer;
+	font-weight: 600;
+	color: ###COLOR_BUTTON_CLOSE_TEXT###;
+	background-color: ###COLOR_BUTTON_CLOSE###;
+	border-radius: 5px;
+}
+
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-close-button:hover {
+	background-color: ###COLOR_BUTTON_CLOSE_HOVER###;
+}
+
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-header,
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description {
 	display: block;
@@ -149,9 +179,9 @@
 }
 
 /* Buttons */
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-all,
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-specific,
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-essential {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-all,
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-specific,
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-essential {
 	display: block;
 	width: 100%;
 	cursor: pointer;
@@ -168,35 +198,37 @@
 	border-radius: 5px;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-specific {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-specific {
 	color: ###COLOR_BUTTON_SPECIFIC_TEXT###;
 	background-color: ###COLOR_BUTTON_SPECIFIC###;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-essential {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-essential {
 	color: ###COLOR_BUTTON_ESSENTIAL_TEXT###;
 	background-color: ###COLOR_BUTTON_ESSENTIAL###;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-all:hover {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-all:hover {
 	background-color: ###COLOR_BUTTON_ALL_HOVER###;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-specific:hover {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-specific:hover {
 	background-color: ###COLOR_BUTTON_SPECIFIC_HOVER###;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button-accept-essential:hover {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-essential:hover {
 	background-color: ###COLOR_BUTTON_ESSENTIAL_HOVER###;
+}
+
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-flash-message {
+	padding: 0 0 10px;
 }
 
 /* Open More List */
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list {
-	padding: 10px 0 0 0;
 	max-height: 0;
 	overflow: hidden;
 
-	border-top: 1px solid ###COLOR_LIST###;
 	list-style: none;
 
 	-moz-transition: max-height .5s ease-in-out;
@@ -210,6 +242,8 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list.visible {
+	padding: 10px 0 0 0;
+	border-top: 1px solid ###COLOR_LIST###;
 	max-height: 2000px;
 	overflow-y: auto;
 
@@ -254,11 +288,16 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-open-more {
-	padding: 0 0 10px 0;
+	padding: 0 0 10px;
 	text-align: center;
 }
 
 /* Footer */
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer {
+	padding: 10px 0 0;
+	border-top: 1px solid ###COLOR_LIST###;
+}
+
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer .sg-cookie-optin-box-copyright {
 	display: inline-block;
 }
@@ -311,4 +350,41 @@
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist table th {
 	font-weight: 600;
 	color: ###COLOR_TABLE_HEADER_TEXT###;
+}
+
+/* iFrame consent box */
+.sg-cookie-optin-iframe-consent {
+	background-color: ###IFRAME_COLOR_CONSENT_BOX_BACKGROUND###;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.sg-cookie-optin-iframe-consent button {
+	display: block;
+
+	margin: 50% auto 0;
+	padding: 15px;
+
+	color: ###IFRAME_COLOR_BUTTON_LOAD_ONE_TEXT###;
+	font-size: 16px;
+	text-align: center;
+	cursor: pointer;
+	border: none;
+
+	background-color: ###IFRAME_COLOR_BUTTON_LOAD_ONE###;
+}
+
+.sg-cookie-optin-iframe-consent button:hover {
+	background-color: ###IFRAME_COLOR_BUTTON_LOAD_ONE_HOVER###;
+}
+
+.sg-cookie-optin-iframe-consent a {
+	margin: 0 auto 50%;
+	padding: 10px 0 0;
+
+	color: ###IFRAME_COLOR_OPEN_SETTINGS###;
+	cursor: pointer;
+	font-size: 16px;
+	text-align: center;
 }

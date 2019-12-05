@@ -77,3 +77,21 @@ Here is an example:
 ``` 
 https://www.sgalinski.de/?showOptIn=1 
 ```
+
+### IFrames
+
+#### Add an additional description for a iframe on the opt in
+
+Just add the data attribute "data-consent-description" to an iframe HTML tag, like in the example below:
+
+```html
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/XYZ" data-consent-description="An additional description about this video!"></iframe>
+```
+
+#### Whitelist an iframe for the external content opt in logic
+
+Just add the data attribute "data-iframe-allow-always" to an iframe HTML tag, like in the example below:
+
+```html
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/XYZ" data-iframe-allow-always="1"></iframe>
+```

@@ -209,6 +209,16 @@ class GenerateFilesAfterTcaSave {
 			],
 		];
 
+		if ((boolean) $data['iframe_enabled']) {
+			$cookieGroups['iframes'] = [
+				'label' => $data['iframe_title'],
+				'description' => $data['iframe_description'],
+				'required' => FALSE,
+				'loadingJavaScript' => isset($loadingScripts['iframes']) ? $loadingScripts['iframes'] : '',
+				'cookieData' => [],
+			];
+		}
+
 		foreach ($data['essential_cookies'] as $cookieData) {
 			$cookieGroups['essential']['cookieData'][] = [
 				'Name' => $cookieData['name'],
@@ -253,6 +263,11 @@ class GenerateFilesAfterTcaSave {
 			}
 		}
 
+		$settings = [
+			'iframe_enabled' => (boolean) $data['iframe_enabled'],
+			'cookie_lifetime' => (int) $data['cookie_lifetime'],
+		];
+
 		$textEntries = [
 			'header' => $data['header'],
 			'description' => $data['description'],
@@ -265,13 +280,19 @@ class GenerateFilesAfterTcaSave {
 			'cookie_provider_text' => $data['cookie_provider_text'],
 			'cookie_purpose_text' => $data['cookie_purpose_text'],
 			'cookie_lifetime_text' => $data['cookie_lifetime_text'],
+			'iframe_button_allow_all_text' => $data['iframe_button_allow_all_text'],
+			'iframe_button_allow_one_text' => $data['iframe_button_allow_one_text'],
+			'iframe_button_load_one_text' => $data['iframe_button_load_one_text'],
+			'iframe_open_settings_text' => $data['iframe_open_settings_text'],
 		];
 		$content = str_replace(
 			[
+				'###SETTINGS###',
 				'###COOKIE_GROUPS###',
 				'###FOOTER_LINKS###',
 				'###TEXT_ENTRIES###',
 			], [
+			json_encode($settings),
 			json_encode($cookieGroups),
 			json_encode($footerLinks),
 			json_encode($textEntries)
@@ -308,11 +329,19 @@ class GenerateFilesAfterTcaSave {
 				'###COLOR_BUTTON_ESSENTIAL###',
 				'###COLOR_BUTTON_ESSENTIAL_HOVER###',
 				'###COLOR_BUTTON_ESSENTIAL_TEXT###',
+				'###COLOR_BUTTON_CLOSE###',
+				'###COLOR_BUTTON_CLOSE_HOVER###',
+				'###COLOR_BUTTON_CLOSE_TEXT###',
 				'###COLOR_LIST###',
 				'###COLOR_LIST_TEXT###',
 				'###COLOR_TABLE###',
 				'###COLOR_TABLE_HEADER_TEXT###',
 				'###COLOR_TABLE_DATA_TEXT###',
+				'###IFRAME_COLOR_CONSENT_BOX_BACKGROUND###',
+				'###IFRAME_COLOR_BUTTON_LOAD_ONE###',
+				'###IFRAME_COLOR_BUTTON_LOAD_ONE_HOVER###',
+				'###IFRAME_COLOR_BUTTON_LOAD_ONE_TEXT###',
+				'###IFRAME_COLOR_OPEN_SETTINGS###',
 			], [
 			$data['color_box'],
 			$data['color_headline'],
@@ -328,11 +357,19 @@ class GenerateFilesAfterTcaSave {
 			$data['color_button_essential'],
 			$data['color_button_essential_hover'],
 			$data['color_button_essential_text'],
+			$data['color_button_close'],
+			$data['color_button_close_hover'],
+			$data['color_button_close_text'],
 			$data['color_list'],
 			$data['color_list_text'],
 			$data['color_table'],
 			$data['color_table_header_text'],
 			$data['color_Table_data_text'],
+			$data['iframe_color_consent_box_background'],
+			$data['iframe_color_button_load_one'],
+			$data['iframe_color_button_load_one_hover'],
+			$data['iframe_color_button_load_one_text'],
+			$data['iframe_color_open_settings'],
 		], $content
 		);
 		file_put_contents(PATH_site . $folder . self::TEMPLATE_STYLE_SHEET_NAME, $content);
