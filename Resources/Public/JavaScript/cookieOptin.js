@@ -8,7 +8,7 @@
  * https://www.sgalinski.de/en/typo3-produkte-webentwicklung/sgalinski-cookie-optin/
  */
 
-(function () {
+(function() {
 	var COOKIE_NAME = 'cookie_optin';
 	var COOKIE_GROUP_IFRAME = 'iframes';
 
@@ -113,7 +113,7 @@
 			var closeButton = document.createElement('SPAN');
 			closeButton.classList.add('sg-cookie-optin-box-close-button');
 			closeButton.appendChild(document.createTextNode('✕'));
-			closeButton.addEventListener('click', function () {
+			closeButton.addEventListener('click', function() {
 				acceptEssentialCookies();
 				hideAndReloadCookieOptIn();
 			});
@@ -267,7 +267,7 @@
 		var acceptAllButton = document.createElement('BUTTON');
 		acceptAllButton.classList.add('sg-cookie-optin-box-button-accept-all');
 		acceptAllButton.appendChild(document.createTextNode(TEXT_ENTRIES.accept_all_text));
-		acceptAllButton.addEventListener('click', function () {
+		acceptAllButton.addEventListener('click', function() {
 			acceptAllCookies();
 
 			if (contentElement) {
@@ -283,7 +283,7 @@
 		var acceptSpecificButton = document.createElement('BUTTON');
 		acceptSpecificButton.classList.add('sg-cookie-optin-box-button-accept-specific');
 		acceptSpecificButton.appendChild(document.createTextNode(TEXT_ENTRIES.accept_specific_text));
-		acceptSpecificButton.addEventListener('click', function () {
+		acceptSpecificButton.addEventListener('click', function() {
 			acceptSpecificCookies();
 
 			if (contentElement) {
@@ -299,7 +299,7 @@
 		var acceptEssentialButton = document.createElement('BUTTON');
 		acceptEssentialButton.classList.add('sg-cookie-optin-box-button-accept-essential');
 		acceptEssentialButton.appendChild(document.createTextNode(TEXT_ENTRIES.accept_essential_text));
-		acceptEssentialButton.addEventListener('click', function () {
+		acceptEssentialButton.addEventListener('click', function() {
 			acceptEssentialCookies();
 
 			if (contentElement) {
@@ -644,7 +644,7 @@
 		}
 
 		// Create an observer instance linked to the callback function
-		iFrameObserver = new MutationObserver(function (mutationsList, observer) {
+		iFrameObserver = new MutationObserver(function(mutationsList, observer) {
 			// Use traditional 'for loops' for IE 11
 			for (var mutation of mutationsList) {
 				if (mutation.type !== 'childList' || mutation.addedNodes.length <= 0) {
@@ -681,6 +681,10 @@
 			return;
 		}
 
+		if (!iframe.src || iframe.src.indexOf('chrome-extension') >= 0) {
+			return;
+		}
+
 		// Got problems with the zero.
 		var iframeId = protectedIFrames.length + 1;
 		if (iframeId === 0) {
@@ -700,6 +704,7 @@
 
 		var container = document.createElement('DIV');
 		container.setAttribute('data-iframe-id', iframeId);
+		container.setAttribute('data-src', iframe.src);
 		container.setAttribute('style', 'height: ' + iframe.offsetHeight + 'px;');
 		container.classList.add('sg-cookie-optin-iframe-consent');
 		container.appendChild(button);
@@ -916,7 +921,7 @@
 	}
 
 	// https://plainjs.com/javascript/events/running-code-when-the-document-is-ready-15/
-	document.addEventListener('DOMContentLoaded', function () {
+	document.addEventListener('DOMContentLoaded', function() {
 		initialize(false);
 	});
 
