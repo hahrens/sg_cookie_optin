@@ -392,3 +392,16 @@
 	font-size: 16px;
 	text-align: center;
 }
+
+/* The Content Element */
+.sg-cookie-optin-plugin #SgCookieOptin {
+	display: block;
+	position: initial;
+	background: none;
+}
+
+.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box {
+	margin: 0;
+	border: solid 1px ###COLOR_LIST###;
+	border-radius: 5px;
+}

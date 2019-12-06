@@ -26,6 +26,18 @@
 
 call_user_func(
 	function ($extKey) {
+		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+			'SGalinski.' . $extKey,
+			'OptIn',
+			[
+				'Optin' => 'show',
+			],
+			// non-cacheable actions
+			[
+
+			]
+		);
+
 		// hook registration
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
 			\SGalinski\SgCookieOptin\Hook\GenerateFilesAfterTcaSave::class;
@@ -33,6 +45,19 @@ call_user_func(
 		// User TSConfig
 		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(
 			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/User/HideTableButtons.tsconfig">'
+		);
+
+		// Page TSConfig
+		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig">'
+		);
+
+		//Register Icons
+		$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+		$iconRegistry->registerIcon(
+			'extension-' . $extKey,
+			\TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+			['source' => 'EXT:' . $extKey . '/Resources/Public/Icons/extension-sg_cookie_optin.svg']
 		);
 	}, 'sg_cookie_optin'
 );

@@ -26,6 +26,12 @@
 
 call_user_func(
 	function ($extKey) {
+		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+			'SGalinski.' . $extKey,
+			'OptIn',
+			'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang_backend.xlf:optInPluginLabel'
+		);
+
 		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
 			$extKey, 'Configuration/TypoScript/Frontend', 'Cookie Optin'
 		);

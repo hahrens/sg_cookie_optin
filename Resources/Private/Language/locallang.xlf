@@ -12,8 +12,11 @@
 			<trans-unit id="backend.activateDemoMode">
 				<source><![CDATA[Activate Demo]]></source>
 			</trans-unit>
+			<trans-unit id="backend.addContentElementToDataPrivacy">
+				<source><![CDATA[The "Cookie-Optin" content element must be added to the data protection page.]]></source>
+			</trans-unit>
 			<trans-unit id="backend.addOpenUpLinkToDataPrivacy">
-				<source><![CDATA[In addition, a link should be placed on the data protection page which calls the cookie popup again so that the user can adjust his settings. To do this, an "external URL" must be stored in the TYPO3-RTE, which e.g. calls the homepage with the following parameter "?showOptIn=1". Example URL: https://www.sgalinski.de/?showOptIn=1 ]]></source>
+				<source><![CDATA[Alternative: A link must be placed on the data protection page which calls the cookie popup again so that the user can adjust his settings. To do this, an "external URL" must be stored in the TYPO3-RTE, which e.g. calls the homepage with the following parameter "?showOptIn=1". Example URL: https://www.sgalinski.de/?showOptIn=1 ]]></source>
 			</trans-unit>
 			<trans-unit id="backend.addScripts">
 				<source><![CDATA[All cookie related scripts needs to be added to the configuration and don't load them anywhere else!]]></source>

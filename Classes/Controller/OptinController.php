@@ -157,4 +157,13 @@ class OptinController extends ActionController {
 		LicensingService::activateDemoMode();
 		$this->redirect('index');
 	}
+
+	/**
+	 * Renders the cookie opt in.
+	 *
+	 * @return void
+	 */
+	public function showAction() {
+
+	}
 }

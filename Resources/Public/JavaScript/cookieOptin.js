@@ -30,6 +30,12 @@
 	 * @return {void}
 	 */
 	function initialize(ignoreShowOptInParameter) {
+		var optInContentElements = document.querySelectorAll('.sg-cookie-optin-plugin-uninitialized');
+		for (var optInContentElement of optInContentElements) {
+			showCookieOptin(optInContentElement);
+			optInContentElement.classList.remove('sg-cookie-optin-plugin-uninitialized');
+		}
+
 		// noinspection EqualityComparisonWithCoercionJS
 		var disableOptIn = getParameterByName('disableOptIn') == true;
 		if (disableOptIn) {
@@ -40,7 +46,7 @@
 		var showOptIn = getParameterByName('showOptIn') == true;
 		var cookieValue = getCookie(COOKIE_NAME);
 		if (!cookieValue || showOptIn && !ignoreShowOptInParameter) {
-			showCookieOptin();
+			showCookieOptin(null);
 			return;
 		}
 
@@ -83,8 +89,10 @@
 	 * @return {void}
 	 */
 	function hideAndReloadCookieOptIn() {
-		// Because of the IE11 no .remove();
+		// The content element cookie optins aren't removed, because querySelector gets only the first entry and it's
+		// always the modular one.
 		var optin = document.querySelector('#SgCookieOptin');
+		// Because of the IE11 no .remove();
 		optin.parentNode.removeChild(optin);
 
 		initialize(true);
@@ -92,12 +100,25 @@
 
 	/**
 	 * Shows the cookie optin box.
+	 *
+	 * @param {dom} contentElement
+	 *
+	 * @return {void}
 	 */
-	function showCookieOptin() {
-		var closeButton = document.createElement('SPAN');
-		closeButton.classList.add('sg-cookie-optin-box-close-button');
-		closeButton.addEventListener('click', acceptEssentialCookies);
-		closeButton.appendChild(document.createTextNode('✕'));
+	function showCookieOptin(contentElement) {
+		var cookieBox = document.createElement('DIV');
+		cookieBox.classList.add('sg-cookie-optin-box');
+
+		if (!contentElement) {
+			var closeButton = document.createElement('SPAN');
+			closeButton.classList.add('sg-cookie-optin-box-close-button');
+			closeButton.appendChild(document.createTextNode('✕'));
+			closeButton.addEventListener('click', function () {
+				acceptEssentialCookies();
+				hideAndReloadCookieOptIn();
+			});
+			cookieBox.appendChild(closeButton);
+		}
 
 		var header = document.createElement('STRONG');
 		header.classList.add('sg-cookie-optin-box-header');
@@ -107,16 +128,13 @@
 		description.classList.add('sg-cookie-optin-box-description');
 		description.appendChild(document.createTextNode(TEXT_ENTRIES.description));
 
-		var cookieBox = document.createElement('DIV');
-		cookieBox.classList.add('sg-cookie-optin-box');
-		cookieBox.appendChild(closeButton);
 		cookieBox.appendChild(header);
 		cookieBox.appendChild(description);
-		addCookieList(cookieBox);
+		cookieBox.appendChild(getCookieList());
 
 		var container = document.createElement('DIV');
 		container.classList.add('sg-cookie-optin-box-button');
-		addOptInButtons(container);
+		addOptInButtons(container, contentElement);
 		cookieBox.appendChild(container);
 
 		addCookieDetails(cookieBox);
@@ -125,7 +143,12 @@
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
 		wrapper.appendChild(cookieBox);
-		document.body.insertBefore(wrapper, document.body.firstChild);
+
+		if (contentElement) {
+			contentElement.appendChild(wrapper);
+		} else {
+			document.body.insertBefore(wrapper, document.body.firstChild);
+		}
 	}
 
 	/**
@@ -182,7 +205,7 @@
 	 *
 	 * @return {void}
 	 */
-	function addCookieList(parentDOM) {
+	function getCookieList() {
 		var statusMap = {};
 		var cookieValue = getCookie(COOKIE_NAME);
 		if (cookieValue) {
@@ -229,29 +252,65 @@
 			cookieList.appendChild(cookieListItem);
 		}
 
-		parentDOM.appendChild(cookieList);
+		return cookieList;
 	}
 
 	/**
 	 * Adds the cookie buttons.
 	 *
+	 * @param {dom} parentDOM
+	 * @param {dom} contentElement
+	 *
 	 * @return {void}
 	 */
-	function addOptInButtons(parentDOM) {
+	function addOptInButtons(parentDOM, contentElement) {
 		var acceptAllButton = document.createElement('BUTTON');
 		acceptAllButton.classList.add('sg-cookie-optin-box-button-accept-all');
 		acceptAllButton.appendChild(document.createTextNode(TEXT_ENTRIES.accept_all_text));
-		acceptAllButton.addEventListener('click', acceptAllCookies);
+		acceptAllButton.addEventListener('click', function () {
+			acceptAllCookies();
+
+			if (contentElement) {
+				var cookieList = contentElement.querySelector('.sg-cookie-optin-box-cookie-list');
+				if (cookieList) {
+					cookieList.parentNode.replaceChild(getCookieList(), cookieList);
+				}
+			} else {
+				hideAndReloadCookieOptIn();
+			}
+		});
 
 		var acceptSpecificButton = document.createElement('BUTTON');
 		acceptSpecificButton.classList.add('sg-cookie-optin-box-button-accept-specific');
 		acceptSpecificButton.appendChild(document.createTextNode(TEXT_ENTRIES.accept_specific_text));
-		acceptSpecificButton.addEventListener('click', acceptSpecificCookies);
+		acceptSpecificButton.addEventListener('click', function () {
+			acceptSpecificCookies();
+
+			if (contentElement) {
+				var cookieList = contentElement.querySelector('.sg-cookie-optin-box-cookie-list');
+				if (cookieList) {
+					cookieList.parentNode.replaceChild(getCookieList(), cookieList);
+				}
+			} else {
+				hideAndReloadCookieOptIn();
+			}
+		});
 
 		var acceptEssentialButton = document.createElement('BUTTON');
 		acceptEssentialButton.classList.add('sg-cookie-optin-box-button-accept-essential');
 		acceptEssentialButton.appendChild(document.createTextNode(TEXT_ENTRIES.accept_essential_text));
-		acceptEssentialButton.addEventListener('click', acceptEssentialCookies);
+		acceptEssentialButton.addEventListener('click', function () {
+			acceptEssentialCookies();
+
+			if (contentElement) {
+				var cookieList = contentElement.querySelector('.sg-cookie-optin-box-cookie-list');
+				if (cookieList) {
+					cookieList.parentNode.replaceChild(getCookieList(), cookieList);
+				}
+			} else {
+				hideAndReloadCookieOptIn();
+			}
+		});
 
 		parentDOM.appendChild(acceptAllButton);
 		parentDOM.appendChild(acceptSpecificButton);
@@ -480,7 +539,6 @@
 
 		setCookie(COOKIE_NAME, cookieData, SETTINGS.cookie_lifetime);
 		acceptAllIFrames();
-		hideAndReloadCookieOptIn();
 	}
 
 	/**
@@ -520,8 +578,6 @@
 				checkForIFrames();
 			}
 		}
-
-		hideAndReloadCookieOptIn();
 	}
 
 	/**
@@ -544,7 +600,6 @@
 		}
 
 		setCookie(COOKIE_NAME, cookieData, SETTINGS.cookie_lifetime);
-		hideAndReloadCookieOptIn();
 	}
 
 	/**
@@ -652,7 +707,8 @@
 
 		parent.appendChild(container);
 
-		iframe.remove();
+		// Because of the IE11 no .remove();
+		parent.removeChild(iframe);
 	}
 
 	/**
@@ -740,6 +796,7 @@
 		var cookieValue = getCookie(COOKIE_NAME);
 		if (!cookieValue) {
 			acceptAllCookies();
+			hideAndReloadCookieOptIn();
 			return;
 		}
 
