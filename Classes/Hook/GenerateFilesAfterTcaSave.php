@@ -52,7 +52,8 @@ class GenerateFilesAfterTcaSave {
 
 	const TEMPLATE_JAVA_SCRIPT_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/JavaScript/';
 	const TEMPLATE_JAVA_SCRIPT_NAME = 'cookieOptin.js';
-	const TEMPLATE_JAVA_SCRIPT_NEW_NAME = 'cookieOptin_#LANG#.js';
+	const TEMPLATE_JAVA_SCRIPT_NEW_NAME = 'cookieOptin_#LANG#_v2.js';
+	const TEMPLATE_JAVA_SCRIPT_V1_NEW_NAME = 'cookieOptin_#LANG#.js';
 
 	const TEMPLATE_STYLE_SHEET_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/StyleSheets/';
 	const TEMPLATE_STYLE_SHEET_NAME = 'cookieOptin.css';
@@ -62,6 +63,8 @@ class GenerateFilesAfterTcaSave {
 	 *
 	 * @param DataHandler $dataHandler
 	 * @return void
+	 * @throws \TYPO3\CMS\Core\Error\Http\PageNotFoundException
+	 * @throws \TYPO3\CMS\Core\Error\Http\ServiceUnavailableException
 	 * @throws \TYPO3\CMS\Core\Http\ImmediateResponseException
 	 */
 	public function processDatamap_afterAllOperations(DataHandler $dataHandler) {
@@ -194,7 +197,7 @@ class GenerateFilesAfterTcaSave {
 	}
 
 	/**
-	 * Creates a CSS file out of the given data array.
+	 * Creates a JS file out of the given data array.
 	 *
 	 * @param string $folder
 	 * @param array $data
@@ -308,17 +311,21 @@ class GenerateFilesAfterTcaSave {
 				'###COOKIE_GROUPS###',
 				'###FOOTER_LINKS###',
 				'###TEXT_ENTRIES###',
-			], [
-			json_encode($settings),
-			json_encode($cookieGroups),
-			json_encode($footerLinks),
-			json_encode($textEntries)
-		], $content
+			],
+			[
+				json_encode($settings),
+				json_encode($cookieGroups),
+				json_encode($footerLinks),
+				json_encode($textEntries)
+			], $content
 		);
-		file_put_contents(
-			PATH_site . $folder . str_replace('#LANG#', $data['sys_language_uid'], self::TEMPLATE_JAVA_SCRIPT_NEW_NAME),
-			$content
-		);
+		$file = PATH_site . $folder .
+			str_replace('#LANG#', $data['sys_language_uid'], self::TEMPLATE_JAVA_SCRIPT_NEW_NAME);
+		file_put_contents($file, $content);
+		GeneralUtility::fixPermissions($file);
+
+		// remove deprecated old v1 file
+		@unlink(PATH_site . $folder . self::TEMPLATE_JAVA_SCRIPT_V1_NEW_NAME);
 	}
 
 	/**
@@ -359,37 +366,40 @@ class GenerateFilesAfterTcaSave {
 				'###IFRAME_COLOR_BUTTON_LOAD_ONE_HOVER###',
 				'###IFRAME_COLOR_BUTTON_LOAD_ONE_TEXT###',
 				'###IFRAME_COLOR_OPEN_SETTINGS###',
-			], [
-			$data['color_box'],
-			$data['color_headline'],
-			$data['color_text'],
-			$data['color_checkbox'],
-			$data['color_checkbox_required'],
-			$data['color_button_all'],
-			$data['color_button_all_hover'],
-			$data['color_button_all_text'],
-			$data['color_button_specific'],
-			$data['color_button_specific_hover'],
-			$data['color_button_specific_text'],
-			$data['color_button_essential'],
-			$data['color_button_essential_hover'],
-			$data['color_button_essential_text'],
-			$data['color_button_close'],
-			$data['color_button_close_hover'],
-			$data['color_button_close_text'],
-			$data['color_list'],
-			$data['color_list_text'],
-			$data['color_table'],
-			$data['color_table_header_text'],
-			$data['color_Table_data_text'],
-			$data['iframe_color_consent_box_background'],
-			$data['iframe_color_button_load_one'],
-			$data['iframe_color_button_load_one_hover'],
-			$data['iframe_color_button_load_one_text'],
-			$data['iframe_color_open_settings'],
-		], $content
+			],
+			[
+				$data['color_box'],
+				$data['color_headline'],
+				$data['color_text'],
+				$data['color_checkbox'],
+				$data['color_checkbox_required'],
+				$data['color_button_all'],
+				$data['color_button_all_hover'],
+				$data['color_button_all_text'],
+				$data['color_button_specific'],
+				$data['color_button_specific_hover'],
+				$data['color_button_specific_text'],
+				$data['color_button_essential'],
+				$data['color_button_essential_hover'],
+				$data['color_button_essential_text'],
+				$data['color_button_close'],
+				$data['color_button_close_hover'],
+				$data['color_button_close_text'],
+				$data['color_list'],
+				$data['color_list_text'],
+				$data['color_table'],
+				$data['color_table_header_text'],
+				$data['color_Table_data_text'],
+				$data['iframe_color_consent_box_background'],
+				$data['iframe_color_button_load_one'],
+				$data['iframe_color_button_load_one_hover'],
+				$data['iframe_color_button_load_one_text'],
+				$data['iframe_color_open_settings'],
+			], $content
 		);
-		file_put_contents(PATH_site . $folder . self::TEMPLATE_STYLE_SHEET_NAME, $content);
+		$file = PATH_site . $folder . self::TEMPLATE_STYLE_SHEET_NAME;
+		file_put_contents($file, $content);
+		GeneralUtility::fixPermissions($file);
 	}
 
 	/**
@@ -416,7 +426,9 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		$file = $folder . $groupName . '.js';
-		file_put_contents(PATH_site . $folder . $groupName . '.js', $content);
+		$groupFile = PATH_site . $folder . $groupName . '.js';
+		file_put_contents($groupFile, $content);
+		GeneralUtility::fixPermissions($groupFile);
 		return '/' . $file;
 	}
 
@@ -484,7 +496,7 @@ class GenerateFilesAfterTcaSave {
 	 * Returns the full data for the given data array.
 	 *
 	 * @param array $data
-	 * @param int $parentUid
+	 * @param string $table
 	 * @param int $language
 	 *
 	 * @return array

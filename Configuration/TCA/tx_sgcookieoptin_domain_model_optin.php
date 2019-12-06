@@ -241,8 +241,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'default' => 'Weitere Informationen öffnen',
-				'placeholder' => 'Weitere Informationen öffnen',
+				'default' => 'Weitere Informationen anzeigen',
+				'placeholder' => 'Weitere Informationen anzeigen',
 				'eval' => 'trim, required'
 			],
 		],
@@ -252,8 +252,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'default' => 'Weitere Informationen schließen',
-				'placeholder' => 'Weitere Informationen schließen',
+				'default' => 'Weitere Informationen verstecken',
+				'placeholder' => 'Weitere Informationen verstecken',
 				'eval' => 'trim, required'
 			],
 		],
@@ -263,8 +263,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'default' => 'Cookie-Informationen öffnen',
-				'placeholder' => 'Cookie-Informationen öffnen',
+				'default' => 'Cookie-Informationen anzeigen',
+				'placeholder' => 'Cookie-Informationen anzeigen',
 				'eval' => 'trim, required'
 			],
 		],
@@ -274,8 +274,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'default' => 'Cookie-Informationen schließen',
-				'placeholder' => 'Cookie-Informationen schließen',
+				'default' => 'Cookie-Informationen verstecken',
+				'placeholder' => 'Cookie-Informationen verstecken',
 				'eval' => 'trim, required'
 			],
 		],
@@ -746,8 +746,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
-				'default' => 'Einstellungen öffnen',
-				'placeholder' => 'Einstellungen öffnen',
+				'default' => 'Einstellungen anzeigen',
+				'placeholder' => 'Einstellungen anzeigen',
 				'eval' => 'trim, required'
 			],
 		],

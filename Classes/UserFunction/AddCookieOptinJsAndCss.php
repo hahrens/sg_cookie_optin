@@ -30,6 +30,7 @@ use SGalinski\SgCookieOptin\Service\LicensingService;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -37,11 +38,14 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 /**
  * Adds the Cookie Optin JavaScript if it's generated for the current page.
  */
-class AddCookieOptinJsAndCss {
+class AddCookieOptinJsAndCss implements SingletonInterface {
+	/** @var int */
+	protected $rootpage = NULL;
+
 	/**
 	 * Adds the Cookie Optin JavaScript if it's generated for the current page.
 	 *
-	 * Example line: fileadmin/sg_cookie_optin/siteroot-1/cookieOptin.js
+	 * Example line: fileadmin/sg_cookie_optin/siteroot-1/cookieOptin_0_v2.js
 	 *
 	 * @param string $content
 	 * @param array $configuration
@@ -55,6 +59,37 @@ class AddCookieOptinJsAndCss {
 			return '';
 		}
 
+		$rootPageId = $this->getRootPageId();
+		if ($rootPageId <= 0 || !$this->isConfigurationOnPage($rootPageId)) {
+			return '';
+		}
+
+		$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_' .
+			$this->getLanguage() . '_v2.js';
+		if (!file_exists(PATH_site . $file)) {
+			$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_0_v2.js';
+			if (!file_exists(PATH_site . $file)) {
+				return '';
+			}
+		}
+
+		$cacheBuster = filemtime(PATH_site . $file);
+		if (!$cacheBuster) {
+			$cacheBuster = '';
+		}
+
+		return '<script src="/' . $file . '?' . $cacheBuster . '" type="text/javascript" data-ignore="1"></script>';
+	}
+
+	/**
+	 * Adds the old javascript
+	 *
+	 * @param string $content
+	 * @param array $configuration
+	 * @return string
+	 * @deprecated Remove in v3!!!
+	 */
+	public function addJavaScriptFooterOld($content, array $configuration) {
 		$rootPageId = $this->getRootPageId();
 		if ($rootPageId <= 0 || !$this->isConfigurationOnPage($rootPageId)) {
 			return '';
@@ -140,31 +175,35 @@ class AddCookieOptinJsAndCss {
 		return is_array($rows) && count($rows) > 0;
 	}
 
-	/**is_siteroot
+	/**
 	 * Returns always the first page within the rootline
 	 *
 	 * @return int
 	 */
 	protected function getRootPageId() {
-		/** @var TypoScriptFrontendController $typoScriptFrontendController */
-		$typoScriptFrontendController = $GLOBALS['TSFE'];
+		if ($this->rootpage === NULL) {
+			/** @var TypoScriptFrontendController $typoScriptFrontendController */
+			$typoScriptFrontendController = $GLOBALS['TSFE'];
 
-		$siteRootId = -1;
-		foreach ($typoScriptFrontendController->rootLine as $rootLineEntry) {
-			if (!isset($rootLineEntry['is_siteroot'])) {
-				continue;
+			$siteRootId = -1;
+			foreach ($typoScriptFrontendController->rootLine as $rootLineEntry) {
+				if (!isset($rootLineEntry['is_siteroot'])) {
+					continue;
+				}
+
+				$isSiteRoot = (boolean) $rootLineEntry['is_siteroot'];
+				if (!$isSiteRoot) {
+					continue;
+				}
+
+				$siteRootId = (int) $rootLineEntry['uid'];
+				break;
 			}
 
-			$isSiteRoot = (boolean) $rootLineEntry['is_siteroot'];
-			if (!$isSiteRoot) {
-				continue;
-			}
-
-			$siteRootId = (int) $rootLineEntry['uid'];
-			break;
+			$this->rootpage = $siteRootId;
 		}
 
-		return $siteRootId;
+		return $this->rootpage;
 	}
 
 	/**
