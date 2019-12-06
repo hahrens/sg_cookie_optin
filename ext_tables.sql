@@ -7,7 +7,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 
 	# general columns
 	header varchar(255) DEFAULT 'Datenschutzeinstellungen' NOT NULL,
-	description text DEFAULT 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.' NOT NULL,
+	description text NOT NULL,
 	cookie_lifetime int(11) DEFAULT '365' NOT NULL,
 	navigation varchar(255) DEFAULT '' NOT NULL,
 	groups int(11) DEFAULT '0' NOT NULL,
@@ -51,14 +51,14 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 
 	# Essential group specific columns
 	essential_title varchar(255) DEFAULT 'Essentiell' NOT NULL,
-	essential_description text DEFAULT 'Essentielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.' NOT NULL,
+	essential_description text NOT NULL,
 	essential_scripts int(11) DEFAULT '0' NOT NULL,
 	essential_cookies int(11) DEFAULT '0' NOT NULL,
 
 	# IFrame group specific columns
 	iframe_enabled tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	iframe_title varchar(255) DEFAULT 'Externe Inhalte' NOT NULL,
-	iframe_description text DEFAULT 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.' NOT NULL,
+	iframe_description text NOT NULL,
 
 	iframe_button_allow_all_text varchar(255) DEFAULT 'Alle externen Inhalte erlauben' NOT NULL,
 	iframe_button_allow_one_text varchar(255) DEFAULT 'Einmalig erlauben' NOT NULL,
