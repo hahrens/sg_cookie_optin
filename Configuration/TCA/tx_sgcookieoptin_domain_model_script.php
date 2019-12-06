@@ -32,7 +32,7 @@ return [
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
-		'searchFields' => 'title, script',
+		'searchFields' => 'title, script, html',
 		'delete' => 'deleted',
 		'enablecolumns' => [
 			'disabled' => 'hidden',
@@ -45,12 +45,12 @@ return [
 		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_script.svg'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, script, parent_group, 
-			parent_optin',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, script, html, 
+			parent_group, parent_optin',
 	],
 	'types' => [
 		'1' => [
-			'showitem' => 'hidden, title, script',
+			'showitem' => 'hidden, title, script, html',
 		],
 	],
 	'palettes' => [
@@ -126,6 +126,17 @@ return [
 				'type' => 'text',
 				'renderType' => 't3editor',
 				'format' => 'javascript',
+				'eval' => 'trim'
+			],
+		],
+		'html' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_script.html',
+			'config' => [
+				'type' => 'text',
+				'renderType' => 't3editor',
+				'format' => 'html',
 				'eval' => 'trim'
 			],
 		],

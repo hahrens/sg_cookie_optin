@@ -219,6 +219,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.script">
 				<source><![CDATA[JavaScript that shall be loaded if the user accepts this group]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_script.html">
+				<source><![CDATA[HTML that shall be loaded if the user accepts this group (Experimental)]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title">
 				<source><![CDATA[Script Name]]></source>
 			</trans-unit>

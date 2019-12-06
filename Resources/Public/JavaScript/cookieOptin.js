@@ -57,11 +57,22 @@
 				continue;
 			}
 
-			if (COOKIE_GROUPS.hasOwnProperty(group) && COOKIE_GROUPS[group]['loadingJavaScript'] !== '') {
-				var script = document.createElement('script');
-				script.setAttribute('src', COOKIE_GROUPS[group]['loadingJavaScript']);
-				script.setAttribute('type', 'text/javascript');
-				document.body.appendChild(script);
+			if (COOKIE_GROUPS.hasOwnProperty(group)) {
+				if (COOKIE_GROUPS[group]['loadingHTML'] !== '') {
+					var head = document.getElementsByTagName('head')[0];
+					if (head) {
+						var range = document.createRange();
+						range.selectNode(head);
+						head.appendChild(range.createContextualFragment(COOKIE_GROUPS[group]['loadingHTML']));
+					}
+				}
+
+				if (COOKIE_GROUPS[group]['loadingJavaScript'] !== '') {
+					var script = document.createElement('script');
+					script.setAttribute('src', COOKIE_GROUPS[group]['loadingJavaScript']);
+					script.setAttribute('type', 'text/javascript');
+					document.body.appendChild(script);
+				}
 			}
 		}
 	}
@@ -678,7 +689,6 @@
 		var description = document.createElement('P');
 		description.classList.add('sg-cookie-optin-box-description');
 		description.appendChild(document.createTextNode(COOKIE_GROUPS['iframes']['description']));
-
 
 		var cookieBox = document.createElement('DIV');
 		cookieBox.classList.add('sg-cookie-optin-box');

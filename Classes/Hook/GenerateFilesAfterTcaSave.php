@@ -150,14 +150,20 @@ class GenerateFilesAfterTcaSave {
 		$loadingScripts = [];
 		$fullData = $this->getFullData($originalRecord, self::TABLE_NAME);
 		$this->createCSSFile($folderName, $fullData);
-		$loadingScripts['essential'] = $this->createActivationScriptFile(
-			$folderName, 'essential', $fullData['essential_scripts']
-		);
+		$loadingScripts['essential'] = [
+			'html' => $this->getActivationHTML($fullData['essential_scripts']),
+			'javaScript' => $this->createActivationScriptFile(
+				$folderName, 'essential', $fullData['essential_scripts']
+			),
+		];
 
 		foreach ($fullData['groups'] as $group) {
-			$loadingScripts[$group['group_name']] = $this->createActivationScriptFile(
-				$folderName, $group['group_name'], $group['scripts']
-			);
+			$loadingScripts[$group['group_name']] = [
+				'html' => $this->getActivationHTML($group['scripts']),
+				'javaScript' => $this->createActivationScriptFile(
+					$folderName, $group['group_name'], $group['scripts']
+				),
+			];
 		}
 
 		$languages = $this->getLanguages();
@@ -204,8 +210,11 @@ class GenerateFilesAfterTcaSave {
 				'label' => $data['essential_title'],
 				'description' => $data['essential_description'],
 				'required' => TRUE,
-				'loadingJavaScript' => isset($loadingScripts['essential']) ? $loadingScripts['essential'] : '',
 				'cookieData' => [],
+				'loadingHTML' => isset($loadingScripts['essential']['html'])
+					? $loadingScripts['essential']['html'] : '',
+				'loadingJavaScript' => isset($loadingScripts['essential']['javaScript'])
+					? $loadingScripts['essential']['javaScript'] : '',
 			],
 		];
 
@@ -214,8 +223,11 @@ class GenerateFilesAfterTcaSave {
 				'label' => $data['iframe_title'],
 				'description' => $data['iframe_description'],
 				'required' => FALSE,
-				'loadingJavaScript' => isset($loadingScripts['iframes']) ? $loadingScripts['iframes'] : '',
 				'cookieData' => [],
+				'loadingHTML' => isset($loadingScripts['iframes']['html'])
+					? $loadingScripts['iframes']['html'] : '',
+				'loadingJavaScript' => isset($loadingScripts['iframes']['javaScript'])
+					? $loadingScripts['iframes']['javaScript'] : '',
 			];
 		}
 
@@ -234,8 +246,11 @@ class GenerateFilesAfterTcaSave {
 				'label' => $group['title'],
 				'description' => $group['description'],
 				'required' => FALSE,
-				'loadingJavaScript' => isset($loadingScripts[$groupName]) ? $loadingScripts[$groupName] : '',
 				'cookieData' => [],
+				'loadingHTML' => isset($loadingScripts[$groupName]['html'])
+					? $loadingScripts[$groupName]['html'] : '',
+				'loadingJavaScript' => isset($loadingScripts[$groupName]['javaScript'])
+					? $loadingScripts[$groupName]['javaScript'] : '',
 			];
 
 			foreach ($group['cookies'] as $cookieData) {
@@ -403,6 +418,26 @@ class GenerateFilesAfterTcaSave {
 		$file = $folder . $groupName . '.js';
 		file_put_contents(PATH_site . $folder . $groupName . '.js', $content);
 		return '/' . $file;
+	}
+
+	/**
+	 * Creates a html string out of the given scripts.
+	 *
+	 * @param array $scripts
+	 * @return string
+	 */
+	protected function getActivationHTML(array $scripts) {
+		$content = '';
+		foreach ($scripts as $script) {
+			$htmlContent = trim($script['html']);
+			if (!$htmlContent) {
+				continue;
+			}
+
+			$content .= $htmlContent . "\n\n";
+		}
+
+		return $content;
 	}
 
 	/**

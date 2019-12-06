@@ -289,6 +289,10 @@
 				<source><![CDATA[JavaScript that shall be loaded if the user accepts this group]]></source>
 				<target><![CDATA[JavaScript, das geladen werden soll, wenn der Benutzer diese Gruppe akzeptiert]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_script.html" approved="yes">
+				<source><![CDATA[HTML that shall be loaded if the user accepts this group (Experimental)]]></source>
+				<target><![CDATA[HTML, das geladen werden soll, wenn der Benutzer diese Gruppe akzeptiert (Experimentell)]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title" approved="yes">
 				<source><![CDATA[Script Name]]></source>
 				<target><![CDATA[Skript-Name]]></target>

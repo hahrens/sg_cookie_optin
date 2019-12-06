@@ -126,6 +126,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_script (
 
 	title varchar(255) DEFAULT '' NOT NULL,
 	script text NOT NULL,
+	html text NOT NULL,
 	parent_group int(11) DEFAULT '0' NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
 
