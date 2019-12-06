@@ -115,17 +115,18 @@
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-header,
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description {
 	display: block;
-	margin: 0 0 10px 0;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-header {
+	margin: 0;
 	font-size: 22px;
 	color: ###COLOR_HEADLINE###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-description {
+	margin: 0 0 20px 0;
 	font-size: 14px;
-	line-height: 16px;
+	line-height: 1.5;
 }
 
 /* Cookie List */
@@ -136,7 +137,7 @@
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item {
 	display: inline-block;
-	padding: 0 10px 10px 0;
+	padding: 0 10px 20px 0;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox {
@@ -276,18 +277,18 @@
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header,
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description {
 	display: block;
-	margin: 0 0 10px 0;
-
 	color: ###COLOR_LIST_TEXT###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-header {
+	margin: 0;
 	font-size: 18px;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list .sg-cookie-optin-box-cookie-detail-description {
+	margin: 0 0 10px 0;
 	font-size: 14px;
-	line-height: 16px;
+	line-height: 1.5;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-open-more {
