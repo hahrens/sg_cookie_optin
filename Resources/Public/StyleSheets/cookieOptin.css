@@ -367,7 +367,7 @@
 .sg-cookie-optin-iframe-consent button {
 	display: block;
 
-	margin: 50% auto 0;
+	margin: 0 auto;
 	padding: 15px;
 
 	color: ###IFRAME_COLOR_BUTTON_LOAD_ONE_TEXT###;
@@ -384,7 +384,7 @@
 }
 
 .sg-cookie-optin-iframe-consent a {
-	margin: 0 auto 50%;
+	margin: 0 auto;
 	padding: 10px 0 0;
 
 	color: ###IFRAME_COLOR_OPEN_SETTINGS###;
@@ -396,8 +396,9 @@
 /* The Content Element */
 .sg-cookie-optin-plugin #SgCookieOptin {
 	display: block;
-	position: initial;
+	position: static;
 	background: none;
+	z-index: 10;
 }
 
 .sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box {

@@ -31,7 +31,8 @@
 	 */
 	function initialize(ignoreShowOptInParameter) {
 		var optInContentElements = document.querySelectorAll('.sg-cookie-optin-plugin-uninitialized');
-		for (var optInContentElement of optInContentElements) {
+		for (var index = 0; index < optInContentElements.length; ++index) {
+			var optInContentElement = optInContentElements[index];
 			showCookieOptin(optInContentElement);
 			optInContentElement.classList.remove('sg-cookie-optin-plugin-uninitialized');
 		}
@@ -51,7 +52,8 @@
 		}
 
 		var splitedCookieValue = cookieValue.split('|');
-		for (var splitedCookieValueEntry of splitedCookieValue) {
+		for (var splitedCookieValueIndex in splitedCookieValue) {
+			var splitedCookieValueEntry = splitedCookieValue[splitedCookieValueIndex];
 			var groupAndStatus = splitedCookieValueEntry.split(':');
 			if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
 				continue;
@@ -109,7 +111,7 @@
 		var cookieBox = document.createElement('DIV');
 		cookieBox.classList.add('sg-cookie-optin-box');
 
-		if (!contentElement) {
+		if (contentElement === null) {
 			var closeButton = document.createElement('SPAN');
 			closeButton.classList.add('sg-cookie-optin-box-close-button');
 			closeButton.appendChild(document.createTextNode('✕'));
@@ -144,10 +146,10 @@
 		wrapper.id = 'SgCookieOptin';
 		wrapper.appendChild(cookieBox);
 
-		if (contentElement) {
-			contentElement.appendChild(wrapper);
-		} else {
+		if (contentElement === null) {
 			document.body.insertBefore(wrapper, document.body.firstChild);
+		} else {
+			contentElement.appendChild(wrapper);
 		}
 	}
 
@@ -210,7 +212,8 @@
 		var cookieValue = getCookie(COOKIE_NAME);
 		if (cookieValue) {
 			var splitedCookieValue = cookieValue.split('|');
-			for (var splitedCookieValueEntry of splitedCookieValue) {
+			for (var index in splitedCookieValue) {
+				var splitedCookieValueEntry = splitedCookieValue[index];
 				var groupAndStatus = splitedCookieValueEntry.split(':');
 				if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
 					continue;
@@ -270,7 +273,7 @@
 		acceptAllButton.addEventListener('click', function() {
 			acceptAllCookies();
 
-			if (contentElement) {
+			if (contentElement !== null) {
 				var cookieList = contentElement.querySelector('.sg-cookie-optin-box-cookie-list');
 				if (cookieList) {
 					cookieList.parentNode.replaceChild(getCookieList(), cookieList);
@@ -286,7 +289,7 @@
 		acceptSpecificButton.addEventListener('click', function() {
 			acceptSpecificCookies();
 
-			if (contentElement) {
+			if (contentElement !== null) {
 				var cookieList = contentElement.querySelector('.sg-cookie-optin-box-cookie-list');
 				if (cookieList) {
 					cookieList.parentNode.replaceChild(getCookieList(), cookieList);
@@ -302,7 +305,7 @@
 		acceptEssentialButton.addEventListener('click', function() {
 			acceptEssentialCookies();
 
-			if (contentElement) {
+			if (contentElement !== null) {
 				var cookieList = contentElement.querySelector('.sg-cookie-optin-box-cookie-list');
 				if (cookieList) {
 					cookieList.parentNode.replaceChild(getCookieList(), cookieList);
@@ -615,8 +618,8 @@
 		if (!iFrameObserver) {
 			var iframes = document.querySelectorAll('iframe');
 			if (iframes.length > 0) {
-				for (var iframe of iframes) {
-					replaceIFrameWithConsent(iframe);
+				for (var iframeIndex in iframes) {
+					replaceIFrameWithConsent(iframes[iframeIndex]);
 				}
 			}
 		}
@@ -625,7 +628,8 @@
 		if (cookieValue) {
 			// If the iframe group exists, then check the status. If 1 no observer needed, otherwise always activated.
 			var splitedCookieValue = cookieValue.split('|');
-			for (var splitedCookieValueEntry of splitedCookieValue) {
+			for (var splitedCookieValueIndex in splitedCookieValue) {
+				var splitedCookieValueEntry = splitedCookieValue[splitedCookieValueIndex];
 				var groupAndStatus = splitedCookieValueEntry.split(':');
 				if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
 					continue;
@@ -646,12 +650,14 @@
 		// Create an observer instance linked to the callback function
 		iFrameObserver = new MutationObserver(function(mutationsList, observer) {
 			// Use traditional 'for loops' for IE 11
-			for (var mutation of mutationsList) {
+			for (var index in mutationsList) {
+				var mutation = mutationsList[index];
 				if (mutation.type !== 'childList' || mutation.addedNodes.length <= 0) {
 					continue;
 				}
 
-				for (var addedNode of mutation.addedNodes) {
+				for (var addedNodeIndex in mutation.addedNodes) {
+					var addedNode = mutation.addedNodes[addedNodeIndex];
 					if (addedNode.tagName === 'IFRAME') {
 						replaceIFrameWithConsent(addedNode);
 					}
@@ -808,7 +814,8 @@
 		var groupFound = false;
 		var newCookieValue = '';
 		var splitedCookieValue = cookieValue.split('|');
-		for (var splitedCookieValueEntry of splitedCookieValue) {
+		for (var splitedCookieValueIndex in splitedCookieValue) {
+			var splitedCookieValueEntry = splitedCookieValue[splitedCookieValueIndex];
 			var groupAndStatus = splitedCookieValueEntry.split(':');
 			if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
 				continue;
@@ -856,7 +863,11 @@
 		}
 
 		iframe.setAttribute('data-iframe-allow-always', 1);
-		container.replaceWith(iframe);
+
+		// Because of the IE11 no .replaceWith();
+		var parentNode = container.parentNode;
+		parentNode.removeChild(container);
+		parentNode.appendChild(iframe);
 	}
 
 	/**
