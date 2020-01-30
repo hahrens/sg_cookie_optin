@@ -54,8 +54,8 @@ gtag('config', 'GA_MEASUREMENT_ID');
 In order for us to know which cookie groups the user has accepted, we must also store an essential cookie. 
 The structure is as follows:
 
-**Name**: cookie_optin
-**Example data**: essential:1|analytics:0|performance:1
+**Name**: cookie_optin  
+**Example data**: essential:1|analytics:0|performance:1  
 **Explanation**: The user has accepted the essential and performance groups, but not the analytics one.
 
 ## Additional Features
