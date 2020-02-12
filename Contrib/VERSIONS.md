@@ -17,3 +17,11 @@ Version: 1.3.63
 https://github.com/tchwork/jsqueeze/releases
 
 Version: 2.0.5
+
+# Templating
+
+## bobthecow / mustache.php
+
+https://github.com/bobthecow/mustache.php/releases
+
+Version: 2.13.0
