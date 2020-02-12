@@ -192,6 +192,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.link_texts">
 				<source><![CDATA[Link Texts]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.minify_generated_data">
+				<source><![CDATA[Minification of the generated files]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.navigation">
 				<source><![CDATA[Links at the Bottom of the Opt-In Window (Add Imprint and Data Policy!)]]></source>
 			</trans-unit>

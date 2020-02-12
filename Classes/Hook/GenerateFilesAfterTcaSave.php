@@ -27,6 +27,7 @@ namespace SGalinski\SgCookieOptin\Hook;
  ***************************************************************/
 
 use SGalinski\SgCookieOptin\Service\LicensingService;
+use SGalinski\SgCookieOptin\Service\MinificationService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
@@ -152,11 +153,13 @@ class GenerateFilesAfterTcaSave {
 
 		$loadingScripts = [];
 		$fullData = $this->getFullData($originalRecord, self::TABLE_NAME);
-		$this->createCSSFile($folderName, $fullData);
+
+		$minifyFiles = (bool) $data['minify_generated_data'];
+		$this->createCSSFile($folderName, $fullData, $minifyFiles);
 		$loadingScripts['essential'] = [
 			'html' => $this->getActivationHTML($fullData['essential_scripts']),
 			'javaScript' => $this->createActivationScriptFile(
-				$folderName, 'essential', $fullData['essential_scripts']
+				$folderName, 'essential', $fullData['essential_scripts'], $minifyFiles
 			),
 		];
 
@@ -164,7 +167,7 @@ class GenerateFilesAfterTcaSave {
 			$loadingScripts[$group['group_name']] = [
 				'html' => $this->getActivationHTML($group['scripts']),
 				'javaScript' => $this->createActivationScriptFile(
-					$folderName, $group['group_name'], $group['scripts']
+					$folderName, $group['group_name'], $group['scripts'], $minifyFiles
 				),
 			];
 		}
@@ -187,7 +190,7 @@ class GenerateFilesAfterTcaSave {
 				return;
 			}
 
-			$this->createJavaScriptFile($folderName, $fullData, $loadingScripts, $languageUid);
+			$this->createJavaScriptFile($folderName, $fullData, $loadingScripts, $languageUid, $minifyFiles);
 		}
 
 		GeneralUtility::fixPermissions(PATH_site . self::FOLDER_FILEADMIN, TRUE);
@@ -203,9 +206,12 @@ class GenerateFilesAfterTcaSave {
 	 * @param array $data
 	 * @param array $loadingScripts
 	 * @param int $languageUid
+	 * @param bool $minifyFile
 	 * @return void
 	 */
-	protected function createJavaScriptFile($folder, array $data, array $loadingScripts, $languageUid = 0) {
+	protected function createJavaScriptFile(
+		$folder, array $data, array $loadingScripts, $languageUid = 0, $minifyFile = TRUE
+	) {
 		$content = file_get_contents(PATH_site . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME);
 
 		$cookieGroups = [
@@ -284,6 +290,7 @@ class GenerateFilesAfterTcaSave {
 		$settings = [
 			'iframe_enabled' => (boolean) $data['iframe_enabled'],
 			'cookie_lifetime' => (int) $data['cookie_lifetime'],
+			'minify_generated_data' => (boolean) $data['minify_generated_data'],
 		];
 
 		$textEntries = [
@@ -322,6 +329,12 @@ class GenerateFilesAfterTcaSave {
 		$file = PATH_site . $folder .
 			str_replace('#LANG#', $data['sys_language_uid'], self::TEMPLATE_JAVA_SCRIPT_NEW_NAME);
 		file_put_contents($file, $content);
+
+		if ($minifyFile) {
+			$minificationService = GeneralUtility::makeInstance(MinificationService::class);
+			$minificationService->minifyJavaScriptFile($file);
+		}
+
 		GeneralUtility::fixPermissions($file);
 
 		// remove deprecated old v1 file
@@ -333,9 +346,10 @@ class GenerateFilesAfterTcaSave {
 	 *
 	 * @param string $folder
 	 * @param array $data
+	 * @param array $minifyFile
 	 * @return void
 	 */
-	protected function createCSSFile($folder, array $data) {
+	protected function createCSSFile($folder, array $data, $minifyFile = TRUE) {
 		$content = file_get_contents(PATH_site . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
 		$content = str_replace(
 			[
@@ -399,6 +413,12 @@ class GenerateFilesAfterTcaSave {
 		);
 		$file = PATH_site . $folder . self::TEMPLATE_STYLE_SHEET_NAME;
 		file_put_contents($file, $content);
+
+		if ($minifyFile) {
+			$minificationService = GeneralUtility::makeInstance(MinificationService::class);
+			$minificationService->minifyCSSFile($file);
+		}
+
 		GeneralUtility::fixPermissions($file);
 	}
 
@@ -408,9 +428,10 @@ class GenerateFilesAfterTcaSave {
 	 * @param string $folder
 	 * @param string $groupName
 	 * @param array $scripts
+	 * @param bool $minifyFile
 	 * @return string
 	 */
-	protected function createActivationScriptFile($folder, $groupName, array $scripts) {
+	protected function createActivationScriptFile($folder, $groupName, array $scripts, $minifyFile = TRUE) {
 		$content = '';
 		foreach ($scripts as $script) {
 			$scriptContent = trim($script['script']);
@@ -428,6 +449,12 @@ class GenerateFilesAfterTcaSave {
 		$file = $folder . $groupName . '.js';
 		$groupFile = PATH_site . $folder . $groupName . '.js';
 		file_put_contents($groupFile, $content);
+
+		if ($minifyFile) {
+			$minificationService = GeneralUtility::makeInstance(MinificationService::class);
+			$minificationService->minifyJavaScriptFile($groupFile);
+		}
+
 		GeneralUtility::fixPermissions($groupFile);
 		return '/' . $file;
 	}

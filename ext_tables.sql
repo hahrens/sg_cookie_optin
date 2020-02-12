@@ -8,7 +8,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	# general columns
 	header varchar(255) DEFAULT 'Datenschutzeinstellungen' NOT NULL,
 	description text NOT NULL,
-	cookie_lifetime int(11) DEFAULT '365' NOT NULL,
 	navigation varchar(255) DEFAULT '' NOT NULL,
 	groups int(11) DEFAULT '0' NOT NULL,
 
@@ -70,6 +69,10 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_color_button_load_one_hover varchar(255) DEFAULT '#8FAF2D' NOT NULL,
 	iframe_color_button_load_one_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 	iframe_color_open_settings varchar(255) DEFAULT '#373737' NOT NULL,
+
+	# Settings
+	cookie_lifetime int(11) DEFAULT '365' NOT NULL,
+	minify_generated_data tinyint(4) unsigned DEFAULT '1' NOT NULL,
 
 	# TYPO3 related columns
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
