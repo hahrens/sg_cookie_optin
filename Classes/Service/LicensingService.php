@@ -31,7 +31,7 @@ use TYPO3\CMS\Core\Registry;
  ***************************************************************/
 
 /**
- * Class SGalinski\SgRoutes\Service\LicensingService
+ * Class SGalinski\SgCookieOptin\Service\LicensingService
  */
 class LicensingService {
 	const STATE_LICENSE_VALID = 2;

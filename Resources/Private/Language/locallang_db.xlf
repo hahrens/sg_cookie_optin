@@ -199,7 +199,7 @@
 				<source><![CDATA[Links at the Bottom of the Opt-In Window (Add Imprint and Data Policy!)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.color">
-				<source><![CDATA[Colors]]></source>
+				<source><![CDATA[Template]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.essential">
 				<source><![CDATA[Group of essential Scripts & Cookies]]></source>
@@ -224,6 +224,15 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.html">
 				<source><![CDATA[HTML that shall be loaded if the user accepts this group (Experimental)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html">
+				<source><![CDATA[The HTML template]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten">
+				<source><![CDATA[Overwrite the HTML template? (Changes, which may occur in the next updates, are no longer automatically applied)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_selection">
+				<source><![CDATA[HTML template selection (The form will be saved and reloaded on after a change)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title">
 				<source><![CDATA[Script Name]]></source>

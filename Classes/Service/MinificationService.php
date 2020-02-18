@@ -31,7 +31,7 @@ use Patchwork\JSqueeze;
 use TYPO3\CMS\Core\SingletonInterface;
 
 /**
- * Class SGalinski\SgRoutes\Service\MinificationService
+ * Class SGalinski\SgCookieOptin\Service\MinificationService
  */
 class MinificationService implements SingletonInterface {
 

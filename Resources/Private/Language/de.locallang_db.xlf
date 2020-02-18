@@ -262,8 +262,8 @@
 				<target><![CDATA[Links am Ende des Opt-In-Fensters (Impressum und Datenschutzerklärung einfügen!)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.color" approved="yes">
-				<source><![CDATA[Colors]]></source>
-				<target><![CDATA[Farben]]></target>
+				<source><![CDATA[Template]]></source>
+				<target><![CDATA[Template]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.essential" approved="yes">
 				<source><![CDATA[Group of essential Scripts & Cookies]]></source>
@@ -296,6 +296,18 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.html" approved="yes">
 				<source><![CDATA[HTML that shall be loaded if the user accepts this group (Experimental)]]></source>
 				<target><![CDATA[HTML, das geladen werden soll, wenn der Benutzer diese Gruppe akzeptiert (Experimentell)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html" approved="yes">
+				<source><![CDATA[The HTML template]]></source>
+				<target><![CDATA[Das HTML-Template]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten" approved="yes">
+				<source><![CDATA[Overwrite the HTML template? (Changes, which may occur in the next updates, are no longer automatically applied)]]></source>
+				<target><![CDATA[Das HTML-Template überschreiben? (Änderungen, welche in den nächsten Updates Vorkommen können, werden nicht mehr automatisch übernommen)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_selection" approved="yes">
+				<source><![CDATA[HTML template selection (The form will be saved and reloaded on after a change)]]></source>
+				<target><![CDATA[HTML-Template Auswahl (Das Formular wird gespeichert und neugeladen nach einer Änderung)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title" approved="yes">
 				<source><![CDATA[Script Name]]></source>

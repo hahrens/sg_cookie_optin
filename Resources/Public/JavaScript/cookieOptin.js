@@ -17,6 +17,7 @@
 	var COOKIE_GROUPS = ###COOKIE_GROUPS###;
 	var FOOTER_LINKS = ###FOOTER_LINKS###;
 	var TEXT_ENTRIES = ###TEXT_ENTRIES###;
+	var MARKUP = ###MARKUP###;
 	// @formatter:on
 
 	var iFrameObserver = null;
@@ -145,6 +146,9 @@
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
 		wrapper.appendChild(cookieBox);
+
+		// @todo remove me!
+		wrapper.insertAdjacentHTML('afterbegin', MARKUP);
 
 		if (contentElement === null) {
 			document.body.insertBefore(wrapper, document.body.firstChild);

@@ -24,7 +24,12 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	cookie_purpose_text varchar(255) DEFAULT 'Zweck' NOT NULL,
 	cookie_lifetime_text varchar(255) DEFAULT 'Laufzeit' NOT NULL,
 
-	# general colors
+	# template
+	template_html text NOT NULL,
+	template_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	template_selection int(11) DEFAULT '0' NOT NULL,
+
+	# template colors
 	color_box varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 	color_headline varchar(255) DEFAULT '#373737' NOT NULL,
 	color_text varchar(255) DEFAULT '#373737' NOT NULL,

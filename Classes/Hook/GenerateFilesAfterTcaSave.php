@@ -28,6 +28,7 @@ namespace SGalinski\SgCookieOptin\Hook;
 
 use SGalinski\SgCookieOptin\Service\LicensingService;
 use SGalinski\SgCookieOptin\Service\MinificationService;
+use SGalinski\SgCookieOptin\Service\TemplateService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
@@ -312,18 +313,23 @@ class GenerateFilesAfterTcaSave {
 			'iframe_button_load_one_text' => $data['iframe_button_load_one_text'],
 			'iframe_open_settings_text' => $data['iframe_open_settings_text'],
 		];
+
+		$templateService = GeneralUtility::makeInstance(TemplateService::class);
 		$content = str_replace(
 			[
 				'###SETTINGS###',
 				'###COOKIE_GROUPS###',
 				'###FOOTER_LINKS###',
 				'###TEXT_ENTRIES###',
+				'###MARKUP###'
 			],
 			[
 				json_encode($settings),
 				json_encode($cookieGroups),
 				json_encode($footerLinks),
-				json_encode($textEntries)
+				json_encode($textEntries),
+				// @todo Anpassen
+				json_encode($templateService->renderTemplate('<h1>Hello {{planet}}</h1>', ['planet' => 'World!']))
 			], $content
 		);
 		$file = PATH_site . $folder .
