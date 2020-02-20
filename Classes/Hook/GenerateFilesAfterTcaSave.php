@@ -152,26 +152,9 @@ class GenerateFilesAfterTcaSave {
 			$typoScriptFrontendController->newCObj();
 		}
 
-		$loadingScripts = [];
 		$fullData = $this->getFullData($originalRecord, self::TABLE_NAME);
-
 		$minifyFiles = (bool) $data['minify_generated_data'];
 		$this->createCSSFile($folderName, $fullData, $minifyFiles);
-		$loadingScripts['essential'] = [
-			'html' => $this->getActivationHTML($fullData['essential_scripts']),
-			'javaScript' => $this->createActivationScriptFile(
-				$folderName, 'essential', $fullData['essential_scripts'], $minifyFiles
-			),
-		];
-
-		foreach ($fullData['groups'] as $group) {
-			$loadingScripts[$group['group_name']] = [
-				'html' => $this->getActivationHTML($group['scripts']),
-				'javaScript' => $this->createActivationScriptFile(
-					$folderName, $group['group_name'], $group['scripts'], $minifyFiles
-				),
-			];
-		}
 
 		$languages = $this->getLanguages();
 		foreach ($languages as $language) {
@@ -189,6 +172,23 @@ class GenerateFilesAfterTcaSave {
 			$fullData = $this->getFullData($translatedRecord, self::TABLE_NAME, $languageUid);
 			if (count($fullData) <= 0) {
 				return;
+			}
+
+			$loadingScripts = [];
+			$loadingScripts['essential'] = [
+				'html' => $this->getActivationHTML($fullData['essential_scripts']),
+				'javaScript' => $this->createActivationScriptFile(
+					$folderName, 'essential', $fullData['essential_scripts'], $languageUid, $minifyFiles
+				),
+			];
+
+			foreach ($fullData['groups'] as $group) {
+				$loadingScripts[$group['group_name']] = [
+					'html' => $this->getActivationHTML($group['scripts']),
+					'javaScript' => $this->createActivationScriptFile(
+						$folderName, $group['group_name'], $group['scripts'], $languageUid, $minifyFiles
+					),
+				];
 			}
 
 			$this->createJavaScriptFile($folderName, $fullData, $loadingScripts, $languageUid, $minifyFiles);
@@ -434,10 +434,13 @@ class GenerateFilesAfterTcaSave {
 	 * @param string $folder
 	 * @param string $groupName
 	 * @param array $scripts
+	 * @param int $languageUid
 	 * @param bool $minifyFile
 	 * @return string
 	 */
-	protected function createActivationScriptFile($folder, $groupName, array $scripts, $minifyFile = TRUE) {
+	protected function createActivationScriptFile(
+		$folder, $groupName, array $scripts, $languageUid = 0, $minifyFile = TRUE
+	) {
 		$content = '';
 		foreach ($scripts as $script) {
 			$scriptContent = trim($script['script']);
@@ -452,8 +455,8 @@ class GenerateFilesAfterTcaSave {
 			return '';
 		}
 
-		$file = $folder . $groupName . '.js';
-		$groupFile = PATH_site . $folder . $groupName . '.js';
+		$file = $folder . $groupName . '-' . $languageUid . '.js';
+		$groupFile = PATH_site . $file;
 		file_put_contents($groupFile, $content);
 
 		if ($minifyFile) {

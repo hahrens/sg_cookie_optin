@@ -153,7 +153,6 @@ return [
 		],
 		'scripts' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.scripts',
 			'config' => [
 				'type' => 'inline',

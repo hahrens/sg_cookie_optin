@@ -636,7 +636,6 @@ $configuration = [
 		],
 		'essential_scripts' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.essential_scripts',
 			'config' => [
 				'type' => 'inline',

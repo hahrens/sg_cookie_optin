@@ -66,8 +66,8 @@
 				<target><![CDATA[Opt-In]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.scripts" approved="yes">
-				<source><![CDATA[Scripts]]></source>
-				<target><![CDATA[Skripte]]></target>
+				<source><![CDATA[Scripts (For translations: Only "translated" scripts are considered. Added scripts without a default language parent will be ignored)]]></source>
+				<target><![CDATA[Skripte (Für Übersetzungen: Es werden nur "übersetzte" Skripte berücksichtigt. Hinzugefügte Skripte ohne übergeordnete Standardsprache werden ignoriert)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.title" approved="yes">
 				<source><![CDATA[Group Title]]></source>
@@ -218,8 +218,8 @@
 				<target><![CDATA[Beschreibung (erklärt die Verwendung dieser Skripte & Cookies)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_scripts" approved="yes">
-				<source><![CDATA[Scripts]]></source>
-				<target><![CDATA[Skripte]]></target>
+				<source><![CDATA[Scripts (For translations: Only "translated" scripts are considered. Added scripts without a default language parent will be ignored)]]></source>
+				<target><![CDATA[Skripte (Für Übersetzungen: Es werden nur "übersetzte" Skripte berücksichtigt. Hinzugefügte Skripte ohne übergeordnete Standardsprache werden ignoriert)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_title" approved="yes">
 				<source><![CDATA[Group Title for Essential Cookies & Scripts the User has to Accept]]></source>
