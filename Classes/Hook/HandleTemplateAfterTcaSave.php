@@ -1,0 +1,99 @@
+<?php
+
+namespace SGalinski\SgCookieOptin\Hook;
+
+/***************************************************************
+ *  Copyright notice
+ *
+ *  (c) sgalinski Internet Services (https://www.sgalinski.de)
+ *
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
+
+use SGalinski\SgCookieOptin\Service\TemplateService;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\DatabaseConnection;
+use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
+/**
+ * Handles the template related changes in the TCA.
+ */
+class HandleTemplateAfterTcaSave {
+	const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
+
+	/**
+	 * Hook method for updating the template field in the optin TCA
+	 *
+	 * @param string $status
+	 * @param string $table
+	 * @param int $id
+	 * @param array $fieldArray
+	 * @param DataHandler $dataHandler
+	 * @throws \TYPO3\CMS\Core\Resource\Exception\InsufficientFolderWritePermissionsException
+	 * @throws \TYPO3\CMS\Extbase\Persistence\Exception\UnknownObjectException
+	 * @throws \TYPO3\CMS\Extbase\Persistence\Exception\IllegalObjectTypeException
+	 * @throws \TYPO3\CMS\Core\Exception
+	 * @throws \InvalidArgumentException
+	 */
+	public function processDatamap_afterDatabaseOperations(
+		$status, $table, $id, array $fieldArray, DataHandler $dataHandler
+	) {
+		if (
+			$status !== 'update' && $status !== 'new' && $table !== self::TABLE_NAME &&
+			isset($dataHandler->datamap[self::TABLE_NAME])
+		) {
+			return;
+		}
+
+		$templateService = GeneralUtility::makeInstance(TemplateService::class);
+		foreach ($dataHandler->datamap[self::TABLE_NAME] as $uid => $data) {
+			if ((boolean) $data['template_overwritten']) {
+				continue;
+			}
+
+			$template = $templateService->getTemplateContent((int) $data['template_selection']);
+			if (!$template) {
+				continue;
+			}
+
+			if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
+				/** @var DatabaseConnection $database */
+				$database = $GLOBALS['TYPO3_DB'];
+				$database->exec_UPDATEquery(self::TABLE_NAME, 'uid=' . (int) $id, [
+					'template_html' => $template,
+				]);
+			} else {
+				$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+				$queryBuilder = $connectionPool->getQueryBuilderForTable(self::TABLE_NAME);
+				$queryBuilder
+					->update(self::TABLE_NAME)
+					->set('template_html', $template)
+					->where(
+						$queryBuilder->expr()->eq(
+							'uid',
+							$queryBuilder->createNamedParameter((int) $id, \PDO::PARAM_INT)
+						)
+					)->execute();
+			}
+		}
+	}
+}

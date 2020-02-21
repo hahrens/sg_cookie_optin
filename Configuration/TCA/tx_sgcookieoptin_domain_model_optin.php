@@ -43,7 +43,7 @@ $configuration = [
 		'transOrigPointerField' => 'l10n_parent',
 		'transOrigDiffSourceField' => 'l10n_diffsource',
 		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_optin.svg',
-		'requestUpdate' => 'template_selection, template_overwritten',
+		'requestUpdate' => 'template_selection',
 	],
 	'interface' => [
 		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, header, description, cookie_lifetime, 
@@ -341,7 +341,6 @@ $configuration = [
 				'foreign_field' => 'parent_optin',
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
-					'expandSingle' => TRUE,
 					'showPossibleLocalizationRecords' => TRUE,
 					'showRemovedLocalizationRecords' => FALSE,
 					'showAllLocalizationLink' => TRUE,
@@ -643,7 +642,6 @@ $configuration = [
 				'foreign_field' => 'parent_optin',
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
-					'expandSingle' => TRUE,
 					'showPossibleLocalizationRecords' => TRUE,
 					'showRemovedLocalizationRecords' => FALSE,
 					'showAllLocalizationLink' => TRUE,
@@ -660,7 +658,6 @@ $configuration = [
 				'foreign_field' => 'parent_optin',
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
-					'expandSingle' => TRUE,
 					'showPossibleLocalizationRecords' => TRUE,
 					'showRemovedLocalizationRecords' => FALSE,
 					'showAllLocalizationLink' => TRUE,
@@ -826,8 +823,10 @@ $configuration = [
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_html',
 			'config' => [
-				'type' => 'user',
-				'userFunc' => SGalinski\SgCookieOptin\UserFunction\RenderHTMLTemplate::class . '->render',
+				'type' => 'text',
+				'renderType' => 't3editor',
+				'format' => 'html',
+				'eval' => 'trim'
 			],
 		],
 		'template_overwritten' => [
@@ -848,7 +847,8 @@ $configuration = [
 				'renderType' => 'selectSingle',
 				'minitems' => 1,
 				'items' => [
-					['Template1', 0],
+					['Default', 0],
+					['New One', 1],
 				],
 			],
 		],

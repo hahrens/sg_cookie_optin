@@ -41,6 +41,8 @@ call_user_func(
 		// hook registration
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
 			\SGalinski\SgCookieOptin\Hook\GenerateFilesAfterTcaSave::class;
+		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
+			\SGalinski\SgCookieOptin\Hook\HandleTemplateAfterTcaSave::class;
 
 		// User TSConfig
 		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(

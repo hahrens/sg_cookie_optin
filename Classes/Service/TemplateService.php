@@ -29,11 +29,18 @@ namespace SGalinski\SgCookieOptin\Service;
 use Mustache_Autoloader;
 use Mustache_Engine;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * Class SGalinski\SgCookieOptin\Service\TemplateService
  */
 class TemplateService implements SingletonInterface {
+	const TEMPLATE_ID_DEFAULT = 0;
+
+	protected $templateIdMap = [
+		self::TEMPLATE_ID_DEFAULT => 'Default',
+	];
+
 	/**
 	 * MinificationService constructor.
 	 *
@@ -60,5 +67,26 @@ class TemplateService implements SingletonInterface {
 
 		$mustacheEngine = new Mustache_Engine;
 		return $mustacheEngine->render($template, $marker);
+	}
+
+	/**
+	 * Returns the content of one of the templates mapped by one of the constant id from this class.
+	 *
+	 * @param int $templateId
+	 *
+	 * @return string
+	 */
+	public function getTemplateContent($templateId) {
+		if (!isset($this->templateIdMap[$templateId])) {
+			return '';
+		}
+
+		$path = ExtensionManagementUtility::extPath('sg_cookie_optin') .
+			'Resources/Private/Templates/Mustache/' . $this->templateIdMap[$templateId] . '.html';
+		if (!file_exists($path)) {
+			return '';
+		}
+
+		return file_get_contents($path);
 	}
 }

@@ -145,7 +145,7 @@
 
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
-		wrapper.appendChild(cookieBox);
+		// wrapper.appendChild(cookieBox);
 
 		// @todo remove me!
 		wrapper.insertAdjacentHTML('afterbegin', MARKUP);

@@ -35,6 +35,7 @@ use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -213,14 +214,24 @@ class GenerateFilesAfterTcaSave {
 	protected function createJavaScriptFile(
 		$folder, array $data, array $loadingScripts, $languageUid = 0, $minifyFile = TRUE
 	) {
-		$content = file_get_contents(PATH_site . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME);
+		$essentialCookieData = [];
+		foreach ($data['essential_cookies'] as $index => $cookieData) {
+			$essentialCookieData[] = [
+				'Name' => $cookieData['name'],
+				'Provider' => $cookieData['provider'],
+				'Purpose' => $cookieData['purpose'],
+				'Lifetime' => $cookieData['lifetime'],
+				'index' => $index,
+			];
+		}
 
 		$cookieGroups = [
-			'essential' => [
+			[
+				'groupName' => 'essential',
 				'label' => $data['essential_title'],
 				'description' => $data['essential_description'],
 				'required' => TRUE,
-				'cookieData' => [],
+				'cookieData' => $essentialCookieData,
 				'loadingHTML' => isset($loadingScripts['essential']['html'])
 					? $loadingScripts['essential']['html'] : '',
 				'loadingJavaScript' => isset($loadingScripts['essential']['javaScript'])
@@ -229,7 +240,8 @@ class GenerateFilesAfterTcaSave {
 		];
 
 		if ((boolean) $data['iframe_enabled']) {
-			$cookieGroups['iframes'] = [
+			$cookieGroups[] = [
+				'groupName' => 'iframes',
 				'label' => $data['iframe_title'],
 				'description' => $data['iframe_description'],
 				'required' => FALSE,
@@ -241,47 +253,44 @@ class GenerateFilesAfterTcaSave {
 			];
 		}
 
-		foreach ($data['essential_cookies'] as $cookieData) {
-			$cookieGroups['essential']['cookieData'][] = [
-				'Name' => $cookieData['name'],
-				'Provider' => $cookieData['provider'],
-				'Purpose' => $cookieData['purpose'],
-				'Lifetime' => $cookieData['lifetime'],
-			];
-		}
-
 		foreach ($data['groups'] as $group) {
+			$groupCookieData = [];
+			foreach ($group['cookies'] as $index => $cookieData) {
+				$groupCookieData[] = [
+					'Name' => $cookieData['name'],
+					'Provider' => $cookieData['provider'],
+					'Purpose' => $cookieData['purpose'],
+					'Lifetime' => $cookieData['lifetime'],
+					'index' => $index,
+				];
+			}
+
 			$groupName = $group['group_name'];
-			$cookieGroups[$groupName] = [
+			$cookieGroups[] = [
+				'groupName' => $groupName,
 				'label' => $group['title'],
 				'description' => $group['description'],
 				'required' => FALSE,
-				'cookieData' => [],
+				'cookieData' => $groupCookieData,
 				'loadingHTML' => isset($loadingScripts[$groupName]['html'])
 					? $loadingScripts[$groupName]['html'] : '',
 				'loadingJavaScript' => isset($loadingScripts[$groupName]['javaScript'])
 					? $loadingScripts[$groupName]['javaScript'] : '',
 			];
-
-			foreach ($group['cookies'] as $cookieData) {
-				$cookieGroups[$groupName]['cookieData'][] = [
-					'Name' => $cookieData['name'],
-					'Provider' => $cookieData['provider'],
-					'Purpose' => $cookieData['purpose'],
-					'Lifetime' => $cookieData['lifetime'],
-				];
-			}
 		}
 
 		$footerLinks = [];
+		$index = 0;
 		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 		$contentObject = $objectManager->get(ContentObjectRenderer::class);
 		foreach ($this->getPagesFromNavigation($data['navigation'], $languageUid) as $pageData) {
 			try {
-				$footerLinks[] = [
+				$footerLinks[$index] = [
 					'url' => $contentObject->getTypoLink_URL($pageData['uid'], '&disableOptIn=1&L=' . $languageUid),
 					'name' => $contentObject->crop($pageData['title'], 35 . '|...|0'),
+					'index' => $index,
 				];
+				++$index;
 			} catch (\Error $exception) {
 				// Occurs on the first creation of the translation.
 				continue;
@@ -315,6 +324,24 @@ class GenerateFilesAfterTcaSave {
 		];
 
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
+		if ((boolean) $data['template_overwritten'] && $data['template_html']) {
+			$template = $data['template_html'];
+		} else {
+			$template = $templateService->getTemplateContent((int) $data['template_selection']);
+		}
+
+		$mustacheTemplate = '';
+		if ($template) {
+			$mustacheTemplate = $templateService->renderTemplate($template, [
+					'settings' => $settings,
+					'cookieGroups' => $cookieGroups,
+					'footerLinks' => $footerLinks,
+					'textEntries' => $textEntries,
+				]
+			);
+		}
+
+		$content = file_get_contents(PATH_site . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME);
 		$content = str_replace(
 			[
 				'###SETTINGS###',
@@ -328,10 +355,10 @@ class GenerateFilesAfterTcaSave {
 				json_encode($cookieGroups),
 				json_encode($footerLinks),
 				json_encode($textEntries),
-				// @todo Anpassen
-				json_encode($templateService->renderTemplate('<h1>Hello {{planet}}</h1>', ['planet' => 'World!']))
+				json_encode($mustacheTemplate)
 			], $content
 		);
+
 		$file = PATH_site . $folder .
 			str_replace('#LANG#', $data['sys_language_uid'], self::TEMPLATE_JAVA_SCRIPT_NEW_NAME);
 		file_put_contents($file, $content);

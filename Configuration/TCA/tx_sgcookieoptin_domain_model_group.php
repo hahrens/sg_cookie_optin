@@ -160,7 +160,6 @@ return [
 				'foreign_field' => 'parent_group',
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
-					'expandSingle' => TRUE,
 					'showPossibleLocalizationRecords' => TRUE,
 					'showRemovedLocalizationRecords' => FALSE,
 					'showAllLocalizationLink' => TRUE,
@@ -177,7 +176,6 @@ return [
 				'foreign_field' => 'parent_group',
 				'foreign_sortby' => 'sorting',
 				'appearance' => [
-					'expandSingle' => TRUE,
 					'showPossibleLocalizationRecords' => TRUE,
 					'showRemovedLocalizationRecords' => FALSE,
 					'showAllLocalizationLink' => TRUE,
