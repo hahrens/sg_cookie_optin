@@ -36,9 +36,29 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  */
 class TemplateService implements SingletonInterface {
 	const TEMPLATE_ID_DEFAULT = 0;
+	const TEMPLATE_ID_NEW = 1;
+
+	const BANNER_TEMPLATE_ID_DEFAULT = 0;
+
+	const IFRAME_TEMPLATE_ID_DEFAULT = 0;
+
+	const IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT = 0;
 
 	protected $templateIdMap = [
 		self::TEMPLATE_ID_DEFAULT => 'Default',
+		self::TEMPLATE_ID_NEW => 'New',
+	];
+
+	protected $bannerTemplateIdMap = [
+		self::BANNER_TEMPLATE_ID_DEFAULT => 'Default',
+	];
+
+	protected $iframeTemplateIdMap = [
+		self::IFRAME_TEMPLATE_ID_DEFAULT => 'Default',
+	];
+
+	protected $iframeReplacementTemplateIdMap = [
+		self::IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT => 'Default',
 	];
 
 	/**
@@ -81,8 +101,65 @@ class TemplateService implements SingletonInterface {
 			return '';
 		}
 
+		return $this->getFileContent($this->templateIdMap[$templateId], 'Template');
+	}
+
+	/**
+	 * Returns the content of one of the templates mapped by one of the constant id from this class.
+	 *
+	 * @param int $bannerTemplateId
+	 *
+	 * @return string
+	 */
+	public function getBannerContent($bannerTemplateId) {
+		if (!isset($this->bannerTemplateIdMap[$bannerTemplateId])) {
+			return '';
+		}
+
+		return $this->getFileContent($this->bannerTemplateIdMap[$bannerTemplateId], 'Banner');
+	}
+
+	/**
+	 * Returns the content of one of the templates mapped by one of the constant id from this class.
+	 *
+	 * @param int $iframeTemplateId
+	 *
+	 * @return string
+	 */
+	public function getIframeContent($iframeTemplateId) {
+		if (!isset($this->iframeTemplateIdMap[$iframeTemplateId])) {
+			return '';
+		}
+
+		return $this->getFileContent($this->iframeTemplateIdMap[$iframeTemplateId], 'Iframe');
+	}
+
+	/**
+	 * Returns the content of one of the templates mapped by one of the constant id from this class.
+	 *
+	 * @param int $iframeReplacementId
+	 *
+	 * @return string
+	 */
+	public function getIframeReplacementContent($iframeReplacementId) {
+		if (!isset($this->iframeReplacementTemplateIdMap[$iframeReplacementId])) {
+			return '';
+		}
+
+		return $this->getFileContent($this->iframeReplacementTemplateIdMap[$iframeReplacementId], 'IframeReplacement');
+	}
+
+	/**
+	 * Returns the content of the searched template.
+	 *
+	 * @param string $name
+	 * @param string $folder
+	 *
+	 * @return false|string
+	 */
+	protected function getFileContent($name, $folder) {
 		$path = ExtensionManagementUtility::extPath('sg_cookie_optin') .
-			'Resources/Private/Templates/Mustache/' . $this->templateIdMap[$templateId] . '.html';
+			'Resources/Private/Templates/Mustache/' . $folder . '/' . $name . '.html';
 		if (!file_exists($path)) {
 			return '';
 		}

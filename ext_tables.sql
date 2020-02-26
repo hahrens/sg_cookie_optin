@@ -29,6 +29,26 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	template_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	template_selection int(11) DEFAULT '0' NOT NULL,
 
+	# banner
+	banner_enable tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	banner_html text NOT NULL,
+	banner_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	banner_show_settings_button tinyint(4) unsigned DEFAULT '1' NOT NULL,
+	banner_position int(11) DEFAULT '0' NOT NULL,
+	banner_selection int(11) DEFAULT '0' NOT NULL,
+	banner_color_box varchar(255) DEFAULT '#FFFFFF' NOT NULL,
+	banner_color_text varchar(255) DEFAULT '#373737' NOT NULL,
+	banner_color_link_text varchar(255) DEFAULT '#373737' NOT NULL,
+	banner_color_button_settings varchar(255) DEFAULT '#A5A5A5' NOT NULL,
+	banner_color_button_settings_hover varchar(255) DEFAULT '#D7D7D7' NOT NULL,
+	banner_color_button_settings_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
+	banner_color_button_accept varchar(255) DEFAULT '#7B9B2C' NOT NULL,
+	banner_color_button_accept_hover varchar(255) DEFAULT '#8FAF2D' NOT NULL,
+	banner_color_button_accept_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
+	banner_button_accept_text varchar(255) DEFAULT 'Akzeptieren' NOT NULL,
+	banner_button_settings_text varchar(255) DEFAULT 'Einstellungen' NOT NULL,
+	banner_description text NOT NULL,
+
 	# template colors
 	color_box varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 	color_headline varchar(255) DEFAULT '#373737' NOT NULL,
@@ -63,6 +83,14 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_enabled tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	iframe_title varchar(255) DEFAULT 'Externe Inhalte' NOT NULL,
 	iframe_description text NOT NULL,
+
+	iframe_html text NOT NULL,
+	iframe_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	iframe_selection int(11) DEFAULT '0' NOT NULL,
+
+	iframe_replacement_html text NOT NULL,
+	iframe_replacement_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	iframe_replacement_selection int(11) DEFAULT '0' NOT NULL,
 
 	iframe_button_allow_all_text varchar(255) DEFAULT 'Alle externen Inhalte erlauben' NOT NULL,
 	iframe_button_allow_one_text varchar(255) DEFAULT 'Einmalig erlauben' NOT NULL,

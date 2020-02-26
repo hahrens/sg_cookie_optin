@@ -35,7 +35,6 @@ use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -55,8 +54,8 @@ class GenerateFilesAfterTcaSave {
 
 	const TEMPLATE_JAVA_SCRIPT_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/JavaScript/';
 	const TEMPLATE_JAVA_SCRIPT_NAME = 'cookieOptin.js';
-	const TEMPLATE_JAVA_SCRIPT_NEW_NAME = 'cookieOptin_#LANG#_v2.js';
-	const TEMPLATE_JAVA_SCRIPT_V1_NEW_NAME = 'cookieOptin_#LANG#.js';
+
+	const TEMPLATE_JSON_NAME = 'cookieOptinData_#LANG#.json';
 
 	const TEMPLATE_STYLE_SHEET_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/StyleSheets/';
 	const TEMPLATE_STYLE_SHEET_NAME = 'cookieOptin.css';
@@ -154,8 +153,46 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		$fullData = $this->getFullData($originalRecord, self::TABLE_NAME);
-		$minifyFiles = (bool) $data['minify_generated_data'];
-		$this->createCSSFile($folderName, $fullData, $minifyFiles);
+		$minifyFiles = (bool) $fullData['minify_generated_data'];
+		$cssData = [
+			'color_box' => $fullData['color_box'],
+			'color_headline' => $fullData['color_headline'],
+			'color_text' => $fullData['color_text'],
+			'color_checkbox' => $fullData['color_checkbox'],
+			'color_checkbox_required' => $fullData['color_checkbox_required'],
+			'color_button_all' => $fullData['color_button_all'],
+			'color_button_all_hover' => $fullData['color_button_all_hover'],
+			'color_button_all_text' => $fullData['color_button_all_text'],
+			'color_button_specific' => $fullData['color_button_specific'],
+			'color_button_specific_hover' => $fullData['color_button_specific_hover'],
+			'color_button_specific_text' => 	$fullData['color_button_specific_text'],
+			'color_button_essential' => 	$fullData['color_button_essential'],
+			'color_button_essential_hover' => 	$fullData['color_button_essential_hover'],
+			'color_button_essential_text' => $fullData['color_button_essential_text'],
+			'color_button_close' => 	$fullData['color_button_close'],
+			'color_button_close_hover' => 	$fullData['color_button_close_hover'],
+			'color_button_close_text' => $fullData['color_button_close_text'],
+			'color_list' => $fullData['color_list'],
+			'color_list_text' => $fullData['color_list_text'],
+			'color_table' => $fullData['color_table'],
+			'color_table_header_text' => $fullData['color_table_header_text'],
+			'color_Table_data_text' => $fullData['color_Table_data_text'],
+			'iframe_color_consent_box_background' => $fullData['iframe_color_consent_box_background'],
+			'iframe_color_button_load_one' => $fullData['iframe_color_button_load_one'],
+			'iframe_color_button_load_one_hover' => $fullData['iframe_color_button_load_one_hover'],
+			'iframe_color_button_load_one_text' => $fullData['iframe_color_button_load_one_text'],
+			'iframe_color_open_settings' => $fullData['iframe_color_open_settings'],
+			'banner_color_box' => $fullData['banner_color_box'],
+			'banner_color_text' => $fullData['banner_color_text'],
+			'banner_color_link_text' => $fullData['banner_color_link_text'],
+			'banner_color_button_settings' => $fullData['banner_color_button_settings'],
+			'banner_color_button_settings_hover' => $fullData['banner_color_button_settings_hover'],
+			'banner_color_button_settings_text' => $fullData['banner_color_button_settings_text'],
+			'banner_color_button_accept' => $fullData['banner_color_button_accept'],
+			'banner_color_button_accept_hover' => $fullData['banner_color_button_accept_hover'],
+			'banner_color_button_accept_text' => $fullData['banner_color_button_accept_text'],
+		];
+		$this->createCSSFile($folderName, $cssData, $minifyFiles);
 
 		$languages = $this->getLanguages();
 		foreach ($languages as $language) {
@@ -192,7 +229,8 @@ class GenerateFilesAfterTcaSave {
 				];
 			}
 
-			$this->createJavaScriptFile($folderName, $fullData, $loadingScripts, $languageUid, $minifyFiles);
+			$this->createJavaScriptFile($folderName, $minifyFiles);
+			$this->createJsonFile($folderName, $fullData, $cssData, $loadingScripts, $languageUid);
 		}
 
 		GeneralUtility::fixPermissions(PATH_site . self::FOLDER_FILEADMIN, TRUE);
@@ -205,15 +243,32 @@ class GenerateFilesAfterTcaSave {
 	 * Creates a JS file out of the given data array.
 	 *
 	 * @param string $folder
-	 * @param array $data
-	 * @param array $loadingScripts
-	 * @param int $languageUid
 	 * @param bool $minifyFile
 	 * @return void
 	 */
-	protected function createJavaScriptFile(
-		$folder, array $data, array $loadingScripts, $languageUid = 0, $minifyFile = TRUE
-	) {
+	protected function createJavaScriptFile($folder, $minifyFile = TRUE) {
+		$file = PATH_site . $folder . self::TEMPLATE_JAVA_SCRIPT_NAME;
+		copy(PATH_site . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME, $file);
+
+		if ($minifyFile) {
+			$minificationService = GeneralUtility::makeInstance(MinificationService::class);
+			$minificationService->minifyJavaScriptFile($file);
+		}
+
+		GeneralUtility::fixPermissions($file);
+	}
+
+	/**
+	 * Creates a JSON file out of the given data array.
+	 *
+	 * @param string $folder
+	 * @param array $data
+	 * @param array $cssData
+	 * @param array $loadingScripts
+	 * @param int $languageUid
+	 * @return void
+	 */
+	protected function createJsonFile($folder, array $data, array $cssData, array $loadingScripts, $languageUid = 0) {
 		$essentialCookieData = [];
 		foreach ($data['essential_cookies'] as $index => $cookieData) {
 			$essentialCookieData[] = [
@@ -239,18 +294,19 @@ class GenerateFilesAfterTcaSave {
 			],
 		];
 
+		$iFrameGroup = [
+			'groupName' => 'iframes',
+			'label' => $data['iframe_title'],
+			'description' => $data['iframe_description'],
+			'required' => FALSE,
+			'cookieData' => [],
+			'loadingHTML' => isset($loadingScripts['iframes']['html'])
+				? $loadingScripts['iframes']['html'] : '',
+			'loadingJavaScript' => isset($loadingScripts['iframes']['javaScript'])
+				? $loadingScripts['iframes']['javaScript'] : '',
+		];
 		if ((boolean) $data['iframe_enabled']) {
-			$cookieGroups[] = [
-				'groupName' => 'iframes',
-				'label' => $data['iframe_title'],
-				'description' => $data['iframe_description'],
-				'required' => FALSE,
-				'cookieData' => [],
-				'loadingHTML' => isset($loadingScripts['iframes']['html'])
-					? $loadingScripts['iframes']['html'] : '',
-				'loadingJavaScript' => isset($loadingScripts['iframes']['javaScript'])
-					? $loadingScripts['iframes']['javaScript'] : '',
-			];
+			$cookieGroups[] = $iFrameGroup;
 		}
 
 		foreach ($data['groups'] as $group) {
@@ -298,8 +354,11 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		$settings = [
-			'iframe_enabled' => (boolean) $data['iframe_enabled'],
+			'banner_enable' => (boolean) $data['banner_enable'],
+			'banner_position' => (int) $data['banner_position'],
+			'banner_show_settings_button' => (boolean) $data['banner_show_settings_button'],
 			'cookie_lifetime' => (int) $data['cookie_lifetime'],
+			'iframe_enabled' => (boolean) $data['iframe_enabled'],
 			'minify_generated_data' => (boolean) $data['minify_generated_data'],
 		];
 
@@ -321,6 +380,18 @@ class GenerateFilesAfterTcaSave {
 			'iframe_button_allow_one_text' => $data['iframe_button_allow_one_text'],
 			'iframe_button_load_one_text' => $data['iframe_button_load_one_text'],
 			'iframe_open_settings_text' => $data['iframe_open_settings_text'],
+			'banner_button_accept_text' => $data['banner_button_accept_text'],
+			'banner_button_settings_text' => $data['banner_button_settings_text'],
+			'banner_description' => $data['banner_description'],
+		];
+
+		$jsonDataArray = [
+			'cookieGroups' => $cookieGroups,
+			'cssData' => $cssData,
+			'footerLinks' => $footerLinks,
+			'iFrameGroup' => $iFrameGroup,
+			'settings' => $settings,
+			'textEntries' => $textEntries,
 		];
 
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
@@ -332,57 +403,63 @@ class GenerateFilesAfterTcaSave {
 
 		$mustacheTemplate = '';
 		if ($template) {
-			$mustacheTemplate = $templateService->renderTemplate($template, [
-					'settings' => $settings,
-					'cookieGroups' => $cookieGroups,
-					'footerLinks' => $footerLinks,
-					'textEntries' => $textEntries,
-				]
-			);
+			$mustacheTemplate = $templateService->renderTemplate($template, $jsonDataArray);
 		}
 
-		$content = file_get_contents(PATH_site . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME);
-		$content = str_replace(
-			[
-				'###SETTINGS###',
-				'###COOKIE_GROUPS###',
-				'###FOOTER_LINKS###',
-				'###TEXT_ENTRIES###',
-				'###MARKUP###'
-			],
-			[
-				json_encode($settings),
-				json_encode($cookieGroups),
-				json_encode($footerLinks),
-				json_encode($textEntries),
-				json_encode($mustacheTemplate)
-			], $content
-		);
-
-		$file = PATH_site . $folder .
-			str_replace('#LANG#', $data['sys_language_uid'], self::TEMPLATE_JAVA_SCRIPT_NEW_NAME);
-		file_put_contents($file, $content);
-
-		if ($minifyFile) {
-			$minificationService = GeneralUtility::makeInstance(MinificationService::class);
-			$minificationService->minifyJavaScriptFile($file);
+		if ((boolean) $data['banner_overwritten'] && $data['banner_html']) {
+			$template = $data['banner_html'];
+		} else {
+			$template = $templateService->getBannerContent((int) $data['banner_selection']);
 		}
 
+		$mustacheBanner = '';
+		if ($template) {
+			$mustacheBanner = $templateService->renderTemplate($template, $jsonDataArray);
+		}
+
+		if ((boolean) $data['iframe_overwritten'] && $data['iframe_html']) {
+			$template = $data['iframe_html'];
+		} else {
+			$template = $templateService->getIframeContent((int) $data['iframe_selection']);
+		}
+
+		$mustacheIframe = '';
+		if ($template) {
+			$mustacheIframe = $templateService->renderTemplate($template, $jsonDataArray);
+		}
+
+		if ((boolean) $data['iframe_replacement_overwritten'] && $data['iframe_replacement_html']) {
+			$template = $data['iframe_replacement_html'];
+		} else {
+			$template = $templateService->getIframeReplacementContent((int) $data['iframe_replacement_selection']);
+		}
+
+		$mustacheIframeReplacement = '';
+		if ($template) {
+			$mustacheIframeReplacement = $templateService->renderTemplate($template, $jsonDataArray);
+		}
+
+		$jsonDataArray['markup'] = [
+			'template' => $mustacheTemplate,
+			'banner' => $mustacheBanner,
+			'iframe' => $mustacheIframe,
+			'iframeReplacement' => $mustacheIframeReplacement,
+		];
+
+		$file = PATH_site . $folder . str_replace('#LANG#', $data['sys_language_uid'], self::TEMPLATE_JSON_NAME);
+		file_put_contents($file, json_encode($jsonDataArray));
 		GeneralUtility::fixPermissions($file);
-
-		// remove deprecated old v1 file
-		@unlink(PATH_site . $folder . self::TEMPLATE_JAVA_SCRIPT_V1_NEW_NAME);
 	}
 
 	/**
 	 * Creates a CSS file out of the given data array.
 	 *
 	 * @param string $folder
-	 * @param array $data
-	 * @param array $minifyFile
+	 * @param array $cssData
+	 * @param boolean $minifyFile
 	 * @return void
 	 */
-	protected function createCSSFile($folder, array $data, $minifyFile = TRUE) {
+	protected function createCSSFile($folder, array $cssData, $minifyFile = TRUE) {
 		$content = file_get_contents(PATH_site . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
 		$content = str_replace(
 			[
@@ -413,36 +490,16 @@ class GenerateFilesAfterTcaSave {
 				'###IFRAME_COLOR_BUTTON_LOAD_ONE_HOVER###',
 				'###IFRAME_COLOR_BUTTON_LOAD_ONE_TEXT###',
 				'###IFRAME_COLOR_OPEN_SETTINGS###',
-			],
-			[
-				$data['color_box'],
-				$data['color_headline'],
-				$data['color_text'],
-				$data['color_checkbox'],
-				$data['color_checkbox_required'],
-				$data['color_button_all'],
-				$data['color_button_all_hover'],
-				$data['color_button_all_text'],
-				$data['color_button_specific'],
-				$data['color_button_specific_hover'],
-				$data['color_button_specific_text'],
-				$data['color_button_essential'],
-				$data['color_button_essential_hover'],
-				$data['color_button_essential_text'],
-				$data['color_button_close'],
-				$data['color_button_close_hover'],
-				$data['color_button_close_text'],
-				$data['color_list'],
-				$data['color_list_text'],
-				$data['color_table'],
-				$data['color_table_header_text'],
-				$data['color_Table_data_text'],
-				$data['iframe_color_consent_box_background'],
-				$data['iframe_color_button_load_one'],
-				$data['iframe_color_button_load_one_hover'],
-				$data['iframe_color_button_load_one_text'],
-				$data['iframe_color_open_settings'],
-			], $content
+				'###BANNER_COLOR_BOX###',
+				'###BANNER_COLOR_TEXT###',
+				'###BANNER_COLOR_LINK_TEXT###',
+				'###BANNER_COLOR_BUTTON_SETTINGS###',
+				'###BANNER_COLOR_BUTTON_SETTINGS_HOVER###',
+				'###BANNER_COLOR_BUTTON_SETTINGS_TEXT###',
+				'###BANNER_COLOR_BUTTON_ACCEPT###',
+				'###BANNER_COLOR_BUTTON_ACCEPT_HOVER###',
+				'###BANNER_COLOR_BUTTON_ACCEPT_TEXT###',
+			], $cssData, $content
 		);
 		$file = PATH_site . $folder . self::TEMPLATE_STYLE_SHEET_NAME;
 		file_put_contents($file, $content);

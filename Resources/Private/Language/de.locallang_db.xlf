@@ -298,16 +298,16 @@
 				<target><![CDATA[HTML, das geladen werden soll, wenn der Benutzer diese Gruppe akzeptiert (Experimentell)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html" approved="yes">
-				<source><![CDATA[The HTML template]]></source>
-				<target><![CDATA[Das HTML-Template]]></target>
+				<source><![CDATA[The template]]></source>
+				<target><![CDATA[Das Template]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten" approved="yes">
-				<source><![CDATA[Overwrite the HTML template? (Changes, which may occur in the next updates, are no longer automatically applied)]]></source>
-				<target><![CDATA[Das HTML-Template überschreiben? (Änderungen, welche in den nächsten Updates Vorkommen können, werden nicht mehr automatisch übernommen)]]></target>
+				<source><![CDATA[Overwrite the template? (Changes, which may occur in the next updates, are no longer automatically applied)]]></source>
+				<target><![CDATA[Das Template überschreiben? (Änderungen, welche in den nächsten Updates Vorkommen können, werden nicht mehr automatisch übernommen)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_selection" approved="yes">
-				<source><![CDATA[HTML template selection (The form will be saved and reloaded on after a change)]]></source>
-				<target><![CDATA[HTML-Template Auswahl (Das Formular wird gespeichert und neugeladen nach einer Änderung)]]></target>
+				<source><![CDATA[Template selection (The form will be saved and reloaded on after a change)]]></source>
+				<target><![CDATA[Template Auswahl (Das Formular wird gespeichert und neugeladen nach einer Änderung)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title" approved="yes">
 				<source><![CDATA[Script Name]]></source>
@@ -369,6 +369,30 @@
 				<source><![CDATA[Colors]]></source>
 				<target><![CDATA[Farben]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_html" approved="yes">
+				<source><![CDATA[The template]]></source>
+				<target><![CDATA[Das Template]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_overwritten" approved="yes">
+				<source><![CDATA[Overwrite the template? (Changes, which may occur in the next updates, are no longer automatically applied)]]></source>
+				<target><![CDATA[Das Template überschreiben? (Änderungen, welche in den nächsten Updates Vorkommen können, werden nicht mehr automatisch übernommen)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_selection" approved="yes">
+				<source><![CDATA[Template selection (The form will be saved and reloaded on after a change)]]></source>
+				<target><![CDATA[Template Auswahl (Das Formular wird gespeichert und neugeladen nach einer Änderung)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html" approved="yes">
+				<source><![CDATA[The template of the iframe replacement]]></source>
+				<target><![CDATA[Das Template, welches mit dem IFrame ersetzt wird]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_overwritten" approved="yes">
+				<source><![CDATA[Overwrite the replacement template? (Changes, which may occur in the next updates, are no longer automatically applied)]]></source>
+				<target><![CDATA[Das Ersetzungs-Template überschreiben? (Änderungen, welche in den nächsten Updates Vorkommen können, werden nicht mehr automatisch übernommen)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_selection" approved="yes">
+				<source><![CDATA[Replacement template selection (The form will be saved and reloaded on after a change)]]></source>
+				<target><![CDATA[Ersetzungs-Template Auswahl (Das Formular wird gespeichert und neugeladen nach einer Änderung)]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframes" approved="yes">
 				<source><![CDATA[External Content]]></source>
 				<target><![CDATA[Externe Inhalte]]></target>
@@ -392,6 +416,94 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.settings" approved="yes">
 				<source><![CDATA[Settings]]></source>
 				<target><![CDATA[Einstellungen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_enable" approved="yes">
+				<source><![CDATA[Enables a banner, instead of showing the full template]]></source>
+				<target><![CDATA[Aktiviert ein Banner, anstatt die vollständige Vorlage anzuzeigen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_html" approved="yes">
+				<source><![CDATA[The template]]></source>
+				<target><![CDATA[Das Template]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_overwritten" approved="yes">
+				<source><![CDATA[Overwrite the template? (Changes, which may occur in the next updates, are no longer automatically applied)]]></source>
+				<target><![CDATA[Überschreibung des Templates? (Änderungen, die in den nächsten Updates auftreten können, werden nicht mehr automatisch übernommen)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_show_settings_button" approved="yes">
+				<source><![CDATA[Shows the settings button within the banner. (This must be enabled, if the website is using cookies)]]></source>
+				<target><![CDATA[Zeigt den Einstellungs-Button innerhalb des Banners an. (Diese muss aktiviert werden, wenn die Website Cookies verwendet)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_position" approved="yes">
+				<source><![CDATA[The position of the banner on the website]]></source>
+				<target><![CDATA[Die Position des Banners auf der Website]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_selection" approved="yes">
+				<source><![CDATA[Template selection (The form will be saved and reloaded after a change)]]></source>
+				<target><![CDATA[Auswahl des Templates (Das Formular wird gespeichert und nach einer Änderung wieder geladen)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_box" approved="yes">
+				<source><![CDATA[Banner background]]></source>
+				<target><![CDATA[Banner Hintergrund]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_text" approved="yes">
+				<source><![CDATA[Banner text]]></source>
+				<target><![CDATA[Banner Text]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_link_text" approved="yes">
+				<source><![CDATA[Banner link text]]></source>
+				<target><![CDATA[Banner Link-Text]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_settings" approved="yes">
+				<source><![CDATA[Settings button: background]]></source>
+				<target><![CDATA[Einstellungs-Button: Hintergrund]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_settings_hover" approved="yes">
+				<source><![CDATA[Settings button: hover]]></source>
+				<target><![CDATA[Einstellungs-Button: Hover]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_settings_text" approved="yes">
+				<source><![CDATA[Settings button: text color]]></source>
+				<target><![CDATA[Einstellungs-Button: Text-Farbe]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept" approved="yes">
+				<source><![CDATA[Accept button: background]]></source>
+				<target><![CDATA[Akzeptieren-Button: Hintergrund]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_hover" approved="yes">
+				<source><![CDATA[Accept button: hover]]></source>
+				<target><![CDATA[Akzeptieren-Button: Hover]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_text" approved="yes">
+				<source><![CDATA[Accept button: text color]]></source>
+				<target><![CDATA[Akzeptieren-Button: Text-Farbe]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_text" approved="yes">
+				<source><![CDATA[Accept button: text]]></source>
+				<target><![CDATA[Akzeptieren-Button: Text]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_settings_text" approved="yes">
+				<source><![CDATA[Settings button: text]]></source>
+				<target><![CDATA[Einstellungs-Button: Text]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_description" approved="yes">
+				<source><![CDATA[Description]]></source>
+				<target><![CDATA[Beschreibung]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general" approved="yes">
+				<source><![CDATA[General]]></source>
+				<target><![CDATA[Allgemein]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general_colors" approved="yes">
+				<source><![CDATA[Banner colors]]></source>
+				<target><![CDATA[Banner Farben]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_settings_button" approved="yes">
+				<source><![CDATA[Settings button]]></source>
+				<target><![CDATA[Einstellungs-Button]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_accept_button" approved="yes">
+				<source><![CDATA[Accept button]]></source>
+				<target><![CDATA[Akzeptieren-Button]]></target>
 			</trans-unit>
 		</body>
 	</file>

@@ -29,7 +29,6 @@ namespace SGalinski\SgCookieOptin\Hook;
 use SGalinski\SgCookieOptin\Service\TemplateService;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
-use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -58,8 +57,8 @@ class HandleTemplateAfterTcaSave {
 		$status, $table, $id, array $fieldArray, DataHandler $dataHandler
 	) {
 		if (
-			$status !== 'update' && $status !== 'new' && $table !== self::TABLE_NAME &&
-			isset($dataHandler->datamap[self::TABLE_NAME])
+			($status !== 'update' && $status !== 'new') || $table !== self::TABLE_NAME ||
+			!isset($dataHandler->datamap[self::TABLE_NAME])
 		) {
 			return;
 		}
@@ -67,12 +66,29 @@ class HandleTemplateAfterTcaSave {
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
 		foreach ($dataHandler->datamap[self::TABLE_NAME] as $uid => $data) {
 			if ((boolean) $data['template_overwritten']) {
-				continue;
+				$template = $data['template_html'];
+			} else {
+				$template = $templateService->getTemplateContent((int) $data['template_selection']);
 			}
 
-			$template = $templateService->getTemplateContent((int) $data['template_selection']);
-			if (!$template) {
-				continue;
+			if ((boolean) $data['banner_overwritten']) {
+				$bannerTemplate = $data['banner_html'];
+			} else {
+				$bannerTemplate = $templateService->getBannerContent((int) $data['banner_selection']);
+			}
+
+			if ((boolean) $data['iframe_overwritten']) {
+				$iframeTemplate = $data['iframe_html'];
+			} else {
+				$iframeTemplate = $templateService->getIframeContent((int) $data['iframe_selection']);
+			}
+
+			if ((boolean) $data['iframe_replacement_overwritten']) {
+				$iframeReplacementTemplate = $data['iframe_replacement_html'];
+			} else {
+				$iframeReplacementTemplate = $templateService->getIframeReplacementContent(
+					(int) $data['iframe_replacement_selection']
+				);
 			}
 
 			if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
@@ -80,6 +96,9 @@ class HandleTemplateAfterTcaSave {
 				$database = $GLOBALS['TYPO3_DB'];
 				$database->exec_UPDATEquery(self::TABLE_NAME, 'uid=' . (int) $id, [
 					'template_html' => $template,
+					'banner_html' => $bannerTemplate,
+					'iframe_html' => $iframeTemplate,
+					'iframe_replacement_html' => $iframeReplacementTemplate,
 				]);
 			} else {
 				$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
@@ -87,6 +106,9 @@ class HandleTemplateAfterTcaSave {
 				$queryBuilder
 					->update(self::TABLE_NAME)
 					->set('template_html', $template)
+					->set('banner_html', $bannerTemplate)
+					->set('iframe_html', $iframeTemplate)
+					->set('iframe_replacement_html', $iframeReplacementTemplate)
 					->where(
 						$queryBuilder->expr()->eq(
 							'uid',

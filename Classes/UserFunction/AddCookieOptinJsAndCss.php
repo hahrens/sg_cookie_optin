@@ -64,52 +64,37 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			return '';
 		}
 
-		$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_' .
-			$this->getLanguage() . '_v2.js';
-		if (!file_exists(PATH_site . $file)) {
-			$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_0_v2.js';
-			if (!file_exists(PATH_site . $file)) {
-				return '';
+		$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
+		if (file_exists(PATH_site . $file)) {
+			$jsonFile = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptinData_' .
+				$this->getLanguage() . '.json';
+			if (!file_exists(PATH_site . $jsonFile)) {
+				$jsonFile = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptinData_0.json';
+				if (!file_exists(PATH_site . $jsonFile)) {
+					return '';
+				}
 			}
-		}
 
-		$cacheBuster = filemtime(PATH_site . $file);
-		if (!$cacheBuster) {
-			$cacheBuster = '';
-		}
-
-		return '<script src="/' . $file . '?' . $cacheBuster . '" type="text/javascript" data-ignore="1"></script>';
-	}
-
-	/**
-	 * Adds the old javascript
-	 *
-	 * @param string $content
-	 * @param array $configuration
-	 * @return string
-	 * @deprecated Remove in v3!!!
-	 */
-	public function addJavaScriptFooterOld($content, array $configuration) {
-		$rootPageId = $this->getRootPageId();
-		if ($rootPageId <= 0 || !$this->isConfigurationOnPage($rootPageId)) {
-			return '';
-		}
-
-		$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_' .
-			$this->getLanguage() . '.js';
-		if (!file_exists(PATH_site . $file)) {
-			$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_0.js';
+			return '<script id="cookieOptinData" type="application/json">' . file_get_contents(PATH_site . $jsonFile) .
+				'</script><script src="/' . $file . '" type="text/javascript" data-ignore="1"></script>';
+		} {
+			// Old including from version 2.X.X @todo remove in version 4.X.X
+			$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_' .
+				$this->getLanguage() . '_v2.js';
 			if (!file_exists(PATH_site . $file)) {
-				return '';
+				$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_0_v2.js';
+				if (!file_exists(PATH_site . $file)) {
+					return '';
+				}
 			}
-		}
 
-		$cacheBuster = filemtime(PATH_site . $file);
-		if (!$cacheBuster) {
-			$cacheBuster = '';
-		}
+			$cacheBuster = filemtime(PATH_site . $file);
+			if (!$cacheBuster) {
+				$cacheBuster = '';
+			}
 
-		return '<script src="/' . $file . '?' . $cacheBuster . '" type="text/javascript" data-ignore="1"></script>';
+			return '<script src="/' . $file . '?' . $cacheBuster . '" type="text/javascript" data-ignore="1"></script>';
+		}
 	}
 
 	/**

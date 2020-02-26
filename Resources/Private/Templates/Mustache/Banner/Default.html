@@ -1,0 +1,37 @@
+<div class="sg-cookie-optin-banner {{^settings.banner_position}}sg-cookie-optin-banner-bottom{{/settings.banner_position}}">
+	<div class="sg-cookie-optin-box">
+		<div class="sg-cookie-optin-banner-content">
+			<p class="sg-cookie-optin-banner-description">
+				{{textEntries.banner_description}}
+
+				{{#footerLinks}}
+					{{#index}}
+						(
+					{{/index}}
+				{{/footerLinks}}
+
+				{{#footerLinks}}
+					{{#index}}
+						<span class="sg-cookie-optin-box-footer-divider"> | </span>
+					{{/index}}
+
+					<a class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{name}}</a>
+				{{/footerLinks}}
+
+				{{#footerLinks}}
+					{{#index}}
+						)
+					{{/index}}
+				{{/footerLinks}}
+			</p>
+
+			<div class="sg-cookie-optin-banner-button">
+				{{#settings.banner_show_settings_button}}
+					<button class="sg-cookie-optin-banner-button-settings">{{textEntries.banner_button_settings_text}}</button>
+				{{/settings.banner_show_settings_button}}
+
+				<button class="sg-cookie-optin-banner-button-accept">{{textEntries.banner_button_accept_text}}</button>
+			</div>
+		</div>
+	</div>
+</div>

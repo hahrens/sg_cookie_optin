@@ -12,30 +12,25 @@
 	var COOKIE_NAME = 'cookie_optin';
 	var COOKIE_GROUP_IFRAME = 'iframes';
 
-	// @formatter:off
-	var SETTINGS = ###SETTINGS###;
-	var COOKIE_GROUPS = ###COOKIE_GROUPS###;
-	var FOOTER_LINKS = ###FOOTER_LINKS###;
-	var TEXT_ENTRIES = ###TEXT_ENTRIES###;
-	var MARKUP = ###MARKUP###;
-	// @formatter:on
-
 	var iFrameObserver = null;
 	var protectedIFrames = [];
 	var lastOpenedIFrameId = 0;
+	var jsonData = {};
 
 	/**
 	 * Initializes the whole functionality.
 	 *
-	 * @param {boolean} ignoreShowOptInParameter
 	 * @return {void}
 	 */
-	function initialize(ignoreShowOptInParameter) {
+	function initialize() {
+		handleScriptActivations();
+
 		var optInContentElements = document.querySelectorAll('.sg-cookie-optin-plugin-uninitialized');
 		for (var index = 0; index < optInContentElements.length; ++index) {
 			var optInContentElement = optInContentElements[index];
-			showCookieOptin(optInContentElement);
+			showCookieOptin(optInContentElement, true);
 			optInContentElement.classList.remove('sg-cookie-optin-plugin-uninitialized');
+			optInContentElement.classList.add('sg-cookie-optin-plugin-initialized');
 		}
 
 		// noinspection EqualityComparisonWithCoercionJS
@@ -47,13 +42,28 @@
 		// noinspection EqualityComparisonWithCoercionJS
 		var showOptIn = getParameterByName('showOptIn') == true;
 		var cookieValue = getCookie(COOKIE_NAME);
-		if (!cookieValue || showOptIn && !ignoreShowOptInParameter) {
-			showCookieOptin(null);
+		if (!cookieValue || showOptIn) {
+			showCookieOptin(null, false);
+		}
+	}
+
+	/**
+	 * Handles the scripts of the allowed cookie groups.
+	 *
+	 * @return {void}
+	 */
+	function handleScriptActivations() {
+		var cookieValue = getCookie(COOKIE_NAME);
+		if (!cookieValue) {
 			return;
 		}
 
 		var splitedCookieValue = cookieValue.split('|');
 		for (var splitedCookieValueIndex in splitedCookieValue) {
+			if (!splitedCookieValue.hasOwnProperty(splitedCookieValueIndex)) {
+				continue;
+			}
+
 			var splitedCookieValueEntry = splitedCookieValue[splitedCookieValueIndex];
 			var groupAndStatus = splitedCookieValueEntry.split(':');
 			if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
@@ -66,19 +76,23 @@
 				continue;
 			}
 
-			if (COOKIE_GROUPS.hasOwnProperty(group)) {
-				if (COOKIE_GROUPS[group]['loadingHTML'] !== '') {
+			for (var groupIndex in jsonData.cookieGroups) {
+				if (!jsonData.cookieGroups.hasOwnProperty(groupIndex) || jsonData.cookieGroups[groupIndex]['groupName'] !== group) {
+					continue;
+				}
+
+				if (jsonData.cookieGroups[groupIndex]['loadingHTML'] !== '') {
 					var head = document.getElementsByTagName('head')[0];
 					if (head) {
 						var range = document.createRange();
 						range.selectNode(head);
-						head.appendChild(range.createContextualFragment(COOKIE_GROUPS[group]['loadingHTML']));
+						head.appendChild(range.createContextualFragment(jsonData.cookieGroups[groupIndex]['loadingHTML']));
 					}
 				}
 
-				if (COOKIE_GROUPS[group]['loadingJavaScript'] !== '') {
+				if (jsonData.cookieGroups[groupIndex]['loadingJavaScript'] !== '') {
 					var script = document.createElement('script');
-					script.setAttribute('src', COOKIE_GROUPS[group]['loadingJavaScript']);
+					script.setAttribute('src', jsonData.cookieGroups[groupIndex]['loadingJavaScript']);
 					script.setAttribute('type', 'text/javascript');
 					document.body.appendChild(script);
 				}
@@ -87,123 +101,141 @@
 	}
 
 	/**
-	 * Accepts all cookies and saves them.
+	 * Shows the cookie optin box.
+	 *
+	 * @param {dom} contentElement
+	 * @param {bool} hideBanner
 	 *
 	 * @return {void}
 	 */
-	function hideAndReloadCookieOptIn() {
-		// The content element cookie optins aren't removed, because querySelector gets only the first entry and it's
-		// always the modular one.
-		var optin = document.querySelector('#SgCookieOptin');
-		// Because of the IE11 no .remove();
-		optin.parentNode.removeChild(optin);
+	function showCookieOptin(contentElement, hideBanner) {
+		var wrapper = document.createElement('DIV');
+		wrapper.id = 'SgCookieOptin';
 
-		initialize(true);
+		if (contentElement === null && jsonData.settings.banner_enable && !hideBanner) {
+			wrapper.classList.add('sg-cookie-optin-banner-wrapper');
+			wrapper.insertAdjacentHTML('afterbegin', jsonData.markup.banner);
+		} else {
+			wrapper.insertAdjacentHTML('afterbegin', jsonData.markup.template);
+		}
+
+		addListeners(wrapper, contentElement);
+
+		if (contentElement === null) {
+			document.body.insertAdjacentElement('beforeend', wrapper);
+		} else {
+			contentElement.appendChild(wrapper);
+		}
+
+		updateCookieList();
 	}
 
 	/**
-	 * Shows the cookie optin box.
+	 * Adds the listeners to the given element.
 	 *
+	 * @param {dom} element
 	 * @param {dom} contentElement
 	 *
 	 * @return {void}
 	 */
-	function showCookieOptin(contentElement) {
-		var cookieBox = document.createElement('DIV');
-		cookieBox.classList.add('sg-cookie-optin-box');
+	function addListeners(element, contentElement) {
+		var closeButtons = element.querySelectorAll('.sg-cookie-optin-box-close-button');
+		addEventListenerToList(closeButtons, 'click', function () {
+			acceptEssentialCookies();
+			updateCookieList();
+			handleScriptActivations();
 
-		if (contentElement === null) {
-			var closeButton = document.createElement('SPAN');
-			closeButton.classList.add('sg-cookie-optin-box-close-button');
-			closeButton.appendChild(document.createTextNode('✕'));
-			closeButton.addEventListener('click', function() {
-				acceptEssentialCookies();
-				hideAndReloadCookieOptIn();
-			});
-			cookieBox.appendChild(closeButton);
-		}
-
-		var header = document.createElement('STRONG');
-		header.classList.add('sg-cookie-optin-box-header');
-		header.appendChild(document.createTextNode(TEXT_ENTRIES.header));
-
-		var description = document.createElement('P');
-		description.classList.add('sg-cookie-optin-box-description');
-		description.appendChild(document.createTextNode(TEXT_ENTRIES.description));
-
-		cookieBox.appendChild(header);
-		cookieBox.appendChild(description);
-		cookieBox.appendChild(getCookieList());
-
-		var container = document.createElement('DIV');
-		container.classList.add('sg-cookie-optin-box-button');
-		addOptInButtons(container, contentElement);
-		cookieBox.appendChild(container);
-
-		addCookieDetails(cookieBox);
-		addFooter(cookieBox);
-
-		var wrapper = document.createElement('DIV');
-		wrapper.id = 'SgCookieOptin';
-		// wrapper.appendChild(cookieBox);
-
-		// @todo remove me!
-		wrapper.insertAdjacentHTML('afterbegin', MARKUP);
-
-		if (contentElement === null) {
-			document.body.insertBefore(wrapper, document.body.firstChild);
-		} else {
-			contentElement.appendChild(wrapper);
-		}
-	}
-
-	/**
-	 * Returns the cookie list DOM.
-	 *
-	 * @return {void}
-	 */
-	function addFooter(parentDOM) {
-		var links = document.createElement('DIV');
-		links.classList.add('sg-cookie-optin-box-footer-links');
-		for (var index in FOOTER_LINKS) {
-			if (FOOTER_LINKS.hasOwnProperty(index)) {
-				var linkData = FOOTER_LINKS[index];
-				var link = document.createElement('A');
-				link.classList.add('sg-cookie-optin-box-footer-link');
-				link.setAttribute('href', linkData['url']);
-				link.setAttribute('target', '_blank');
-				link.appendChild(document.createTextNode(linkData['name']));
-
-				if (links.childElementCount > 0) {
-					var divider = document.createElement('SPAN');
-					divider.classList.add('sg-cookie-optin-box-footer-divider');
-					divider.appendChild(document.createTextNode(' | '));
-					links.appendChild(divider);
-				}
-
-				links.appendChild(link);
+			if (contentElement === null) {
+				hideCookieOptIn();
 			}
+		});
+
+		var openMoreLinks = element.querySelectorAll('.sg-cookie-optin-box-open-more-link');
+		addEventListenerToList(openMoreLinks, 'click', openCookieDetails);
+
+		var openSubListLink = element.querySelectorAll('.sg-cookie-optin-box-sublist-open-more-link');
+		addEventListenerToList(openSubListLink, 'click', openSubList);
+
+		var acceptAllButtons = element.querySelectorAll(
+			'.sg-cookie-optin-box-button-accept-all, .sg-cookie-optin-banner-button-accept'
+		);
+		addEventListenerToList(acceptAllButtons, 'click', function() {
+			acceptAllCookies();
+			updateCookieList();
+			handleScriptActivations();
+
+			if (contentElement === null) {
+				hideCookieOptIn();
+			}
+		});
+
+		var acceptSpecificButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-specific');
+		addEventListenerToList(acceptSpecificButtons, 'click', function() {
+			acceptSpecificCookies();
+			updateCookieList();
+			handleScriptActivations();
+
+			if (contentElement === null) {
+				hideCookieOptIn();
+			}
+		});
+
+		var acceptEssentialButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-essential');
+		addEventListenerToList(acceptEssentialButtons, 'click', function() {
+			acceptEssentialCookies();
+			updateCookieList();
+			handleScriptActivations();
+
+			if (contentElement === null) {
+				hideCookieOptIn();
+			}
+		});
+
+		var openSettingsButtons = element.querySelectorAll('.sg-cookie-optin-banner-button-settings');
+		addEventListenerToList(openSettingsButtons, 'click', function() {
+			hideCookieOptIn();
+			showCookieOptin(null, true);
+		});
+	}
+
+	/**
+	 * Adds an event to a given node list.
+	 *
+	 * @param {nodeList} list
+	 * @param {string} event
+	 * @param {function} assignedFunction
+	 *
+	 * @return {void}
+	 */
+	function addEventListenerToList(list, event, assignedFunction) {
+		for (var index = 0; index < list.length; ++index) {
+			list[index].addEventListener(event, assignedFunction, false);
 		}
+	}
 
-		var lineBreak = document.createElement('BR');
-		var copyrightLink = document.createElement('A');
-		copyrightLink.classList.add('sg-cookie-optin-box-copyright-link');
-		copyrightLink.setAttribute('href', 'https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/');
-		copyrightLink.setAttribute('target', '_blank');
-		copyrightLink.appendChild(document.createTextNode('Powered by'));
-		copyrightLink.appendChild(lineBreak);
-		copyrightLink.appendChild(document.createTextNode('sgalinski Cookie Opt In'));
+	/**
+	 * Hides the cookie opt in.
+	 *
+	 * @return {void}
+	 */
+	function hideCookieOptIn() {
+		// The content element cookie optins aren't removed, because querySelector gets only the first entry and it's
+		// always the modular one.
+		var optins = document.querySelectorAll('#SgCookieOptin');
+		for (var index in optins) {
+			if (!optins.hasOwnProperty(index)) {
+				continue;
+			}
 
-		var copyright = document.createElement('DIV');
-		copyright.classList.add('sg-cookie-optin-box-copyright');
-		copyright.appendChild(copyrightLink);
+			// Because of the IE11 no .remove();
+			var optin = optins[index];
+			var parentNode = optin.parentNode;
+			if (!parentNode || parentNode.classList.contains('sg-cookie-optin-plugin')) {
+				continue;
+			}
 
-		var footer = document.createElement('DIV');
-		footer.classList.add('sg-cookie-optin-box-footer');
-		footer.appendChild(copyright);
-		footer.appendChild(links);
-
-		parentDOM.appendChild(footer);
+			parentNode.removeChild(optin);
+		}
 	}
 
 	/**
@@ -211,13 +243,17 @@
 	 *
 	 * @return {void}
 	 */
-	function getCookieList() {
+	function updateCookieList() {
 		var statusMap = {};
 		var cookieValue = getCookie(COOKIE_NAME);
 		if (cookieValue) {
 			var splitedCookieValue = cookieValue.split('|');
-			for (var index in splitedCookieValue) {
-				var splitedCookieValueEntry = splitedCookieValue[index];
+			for (var valueIndex in splitedCookieValue) {
+				if (!splitedCookieValue.hasOwnProperty(valueIndex)) {
+					continue;
+				}
+
+				var splitedCookieValueEntry = splitedCookieValue[valueIndex];
 				var groupAndStatus = splitedCookieValueEntry.split(':');
 				if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
 					continue;
@@ -227,256 +263,24 @@
 			}
 		}
 
-		var cookieList = document.createElement('UL');
-		cookieList.classList.add('sg-cookie-optin-box-cookie-list');
-		for (var groupName in COOKIE_GROUPS) {
-			var cookieListItemCheckbox = document.createElement('INPUT');
-			cookieListItemCheckbox.classList.add('sg-cookie-optin-checkbox');
-			cookieListItemCheckbox.setAttribute('id', 'sg-cookie-optin-' + groupName);
-			cookieListItemCheckbox.setAttribute('type', 'checkbox');
-			cookieListItemCheckbox.setAttribute('name', 'cookies[]');
-			cookieListItemCheckbox.setAttribute('value', groupName);
-
-			if (COOKIE_GROUPS[groupName]['required']) {
-				cookieListItemCheckbox.setAttribute('checked', '1');
-				cookieListItemCheckbox.setAttribute('disabled', '1');
-			}
-
-			if (statusMap.hasOwnProperty(groupName) && statusMap[groupName] === 1) {
-				cookieListItemCheckbox.setAttribute('checked', '1');
-			}
-
-			var cookieListItemCheckboxLabel = document.createElement('LABEL');
-			cookieListItemCheckboxLabel.classList.add('sg-cookie-optin-checkbox-label');
-			cookieListItemCheckboxLabel.setAttribute('for', 'sg-cookie-optin-' + groupName);
-			cookieListItemCheckboxLabel.appendChild(document.createTextNode(COOKIE_GROUPS[groupName]['label']));
-
-			var cookieListItem = document.createElement('LI');
-			cookieListItem.classList.add('sg-cookie-optin-box-cookie-list-item');
-			cookieListItem.appendChild(cookieListItemCheckbox);
-			cookieListItem.appendChild(cookieListItemCheckboxLabel);
-
-			cookieList.appendChild(cookieListItem);
-		}
-
-		return cookieList;
-	}
-
-	/**
-	 * Adds the cookie buttons.
-	 *
-	 * @param {dom} parentDOM
-	 * @param {dom} contentElement
-	 *
-	 * @return {void}
-	 */
-	function addOptInButtons(parentDOM, contentElement) {
-		var acceptAllButton = document.createElement('BUTTON');
-		acceptAllButton.classList.add('sg-cookie-optin-box-button-accept-all');
-		acceptAllButton.appendChild(document.createTextNode(TEXT_ENTRIES.accept_all_text));
-		acceptAllButton.addEventListener('click', function() {
-			acceptAllCookies();
-
-			if (contentElement !== null) {
-				var cookieList = contentElement.querySelector('.sg-cookie-optin-box-cookie-list');
-				if (cookieList) {
-					cookieList.parentNode.replaceChild(getCookieList(), cookieList);
-				}
-			} else {
-				hideAndReloadCookieOptIn();
-			}
-		});
-
-		var acceptSpecificButton = document.createElement('BUTTON');
-		acceptSpecificButton.classList.add('sg-cookie-optin-box-button-accept-specific');
-		acceptSpecificButton.appendChild(document.createTextNode(TEXT_ENTRIES.accept_specific_text));
-		acceptSpecificButton.addEventListener('click', function() {
-			acceptSpecificCookies();
-
-			if (contentElement !== null) {
-				var cookieList = contentElement.querySelector('.sg-cookie-optin-box-cookie-list');
-				if (cookieList) {
-					cookieList.parentNode.replaceChild(getCookieList(), cookieList);
-				}
-			} else {
-				hideAndReloadCookieOptIn();
-			}
-		});
-
-		var acceptEssentialButton = document.createElement('BUTTON');
-		acceptEssentialButton.classList.add('sg-cookie-optin-box-button-accept-essential');
-		acceptEssentialButton.appendChild(document.createTextNode(TEXT_ENTRIES.accept_essential_text));
-		acceptEssentialButton.addEventListener('click', function() {
-			acceptEssentialCookies();
-
-			if (contentElement !== null) {
-				var cookieList = contentElement.querySelector('.sg-cookie-optin-box-cookie-list');
-				if (cookieList) {
-					cookieList.parentNode.replaceChild(getCookieList(), cookieList);
-				}
-			} else {
-				hideAndReloadCookieOptIn();
-			}
-		});
-
-		parentDOM.appendChild(acceptAllButton);
-		parentDOM.appendChild(acceptSpecificButton);
-		parentDOM.appendChild(acceptEssentialButton);
-	}
-
-	/**
-	 * Adds the cookie buttons.
-	 *
-	 * @return {void}
-	 */
-	function addIFrameButtons(parentDOM) {
-		var acceptAllButton = document.createElement('BUTTON');
-		acceptAllButton.classList.add('sg-cookie-optin-box-button-accept-all');
-		acceptAllButton.appendChild(document.createTextNode(TEXT_ENTRIES.iframe_button_allow_all_text));
-		acceptAllButton.addEventListener('click', function() {
-			acceptAllIFrames();
-			hideAndReloadCookieOptIn();
-		});
-
-		var acceptSpecificButton = document.createElement('BUTTON');
-		acceptSpecificButton.classList.add('sg-cookie-optin-box-button-accept-specific');
-		acceptSpecificButton.appendChild(document.createTextNode(TEXT_ENTRIES.iframe_button_allow_one_text));
-		acceptSpecificButton.addEventListener('click', function() {
-			acceptIFrame(lastOpenedIFrameId);
-			hideAndReloadCookieOptIn();
-		});
-
-		parentDOM.appendChild(acceptAllButton);
-		parentDOM.appendChild(acceptSpecificButton);
-	}
-
-	/**
-	 * Adds the cookie details.
-	 *
-	 * @param {dom} parentDOM
-	 *
-	 * @return {void}
-	 */
-	function addCookieDetails(parentDOM) {
-		var cookieList = document.createElement('UL');
-		cookieList.classList.add('sg-cookie-optin-box-cookie-detail-list');
-
-		for (var groupName in COOKIE_GROUPS) {
-			if (!COOKIE_GROUPS.hasOwnProperty(groupName)) {
+		for (var groupIndex in jsonData.cookieGroups) {
+			if (!jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
 				continue;
 			}
 
-			var groupData = COOKIE_GROUPS[groupName];
-			var header = document.createElement('STRONG');
-			header.classList.add('sg-cookie-optin-box-cookie-detail-header');
-			header.appendChild(document.createTextNode(groupData['label']));
-
-			var description = document.createElement('P');
-			description.classList.add('sg-cookie-optin-box-cookie-detail-description');
-			description.appendChild(document.createTextNode(groupData['description']));
-
-			var cookieListItem = document.createElement('LI');
-			cookieListItem.classList.add('sg-cookie-optin-box-cookie-detail-list-item');
-			cookieListItem.appendChild(header);
-			cookieListItem.appendChild(description);
-
-			if (groupData.hasOwnProperty('cookieData') && groupData['cookieData'].length > 0) {
-				var cookieSublist = document.createElement('DIV');
-				cookieSublist.classList.add('sg-cookie-optin-box-cookie-detail-sublist');
-				addSubListTable(cookieSublist, groupData['cookieData']);
-
-				var openSubListLink = document.createElement('A');
-				openSubListLink.setAttribute('href', '#');
-				openSubListLink.appendChild(document.createTextNode(TEXT_ENTRIES.extend_table_link_text));
-				openSubListLink.addEventListener('click', openSubList);
-
-				cookieListItem.appendChild(cookieSublist);
-				cookieListItem.appendChild(openSubListLink);
-			}
-
-			cookieList.appendChild(cookieListItem);
-		}
-
-		var openMoreLink = document.createElement('A');
-		openMoreLink.classList.add('sg-cookie-optin-box-open-more-link');
-		openMoreLink.setAttribute('href', '#');
-		openMoreLink.appendChild(document.createTextNode(TEXT_ENTRIES.extend_box_link_text));
-		openMoreLink.addEventListener('click', openCookieDetails);
-
-		var openMore = document.createElement('DIV');
-		openMore.classList.add('sg-cookie-optin-box-open-more');
-		openMore.appendChild(openMoreLink);
-
-		parentDOM.appendChild(cookieList);
-		parentDOM.appendChild(openMore);
-	}
-
-	/**
-	 * Returns the sublist table for the cookie details.
-	 *
-	 * @param {dom} parentDom
-	 * @param {array} cookieData
-	 * @return {void}
-	 */
-	function addSubListTable(parentDom, cookieData) {
-		if (cookieData.length <= 0) {
-			return;
-		}
-
-		for (var index in cookieData) {
-			if (!cookieData.hasOwnProperty(index)) {
+			var groupName = jsonData.cookieGroups[groupIndex]['groupName'];
+			if (!groupName) {
 				continue;
 			}
 
-			var name = document.createElement('TH');
-			name.appendChild(document.createTextNode(TEXT_ENTRIES.cookie_name_text));
+			if (!statusMap.hasOwnProperty(groupName)) {
+				continue;
+			}
 
-			var nameData = document.createElement('TD');
-			nameData.appendChild(document.createTextNode(cookieData[index]['Name']));
-
-			var nameRow = document.createElement('TR');
-			nameRow.appendChild(name);
-			nameRow.appendChild(nameData);
-
-			var provider = document.createElement('TH');
-			provider.appendChild(document.createTextNode(TEXT_ENTRIES.cookie_provider_text));
-
-			var providerData = document.createElement('TD');
-			providerData.appendChild(document.createTextNode(cookieData[index]['Provider']));
-
-			var providerRow = document.createElement('TR');
-			providerRow.appendChild(provider);
-			providerRow.appendChild(providerData);
-
-			var purpose = document.createElement('TH');
-			purpose.appendChild(document.createTextNode(TEXT_ENTRIES.cookie_purpose_text));
-
-			var purposeData = document.createElement('TD');
-			purposeData.appendChild(document.createTextNode(cookieData[index]['Purpose']));
-
-			var purposeRow = document.createElement('TR');
-			purposeRow.appendChild(purpose);
-			purposeRow.appendChild(purposeData);
-
-			var lifetime = document.createElement('TH');
-			lifetime.appendChild(document.createTextNode(TEXT_ENTRIES.cookie_lifetime_text));
-
-			var lifetimeData = document.createElement('TD');
-			lifetimeData.appendChild(document.createTextNode(cookieData[index]['Lifetime']));
-
-			var lifetimeRow = document.createElement('TR');
-			lifetimeRow.appendChild(lifetime);
-			lifetimeRow.appendChild(lifetimeData);
-
-			var tbody = document.createElement('TBODY');
-			tbody.appendChild(nameRow);
-			tbody.appendChild(providerRow);
-			tbody.appendChild(purposeRow);
-			tbody.appendChild(lifetimeRow);
-
-			var table = document.createElement('TABLE');
-			table.appendChild(tbody);
-			parentDom.appendChild(table);
+			var cookieList = document.querySelectorAll('.sg-cookie-optin-checkbox[value="' + groupName + '"]');
+			for (var index = 0; index < cookieList.length; ++index) {
+				cookieList[index].checked = (statusMap[groupName] === 1);
+			}
 		}
 	}
 
@@ -493,17 +297,17 @@
 			return;
 		}
 
-		var cookieDetailList = openMoreElement.previousSibling;
+		var cookieDetailList = openMoreElement.previousElementSibling;
 		if (!cookieDetailList) {
 			return;
 		}
 
 		if (cookieDetailList.classList.contains('visible')) {
 			cookieDetailList.classList.remove('visible');
-			event.target.innerHTML = TEXT_ENTRIES.extend_box_link_text;
+			event.target.innerHTML = jsonData.textEntries.extend_box_link_text;
 		} else {
 			cookieDetailList.classList.add('visible');
-			event.target.innerHTML = TEXT_ENTRIES.extend_box_link_text_close;
+			event.target.innerHTML = jsonData.textEntries.extend_box_link_text_close;
 		}
 	}
 
@@ -516,17 +320,32 @@
 	function openSubList(event) {
 		event.preventDefault();
 
-		var cookieList = event.target.previousSibling;
-		if (!cookieList) {
-			return;
-		}
+		var cookieList = event.target.previousElementSibling;
+		if (!cookieList || !cookieList.classList.contains('sg-cookie-optin-box-cookie-detail-sublist')) {
+			var cookieOptin = event.target.closest('#SgCookieOptin');
+			var cookieLists = cookieOptin.querySelectorAll('.sg-cookie-optin-box-cookie-detail-sublist');
+			for (var index in cookieLists) {
+				if (!cookieLists.hasOwnProperty(index)) {
+					continue;
+				}
 
-		if (cookieList.classList.contains('visible')) {
-			cookieList.classList.remove('visible');
-			event.target.innerHTML = TEXT_ENTRIES.extend_table_link_text;
+				cookieList = cookieLists[index];
+				if (cookieList.classList.contains('visible')) {
+					cookieList.classList.remove('visible');
+					event.target.innerHTML = jsonData.textEntries.extend_table_link_text;
+				} else {
+					cookieList.classList.add('visible');
+					event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
+				}
+			}
 		} else {
-			cookieList.classList.add('visible');
-			event.target.innerHTML = TEXT_ENTRIES.extend_table_link_text_close;
+			if (cookieList.classList.contains('visible')) {
+				cookieList.classList.remove('visible');
+				event.target.innerHTML = jsonData.textEntries.extend_table_link_text;
+			} else {
+				cookieList.classList.add('visible');
+				event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
+			}
 		}
 	}
 
@@ -537,14 +356,23 @@
 	 */
 	function acceptAllCookies() {
 		var cookieData = '';
-		for (var groupName in COOKIE_GROUPS) {
+		for (var index in jsonData.cookieGroups) {
+			if (!jsonData.cookieGroups.hasOwnProperty(index)) {
+				continue;
+			}
+
+			var groupName = jsonData.cookieGroups[index]['groupName'];
+			if (!groupName) {
+				continue;
+			}
+
 			if (cookieData.length > 0) {
 				cookieData += '|';
 			}
 			cookieData += groupName + ':' + 1;
 		}
 
-		setCookie(COOKIE_NAME, cookieData, SETTINGS.cookie_lifetime);
+		setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
 		acceptAllIFrames();
 	}
 
@@ -557,10 +385,19 @@
 		var iframeGroupFoundAndActive = false;
 		var cookieData = '';
 		var checkboxes = document.querySelectorAll('.sg-cookie-optin-checkbox:checked');
-		for (var groupName in COOKIE_GROUPS) {
+		for (var index in jsonData.cookieGroups) {
+			if (!jsonData.cookieGroups.hasOwnProperty(index)) {
+				continue;
+			}
+
+			var groupName = jsonData.cookieGroups[index]['groupName'];
+			if (!groupName) {
+				continue;
+			}
+
 			var status = 0;
-			for (var index = 0; index < checkboxes.length; ++index) {
-				if (checkboxes[index].value === groupName) {
+			for (var subIndex = 0; subIndex < checkboxes.length; ++subIndex) {
+				if (checkboxes[subIndex].value === groupName) {
 					status = 1;
 					break;
 				}
@@ -576,9 +413,9 @@
 			cookieData += groupName + ':' + status;
 		}
 
-		setCookie(COOKIE_NAME, cookieData, SETTINGS.cookie_lifetime);
+		setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
 
-		if (SETTINGS.iframe_enabled) {
+		if (jsonData.settings.iframe_enabled) {
 			if (iframeGroupFoundAndActive) {
 				acceptAllIFrames();
 			} else {
@@ -594,9 +431,18 @@
 	 */
 	function acceptEssentialCookies() {
 		var cookieData = '';
-		for (var groupName in COOKIE_GROUPS) {
+		for (var index in jsonData.cookieGroups) {
+			if (!jsonData.cookieGroups.hasOwnProperty(index)) {
+				continue;
+			}
+
+			var groupName = jsonData.cookieGroups[index]['groupName'];
+			if (!groupName) {
+				continue;
+			}
+
 			var status = 0;
-			if (COOKIE_GROUPS[groupName]['required']) {
+			if (jsonData.cookieGroups[index]['required']) {
 				status = 1;
 			}
 
@@ -606,7 +452,7 @@
 			cookieData += groupName + ':' + status;
 		}
 
-		setCookie(COOKIE_NAME, cookieData, SETTINGS.cookie_lifetime);
+		setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
 	}
 
 	/**
@@ -615,7 +461,7 @@
 	 * @return {void}
 	 */
 	function checkForIFrames() {
-		if (!SETTINGS.iframe_enabled) {
+		if (!jsonData.settings.iframe_enabled) {
 			return;
 		}
 
@@ -702,23 +548,20 @@
 		}
 		protectedIFrames[iframeId] = iframe;
 
-		var button = document.createElement('BUTTON');
-		button.appendChild(document.createTextNode(TEXT_ENTRIES.iframe_button_load_one_text));
-		button.addEventListener('click', function() {
-			acceptIFrame(iframeId)
-		});
-
-		var settingsLink = document.createElement('A');
-		settingsLink.appendChild(document.createTextNode(TEXT_ENTRIES.iframe_open_settings_text));
-		settingsLink.addEventListener('click', openIFrameConsent);
-
 		var container = document.createElement('DIV');
 		container.setAttribute('data-iframe-id', iframeId);
 		container.setAttribute('data-src', iframe.src);
 		container.setAttribute('style', 'height: ' + iframe.offsetHeight + 'px;');
 		container.classList.add('sg-cookie-optin-iframe-consent');
-		container.appendChild(button);
-		container.appendChild(settingsLink);
+		container.insertAdjacentHTML('afterbegin', jsonData.markup.iframeReplacement);
+
+		var iframeConsentAccept = container.querySelectorAll('.sg-cookie-optin-iframe-consent-accept');
+		addEventListenerToList(iframeConsentAccept, 'click', function() {
+			acceptIFrame(iframeId)
+		});
+
+		var iframeConsentLink = container.querySelectorAll('.sg-cookie-optin-iframe-consent-link');
+		addEventListenerToList(iframeConsentLink, 'click', openIFrameConsent);
 
 		parent.appendChild(container);
 
@@ -748,45 +591,51 @@
 			return;
 		}
 
-		var closeButton = document.createElement('SPAN');
-		closeButton.classList.add('sg-cookie-optin-box-close-button');
-		closeButton.addEventListener('click', hideAndReloadCookieOptIn);
-		closeButton.appendChild(document.createTextNode('✕'));
-
-		var header = document.createElement('STRONG');
-		header.classList.add('sg-cookie-optin-box-header');
-		header.appendChild(document.createTextNode(COOKIE_GROUPS['iframes']['label']));
-
-		var description = document.createElement('P');
-		description.classList.add('sg-cookie-optin-box-description');
-		description.appendChild(document.createTextNode(COOKIE_GROUPS['iframes']['description']));
-
-		var cookieBox = document.createElement('DIV');
-		cookieBox.classList.add('sg-cookie-optin-box');
-		cookieBox.appendChild(closeButton);
-		cookieBox.appendChild(header);
-		cookieBox.appendChild(description);
-
-		var container = document.createElement('DIV');
-		container.classList.add('sg-cookie-optin-box-button');
-		addIFrameButtons(container);
-
-		var flashMessageText = iframe.getAttribute('data-consent-description');
-		if (flashMessageText) {
-			var flashMessage = document.createElement('P');
-			flashMessage.classList.add('sg-cookie-optin-box-flash-message');
-			flashMessage.appendChild(document.createTextNode(flashMessageText));
-
-			container.appendChild(flashMessage);
-		}
-		cookieBox.appendChild(container);
-
-		addFooter(cookieBox);
-
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
-		wrapper.appendChild(cookieBox);
-		document.body.insertBefore(wrapper, document.body.firstChild);
+		wrapper.insertAdjacentHTML('afterbegin', jsonData.markup.iframe);
+
+		var flashMessageContainer = wrapper.querySelector('.sg-cookie-optin-box-flash-message');
+		if (flashMessageContainer !== null) {
+			var flashMessageText = iframe.getAttribute('data-consent-description');
+			if (flashMessageText) {
+				flashMessageContainer.appendChild(document.createTextNode(flashMessageText));
+			} else {
+				flashMessageContainer.remove();
+			}
+		}
+
+		addIframeListeners(wrapper);
+
+		document.body.insertAdjacentElement('beforeend', wrapper);
+	}
+
+	/**
+	 * Adds the listeners to the given element.
+	 *
+	 * @param {dom} element
+	 *
+	 * @return {void}
+	 */
+	function addIframeListeners(element) {
+		var closeButtons = element.querySelectorAll('.sg-cookie-optin-box-close-button');
+		addEventListenerToList(closeButtons, 'click', hideCookieOptIn);
+
+		var acceptAllButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-all');
+		addEventListenerToList(acceptAllButtons, 'click', function() {
+			acceptAllIFrames();
+			updateCookieList();
+			handleScriptActivations();
+			hideCookieOptIn();
+		});
+
+		var acceptSpecificButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-specific');
+		addEventListenerToList(acceptSpecificButtons, 'click', function() {
+			acceptIFrame(lastOpenedIFrameId);
+			updateCookieList();
+			handleScriptActivations();
+			hideCookieOptIn();
+		});
 	}
 
 	/**
@@ -795,7 +644,7 @@
 	 * @return {void}
 	 */
 	function acceptAllIFrames() {
-		if (SETTINGS.iframe_enabled && iFrameObserver) {
+		if (jsonData.settings.iframe_enabled && iFrameObserver) {
 			iFrameObserver.disconnect();
 		}
 
@@ -811,7 +660,7 @@
 		var cookieValue = getCookie(COOKIE_NAME);
 		if (!cookieValue) {
 			acceptAllCookies();
-			hideAndReloadCookieOptIn();
+			hideCookieOptIn();
 			return;
 		}
 
@@ -842,7 +691,7 @@
 			newCookieValue += '|' + COOKIE_GROUP_IFRAME + ':' + 1;
 		}
 
-		setCookie(COOKIE_NAME, newCookieValue, SETTINGS.cookie_lifetime);
+		setCookie(COOKIE_NAME, newCookieValue, jsonData.settings.cookie_lifetime);
 	}
 
 	/**
@@ -935,10 +784,48 @@
 		return decodeURIComponent(results[2].replace(/\+/g, ' '));
 	}
 
-	// https://plainjs.com/javascript/events/running-code-when-the-document-is-ready-15/
-	document.addEventListener('DOMContentLoaded', function() {
-		initialize(false);
-	});
+	function closestPolyfill() {
+		const ElementPrototype = window.Element.prototype;
 
-	checkForIFrames();
+		if (typeof ElementPrototype.matches !== 'function') {
+			ElementPrototype.matches = ElementPrototype.msMatchesSelector || ElementPrototype.mozMatchesSelector || ElementPrototype.webkitMatchesSelector || function matches(selector) {
+				let element = this;
+				const elements = (element.document || element.ownerDocument).querySelectorAll(selector);
+				let index = 0;
+
+				while (elements[index] && elements[index] !== element) {
+					++index;
+				}
+
+				return Boolean(elements[index]);
+			};
+		}
+
+		if (typeof ElementPrototype.closest !== 'function') {
+			ElementPrototype.closest = function closest(selector) {
+				let element = this;
+
+				while (element && element.nodeType === 1) {
+					if (element.matches(selector)) {
+						return element;
+					}
+
+					element = element.parentNode;
+				}
+
+				return null;
+			};
+		}
+	}
+	closestPolyfill();
+
+	jsonData = JSON.parse(document.getElementById('cookieOptinData').innerHTML);
+	if (jsonData) {
+		// https://plainjs.com/javascript/events/running-code-when-the-document-is-ready-15/
+		document.addEventListener('DOMContentLoaded', function() {
+			initialize();
+		});
+
+		checkForIFrames();
+	}
 })();

@@ -14,7 +14,7 @@
 					   {{#required}}checked="1"{{/required}}
 					   {{#required}}disabled="1"{{/required}}>
 				<label class="sg-cookie-optin-checkbox-label" for="sg-cookie-optin-{{groupName}}">
-					{{label}}
+					<span>{{label}}</span>
 				</label>
 			</li>
 		{{/cookieGroups}}
@@ -31,35 +31,37 @@
 			<li class="sg-cookie-optin-box-cookie-detail-list-item">
 				<strong class="sg-cookie-optin-box-cookie-detail-header">{{label}}</strong>
 				<p class="sg-cookie-optin-box-cookie-detail-description">{{description}}</p>
-				{{#cookieData}}
-					<div class="sg-cookie-optin-box-cookie-detail-sublist">
-						<div class="table-responsive">
-							<table>
-								<tbody>
-								<tr>
-									<th>{{textEntries.cookie_name_text}}</th>
-									<td>{{Name}}</td>
-								</tr>
-								<tr>
-									<th>{{textEntries.cookie_provider_text}}</th>
-									<td>{{Provider}}</td>
-								</tr>
-								<tr>
-									<th>{{textEntries.cookie_purpose_text}}</th>
-									<td>{{Purpose}}</td>
-								</tr>
-								<tr>
-									<th>{{textEntries.cookie_lifetime_text}}</th>
-									<td>{{Lifetime}}</td>
-								</tr>
-								</tbody>
-							</table>
-						</div>
+
+				<div class="sg-cookie-optin-box-cookie-detail-sublist">
+					<div class="table-responsive">
+						<table>
+							<tbody>
+								{{#cookieData}}
+									{{#index}}<tr class="divider"><td colspan="2">&nbsp;</td></tr>{{/index}}
+									<tr>
+										<th>{{textEntries.cookie_name_text}}</th>
+										<td>{{Name}}</td>
+									</tr>
+									<tr>
+										<th>{{textEntries.cookie_provider_text}}</th>
+										<td>{{Provider}}</td>
+									</tr>
+									<tr>
+										<th>{{textEntries.cookie_purpose_text}}</th>
+										<td>{{Purpose}}</td>
+									</tr>
+									<tr>
+										<th>{{textEntries.cookie_lifetime_text}}</th>
+										<td>{{Lifetime}}</td>
+									</tr>
+								{{/cookieData}}
+							</tbody>
+						</table>
 					</div>
-				{{/cookieData}}
+				</div>
 
 				{{#cookieData}}
-					{{^index}}<a href="#">{{textEntries.extend_table_link_text}}</a>{{/index}}
+					{{^index}}<a class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{textEntries.extend_table_link_text}}</a>{{/index}}
 				{{/cookieData}}
 			</li>
 		{{/cookieGroups}}
