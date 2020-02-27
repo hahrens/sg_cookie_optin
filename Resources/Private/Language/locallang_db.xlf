@@ -226,7 +226,7 @@
 				<source><![CDATA[JavaScript that shall be loaded if the user accepts this group]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.html">
-				<source><![CDATA[HTML that shall be loaded if the user accepts this group (Experimental)]]></source>
+				<source><![CDATA[HTML that shall be loaded if the user accepts this group (Do not use "document.write" as this will cause errors on the website)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html">
 				<source><![CDATA[The template]]></source>
