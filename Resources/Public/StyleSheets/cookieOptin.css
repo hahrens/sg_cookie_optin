@@ -445,9 +445,18 @@
 }
 
 /* Banner */
+#SgCookieOptin.sg-cookie-optin-banner-wrapper {
+	position: static;
+	width: 0;
+	height: 0;
+	z-index: auto;
+}
+
 #SgCookieOptin .sg-cookie-optin-banner .sg-cookie-optin-box {
-	position: absolute;
+	position: fixed;
 	left: 0;
+	right: 0;
+	top: 0;
 	margin: 0;
 	padding: 10px;
 	max-width: 100%;
@@ -456,24 +465,19 @@
 	background-color: ###BANNER_COLOR_BOX###;
 }
 
-#SgCookieOptin.sg-cookie-optin-banner-wrapper {
-	position: static;
-	width: 0;
-	height: 0;
-	z-index: auto;
-}
-
 #SgCookieOptin .sg-cookie-optin-banner.sg-cookie-optin-banner-bottom .sg-cookie-optin-box {
-	position: fixed;
 	bottom: 0;
+	top: auto;
 }
 
 #SgCookieOptin .sg-cookie-optin-banner .sg-cookie-optin-banner-content {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 }
 
 #SgCookieOptin .sg-cookie-optin-banner .sg-cookie-optin-banner-content .sg-cookie-optin-banner-description {
+	padding: 10px;
 	color: ###BANNER_COLOR_TEXT###;
 }
 
