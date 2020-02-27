@@ -33,6 +33,7 @@ use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -672,7 +673,7 @@ class GenerateFilesAfterTcaSave {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows(
-				'*', $table, 'deleted=0 AND ' . $field . '=' . $parentUid .
+				'*', $table, 'deleted=0 AND hidden=0 AND ' . $field . '=' . $parentUid .
 				($languageField ? ' AND ' . $languageField . '=0' : ''), '', 'sorting ASC'
 			);
 		} else {
@@ -680,6 +681,7 @@ class GenerateFilesAfterTcaSave {
 			$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
 			$queryBuilder->getRestrictions()
 				->removeAll()
+				->add(GeneralUtility::makeInstance(HiddenRestriction::class))
 				->add(GeneralUtility::makeInstance(DeletedRestriction::class));
 			$queryBuilder->select('*')
 				->from($table)
