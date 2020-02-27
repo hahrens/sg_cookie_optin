@@ -32,11 +32,11 @@ $configuration = [
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
-		'searchFields' => 'header, description, accept_all_text, accept_specific_text, accept_essential_text, 
-			essential_title, essential_description, extend_box_link_text, extend_box_link_text_close, 
-			extend_table_link_text, extend_table_link_text_close, cookie_name_text, cookie_provider_text, 
-			cookie_purpose_text, cookie_lifetime_text, iframe_title, iframe_description, iframe_button_allow_all_text, 
-			iframe_button_allow_one_text, iframe_button_load_one_text, iframe_open_settings_text, template_html, 
+		'searchFields' => 'header, description, accept_all_text, accept_specific_text, accept_essential_text,
+			essential_title, essential_description, extend_box_link_text, extend_box_link_text_close,
+			extend_table_link_text, extend_table_link_text_close, cookie_name_text, cookie_provider_text,
+			cookie_purpose_text, cookie_lifetime_text, iframe_title, iframe_description, iframe_button_allow_all_text,
+			iframe_button_allow_one_text, iframe_button_load_one_text, iframe_open_settings_text, template_html,
 			banner_html, banner_button_accept_text, banner_button_settings_text, banner_description',
 		'delete' => 'deleted',
 		'hideTable' => FALSE,
@@ -47,47 +47,45 @@ $configuration = [
 		'requestUpdate' => 'template_selection, banner_selection, iframe_selection, iframe_replacement_selection',
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, header, description, cookie_lifetime, 
-			minify_generated_data, navigation, accept_all_text, accept_specific_text, accept_essential_text, groups, 
-			template_html, template_overwritten, template_selection, color_text, color_box, color_headline, 
-			color_checkbox, color_checkbox_required, color_button_all, color_button_all_text, color_button_specific, 
-			color_button_specific_text, color_button_essential, color_button_essential_text, color_list, 
-			color_list_text, essential_title, essential_description, essential_scripts, essential_cookies, 
-			extend_box_link_text, extend_box_link_text_close, extend_table_link_text, extend_table_link_text_close, 
-			color_button_all_hover, color_button_specific_hover, color_button_essential_hover, color_table, 
-			color_table_header_text, color_Table_data_text, color_button_close, color_button_close_hover, 
-			color_button_close_text, cookie_name_text, cookie_provider_text, cookie_purpose_text, cookie_lifetime_text, 
-			iframe_enabled, iframe_title, iframe_description, iframe_button_allow_all_text, 
-			iframe_button_allow_one_text, iframe_button_load_one_text, iframe_open_settings_text, 
-			iframe_color_consent_box_background, iframe_color_button_load_one, iframe_color_button_load_one_hover, 
-			iframe_color_button_load_one_text, iframe_color_open_settings, iframe_html, iframe_overwritten, 
-			iframe_selection, iframe_replacement_html, iframe_replacement_overwritten, iframe_replacement_selection, 
-			banner_enable, banner_position, banner_overwritten, banner_html, banner_selection, 
-			banner_show_settings_button, banner_color_box, banner_color_text, banner_color_button_settings, 
-			banner_color_button_settings_hover, banner_color_button_settings_text, banner_color_button_accept, 
-			banner_color_button_accept_hover, banner_color_button_accept_text, banner_color_link_text, 
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, header, description, cookie_lifetime,
+			minify_generated_data, navigation, accept_all_text, accept_specific_text, accept_essential_text, groups,
+			template_html, template_overwritten, template_selection, color_text, color_box, color_headline,
+			color_checkbox, color_checkbox_required, color_button_all, color_button_all_text, color_button_specific,
+			color_button_specific_text, color_button_essential, color_button_essential_text, color_list,
+			color_list_text, essential_title, essential_description, essential_scripts, essential_cookies,
+			extend_box_link_text, extend_box_link_text_close, extend_table_link_text, extend_table_link_text_close,
+			color_button_all_hover, color_button_specific_hover, color_button_essential_hover, color_table,
+			color_table_header_text, color_Table_data_text, color_button_close, color_button_close_hover,
+			color_button_close_text, cookie_name_text, cookie_provider_text, cookie_purpose_text, cookie_lifetime_text,
+			iframe_enabled, iframe_title, iframe_description, iframe_button_allow_all_text,
+			iframe_button_allow_one_text, iframe_button_load_one_text, iframe_open_settings_text,
+			iframe_color_consent_box_background, iframe_color_button_load_one, iframe_color_button_load_one_hover,
+			iframe_color_button_load_one_text, iframe_color_open_settings, iframe_html, iframe_overwritten,
+			iframe_selection, iframe_replacement_html, iframe_replacement_overwritten, iframe_replacement_selection,
+			banner_enable, banner_position, banner_overwritten, banner_html, banner_selection,
+			banner_show_settings_button, banner_color_box, banner_color_text, banner_color_button_settings,
+			banner_color_button_settings_hover, banner_color_button_settings_text, banner_color_button_accept,
+			banner_color_button_accept_hover, banner_color_button_accept_text, banner_color_link_text,
 			banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close',
 	],
 	'types' => [
 		'1' => [
 			'showitem' => '
-				header, description, --palette--;;accept_buttons_texts, --palette--;;link_texts, 
-					--palette--;;cookie_texts, navigation, 
-				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.iframes, 
-					iframe_enabled, iframe_title, iframe_description, --palette--;;iframe_texts, 
-					--palette--;;iframe_colors, iframe_selection, iframe_overwritten, iframe_html, 
-					iframe_replacement_selection, iframe_replacement_overwritten, iframe_replacement_html,
-				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color, 
+				header, description, --palette--;;accept_buttons_texts, --palette--;;link_texts,
+					--palette--;;cookie_texts, navigation,
+				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.iframes,
+					iframe_enabled, iframe_title, iframe_description, --palette--;;iframe_texts,
+					--palette--;;iframe_colors, --palette--;;iframe_template, --palette--;;iframe_replacement_template,
+				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color,
 					--palette--;;color_general, --palette--;;color_checkbox, --palette--;;color_button,
-					--palette--;;color_list, --palette--;;color_table, template_selection, template_overwritten, 
-					template_html, 
-				--div--;Banner, 
-					--palette--;;banner_general, --palette--;;banner_general_colors, 
+					--palette--;;color_list, --palette--;;color_table, --palette--;;template,
+				--div--;Banner,
+					--palette--;;banner_general, --palette--;;banner_general_colors,
 					--palette--;;banner_settings_button, --palette--;;banner_accept_button,
-					banner_overwritten, banner_html, 
-				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.essential, 
+					--palette--;;banner_template,
+				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.essential,
 					essential_title, essential_description, essential_scripts, essential_cookies,
-				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group, 
+				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group,
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
 					cookie_lifetime, minify_generated_data',
@@ -100,7 +98,7 @@ $configuration = [
 		],
 		'link_texts' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.link_texts',
-			'showitem' => 'extend_box_link_text, extend_box_link_text_close, --linebreak--, 
+			'showitem' => 'extend_box_link_text, extend_box_link_text_close, --linebreak--,
 				extend_table_link_text, extend_table_link_text_close'
 		],
 		'cookie_texts' => [
@@ -131,20 +129,32 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_tables',
 			'showitem' => 'color_table, color_table_header_text, color_Table_data_text'
 		],
+		'template' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template',
+			'showitem' => 'template_selection, template_overwritten, --linebreak--, template_html'
+		],
 		'iframe_texts' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_texts',
-			'showitem' => 'iframe_button_allow_all_text, iframe_button_allow_one_text, --linebreak--, 
+			'showitem' => 'iframe_button_allow_all_text, iframe_button_allow_one_text, --linebreak--,
 				iframe_button_load_one_text, iframe_open_settings_text'
 		],
 		'iframe_colors' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_colors',
-			'showitem' => 'iframe_color_consent_box_background, --linebreak--, 
+			'showitem' => 'iframe_color_consent_box_background, --linebreak--,
 				iframe_color_button_load_one, iframe_color_button_load_one_hover, iframe_color_button_load_one_text, --linebreak--,
 				iframe_color_open_settings'
 		],
+		'iframe_template' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_template',
+			'showitem' => 'iframe_selection, iframe_overwritten, --linebreak--, iframe_html'
+		],
+		'iframe_replacement_template' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_template',
+			'showitem' => 'iframe_replacement_selection, iframe_replacement_overwritten, --linebreak--, iframe_replacement_html'
+		],
 		'banner_general' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_general',
-			'showitem' => 'banner_enable, banner_selection, banner_position'
+			'showitem' => 'banner_enable, banner_position'
 		],
 		'banner_general_colors' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_general_colors',
@@ -153,15 +163,19 @@ $configuration = [
 		],
 		'banner_settings_button' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_settings_button',
-			'showitem' => 'banner_show_settings_button, --linebreak--, 
+			'showitem' => 'banner_show_settings_button, --linebreak--,
 				banner_color_button_settings, banner_color_button_settings_hover, , --linebreak--,
 				banner_color_button_settings_text, banner_button_settings_text'
 		],
 		'banner_accept_button' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_accept_button',
-			'showitem' => 'iframe_color_consent_box_background, --linebreak--, 
+			'showitem' => 'iframe_color_consent_box_background, --linebreak--,
 				banner_color_button_accept, banner_color_button_accept_hover, , --linebreak--,
 				banner_color_button_accept_text, banner_button_accept_text'
+		],
+		'banner_template' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_template',
+			'showitem' => 'banner_selection, banner_overwritten, --linebreak--, banner_html'
 		],
 	],
 	'columns' => [
@@ -865,7 +879,7 @@ $configuration = [
 				'renderType' => 'selectSingle',
 				'minitems' => 1,
 				'items' => [
-					['Default', 0],
+					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_selection.0', 0],
 				],
 			],
 		],
@@ -898,7 +912,7 @@ $configuration = [
 				'renderType' => 'selectSingle',
 				'minitems' => 1,
 				'items' => [
-					['Default', 0],
+					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_selection.0', 0],
 				],
 			],
 		],
@@ -950,8 +964,8 @@ $configuration = [
 				'renderType' => 'selectSingle',
 				'minitems' => 1,
 				'items' => [
-					['Default', 0],
-					['New One', 1],
+					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_selection.0', 0],
+					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_selection.1', 1],
 				],
 			],
 		],
@@ -1002,8 +1016,8 @@ $configuration = [
 				'renderType' => 'selectSingle',
 				'minitems' => 1,
 				'items' => [
-					['Bottom', 0],
-					['Top', 1],
+					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_position.0', 0],
+					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_position.1', 1],
 				],
 			],
 		],
@@ -1016,7 +1030,7 @@ $configuration = [
 				'renderType' => 'selectSingle',
 				'minitems' => 1,
 				'items' => [
-					['Default', 0],
+					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_selection.0', 0],
 				],
 			],
 		],
