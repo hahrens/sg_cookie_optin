@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2020-02-27T19:25:34Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2020-02-27T20:08:40Z">
 		<header>
 			<type>database</type>
 			<description>General language labels used in frontend and backend.</description>
@@ -73,43 +73,43 @@
 				<source><![CDATA[Button for Accepting Selected Cookies & Scripts]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_text">
-				<source><![CDATA[Accept button: text]]></source>
+				<source><![CDATA[Accept Button Text]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_settings_text">
-				<source><![CDATA[Settings button: text]]></source>
+				<source><![CDATA[Settings Button Text]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_box">
-				<source><![CDATA[Banner background]]></source>
+				<source><![CDATA[Background]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept">
-				<source><![CDATA[Accept button: background]]></source>
+				<source><![CDATA[Background Color Accept Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_hover">
-				<source><![CDATA[Accept button: hover]]></source>
+				<source><![CDATA[Hover Color Accept Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_accept_text">
-				<source><![CDATA[Accept button: text color]]></source>
+				<source><![CDATA[Text Color Accept Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_settings">
-				<source><![CDATA[Settings button: background]]></source>
+				<source><![CDATA[Background Color Settings Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_settings_hover">
-				<source><![CDATA[Settings button: hover]]></source>
+				<source><![CDATA[Hover Color Settings Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_button_settings_text">
-				<source><![CDATA[Settings button: text color]]></source>
+				<source><![CDATA[Text Color Settings Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_link_text">
-				<source><![CDATA[Banner link text]]></source>
+				<source><![CDATA[Link Text]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_color_text">
-				<source><![CDATA[Banner text]]></source>
+				<source><![CDATA[Text]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_description">
-				<source><![CDATA[Description]]></source>
+				<source><![CDATA[Explanatory Text in the Banner]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_enable">
-				<source><![CDATA[Enables a banner, instead of showing the full template]]></source>
+				<source><![CDATA[Show a Less Obtrusive Banner Instead of the Cookie Settings Window]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_html">
 				<source><![CDATA[Banner Template Code (HTML, variables and logic are processed with Mustache, see https://github.com/janl/mustache.js) ]]></source>
@@ -118,7 +118,7 @@
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_position">
-				<source><![CDATA[The position of the banner on the website]]></source>
+				<source><![CDATA[The Position of the Banner on the Website]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_position.0">
 				<source><![CDATA[Bottom]]></source>
@@ -133,7 +133,7 @@
 				<source><![CDATA[Default]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_show_settings_button">
-				<source><![CDATA[Shows the settings button within the banner. (This must be enabled, if the website is using cookies)]]></source>
+				<source><![CDATA[Show the Settings Button within the Banner (Should be enabled if the website uses cookies.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text">
 				<source><![CDATA[Data Text Color]]></source>
@@ -340,28 +340,31 @@
 				<source><![CDATA[Link Texts]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.minify_generated_data">
-				<source><![CDATA[Minification of the generated files]]></source>
+				<source><![CDATA[Minify Generated Files]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.navigation">
 				<source><![CDATA[Links at the Bottom of the Opt-In Window (Add Imprint and Data Policy!)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_accept_button">
-				<source><![CDATA[Accept button]]></source>
+				<source><![CDATA[Accept Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general">
 				<source><![CDATA[General]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general_colors">
-				<source><![CDATA[Banner colors]]></source>
+				<source><![CDATA[Banner Colors]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_settings_button">
-				<source><![CDATA[Settings button]]></source>
+				<source><![CDATA[Settings Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_template">
 				<source><![CDATA[Banner Design Template]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close">
 				<source><![CDATA[Activate the close button in the templates]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.banner">
+				<source><![CDATA[Banner]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.color">
 				<source><![CDATA[Template]]></source>

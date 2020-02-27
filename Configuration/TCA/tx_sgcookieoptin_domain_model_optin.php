@@ -79,7 +79,7 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color,
 					--palette--;;color_general, --palette--;;color_checkbox, --palette--;;color_button,
 					--palette--;;color_list, --palette--;;color_table, --palette--;;template,
-				--div--;Banner,
+				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.banner,
 					--palette--;;banner_general, --palette--;;banner_general_colors,
 					--palette--;;banner_settings_button, --palette--;;banner_accept_button,
 					--palette--;;banner_template,
@@ -131,7 +131,8 @@ $configuration = [
 		],
 		'template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template',
-			'showitem' => 'template_selection, template_overwritten, --linebreak--, template_html'
+			'showitem' => 'template_selection, template_overwritten, --linebreak--,
+				template_html'
 		],
 		'iframe_texts' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_texts',
@@ -146,36 +147,38 @@ $configuration = [
 		],
 		'iframe_template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_template',
-			'showitem' => 'iframe_selection, iframe_overwritten, --linebreak--, iframe_html'
+			'showitem' => 'iframe_selection, iframe_overwritten, --linebreak--,
+				iframe_html'
 		],
 		'iframe_replacement_template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_template',
-			'showitem' => 'iframe_replacement_selection, iframe_replacement_overwritten, --linebreak--, iframe_replacement_html'
+			'showitem' => 'iframe_replacement_selection, iframe_replacement_overwritten, --linebreak--,
+				iframe_replacement_html'
 		],
 		'banner_general' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_general',
-			'showitem' => 'banner_enable, banner_position'
+			'showitem' => 'banner_enable, --linebreak--, banner_position,
+				banner_description'
 		],
 		'banner_general_colors' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_general_colors',
-			'showitem' => 'banner_color_box, banner_color_text, banner_color_link_text, --linebreak--,
-				banner_description'
+			'showitem' => 'banner_color_box, banner_color_text, banner_color_link_text'
 		],
 		'banner_settings_button' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_settings_button',
 			'showitem' => 'banner_show_settings_button, --linebreak--,
-				banner_color_button_settings, banner_color_button_settings_hover, , --linebreak--,
-				banner_color_button_settings_text, banner_button_settings_text'
+				banner_button_settings_text, --linebreak--,
+				banner_color_button_settings, banner_color_button_settings_hover, banner_color_button_settings_text'
 		],
 		'banner_accept_button' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_accept_button',
-			'showitem' => 'iframe_color_consent_box_background, --linebreak--,
-				banner_color_button_accept, banner_color_button_accept_hover, , --linebreak--,
-				banner_color_button_accept_text, banner_button_accept_text'
+			'showitem' => 'banner_button_accept_text, --linebreak--,
+				banner_color_button_accept, banner_color_button_accept_hover, banner_color_button_accept_text'
 		],
 		'banner_template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_template',
-			'showitem' => 'banner_selection, banner_overwritten, --linebreak--, banner_html'
+			'showitem' => 'banner_selection, banner_overwritten, --linebreak--,
+				banner_html'
 		],
 	],
 	'columns' => [
