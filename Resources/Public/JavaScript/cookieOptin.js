@@ -469,6 +469,10 @@
 			var iframes = document.querySelectorAll('iframe');
 			if (iframes.length > 0) {
 				for (var iframeIndex in iframes) {
+					if (!iframes.hasOwnProperty(iframeIndex)) {
+						continue;
+					}
+
 					replaceIFrameWithConsent(iframes[iframeIndex]);
 				}
 			}
@@ -479,6 +483,10 @@
 			// If the iframe group exists, then check the status. If 1 no observer needed, otherwise always activated.
 			var splitedCookieValue = cookieValue.split('|');
 			for (var splitedCookieValueIndex in splitedCookieValue) {
+				if (!splitedCookieValue.hasOwnProperty(splitedCookieValueIndex)) {
+					continue;
+				}
+
 				var splitedCookieValueEntry = splitedCookieValue[splitedCookieValueIndex];
 				var groupAndStatus = splitedCookieValueEntry.split(':');
 				if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
@@ -501,12 +509,20 @@
 		iFrameObserver = new MutationObserver(function(mutationsList, observer) {
 			// Use traditional 'for loops' for IE 11
 			for (var index in mutationsList) {
+				if (!mutationsList.hasOwnProperty(index)) {
+					continue;
+				}
+
 				var mutation = mutationsList[index];
 				if (mutation.type !== 'childList' || mutation.addedNodes.length <= 0) {
 					continue;
 				}
 
 				for (var addedNodeIndex in mutation.addedNodes) {
+					if (!mutation.addedNodes.hasOwnProperty(addedNodeIndex)) {
+						continue;
+					}
+
 					var addedNode = mutation.addedNodes[addedNodeIndex];
 					if (addedNode.tagName === 'IFRAME') {
 						replaceIFrameWithConsent(addedNode);
@@ -668,6 +684,10 @@
 		var newCookieValue = '';
 		var splitedCookieValue = cookieValue.split('|');
 		for (var splitedCookieValueIndex in splitedCookieValue) {
+			if (!splitedCookieValue.hasOwnProperty(splitedCookieValueIndex)) {
+				continue;
+			}
+
 			var splitedCookieValueEntry = splitedCookieValue[splitedCookieValueIndex];
 			var groupAndStatus = splitedCookieValueEntry.split(':');
 			if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
