@@ -1,5 +1,8 @@
 <div class="sg-cookie-optin-box">
-	<span class="sg-cookie-optin-box-close-button">✕</span>
+	{{#settings.show_button_close}}
+		<span class="sg-cookie-optin-box-close-button">✕</span>
+	{{/settings.show_button_close}}
+
 	<strong class="sg-cookie-optin-box-header">{{{iFrameGroup.label}}}</strong>
 	<p class="sg-cookie-optin-box-description">{{{iFrameGroup.description}}}</p>
 

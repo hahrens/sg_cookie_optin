@@ -144,6 +144,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_lifetime_text">
 				<source><![CDATA[Header for the cookie lifetime]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close">
+				<source><![CDATA[Activate the close button in the templates]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_name_text">
 				<source><![CDATA[Header for the cookie name]]></source>
 			</trans-unit>

@@ -189,6 +189,10 @@
 				<source><![CDATA[Header for the cookie lifetime]]></source>
 				<target><![CDATA[Überschrift für die Cookie-Laufzeit]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close" approved="yes">
+				<source><![CDATA[Activate the close button in the templates]]></source>
+				<target><![CDATA[Aktiviere den Schließen-Button in den Templates]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_name_text" approved="yes">
 				<source><![CDATA[Header for the cookie name]]></source>
 				<target><![CDATA[Überschrift für den Cookie-Namen]]></target>

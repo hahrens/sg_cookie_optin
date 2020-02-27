@@ -360,6 +360,7 @@ class GenerateFilesAfterTcaSave {
 			'cookie_lifetime' => (int) $data['cookie_lifetime'],
 			'iframe_enabled' => (boolean) $data['iframe_enabled'],
 			'minify_generated_data' => (boolean) $data['minify_generated_data'],
+			'show_button_close' => (boolean) $data['show_button_close'],
 		];
 
 		$textEntries = [

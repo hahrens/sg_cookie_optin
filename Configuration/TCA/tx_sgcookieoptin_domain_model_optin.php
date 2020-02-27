@@ -66,7 +66,7 @@ $configuration = [
 			banner_show_settings_button, banner_color_box, banner_color_text, banner_color_button_settings, 
 			banner_color_button_settings_hover, banner_color_button_settings_text, banner_color_button_accept, 
 			banner_color_button_accept_hover, banner_color_button_accept_text, banner_color_link_text, 
-			banner_button_accept_text, banner_button_settings_text, banner_description',
+			banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close',
 	],
 	'types' => [
 		'1' => [
@@ -117,7 +117,8 @@ $configuration = [
 		],
 		'color_button' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_buttons',
-			'showitem' => 'color_button_close, color_button_close_hover, color_button_close_text, --linebreak--,
+			'showitem' => 'show_button_close, --linebreak--,
+				color_button_close, color_button_close_hover, color_button_close_text, --linebreak--,
 				color_button_all, color_button_all_hover, color_button_all_text, --linebreak--,
 				color_button_specific, color_button_specific_hover, color_button_specific_text, --linebreak--,
 				color_button_essential, color_button_essential_hover, color_button_essential_text'
@@ -1157,6 +1158,15 @@ $configuration = [
 				'default' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
 				'placeholder' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
 				'eval' => 'trim'
+			],
+		],
+		'show_button_close' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.show_button_close',
+			'config' => [
+				'type' => 'check',
+				'default' => '1',
 			],
 		],
 	],

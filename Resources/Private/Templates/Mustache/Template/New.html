@@ -1,6 +1,9 @@
 <div class="sg-cookie-optin-box sg-cookie-optin-box-new">
 	<div class="sg-cookie-optin-box-new-upper">
-		<span class="sg-cookie-optin-box-close-button">✕</span>
+		{{#settings.show_button_close}}
+			<span class="sg-cookie-optin-box-close-button">✕</span>
+		{{/settings.show_button_close}}
+
 		<strong class="sg-cookie-optin-box-header">{{{textEntries.header}}}</strong>
 		<p class="sg-cookie-optin-box-description">{{{textEntries.description}}}</p>
 	</div>
