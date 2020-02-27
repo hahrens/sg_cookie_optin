@@ -13,14 +13,16 @@
 			<f:if condition="{pageUid}">
 				<f:if condition="{isSiteRoot}">
 					<f:if condition="{optins -> f:count()} <= 0">
-						<a href="#" class="btn btn-default form-group" onclick="{sg:backend.editOnClick(table: 'tx_sgcookieoptin_domain_model_optin', uid: pageUid, new: 1)}">
-							<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new">
-								<span class="icon-markup">
-									<img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-document-new.svg" width="16" height="16">
+						<div class="form-group">
+							<a href="#" class="btn btn-default form-group" onclick="{sg:backend.editOnClick(table: 'tx_sgcookieoptin_domain_model_optin', uid: pageUid, new: 1)}">
+								<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new">
+									<span class="icon-markup">
+										<img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-document-new.svg" width="16" height="16">
+									</span>
 								</span>
-							</span>
-							<f:translate key="backend.createRecord" />
-						</a>
+								<f:translate key="backend.createRecord" />
+							</a>
+						</div>
 					</f:if>
 				</f:if>
 			</f:if>
