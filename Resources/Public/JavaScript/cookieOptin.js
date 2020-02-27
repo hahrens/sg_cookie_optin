@@ -320,6 +320,8 @@
 	function openSubList(event) {
 		event.preventDefault();
 
+		// todo remove redundant code.
+		var height = 0;
 		var cookieList = event.target.previousElementSibling;
 		if (!cookieList || !cookieList.classList.contains('sg-cookie-optin-box-cookie-detail-sublist')) {
 			var cookieOptin = event.target.closest('#SgCookieOptin');
@@ -332,18 +334,38 @@
 				cookieList = cookieLists[index];
 				if (cookieList.classList.contains('visible')) {
 					cookieList.classList.remove('visible');
+					cookieList.style.height = '';
 					event.target.innerHTML = jsonData.textEntries.extend_table_link_text;
 				} else {
 					cookieList.classList.add('visible');
+					cookieList.style.height = 'auto';
+					height = cookieList.getBoundingClientRect().height + 'px';
+					cookieList.style.height = '';
+					requestAnimationFrame(function(item, style) {
+						setTimeout(function() {
+							item.style.height = style;
+						}, 10);
+					}(cookieList, height));
+
 					event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
 				}
 			}
 		} else {
 			if (cookieList.classList.contains('visible')) {
 				cookieList.classList.remove('visible');
+				cookieList.style.height = '';
 				event.target.innerHTML = jsonData.textEntries.extend_table_link_text;
 			} else {
 				cookieList.classList.add('visible');
+				cookieList.style.height = 'auto';
+				height = cookieList.getBoundingClientRect().height + 'px';
+				cookieList.style.height = '';
+				requestAnimationFrame(function(item, style) {
+					setTimeout(function() {
+						item.style.height = style;
+					}, 10);
+				}(cookieList, height));
+
 				event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
 			}
 		}

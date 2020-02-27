@@ -264,10 +264,11 @@
 
 	list-style: none;
 
-	-moz-transition: max-height .5s ease-in-out;
-	-o-transition: max-height .5s ease-in-out;
-	-webkit-transition: max-height .5s ease-in-out;
-	transition: max-height .5s ease-in-out;
+	-moz-transition: max-height .3s ease-in-out;
+	-o-transition: max-height .3s ease-in-out;
+	-webkit-transition: max-height .3s ease-in-out;
+	transition: max-height .3s ease-in-out;
+	will-change: max-height;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-list::-webkit-scrollbar {
@@ -341,14 +342,15 @@
 
 /* Sub table (Cookie list) */
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist {
-	max-height: 0;
+	height: 0;
 	overflow: hidden;
 	list-style: none;
 
-	-moz-transition: max-height .5s ease-in-out;
-	-o-transition: max-height .5s ease-in-out;
-	-webkit-transition: max-height .5s ease-in-out;
-	transition: max-height .5s ease-in-out;
+	-moz-transition: height .3s ease-in-out;
+	-o-transition: height .3s ease-in-out;
+	-webkit-transition: height .3s ease-in-out;
+	transition: height .3s ease-in-out;
+	will-change: height;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist::-webkit-scrollbar {
@@ -356,7 +358,6 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-detail-sublist.visible {
-	max-height: 1000px;
 	overflow-y: auto;
 
 	/* Hide the Scrollbar in IE */
