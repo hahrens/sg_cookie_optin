@@ -1,8 +1,8 @@
 <div class="sg-cookie-optin-box sg-cookie-optin-box-new">
 	<div class="sg-cookie-optin-box-new-upper">
 		<span class="sg-cookie-optin-box-close-button">✕</span>
-		<strong class="sg-cookie-optin-box-header">{{textEntries.header}}</strong>
-		<p class="sg-cookie-optin-box-description">{{textEntries.description}}</p>
+		<strong class="sg-cookie-optin-box-header">{{{textEntries.header}}}</strong>
+		<p class="sg-cookie-optin-box-description">{{{textEntries.description}}}</p>
 	</div>
 
 	<div class="sg-cookie-optin-box-new-lower">
@@ -17,17 +17,17 @@
 						   {{#required}}checked="1"{{/required}}
 						   {{#required}}disabled="1"{{/required}}>
 					<label class="sg-cookie-optin-checkbox-label" for="sg-cookie-optin-{{groupName}}">
-						<span>{{label}}</span>
+						<span>{{{label}}}</span>
 					</label>
 
-					<p class="sg-cookie-optin-checkbox-description">{{description}}</p>
+					<p class="sg-cookie-optin-checkbox-description">{{{description}}}</p>
 
 					<div class="sg-cookie-optin-box-cookie-detail-sublist">
 						<hr>
 
 						<ul>
 							{{#cookieData}}
-								<li>{{Name}} ({{Provider}}), {{textEntries.cookie_lifetime_text}}: {{Lifetime}} <br> {{Purpose}}</li>
+								<li>{{{Name}}} ({{{Provider}}}), {{{textEntries.cookie_lifetime_text}}}: {{{Lifetime}}} <br> {{{Purpose}}}</li>
 							{{/cookieData}}
 						</ul>
 					</div>
@@ -37,12 +37,12 @@
 
 		<hr>
 
-		<a class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{textEntries.extend_table_link_text}}</a>
+		<a class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}</a>
 
 		<div class="sg-cookie-optin-box-button">
-			<button class="sg-cookie-optin-box-button-accept-essential">{{textEntries.accept_essential_text}}</button>
-			<button class="sg-cookie-optin-box-button-accept-specific">{{textEntries.accept_specific_text}}</button>
-			<button class="sg-cookie-optin-box-button-accept-all">{{textEntries.accept_all_text}}</button>
+			<button class="sg-cookie-optin-box-button-accept-essential">{{{textEntries.accept_essential_text}}}</button>
+			<button class="sg-cookie-optin-box-button-accept-specific">{{{textEntries.accept_specific_text}}}</button>
+			<button class="sg-cookie-optin-box-button-accept-all">{{{textEntries.accept_all_text}}}</button>
 		</div>
 
 		<div class="sg-cookie-optin-box-footer">

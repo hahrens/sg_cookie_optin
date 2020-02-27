@@ -1,7 +1,7 @@
 <div class="sg-cookie-optin-box">
 	<span class="sg-cookie-optin-box-close-button">✕</span>
-	<strong class="sg-cookie-optin-box-header">{{textEntries.header}}</strong>
-	<p class="sg-cookie-optin-box-description">{{textEntries.description}}</p>
+	<strong class="sg-cookie-optin-box-header">{{{textEntries.header}}}</strong>
+	<p class="sg-cookie-optin-box-description">{{{textEntries.description}}}</p>
 
 	<ul class="sg-cookie-optin-box-cookie-list">
 		{{#cookieGroups}}
@@ -14,23 +14,23 @@
 					   {{#required}}checked="1"{{/required}}
 					   {{#required}}disabled="1"{{/required}}>
 				<label class="sg-cookie-optin-checkbox-label" for="sg-cookie-optin-{{groupName}}">
-					<span>{{label}}</span>
+					<span>{{{label}}}</span>
 				</label>
 			</li>
 		{{/cookieGroups}}
 	</ul>
 
 	<div class="sg-cookie-optin-box-button">
-		<button class="sg-cookie-optin-box-button-accept-all">{{textEntries.accept_all_text}}</button>
-		<button class="sg-cookie-optin-box-button-accept-specific">{{textEntries.accept_specific_text}}</button>
-		<button class="sg-cookie-optin-box-button-accept-essential">{{textEntries.accept_essential_text}}</button>
+		<button class="sg-cookie-optin-box-button-accept-all">{{{textEntries.accept_all_text}}}</button>
+		<button class="sg-cookie-optin-box-button-accept-specific">{{{textEntries.accept_specific_text}}}</button>
+		<button class="sg-cookie-optin-box-button-accept-essential">{{{textEntries.accept_essential_text}}}</button>
 	</div>
 
 	<ul class="sg-cookie-optin-box-cookie-detail-list">
 		{{#cookieGroups}}
 			<li class="sg-cookie-optin-box-cookie-detail-list-item">
-				<strong class="sg-cookie-optin-box-cookie-detail-header">{{label}}</strong>
-				<p class="sg-cookie-optin-box-cookie-detail-description">{{description}}</p>
+				<strong class="sg-cookie-optin-box-cookie-detail-header">{{{label}}}</strong>
+				<p class="sg-cookie-optin-box-cookie-detail-description">{{{description}}}</p>
 
 				<div class="sg-cookie-optin-box-cookie-detail-sublist">
 					<div class="table-responsive">
@@ -39,20 +39,20 @@
 								{{#cookieData}}
 									{{#index}}<tr class="divider"><td colspan="2">&nbsp;</td></tr>{{/index}}
 									<tr>
-										<th>{{textEntries.cookie_name_text}}</th>
-										<td>{{Name}}</td>
+										<th>{{{textEntries.cookie_name_text}}}</th>
+										<td>{{{Name}}}</td>
 									</tr>
 									<tr>
-										<th>{{textEntries.cookie_provider_text}}</th>
-										<td>{{Provider}}</td>
+										<th>{{{textEntries.cookie_provider_text}}}</th>
+										<td>{{{Provider}}}</td>
 									</tr>
 									<tr>
-										<th>{{textEntries.cookie_purpose_text}}</th>
-										<td>{{Purpose}}</td>
+										<th>{{{textEntries.cookie_purpose_text}}}</th>
+										<td>{{{Purpose}}}</td>
 									</tr>
 									<tr>
-										<th>{{textEntries.cookie_lifetime_text}}</th>
-										<td>{{Lifetime}}</td>
+										<th>{{{textEntries.cookie_lifetime_text}}}</th>
+										<td>{{{Lifetime}}}</td>
 									</tr>
 								{{/cookieData}}
 							</tbody>
@@ -61,14 +61,14 @@
 				</div>
 
 				{{#cookieData}}
-					{{^index}}<a class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{textEntries.extend_table_link_text}}</a>{{/index}}
+					{{^index}}<a class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}</a>{{/index}}
 				{{/cookieData}}
 			</li>
 		{{/cookieGroups}}
 	</ul>
 
 	<div class="sg-cookie-optin-box-open-more">
-		<a class="sg-cookie-optin-box-open-more-link" href="#">{{textEntries.extend_box_link_text}}</a>
+		<a class="sg-cookie-optin-box-open-more-link" href="#">{{{textEntries.extend_box_link_text}}}</a>
 	</div>
 
 	<div class="sg-cookie-optin-box-footer">
@@ -85,7 +85,8 @@
 				{{#index}}
 					<span class="sg-cookie-optin-box-footer-divider"> | </span>
 				{{/index}}
-				<a class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{name}}</a>
+
+				<a class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{{name}}}</a>
 			{{/footerLinks}}
 		</div>
 	</div>
