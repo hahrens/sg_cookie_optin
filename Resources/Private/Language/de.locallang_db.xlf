@@ -146,8 +146,8 @@
 				<target><![CDATA[Ein weniger auffälliges Banner anstelle des Fensters für die Cookie-Einstellungen anzeigen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_html" approved="yes">
-				<source><![CDATA[Banner Template Code (HTML, variables and logic are processed with Mustache, see https://github.com/janl/mustache.js) ]]></source>
-				<target><![CDATA[Banner-Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe https://github.com/janl/mustache.js) ]]></target>
+				<source><![CDATA[Banner Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html) ]]></source>
+				<target><![CDATA[Banner-Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe http://mustache.github.io/mustache.5.html) ]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_overwritten" approved="yes">
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
@@ -394,8 +394,8 @@
 				<target><![CDATA[Aktiviere den Opt-In für externe Inhalte (iframe)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_html" approved="yes">
-				<source><![CDATA[Settings Window Template Code (HTML, variables and logic are processed with Mustache, see https://github.com/janl/mustache.js)]]></source>
-				<target><![CDATA[Einstellungsfenster Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe https://github.com/janl/mustache.js)]]></target>
+				<source><![CDATA[Settings Window Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
+				<target><![CDATA[Einstellungsfenster Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe http://mustache.github.io/mustache.5.html)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_open_settings_text" approved="yes">
 				<source><![CDATA[Link: "Open settings"]]></source>
@@ -406,8 +406,8 @@
 				<target><![CDATA[Template des Einstellungsfensters überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen.)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html" approved="yes">
-				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see https://github.com/janl/mustache.js)]]></source>
-				<target><![CDATA[iFrame-Ersatz Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe https://github.com/janl/mustache.js)]]></target>
+				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
+				<target><![CDATA[iFrame-Ersatz Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe http://mustache.github.io/mustache.5.html)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_overwritten" approved="yes">
 				<source><![CDATA[Overwrite iFrame Replacement Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
@@ -510,8 +510,8 @@
 				<target><![CDATA[Fenster-Designvorlage]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html" approved="yes">
-				<source><![CDATA[Template Code (HTML, variables and logic are processed with Mustache, see https://github.com/janl/mustache.js)]]></source>
-				<target><![CDATA[Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe https://github.com/janl/mustache.js)]]></target>
+				<source><![CDATA[Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
+				<target><![CDATA[Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe http://mustache.github.io/mustache.5.html)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten" approved="yes">
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>

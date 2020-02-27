@@ -112,7 +112,7 @@
 				<source><![CDATA[Show a Less Obtrusive Banner Instead of the Cookie Settings Window]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_html">
-				<source><![CDATA[Banner Template Code (HTML, variables and logic are processed with Mustache, see https://github.com/janl/mustache.js) ]]></source>
+				<source><![CDATA[Banner Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html) ]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_overwritten">
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
@@ -298,7 +298,7 @@
 				<source><![CDATA[Activate opt in for external content (iframe)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_html">
-				<source><![CDATA[Settings Window Template Code (HTML, variables and logic are processed with Mustache, see https://github.com/janl/mustache.js)]]></source>
+				<source><![CDATA[Settings Window Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_open_settings_text">
 				<source><![CDATA[Link: "Open settings"]]></source>
@@ -307,7 +307,7 @@
 				<source><![CDATA[Overwrite Settings Window Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html">
-				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see https://github.com/janl/mustache.js)]]></source>
+				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_overwritten">
 				<source><![CDATA[Overwrite iFrame Replacement Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
@@ -385,7 +385,7 @@
 				<source><![CDATA[Window Design Template]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html">
-				<source><![CDATA[Template Code (HTML, variables and logic are processed with Mustache, see https://github.com/janl/mustache.js)]]></source>
+				<source><![CDATA[Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten">
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
