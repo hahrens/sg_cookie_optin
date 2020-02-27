@@ -1,6 +1,6 @@
 <f:if condition="{invalidKey}">
 	<f:then>
-		<a href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/" target="_bĺank" class="btn btn-default btn-sm btn-danger btn-sm">
+		<a href="{f:translate(key: 'backend.buyLicense.url')}" target="_bĺank" class="btn btn-default btn-sm btn-danger btn-sm">
 			<f:translate key="backend.buyLicense" />
 		</a>
 
@@ -11,8 +11,12 @@
 		</f:if>
 	</f:then>
 	<f:else>
-		<a href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/" target="_bĺank" class="btn btn-default btn-sm">
+		<a href="{f:translate(key: 'backend.productInformation.url')}" target="_bĺank" class="btn btn-default btn-sm">
 			<f:translate key="backend.productInformation" />
 		</a>
 	</f:else>
 </f:if>
+
+<a href="{f:translate(key: 'backend.documentation.url')}" target="_blank" class="btn btn-default btn-sm">
+	<f:translate key="backend.documentation" />
+</a>
