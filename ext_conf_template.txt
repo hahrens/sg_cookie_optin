@@ -1,2 +1,5 @@
-# cat=license; type=string; label=LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang.xlf:configuration.licenseKey
+# cat=general; type=string; label=LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang.xlf:configuration.licenseKey
 key =
+
+#cat=general; type=string; label=LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang.xlf:configuration.folder
+folder = fileadmin/sg_cookie_optin/

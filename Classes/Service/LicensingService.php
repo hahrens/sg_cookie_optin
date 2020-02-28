@@ -2,10 +2,6 @@
 
 namespace SGalinski\SgCookieOptin\Service;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Core\Registry;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -30,6 +26,9 @@ use TYPO3\CMS\Core\Registry;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Registry;
+
 /**
  * Class SGalinski\SgCookieOptin\Service\LicensingService
  */
@@ -43,30 +42,13 @@ class LicensingService {
 	const DEMO_MODE_LIFETIME = 86400;
 	const DEMO_MODE_MAX_AMOUNT = 3;
 
-	const FILEADMIN_FOLDER = 'fileadmin/sg_cookie_optin';
-
 	/**
 	 * Returns one of the state constants of this class.
 	 *
 	 * @return boolean
 	 */
 	public static function checkKey() {
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) {
-			// the "options" parameter of unserialize exists since PHP 7.0.0
-			if (version_compare(phpversion(), '7.0.0', '>=')) {
-				$configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['sg_cookie_optin'], [FALSE]);
-			} else {
-				$configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['sg_cookie_optin']);
-			}
-		} else {
-			$configuration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sg_cookie_optin'];
-		}
-
-		if (!isset($configuration['key'])) {
-			return self::STATE_LICENSE_NOT_SET;
-		}
-
-		$key = trim($configuration['key']);
+		$key = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_LICENSE);
 		if (empty($key)) {
 			return self::STATE_LICENSE_NOT_SET;
 		}
@@ -148,12 +130,17 @@ class LicensingService {
 	}
 
 	/**
-	 * Removes all files within the specific fileadmin folder.
+	 * Removes all files within the specific generated file folder folder.
 	 *
 	 * @return void
 	 */
 	public static function removeAllCookieOptInFiles() {
-		GeneralUtility::rmdir(PATH_site . self::FILEADMIN_FOLDER, TRUE);
+		$folder = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_FOLDER);
+		if (!$folder) {
+			return;
+		}
+
+		GeneralUtility::rmdir(PATH_site . $folder, TRUE);
 	}
 
 	/**

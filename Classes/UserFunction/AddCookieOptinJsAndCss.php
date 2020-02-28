@@ -26,13 +26,9 @@ namespace SGalinski\SgCookieOptin\UserFunction;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\LicensingService;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\DatabaseConnection;
-use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -60,16 +56,21 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		$rootPageId = $this->getRootPageId();
-		if ($rootPageId <= 0 || !$this->isConfigurationOnPage($rootPageId)) {
+		if ($rootPageId <= 0) {
 			return '';
 		}
 
-		$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
+		$folder = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_FOLDER);
+		if (!$folder) {
+			return '';
+		}
+
+		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
 		if (file_exists(PATH_site . $file)) {
-			$jsonFile = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptinData_' .
+			$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_' .
 				$this->getLanguage() . '.json';
 			if (!file_exists(PATH_site . $jsonFile)) {
-				$jsonFile = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptinData_0.json';
+				$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_0.json';
 				if (!file_exists(PATH_site . $jsonFile)) {
 					return '';
 				}
@@ -79,10 +80,10 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 				'</script><script src="/' . $file . '" type="text/javascript" data-ignore="1"></script>';
 		} {
 			// Old including from version 2.X.X @todo remove in version 4.X.X
-			$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_' .
+			$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin_' .
 				$this->getLanguage() . '_v2.js';
 			if (!file_exists(PATH_site . $file)) {
-				$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/' . 'cookieOptin_0_v2.js';
+				$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin_0_v2.js';
 				if (!file_exists(PATH_site . $file)) {
 					return '';
 				}
@@ -108,11 +109,16 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 */
 	public function addCSS($content, array $configuration) {
 		$rootPageId = $this->getRootPageId();
-		if ($rootPageId <= 0 || !$this->isConfigurationOnPage($rootPageId)) {
+		if ($rootPageId <= 0) {
 			return '';
 		}
 
-		$file = 'fileadmin/sg_cookie_optin/siteroot-' . $rootPageId . '/cookieOptin.css';
+		$folder = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_FOLDER);
+		if (!$folder) {
+			return '';
+		}
+
+		$file = $folder . 'siteroot-' . $rootPageId . '/cookieOptin.css';
 		if (!file_exists(PATH_site . $file)) {
 			return '';
 		}
@@ -123,41 +129,6 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		return '<link rel="stylesheet" type="text/css" href="/' . $file . '?' . $cacheBuster . '" media="all">';
-	}
-
-	/**
-	 * Returns true, if a configuration is on the given page id.
-	 *
-	 * @param int $pageUid
-	 *
-	 * @return boolean
-	 */
-	protected function isConfigurationOnPage($pageUid) {
-		$pageUid = (int) $pageUid;
-		if ($pageUid <= 0) {
-			return FALSE;
-		}
-
-		$table = 'tx_sgcookieoptin_domain_model_optin';
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
-			/** @var DatabaseConnection $database */
-			$database = $GLOBALS['TYPO3_DB'];
-			$rows = $database->exec_SELECTgetSingleRow('uid', $table, 'deleted=0 AND pid =' . $pageUid);
-		} else {
-			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-			$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
-			$queryBuilder->getRestrictions()
-				->removeAll()
-				->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-			$rows = $queryBuilder->select('uid')
-				->from($table)
-				->setMaxResults(1)
-				->where(
-					$queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pageUid, \PDO::PARAM_INT))
-				)->execute()->fetchAll();
-		}
-
-		return is_array($rows) && count($rows) > 0;
 	}
 
 	/**
