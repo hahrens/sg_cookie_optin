@@ -49,33 +49,28 @@ class TemplateService implements SingletonInterface {
 
 	const IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT = 0;
 
-	protected $templateIdMap = [
-		self::TEMPLATE_ID_DEFAULT => 'Default',
-		self::TEMPLATE_ID_NEW => 'New',
+	protected static $templateIdToNameMap = [
+		self::TYPE_TEMPLATE => [
+			self::TEMPLATE_ID_DEFAULT => 'Default',
+			self::TEMPLATE_ID_NEW => 'Full',
+		],
+		self::TYPE_BANNER => [
+			self::BANNER_TEMPLATE_ID_DEFAULT => 'Default',
+		],
+		self::TYPE_IFRAME => [
+			self::IFRAME_TEMPLATE_ID_DEFAULT => 'Default',
+		],
+		self::TYPE_IFRAME_REPLACEMENT => [
+			self::IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT => 'Default',
+		],
 	];
 
-	protected $bannerTemplateIdMap = [
-		self::BANNER_TEMPLATE_ID_DEFAULT => 'Default',
+	protected static $templateIdToFolderMap = [
+		self::TYPE_TEMPLATE => 'Template',
+		self::TYPE_BANNER => 'Banner',
+		self::TYPE_IFRAME => 'Iframe',
+		self::TYPE_IFRAME_REPLACEMENT => 'IframeReplacement',
 	];
-
-	protected $iframeTemplateIdMap = [
-		self::IFRAME_TEMPLATE_ID_DEFAULT => 'Default',
-	];
-
-	protected $iframeReplacementTemplateIdMap = [
-		self::IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT => 'Default',
-	];
-
-	/**
-	 * MinificationService constructor.
-	 *
-	 * @return void
-	 */
-	public function __construct() {
-		$path = __DIR__ . '/../../Contrib/';
-		require_once $path . 'mustache/src/Mustache/Autoloader.php';
-		Mustache_Autoloader::register();
-	}
 
 	/**
 	 * Returns a HTML markup out of the given template with the replaced markers by Mustache.
@@ -86,6 +81,12 @@ class TemplateService implements SingletonInterface {
 	 * @return string
 	 */
 	public function renderTemplate($template, array $marker) {
+		if (!class_exists(Mustache_Engine::class)) {
+			$path = __DIR__ . '/../../Contrib/';
+			require_once $path . 'mustache/src/Mustache/Autoloader.php';
+			Mustache_Autoloader::register();
+		}
+
 		if ($template === '') {
 			return '';
 		}
@@ -102,84 +103,16 @@ class TemplateService implements SingletonInterface {
 	 *
 	 * @return string
 	 */
-	public function getContent($type, $templateId) {
-		$content = '';
-		switch ($type) {
-			case self::TYPE_TEMPLATE:
-				$content = $this->getTemplateContent($templateId);
-				break;
-			case self::TYPE_BANNER:
-				$content = $this->getBannerContent($templateId);
-				break;
-			case self::TYPE_IFRAME:
-				$content = $this->getIframeContent($templateId);
-				break;
-			case self::TYPE_IFRAME_REPLACEMENT:
-				$content = $this->getIframeReplacementContent($templateId);
-				break;
-		}
-
-		return $content;
-	}
-
-	/**
-	 * Returns the content of one of the templates mapped by one of the constant id from this class.
-	 *
-	 * @param int $templateId
-	 *
-	 * @return string
-	 */
-	protected function getTemplateContent($templateId) {
-		if (!isset($this->templateIdMap[$templateId])) {
+	public function getMustacheContent($type, $templateId) {
+		if (
+		!isset(self::$templateIdToFolderMap[$type], self::$templateIdToNameMap[$type][$templateId])
+		) {
 			return '';
 		}
 
-		return $this->getFileContent($this->templateIdMap[$templateId], 'Template');
-	}
-
-	/**
-	 * Returns the content of one of the templates mapped by one of the constant id from this class.
-	 *
-	 * @param int $bannerTemplateId
-	 *
-	 * @return string
-	 */
-	protected function getBannerContent($bannerTemplateId) {
-		if (!isset($this->bannerTemplateIdMap[$bannerTemplateId])) {
-			return '';
-		}
-
-		return $this->getFileContent($this->bannerTemplateIdMap[$bannerTemplateId], 'Banner');
-	}
-
-	/**
-	 * Returns the content of one of the templates mapped by one of the constant id from this class.
-	 *
-	 * @param int $iframeTemplateId
-	 *
-	 * @return string
-	 */
-	protected function getIframeContent($iframeTemplateId) {
-		if (!isset($this->iframeTemplateIdMap[$iframeTemplateId])) {
-			return '';
-		}
-
-		return $this->getFileContent($this->iframeTemplateIdMap[$iframeTemplateId], 'Iframe');
-	}
-
-	/**
-	 * Returns the content of one of the templates mapped by one of the constant id from this class.
-	 *
-	 * @param int $iframeReplacementId
-	 *
-	 * @return string
-	 */
-	protected function getIframeReplacementContent($iframeReplacementId) {
-		if (!isset($this->iframeReplacementTemplateIdMap[$iframeReplacementId])) {
-			return '';
-		}
-
-		return $this->getFileContent($this->iframeReplacementTemplateIdMap[$iframeReplacementId], 'IframeReplacement');
+		return $this->getHTMLFileContent(
+			self::$templateIdToNameMap[$type][$templateId], self::$templateIdToFolderMap[$type]
+		);
 	}
 
 	/**
@@ -190,9 +123,58 @@ class TemplateService implements SingletonInterface {
 	 *
 	 * @return false|string
 	 */
-	protected function getFileContent($name, $folder) {
+	protected function getHTMLFileContent($name, $folder) {
 		$path = ExtensionManagementUtility::extPath('sg_cookie_optin') .
 			'Resources/Private/Templates/Mustache/' . $folder . '/' . $name . '.html';
+		if (!file_exists($path)) {
+			return '';
+		}
+
+		return file_get_contents($path);
+	}
+
+	/**
+	 * Returns the content of one of the templates mapped by one of the constant id from this class.
+	 *
+	 * @param int $type
+	 * @param int $templateId
+	 *
+	 * @return string
+	 */
+	public function getCSSContent($type, $templateId) {
+		if (!isset(self::$templateIdToFolderMap[$type])) {
+			return '';
+		}
+
+		$content = '/* File: ' . self::$templateIdToNameMap[$type][0] . " */\n\n" .
+			$this->getCSSFileContent(
+				self::$templateIdToNameMap[$type][0], self::$templateIdToFolderMap[$type]
+			);
+		if ($templateId > 0) {
+			if (!isset(self::$templateIdToNameMap[$type][$templateId])) {
+				return $content;
+			}
+
+			$content .= '/* File: ' . self::$templateIdToNameMap[$type][$templateId] . " */\n\n" .
+				$this->getCSSFileContent(
+					self::$templateIdToNameMap[$type][$templateId], self::$templateIdToFolderMap[$type]
+				);
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Returns the content of the searched template.
+	 *
+	 * @param string $name
+	 * @param string $folder
+	 *
+	 * @return false|string
+	 */
+	protected function getCSSFileContent($name, $folder) {
+		$path = ExtensionManagementUtility::extPath('sg_cookie_optin') .
+			'Resources/Public/StyleSheets/Mustache/' . $folder . '/' . $name . '.css';
 		if (!file_exists($path)) {
 			return '';
 		}

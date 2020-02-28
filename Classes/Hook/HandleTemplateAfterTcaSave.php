@@ -68,7 +68,7 @@ class HandleTemplateAfterTcaSave {
 			if ((boolean) $data['template_overwritten']) {
 				$template = $data['template_html'];
 			} else {
-				$template = $templateService->getContent(
+				$template = $templateService->getMustacheContent(
 					TemplateService::TYPE_TEMPLATE, (int) $data['template_selection']
 				);
 			}
@@ -76,7 +76,7 @@ class HandleTemplateAfterTcaSave {
 			if ((boolean) $data['banner_overwritten']) {
 				$bannerTemplate = $data['banner_html'];
 			} else {
-				$bannerTemplate = $templateService->getContent(
+				$bannerTemplate = $templateService->getMustacheContent(
 					TemplateService::TYPE_BANNER, (int) $data['banner_selection']
 				);
 			}
@@ -84,7 +84,7 @@ class HandleTemplateAfterTcaSave {
 			if ((boolean) $data['iframe_overwritten']) {
 				$iframeTemplate = $data['iframe_html'];
 			} else {
-				$iframeTemplate = $templateService->getContent(
+				$iframeTemplate = $templateService->getMustacheContent(
 					TemplateService::TYPE_IFRAME, (int) $data['iframe_selection']
 				);
 			}
@@ -92,7 +92,7 @@ class HandleTemplateAfterTcaSave {
 			if ((boolean) $data['iframe_replacement_overwritten']) {
 				$iframeReplacementTemplate = $data['iframe_replacement_html'];
 			} else {
-				$iframeReplacementTemplate = $templateService->getContent(
+				$iframeReplacementTemplate = $templateService->getMustacheContent(
 					TemplateService::TYPE_IFRAME_REPLACEMENT, (int) $data['iframe_replacement_selection']
 				);
 			}

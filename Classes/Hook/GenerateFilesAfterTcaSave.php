@@ -199,7 +199,7 @@ class GenerateFilesAfterTcaSave {
 			'banner_color_button_accept_hover' => $fullData['banner_color_button_accept_hover'],
 			'banner_color_button_accept_text' => $fullData['banner_color_button_accept_text'],
 		];
-		$this->createCSSFile($folderName, $cssData, $minifyFiles);
+		$this->createCSSFile($fullData, $folderName, $cssData, $minifyFiles);
 
 		$languages = $this->getLanguages();
 		foreach ($languages as $language) {
@@ -386,56 +386,35 @@ class GenerateFilesAfterTcaSave {
 	/**
 	 * Creates a CSS file out of the given data array.
 	 *
+	 * @param array $data
 	 * @param string $folder
 	 * @param array $cssData
 	 * @param boolean $minifyFile
 	 *
 	 * @return void
 	 */
-	protected function createCSSFile($folder, array $cssData, $minifyFile = TRUE) {
-		$content = file_get_contents(PATH_site . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
-		$content = str_replace(
-			[
-				'###COLOR_BOX###',
-				'###COLOR_HEADLINE###',
-				'###COLOR_TEXT###',
-				'###COLOR_CHECKBOX###',
-				'###COLOR_CHECKBOX_REQUIRED###',
-				'###COLOR_BUTTON_ALL###',
-				'###COLOR_BUTTON_ALL_HOVER###',
-				'###COLOR_BUTTON_ALL_TEXT###',
-				'###COLOR_BUTTON_SPECIFIC###',
-				'###COLOR_BUTTON_SPECIFIC_HOVER###',
-				'###COLOR_BUTTON_SPECIFIC_TEXT###',
-				'###COLOR_BUTTON_ESSENTIAL###',
-				'###COLOR_BUTTON_ESSENTIAL_HOVER###',
-				'###COLOR_BUTTON_ESSENTIAL_TEXT###',
-				'###COLOR_BUTTON_CLOSE###',
-				'###COLOR_BUTTON_CLOSE_HOVER###',
-				'###COLOR_BUTTON_CLOSE_TEXT###',
-				'###COLOR_LIST###',
-				'###COLOR_LIST_TEXT###',
-				'###COLOR_TABLE###',
-				'###COLOR_TABLE_HEADER_TEXT###',
-				'###COLOR_TABLE_DATA_TEXT###',
-				'###IFRAME_COLOR_CONSENT_BOX_BACKGROUND###',
-				'###IFRAME_COLOR_BUTTON_LOAD_ONE###',
-				'###IFRAME_COLOR_BUTTON_LOAD_ONE_HOVER###',
-				'###IFRAME_COLOR_BUTTON_LOAD_ONE_TEXT###',
-				'###IFRAME_COLOR_OPEN_SETTINGS###',
-				'###BANNER_COLOR_BOX###',
-				'###BANNER_COLOR_TEXT###',
-				'###BANNER_COLOR_LINK_TEXT###',
-				'###BANNER_COLOR_BUTTON_SETTINGS###',
-				'###BANNER_COLOR_BUTTON_SETTINGS_HOVER###',
-				'###BANNER_COLOR_BUTTON_SETTINGS_TEXT###',
-				'###BANNER_COLOR_BUTTON_ACCEPT###',
-				'###BANNER_COLOR_BUTTON_ACCEPT_HOVER###',
-				'###BANNER_COLOR_BUTTON_ACCEPT_TEXT###',
-			], $cssData, $content
-		);
+	protected function createCSSFile(array $data, $folder, array $cssData, $minifyFile = TRUE) {
+		$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
+			file_get_contents(PATH_site . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
+
+		$templateService = GeneralUtility::makeInstance(TemplateService::class);
+		$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_TEMPLATE, $data['template_selection']);
+		if ((boolean) $data['banner_enable']) {
+			$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_BANNER, $data['banner_selection']);
+		}
+
+		if ((boolean) $data['iframe_enabled']) {
+			$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_IFRAME, $data['iframe_selection']);
+			$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_IFRAME_REPLACEMENT, $data['iframe_replacement_selection']);
+		}
+
+		$keys = [];
+		foreach ($cssData as $key => $value) {
+			$keys[] = '###' . $key . '###';
+		}
+
 		$file = PATH_site . $folder . self::TEMPLATE_STYLE_SHEET_NAME;
-		file_put_contents($file, $content);
+		file_put_contents($file, str_replace($keys, $cssData, $content));
 
 		if ($minifyFile) {
 			$minificationService = GeneralUtility::makeInstance(MinificationService::class);
@@ -789,7 +768,7 @@ class GenerateFilesAfterTcaSave {
 		if ((boolean) $overwritten && $overwrittenTemplate) {
 			$template = $overwrittenTemplate;
 		} else {
-			$template = $templateService->getContent((int) $type, (int) $templateSelection);
+			$template = $templateService->getMustacheContent((int) $type, (int) $templateSelection);
 		}
 
 		$mustacheTemplate = '';

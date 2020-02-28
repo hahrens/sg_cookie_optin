@@ -1,0 +1,62 @@
+/*
+ * Copyright notice
+ *
+ * (c) sgalinski Internet Services (https://www.sgalinski.de)
+ *
+ * Commercial license
+ * You can buy a license key on the following site:
+ * https://www.sgalinski.de/en/typo3-produkte-webentwicklung/sgalinski-cookie-optin/
+ */
+
+/* This file includes basic styles for the iframe replacement templates */
+
+.sg-cookie-optin-iframe-consent,
+.sg-cookie-optin-iframe-consent * div,
+.sg-cookie-optin-iframe-consent * button,
+.sg-cookie-optin-iframe-consent * a {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: none;
+	color: ###color_text###;
+	line-height: 1.6;
+}
+
+.sg-cookie-optin-iframe-consent {
+	background-color: ###iframe_color_consent_box_background###;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.sg-cookie-optin-iframe-consent button {
+	display: block;
+
+	margin: 0 auto;
+	padding: 15px;
+
+	color: ###iframe_color_button_load_one_text###;
+	font-size: 16px;
+	text-align: center;
+	cursor: pointer;
+	border: none;
+
+	background-color: ###iframe_color_button_load_one###;
+}
+
+.sg-cookie-optin-iframe-consent button:hover {
+	background-color: ###iframe_color_button_load_one_hover###;
+}
+
+.sg-cookie-optin-iframe-consent a {
+	margin: 0 auto;
+	padding: 10px 0 0;
+
+	color: ###iframe_color_open_settings###;
+	cursor: pointer;
+	font-size: 16px;
+	text-align: center;
+}

@@ -1,0 +1,75 @@
+/*
+ * Copyright notice
+ *
+ * (c) sgalinski Internet Services (https://www.sgalinski.de)
+ *
+ * Commercial license
+ * You can buy a license key on the following site:
+ * https://www.sgalinski.de/en/typo3-produkte-webentwicklung/sgalinski-cookie-optin/
+ */
+
+/* This file includes adapted styles for this template */
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new {
+	margin: 0;
+	padding: 0;
+	max-width: 90%;
+	border-radius: 0;
+	z-index: 999999;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper {
+	padding: 20px 70px;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower {
+	padding: 20px 70px;
+	background-color: ###color_list###;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower label,
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower a,
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower li,
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower p {
+	color: ###color_list_text###;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list {
+	display: flex;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item {
+	padding: 0;
+	flex: 1;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox-label {
+	font-size: 18px;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox-label span {
+	vertical-align: middle;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox-description {
+	margin: 10px 0 0 0;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-sublist-open-more-link {
+	padding: 20px 0;
+	display: inline-block;
+	float: left;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-button {
+	display: flex;
+	justify-content: flex-end;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-button button {
+	display: inline-block;
+	padding: 10px;
+	margin: 10px 0 10px 10px;
+	width: auto;
+	min-width: fit-content;
+}
