@@ -219,25 +219,8 @@ class GenerateFilesAfterTcaSave {
 				return;
 			}
 
-			$loadingScripts = [];
-			$loadingScripts['essential'] = [
-				'html' => $this->getActivationHTML($translatedFullData['essential_scripts']),
-				'javaScript' => $this->createActivationScriptFile(
-					$folderName, 'essential', $translatedFullData['essential_scripts'], $languageUid, $minifyFiles
-				),
-			];
-
-			foreach ($translatedFullData['groups'] as $group) {
-				$loadingScripts[$group['group_name']] = [
-					'html' => $this->getActivationHTML($group['scripts']),
-					'javaScript' => $this->createActivationScriptFile(
-						$folderName, $group['group_name'], $group['scripts'], $languageUid, $minifyFiles
-					),
-				];
-			}
-
 			$this->createJavaScriptFile($folderName, $minifyFiles);
-			$this->createJsonFile($folderName, $fullData, $translatedFullData, $cssData, $loadingScripts, $languageUid);
+			$this->createJsonFile($folderName, $fullData, $translatedFullData, $cssData, $minifyFiles, $languageUid);
 		}
 
 		GeneralUtility::fixPermissions(PATH_site . $folder, TRUE);
@@ -584,13 +567,13 @@ class GenerateFilesAfterTcaSave {
 	 * @param array $data
 	 * @param array $translatedData
 	 * @param array $cssData
-	 * @param array $loadingScripts
+	 * @param bool $minifyFiles
 	 * @param int $languageUid
 	 *
 	 * @return void
 	 */
 	protected function createJsonFile(
-		$folder, array $data, array $translatedData, array $cssData, array $loadingScripts, $languageUid = 0
+		$folder, array $data, array $translatedData, array $cssData, $minifyFiles, $languageUid = 0
 	) {
 		$essentialCookieData = [];
 		foreach ($translatedData['essential_cookies'] as $index => $cookieData) {
@@ -603,6 +586,16 @@ class GenerateFilesAfterTcaSave {
 			];
 		}
 
+		$essentialScriptData = [];
+		foreach ($translatedData['essential_scripts'] as $index => $scriptData) {
+			$essentialScriptData[] = [
+				'title' => $scriptData['title'],
+				'script' => $scriptData['script'],
+				'html' => $scriptData['html'],
+				'index' => $index,
+			];
+		}
+
 		$cookieGroups = [
 			[
 				'groupName' => 'essential',
@@ -610,10 +603,11 @@ class GenerateFilesAfterTcaSave {
 				'description' => $translatedData['essential_description'],
 				'required' => TRUE,
 				'cookieData' => $essentialCookieData,
-				'loadingHTML' => isset($loadingScripts['essential']['html'])
-					? $loadingScripts['essential']['html'] : '',
-				'loadingJavaScript' => isset($loadingScripts['essential']['javaScript'])
-					? $loadingScripts['essential']['javaScript'] : '',
+				'scriptData' => $essentialScriptData,
+				'loadingHTML' => $this->getActivationHTML($translatedData['essential_scripts']),
+				'loadingJavaScript' => $this->createActivationScriptFile(
+					$folder, 'essential', $translatedData['essential_scripts'], $languageUid, $minifyFiles
+				),
 			],
 		];
 
@@ -623,10 +617,6 @@ class GenerateFilesAfterTcaSave {
 			'description' => $translatedData['iframe_description'],
 			'required' => FALSE,
 			'cookieData' => [],
-			'loadingHTML' => isset($loadingScripts['iframes']['html'])
-				? $loadingScripts['iframes']['html'] : '',
-			'loadingJavaScript' => isset($loadingScripts['iframes']['javaScript'])
-				? $loadingScripts['iframes']['javaScript'] : '',
 		];
 		if ((boolean) $translatedData['iframe_enabled']) {
 			$cookieGroups[] = $iFrameGroup;
@@ -644,6 +634,16 @@ class GenerateFilesAfterTcaSave {
 				];
 			}
 
+			$groupScriptData = [];
+			foreach ($group['scripts'] as $index => $scriptData) {
+				$groupScriptData[] = [
+					'title' => $scriptData['title'],
+					'script' => $scriptData['script'],
+					'html' => $scriptData['html'],
+					'index' => $index,
+				];
+			}
+
 			$groupName = $group['group_name'];
 			$cookieGroups[] = [
 				'groupName' => $groupName,
@@ -651,10 +651,11 @@ class GenerateFilesAfterTcaSave {
 				'description' => $group['description'],
 				'required' => FALSE,
 				'cookieData' => $groupCookieData,
-				'loadingHTML' => isset($loadingScripts[$groupName]['html'])
-					? $loadingScripts[$groupName]['html'] : '',
-				'loadingJavaScript' => isset($loadingScripts[$groupName]['javaScript'])
-					? $loadingScripts[$groupName]['javaScript'] : '',
+				'scriptData' => $groupScriptData,
+				'loadingHTML' => $this->getActivationHTML($group['scripts']),
+				'loadingJavaScript' => $this->createActivationScriptFile(
+					$folder, $group['group_name'], $group['scripts'], $languageUid, $minifyFiles
+				),
 			];
 		}
 
@@ -672,6 +673,7 @@ class GenerateFilesAfterTcaSave {
 				$footerLinks[$index] = [
 					'url' => $contentObject->getTypoLink_URL($pageData['uid'], '&disableOptIn=1&L=' . $languageUid),
 					'name' => $contentObject->crop($pageData['title'], 35 . '|...|0'),
+					'uid' => $pageData['uid'],
 					'index' => $index,
 				];
 				++$index;
@@ -724,61 +726,78 @@ class GenerateFilesAfterTcaSave {
 			'textEntries' => $textEntries,
 		];
 
-		$templateService = GeneralUtility::makeInstance(TemplateService::class);
-		if ((boolean) $translatedData['template_overwritten'] && $translatedData['template_html']) {
-			$template = $translatedData['template_html'];
-		} else {
-			$template = $templateService->getTemplateContent((int) $translatedData['template_selection']);
-		}
-
-		$mustacheTemplate = '';
-		if ($template) {
-			$mustacheTemplate = $templateService->renderTemplate($template, $jsonDataArray);
-		}
-
-		if ((boolean) $translatedData['banner_overwritten'] && $translatedData['banner_html']) {
-			$template = $translatedData['banner_html'];
-		} else {
-			$template = $templateService->getBannerContent((int) $translatedData['banner_selection']);
-		}
-
-		$mustacheBanner = '';
-		if ($template) {
-			$mustacheBanner = $templateService->renderTemplate($template, $jsonDataArray);
-		}
-
-		if ((boolean) $translatedData['iframe_overwritten'] && $translatedData['iframe_html']) {
-			$template = $translatedData['iframe_html'];
-		} else {
-			$template = $templateService->getIframeContent((int) $translatedData['iframe_selection']);
-		}
-
-		$mustacheIframe = '';
-		if ($template) {
-			$mustacheIframe = $templateService->renderTemplate($template, $jsonDataArray);
-		}
-
-		if ((boolean) $translatedData['iframe_replacement_overwritten'] && $translatedData['iframe_replacement_html']) {
-			$template = $translatedData['iframe_replacement_html'];
-		} else {
-			$template = $templateService->getIframeReplacementContent((int) $translatedData['iframe_replacement_selection']);
-		}
-
-		$mustacheIframeReplacement = '';
-		if ($template) {
-			$mustacheIframeReplacement = $templateService->renderTemplate($template, $jsonDataArray);
-		}
-
-		$jsonDataArray['markup'] = [
-			'template' => $mustacheTemplate,
-			'banner' => $mustacheBanner,
-			'iframe' => $mustacheIframe,
-			'iframeReplacement' => $mustacheIframeReplacement,
+		$jsonDataArray['mustacheData'] = [
+			'template' => [
+				'template_html' => $translatedData['template_html'],
+				'template_overwritten' => $translatedData['template_overwritten'],
+				'template_selection' => $translatedData['template_selection'],
+				'markup' => $this->getRenderedMustacheTemplate(
+					$translatedData['template_overwritten'], $translatedData['template_html'],
+					$translatedData['template_selection'], TemplateService::TYPE_TEMPLATE, $jsonDataArray
+				),
+			],
+			'banner' => [
+				'banner_html' => $translatedData['banner_html'],
+				'banner_overwritten' => $translatedData['banner_overwritten'],
+				'banner_selection' => $translatedData['banner_selection'],
+				'markup' => $this->getRenderedMustacheTemplate(
+					$translatedData['banner_overwritten'], $translatedData['banner_html'],
+					$translatedData['banner_selection'], TemplateService::TYPE_BANNER, $jsonDataArray
+				),
+			],
+			'iframe' => [
+				'iframe_html' => $translatedData['iframe_html'],
+				'iframe_overwritten' => $translatedData['iframe_overwritten'],
+				'iframe_selection' => $translatedData['iframe_selection'],
+				'markup' => $this->getRenderedMustacheTemplate(
+					$translatedData['iframe_overwritten'], $translatedData['iframe_html'],
+					$translatedData['iframe_selection'], TemplateService::TYPE_IFRAME, $jsonDataArray
+				),
+			],
+			'iframeReplacement' => [
+				'iframe_replacement_html' => $translatedData['iframe_replacement_html'],
+				'iframe_replacement_overwritten' => $translatedData['iframe_replacement_overwritten'],
+				'iframe_replacement_selection' => $translatedData['iframe_replacement_selection'],
+				'markup' => $this->getRenderedMustacheTemplate(
+					$translatedData['iframe_replacement_overwritten'], $translatedData['iframe_replacement_html'],
+					$translatedData['iframe_replacement_selection'], TemplateService::TYPE_IFRAME_REPLACEMENT,
+					$jsonDataArray
+				),
+			],
 		];
 
 		$file = PATH_site . $folder . str_replace('#LANG#', $translatedData['sys_language_uid'], self::TEMPLATE_JSON_NAME);
 		file_put_contents($file, json_encode($jsonDataArray));
 		GeneralUtility::fixPermissions($file);
+	}
+
+	/**
+	 * Renders a mustache template by the given data and returns it.
+	 *
+	 * @param bool $overwritten
+	 * @param string $overwrittenTemplate
+	 * @param int $templateSelection
+	 * @param int $type
+	 * @param array $data
+	 *
+	 * @return string
+	 */
+	protected function getRenderedMustacheTemplate(
+		$overwritten, $overwrittenTemplate, $templateSelection, $type, array $data
+	) {
+		$templateService = GeneralUtility::makeInstance(TemplateService::class);
+		if ((boolean) $overwritten && $overwrittenTemplate) {
+			$template = $overwrittenTemplate;
+		} else {
+			$template = $templateService->getContent((int) $type, (int) $templateSelection);
+		}
+
+		$mustacheTemplate = '';
+		if ($template) {
+			$mustacheTemplate = $templateService->renderTemplate($template, $data);
+		}
+
+		return $mustacheTemplate;
 	}
 
 	/**

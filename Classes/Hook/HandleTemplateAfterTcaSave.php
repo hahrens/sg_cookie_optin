@@ -68,26 +68,32 @@ class HandleTemplateAfterTcaSave {
 			if ((boolean) $data['template_overwritten']) {
 				$template = $data['template_html'];
 			} else {
-				$template = $templateService->getTemplateContent((int) $data['template_selection']);
+				$template = $templateService->getContent(
+					TemplateService::TYPE_TEMPLATE, (int) $data['template_selection']
+				);
 			}
 
 			if ((boolean) $data['banner_overwritten']) {
 				$bannerTemplate = $data['banner_html'];
 			} else {
-				$bannerTemplate = $templateService->getBannerContent((int) $data['banner_selection']);
+				$bannerTemplate = $templateService->getContent(
+					TemplateService::TYPE_BANNER, (int) $data['banner_selection']
+				);
 			}
 
 			if ((boolean) $data['iframe_overwritten']) {
 				$iframeTemplate = $data['iframe_html'];
 			} else {
-				$iframeTemplate = $templateService->getIframeContent((int) $data['iframe_selection']);
+				$iframeTemplate = $templateService->getContent(
+					TemplateService::TYPE_IFRAME, (int) $data['iframe_selection']
+				);
 			}
 
 			if ((boolean) $data['iframe_replacement_overwritten']) {
 				$iframeReplacementTemplate = $data['iframe_replacement_html'];
 			} else {
-				$iframeReplacementTemplate = $templateService->getIframeReplacementContent(
-					(int) $data['iframe_replacement_selection']
+				$iframeReplacementTemplate = $templateService->getContent(
+					TemplateService::TYPE_IFRAME_REPLACEMENT, (int) $data['iframe_replacement_selection']
 				);
 			}
 

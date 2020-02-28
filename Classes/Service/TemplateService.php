@@ -35,6 +35,11 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * Class SGalinski\SgCookieOptin\Service\TemplateService
  */
 class TemplateService implements SingletonInterface {
+	const TYPE_TEMPLATE = 0;
+	const TYPE_BANNER = 1;
+	const TYPE_IFRAME = 2;
+	const TYPE_IFRAME_REPLACEMENT = 3;
+
 	const TEMPLATE_ID_DEFAULT = 0;
 	const TEMPLATE_ID_NEW = 1;
 
@@ -92,11 +97,39 @@ class TemplateService implements SingletonInterface {
 	/**
 	 * Returns the content of one of the templates mapped by one of the constant id from this class.
 	 *
+	 * @param int $type
 	 * @param int $templateId
 	 *
 	 * @return string
 	 */
-	public function getTemplateContent($templateId) {
+	public function getContent($type, $templateId) {
+		$content = '';
+		switch ($type) {
+			case self::TYPE_TEMPLATE:
+				$content = $this->getTemplateContent($templateId);
+				break;
+			case self::TYPE_BANNER:
+				$content = $this->getBannerContent($templateId);
+				break;
+			case self::TYPE_IFRAME:
+				$content = $this->getIframeContent($templateId);
+				break;
+			case self::TYPE_IFRAME_REPLACEMENT:
+				$content = $this->getIframeReplacementContent($templateId);
+				break;
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Returns the content of one of the templates mapped by one of the constant id from this class.
+	 *
+	 * @param int $templateId
+	 *
+	 * @return string
+	 */
+	protected function getTemplateContent($templateId) {
 		if (!isset($this->templateIdMap[$templateId])) {
 			return '';
 		}
@@ -111,7 +144,7 @@ class TemplateService implements SingletonInterface {
 	 *
 	 * @return string
 	 */
-	public function getBannerContent($bannerTemplateId) {
+	protected function getBannerContent($bannerTemplateId) {
 		if (!isset($this->bannerTemplateIdMap[$bannerTemplateId])) {
 			return '';
 		}
@@ -126,7 +159,7 @@ class TemplateService implements SingletonInterface {
 	 *
 	 * @return string
 	 */
-	public function getIframeContent($iframeTemplateId) {
+	protected function getIframeContent($iframeTemplateId) {
 		if (!isset($this->iframeTemplateIdMap[$iframeTemplateId])) {
 			return '';
 		}
@@ -141,7 +174,7 @@ class TemplateService implements SingletonInterface {
 	 *
 	 * @return string
 	 */
-	public function getIframeReplacementContent($iframeReplacementId) {
+	protected function getIframeReplacementContent($iframeReplacementId) {
 		if (!isset($this->iframeReplacementTemplateIdMap[$iframeReplacementId])) {
 			return '';
 		}

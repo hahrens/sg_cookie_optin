@@ -114,9 +114,9 @@
 
 		if (contentElement === null && jsonData.settings.banner_enable && !hideBanner) {
 			wrapper.classList.add('sg-cookie-optin-banner-wrapper');
-			wrapper.insertAdjacentHTML('afterbegin', jsonData.markup.banner);
+			wrapper.insertAdjacentHTML('afterbegin', jsonData.mustacheData.banner.markup);
 		} else {
-			wrapper.insertAdjacentHTML('afterbegin', jsonData.markup.template);
+			wrapper.insertAdjacentHTML('afterbegin', jsonData.mustacheData.template.markup);
 		}
 
 		addListeners(wrapper, contentElement);
@@ -597,7 +597,7 @@
 		container.setAttribute('data-src', iframe.src);
 		container.setAttribute('style', 'height: ' + iframe.offsetHeight + 'px;');
 		container.classList.add('sg-cookie-optin-iframe-consent');
-		container.insertAdjacentHTML('afterbegin', jsonData.markup.iframeReplacement);
+		container.insertAdjacentHTML('afterbegin', jsonData.mustacheData.iframeReplacement.markup);
 
 		var iframeConsentAccept = container.querySelectorAll('.sg-cookie-optin-iframe-consent-accept');
 		addEventListenerToList(iframeConsentAccept, 'click', function() {
@@ -637,7 +637,7 @@
 
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
-		wrapper.insertAdjacentHTML('afterbegin', jsonData.markup.iframe);
+		wrapper.insertAdjacentHTML('afterbegin', jsonData.mustacheData.iframe.markup);
 
 		var flashMessageContainer = wrapper.querySelector('.sg-cookie-optin-box-flash-message');
 		if (flashMessageContainer !== null) {
