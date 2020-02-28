@@ -362,6 +362,7 @@ class GenerateFilesAfterTcaSave {
 			'iframe_enabled' => (boolean) $data['iframe_enabled'],
 			'minify_generated_data' => (boolean) $data['minify_generated_data'],
 			'show_button_close' => (boolean) $data['show_button_close'],
+			'activate_testing_mode' => (boolean) $data['activate_testing_mode'],
 		];
 
 		$textEntries = [

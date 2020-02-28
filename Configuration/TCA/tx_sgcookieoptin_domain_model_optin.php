@@ -66,7 +66,8 @@ $configuration = [
 			banner_show_settings_button, banner_color_box, banner_color_text, banner_color_button_settings,
 			banner_color_button_settings_hover, banner_color_button_settings_text, banner_color_button_accept,
 			banner_color_button_accept_hover, banner_color_button_accept_text, banner_color_link_text,
-			banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close',
+			banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,
+			activate_testing_mode',
 	],
 	'types' => [
 		'1' => [
@@ -88,7 +89,7 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group,
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
-					cookie_lifetime, minify_generated_data',
+					cookie_lifetime, minify_generated_data, activate_testing_mode',
 		],
 	],
 	'palettes' => [
@@ -1184,6 +1185,15 @@ $configuration = [
 			'config' => [
 				'type' => 'check',
 				'default' => '1',
+			],
+		],
+		'activate_testing_mode' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.activate_testing_mode',
+			'config' => [
+				'type' => 'check',
+				'default' => '0',
 			],
 		],
 	],

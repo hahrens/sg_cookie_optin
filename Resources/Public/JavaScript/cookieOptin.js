@@ -42,7 +42,7 @@
 		// noinspection EqualityComparisonWithCoercionJS
 		var showOptIn = getParameterByName('showOptIn') == true;
 		var cookieValue = getCookie(COOKIE_NAME);
-		if (!cookieValue || showOptIn) {
+		if ((!cookieValue && !jsonData.settings.activate_testing_mode) || showOptIn) {
 			showCookieOptin(null, false);
 		}
 	}
@@ -484,6 +484,12 @@
 	 */
 	function checkForIFrames() {
 		if (!jsonData.settings.iframe_enabled) {
+			return;
+		}
+
+		// noinspection EqualityComparisonWithCoercionJS
+		var showOptIn = getParameterByName('showOptIn') == true;
+		if (jsonData.settings.activate_testing_mode && !showOptIn) {
 			return;
 		}
 

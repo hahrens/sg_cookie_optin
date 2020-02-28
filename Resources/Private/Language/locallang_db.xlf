@@ -363,6 +363,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close">
 				<source><![CDATA[Activate the close button in the templates]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode">
+				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.banner">
 				<source><![CDATA[Banner]]></source>
 			</trans-unit>
