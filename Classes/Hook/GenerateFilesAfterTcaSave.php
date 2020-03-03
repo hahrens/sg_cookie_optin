@@ -182,8 +182,15 @@ class GenerateFilesAfterTcaSave {
 			'color_list' => $fullData['color_list'],
 			'color_list_text' => $fullData['color_list_text'],
 			'color_table' => $fullData['color_table'],
-			'color_table_header_text' => $fullData['color_table_header_text'],
 			'color_Table_data_text' => $fullData['color_Table_data_text'],
+			'color_table_header' => $fullData['color_table_header'],
+			'color_table_header_text' => $fullData['color_table_header_text'],
+			'color_full_box' => $fullData['color_full_box'],
+			'color_full_headline' => $fullData['color_full_headline'],
+			'color_full_text' => $fullData['color_full_text'],
+			'color_full_button_close' => $fullData['color_full_button_close'],
+			'color_full_button_close_hover' => $fullData['color_full_button_close_hover'],
+			'color_full_button_close_text' => $fullData['color_full_button_close_text'],
 			'iframe_color_consent_box_background' => $fullData['iframe_color_consent_box_background'],
 			'iframe_color_button_load_one' => $fullData['iframe_color_button_load_one'],
 			'iframe_color_button_load_one_hover' => $fullData['iframe_color_button_load_one_hover'],
@@ -408,13 +415,17 @@ class GenerateFilesAfterTcaSave {
 			$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_IFRAME_REPLACEMENT, $data['iframe_replacement_selection']);
 		}
 
-		$keys = [];
+		$keys = $data = [];
 		foreach ($cssData as $key => $value) {
+			$keys[] = '%23###' . $key . '###';
+			$data[] = '%23' . ltrim($value, '#');
+
 			$keys[] = '###' . $key . '###';
+			$data[] = $value;
 		}
 
 		$file = PATH_site . $folder . self::TEMPLATE_STYLE_SHEET_NAME;
-		file_put_contents($file, str_replace($keys, $cssData, $content));
+		file_put_contents($file, str_replace($keys, $data, $content));
 
 		if ($minifyFile) {
 			$minificationService = GeneralUtility::makeInstance(MinificationService::class);
@@ -555,14 +566,31 @@ class GenerateFilesAfterTcaSave {
 		$folder, array $data, array $translatedData, array $cssData, $minifyFiles, $languageUid = 0
 	) {
 		$essentialCookieData = [];
+		$pseudoElements = 0;
+		$groupIndex = 0;
 		foreach ($translatedData['essential_cookies'] as $index => $cookieData) {
 			$essentialCookieData[] = [
 				'Name' => $cookieData['name'],
 				'Provider' => $cookieData['provider'],
 				'Purpose' => $cookieData['purpose'],
 				'Lifetime' => $cookieData['lifetime'],
-				'index' => $index,
+				'index' => $groupIndex,
+				'pseudo' => FALSE,
 			];
+			++$groupIndex;
+			$pseudoElements = $groupIndex % 3;
+		}
+
+		for ($index = 1; $index < $pseudoElements; ++$index) {
+			$essentialCookieData[] = [
+				'Name' => '',
+				'Provider' => '',
+				'Purpose' => '',
+				'Lifetime' => '',
+				'index' => $groupIndex,
+				'pseudo' => TRUE,
+			];
+			++$groupIndex;
 		}
 
 		$essentialScriptData = [];
@@ -590,27 +618,33 @@ class GenerateFilesAfterTcaSave {
 			],
 		];
 
-		$iFrameGroup = [
-			'groupName' => 'iframes',
-			'label' => $translatedData['iframe_title'],
-			'description' => $translatedData['iframe_description'],
-			'required' => FALSE,
-			'cookieData' => [],
-		];
-		if ((boolean) $translatedData['iframe_enabled']) {
-			$cookieGroups[] = $iFrameGroup;
-		}
-
 		foreach ($translatedData['groups'] as $group) {
 			$groupCookieData = [];
+			$pseudoElements = 0;
+			$groupIndex = 0;
 			foreach ($group['cookies'] as $index => $cookieData) {
 				$groupCookieData[] = [
 					'Name' => $cookieData['name'],
 					'Provider' => $cookieData['provider'],
 					'Purpose' => $cookieData['purpose'],
 					'Lifetime' => $cookieData['lifetime'],
-					'index' => $index,
+					'index' => $groupIndex,
+					'pseudo' => FALSE,
 				];
+				++$groupIndex;
+				$pseudoElements = $groupIndex % 3;
+			}
+
+			for ($index = 1; $index < $pseudoElements; ++$index) {
+				$groupCookieData[] = [
+					'Name' => '',
+					'Provider' => '',
+					'Purpose' => '',
+					'Lifetime' => '',
+					'index' => $groupIndex,
+					'pseudo' => TRUE,
+				];
+				++$groupIndex;
 			}
 
 			$groupScriptData = [];
@@ -636,6 +670,17 @@ class GenerateFilesAfterTcaSave {
 					$folder, $group['group_name'], $group['scripts'], $languageUid, $minifyFiles
 				),
 			];
+		}
+
+		$iFrameGroup = [
+			'groupName' => 'iframes',
+			'label' => $translatedData['iframe_title'],
+			'description' => $translatedData['iframe_description'],
+			'required' => FALSE,
+			'cookieData' => [],
+		];
+		if ((boolean) $translatedData['iframe_enabled']) {
+			$cookieGroups[] = $iFrameGroup;
 		}
 
 		$navigationEntries = $this->getPagesFromNavigation($translatedData['navigation'], $languageUid);
@@ -746,7 +791,7 @@ class GenerateFilesAfterTcaSave {
 		];
 
 		$file = PATH_site . $folder . str_replace('#LANG#', $translatedData['sys_language_uid'], self::TEMPLATE_JSON_NAME);
-		file_put_contents($file, json_encode($jsonDataArray));
+		file_put_contents($file, json_encode($jsonDataArray, JSON_PRETTY_PRINT));
 		GeneralUtility::fixPermissions($file);
 	}
 

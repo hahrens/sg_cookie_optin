@@ -54,6 +54,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.scripts">
 				<source><![CDATA[Scripts (For translations: Only "translated" scripts are considered. Added scripts without a default language parent will be ignored)]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.tab.scripts">
+				<source><![CDATA[Scripts]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.title">
 				<source><![CDATA[Group Title]]></source>
 			</trans-unit>
@@ -136,7 +139,7 @@
 				<source><![CDATA[Show the Settings Button within the Banner (Should be enabled if the website uses cookies.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text">
-				<source><![CDATA[Data Text Color]]></source>
+				<source><![CDATA[Text Color - Data]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_box">
 				<source><![CDATA[Window]]></source>
@@ -193,10 +196,13 @@
 				<source><![CDATA[Text Color in the Info Boxes for the Groups]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table">
-				<source><![CDATA[Cell Background]]></source>
+				<source><![CDATA[Cell Background - Data]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table_header">
+				<source><![CDATA[Cell Background - Row Title]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table_header_text">
-				<source><![CDATA[Text Color Row Title]]></source>
+				<source><![CDATA[Text Color - Row Title]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_text">
 				<source><![CDATA[Text]]></source>
@@ -422,6 +428,15 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title">
 				<source><![CDATA[Script Name]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_headline">
+				<source><![CDATA[Headline]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_box">
+				<source><![CDATA[Window (upper part)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_text">
+				<source><![CDATA[Text (upper part)]]></source>
 			</trans-unit>
 		</body>
 	</file>

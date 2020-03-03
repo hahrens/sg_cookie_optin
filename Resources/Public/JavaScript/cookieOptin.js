@@ -127,7 +127,78 @@
 			contentElement.appendChild(wrapper);
 		}
 
-		updateCookieList();
+		setTimeout(function() {
+			adjustDescriptionHeight(wrapper);
+			updateCookieList();
+		}, 10);
+	}
+
+	/**
+	 * Adjusts the description height for each elements, for the new design.
+	 *
+	 * @param {dom} container
+	 * @return {void}
+	 */
+	function adjustDescriptionHeight(container) {
+		var maxHeightPerRow = [];
+		var maxHeightPerRowIndex = 0;
+		var descriptions = container.querySelectorAll('.sg-cookie-optin-box-new .sg-cookie-optin-checkbox-description');
+		for (var index = 0; index < descriptions.length; ++index) {
+			if (!(index % 4)) {
+				++maxHeightPerRowIndex;
+			}
+
+			var descriptionHeight = descriptions[index].getBoundingClientRect().height;
+			var maxHeight = (maxHeightPerRow[maxHeightPerRowIndex] ? maxHeightPerRow[maxHeightPerRowIndex] : 0);
+			if (descriptionHeight > maxHeight) {
+				maxHeightPerRow[maxHeightPerRowIndex] = descriptionHeight;
+			}
+		}
+
+		maxHeightPerRowIndex = 0;
+		for (index = 0; index < descriptions.length; ++index) {
+			if (!(index % 4)) {
+				++maxHeightPerRowIndex;
+			}
+
+			descriptions[index].style.height = maxHeightPerRow[maxHeightPerRowIndex] + 'px';
+		}
+	}
+
+	/**
+	 * Adjusts the description height for each elements, for the new design.
+	 *
+	 * @param {dom} container
+	 * @return {void}
+	 */
+	function adjustReasonHeight(container) {
+		var listItems = container.querySelectorAll('.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list-item');
+		for (var listItemIndex = 0; listItemIndex < listItems.length; ++listItemIndex) {
+			var maxHeightPerRow = [];
+			var maxHeightPerRowIndex = 0;
+
+			var reasons = listItems[listItemIndex].querySelectorAll('.sg-cookie-optin-box-table-reason');
+			for (var index = 0; index < reasons.length; ++index) {
+				if (!(index % 3)) {
+					++maxHeightPerRowIndex;
+				}
+
+				var reasonHeight = reasons[index].getBoundingClientRect().height;
+				var maxHeight = (maxHeightPerRow[maxHeightPerRowIndex] ? maxHeightPerRow[maxHeightPerRowIndex] : 0);
+				if (reasonHeight > maxHeight) {
+					maxHeightPerRow[maxHeightPerRowIndex] = reasonHeight;
+				}
+			}
+
+			maxHeightPerRowIndex = 0;
+			for (index = 0; index < reasons.length; ++index) {
+				if (!(index % 3)) {
+					++maxHeightPerRowIndex;
+				}
+
+				reasons[index].style.height = maxHeightPerRow[maxHeightPerRowIndex] + 'px';
+			}
+		}
 	}
 
 	/**
@@ -302,11 +373,11 @@
 			return;
 		}
 
-		if (cookieDetailList.classList.contains('visible')) {
-			cookieDetailList.classList.remove('visible');
+		if (cookieDetailList.classList.contains('sg-cookie-optin-visible')) {
+			cookieDetailList.classList.remove('sg-cookie-optin-visible');
 			event.target.innerHTML = jsonData.textEntries.extend_box_link_text;
 		} else {
-			cookieDetailList.classList.add('visible');
+			cookieDetailList.classList.add('sg-cookie-optin-visible');
 			event.target.innerHTML = jsonData.textEntries.extend_box_link_text_close;
 		}
 	}
@@ -322,49 +393,59 @@
 
 		// todo remove redundant code.
 		var height = 0;
-		var cookieList = event.target.previousElementSibling;
-		if (!cookieList || !cookieList.classList.contains('sg-cookie-optin-box-cookie-detail-sublist')) {
+		var cookieSubList = event.target.previousElementSibling;
+		if (!cookieSubList || !cookieSubList.classList.contains('sg-cookie-optin-box-cookie-detail-sublist')) {
 			var cookieOptin = event.target.closest('#SgCookieOptin');
-			var cookieLists = cookieOptin.querySelectorAll('.sg-cookie-optin-box-cookie-detail-sublist');
-			for (var index in cookieLists) {
-				if (!cookieLists.hasOwnProperty(index)) {
+			var cookieBoxes = cookieOptin.querySelectorAll('.sg-cookie-optin-box-new');
+			for (var index in cookieBoxes) {
+				if (!cookieBoxes.hasOwnProperty(index)) {
 					continue;
 				}
 
-				cookieList = cookieLists[index];
-				if (cookieList.classList.contains('visible')) {
-					cookieList.classList.remove('visible');
-					cookieList.style.height = '';
+				var visible = true;
+				var cookieBox = cookieBoxes[index];
+				if (cookieBox.classList.contains('sg-cookie-optin-visible')) {
+					visible = false;
+					cookieBox.classList.remove('sg-cookie-optin-visible');
+					cookieBox.classList.add('sg-cookie-optin-invisible');
 					event.target.innerHTML = jsonData.textEntries.extend_table_link_text;
 				} else {
-					cookieList.classList.add('visible');
-					cookieList.style.height = 'auto';
-					height = cookieList.getBoundingClientRect().height + 'px';
-					cookieList.style.height = '';
-					requestAnimationFrame(function(item, style) {
-						setTimeout(function() {
-							item.style.height = style;
-						}, 10);
-					}(cookieList, height));
-
+					cookieBox.classList.remove('sg-cookie-optin-invisible');
+					cookieBox.classList.add('sg-cookie-optin-visible');
+					adjustReasonHeight(cookieOptin);
 					event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
+				}
+
+				var descriptions = cookieBox.querySelectorAll('.sg-cookie-optin-checkbox-description');
+				for (var descriptionIndex in descriptions) {
+					if (!descriptions.hasOwnProperty(descriptionIndex)) {
+						continue;
+					}
+
+					var description = descriptions[descriptionIndex];
+					if (visible) {
+						description.setAttribute('data-optimal-height', description.style.height);
+						description.style.height = 'auto';
+					} else {
+						description.style.height = description.getAttribute('data-optimal-height');
+					}
 				}
 			}
 		} else {
-			if (cookieList.classList.contains('visible')) {
-				cookieList.classList.remove('visible');
-				cookieList.style.height = '';
+			if (cookieSubList.classList.contains('sg-cookie-optin-visible')) {
+				cookieSubList.classList.remove('sg-cookie-optin-visible');
+				cookieSubList.style.height = '';
 				event.target.innerHTML = jsonData.textEntries.extend_table_link_text;
 			} else {
-				cookieList.classList.add('visible');
-				cookieList.style.height = 'auto';
-				height = cookieList.getBoundingClientRect().height + 'px';
-				cookieList.style.height = '';
+				cookieSubList.classList.add('sg-cookie-optin-visible');
+				cookieSubList.style.height = 'auto';
+				height = cookieSubList.getBoundingClientRect().height + 'px';
+				cookieSubList.style.height = '';
 				requestAnimationFrame(function(item, style) {
 					setTimeout(function() {
 						item.style.height = style;
 					}, 10);
-				}(cookieList, height));
+				}(cookieSubList, height));
 
 				event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
 			}
@@ -795,15 +876,6 @@
 		var d = new Date;
 		d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
 		document.cookie = name + '=' + value + ';path=/;expires=' + d.toGMTString();
-	}
-
-	/**
-	 * Deletes a cookie, found the the given name.
-	 *
-	 * @param {string} name
-	 */
-	function deleteCookie(name) {
-		setCookie(name, '', -1);
 	}
 
 	/**

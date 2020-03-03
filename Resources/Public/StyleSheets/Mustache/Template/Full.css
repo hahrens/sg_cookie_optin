@@ -13,34 +13,71 @@
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new {
 	margin: 0;
 	padding: 0;
-	max-width: 90%;
+	max-width: 1500px;
 	border-radius: 0;
-	z-index: 999999;
 }
 
+/* Upper Part */
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper {
 	padding: 20px 70px;
+	background-color: ###color_full_box###;
 }
 
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-header {
+	color: ###color_full_headline###;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-description {
+	color: ###color_full_text###;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-close-button {
+	color: ###color_full_button_close_text###;
+	background-color: ###color_full_button_close###;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper .sg-cookie-optin-box-close-button:hover {
+	background-color: ###color_full_button_close_hover###;
+}
+
+/* Lower Part */
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower {
-	padding: 20px 70px;
-	background-color: ###color_list###;
+	padding: 0 70px;
+	background-color: ###color_box###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower label,
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower a,
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower li,
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower p {
-	color: ###color_list_text###;
+	color: ###color_text###;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower .sg-cookie-optin-box-footer {
+	padding: 5px 0 20px;
+	border: 0;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower .sg-cookie-optin-box-footer .sg-cookie-optin-box-footer-links {
+	float: none;
+	text-align: right;
 }
 
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list {
+	padding: 0 0 15px;
+	margin: 0 0 15px;
 	display: flex;
+	flex-wrap: wrap;
+	border-bottom: 1px solid ###color_list###;
 }
 
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item {
-	padding: 0;
-	flex: 1;
+	padding: 2% 2% 0 0;
+	flex: 0 0 23%;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox + .sg-cookie-optin-checkbox-label::before {
+	border-radius: 0;
 }
 
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox-label {
@@ -55,10 +92,119 @@
 	margin: 10px 0 0 0;
 }
 
+@-webkit-keyframes fadeInDown {
+	from {
+		opacity: 0;
+		-webkit-transform: translate3d(0, -30%, 0);
+		transform: translate3d(0, -30%, 0);
+	}
+
+	to {
+		opacity: 1;
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@keyframes fadeInDown {
+	from {
+		opacity: 0;
+		-webkit-transform: translate3d(0, -30%, 0);
+		transform: translate3d(0, -30%, 0);
+	}
+
+	to {
+		opacity: 1;
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@-webkit-keyframes fadeInDownInvisible {
+	from {
+		opacity: 0;
+		-webkit-transform: translate3d(0, -30%, 0);
+		transform: translate3d(0, -30%, 0);
+	}
+
+	to {
+		opacity: 1;
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+@keyframes fadeInDownInvisible {
+	from {
+		opacity: 0;
+		-webkit-transform: translate3d(0, -30%, 0);
+		transform: translate3d(0, -30%, 0);
+	}
+
+	to {
+		opacity: 1;
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+	}
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new.sg-cookie-optin-visible .sg-cookie-optin-box-cookie-list {
+	animation: .6s ease-in fadeInDown;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new.sg-cookie-optin-invisible .sg-cookie-optin-box-cookie-list {
+	animation: .3s ease-in fadeInDownInvisible;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new.sg-cookie-optin-visible .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item {
+	padding: 20px 0 0 0;
+	margin: 25px 0 0 0;
+	border-top: 1px solid ###color_list###;
+	flex: 0 0 100%;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new.sg-cookie-optin-visible .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item:first-of-type {
+	border: 0;
+	margin: 0;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new.sg-cookie-optin-visible .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-box-cookie-detail-sublist {
+	display: flex;
+	height: auto;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-detail-sublist .sg-cookie-optin-box-cookie-detail-sublist-item {
+	margin: 15px 0 0 0;
+	flex: 0 0 31%;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-detail-sublist table {
+	margin: 0;
+	border: 1px solid ###color_list###;
+}
+
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-sublist-open-more-link {
-	padding: 20px 0;
+	transform: translateY(12px);
 	display: inline-block;
 	float: left;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-sublist-open-more-link::after {
+	margin: 0 0 0 10px;
+	transform: translateY(5px);
+
+	content: '';
+	background: transparent url("data:image/svg+xml,%3csvg fill='%23###color_text###' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3e%3cpath d='M504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zM273 369.9l135.5-135.5c9.4-9.4 9.4-24.6 0-33.9l-17-17c-9.4-9.4-24.6-9.4-33.9 0L256 285.1 154.4 183.5c-9.4-9.4-24.6-9.4-33.9 0l-17 17c-9.4 9.4-9.4 24.6 0 33.9L239 369.9c9.4 9.4 24.6 9.4 34 0z'/%3e%3c/svg%3e") no-repeat 50% 50%;
+	background-size: contain;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+}
+
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new.sg-cookie-optin-visible .sg-cookie-optin-box-sublist-open-more-link::after {
+	transform: rotate(180deg) translateY(-5px);
 }
 
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-button {
@@ -69,7 +215,8 @@
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-button button {
 	display: inline-block;
 	padding: 10px;
-	margin: 10px 0 10px 10px;
+	margin: 0 0 10px 10px;
 	width: auto;
 	min-width: fit-content;
+	border-radius: 0;
 }

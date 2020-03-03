@@ -67,11 +67,20 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_list varchar(255) DEFAULT '#A5A5A5' NOT NULL,
 	color_list_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 	color_table varchar(255) DEFAULT '#FFFFFF' NOT NULL,
-	color_table_header_text varchar(255) DEFAULT '#373737' NOT NULL,
 	color_Table_data_text varchar(255) DEFAULT '#373737' NOT NULL,
+	color_table_header varchar(255) DEFAULT '#F3F3F3' NOT NULL,
+	color_table_header_text varchar(255) DEFAULT '#373737' NOT NULL,
 	color_button_close varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 	color_button_close_hover varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 	color_button_close_text varchar(255) DEFAULT '#373737' NOT NULL,
+
+	# Template Full
+	color_full_box varchar(255) DEFAULT '#02A8DE' NOT NULL,
+	color_full_headline varchar(255) DEFAULT '#FFFFFF' NOT NULL,
+	color_full_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
+	color_full_button_close varchar(255) DEFAULT '#02A8DE' NOT NULL,
+	color_full_button_close_hover varchar(255) DEFAULT '#02A8DE' NOT NULL,
+	color_full_button_close_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 
 	# Essential group specific columns
 	essential_title varchar(255) DEFAULT 'Essentiell' NOT NULL,

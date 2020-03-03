@@ -26,19 +26,36 @@
 					<p class="sg-cookie-optin-checkbox-description">{{{description}}}</p>
 
 					<div class="sg-cookie-optin-box-cookie-detail-sublist">
-						<hr>
-
-						<ul>
-							{{#cookieData}}
-								<li>{{{Name}}} ({{{Provider}}}), {{{textEntries.cookie_lifetime_text}}}: {{{Lifetime}}} <br> {{{Purpose}}}</li>
-							{{/cookieData}}
-						</ul>
+						{{#cookieData}}
+							<div class="sg-cookie-optin-box-cookie-detail-sublist-item">
+								{{^pseudo}}
+									<table>
+										<tbody>
+											<tr>
+												<th>{{{textEntries.cookie_name_text}}}</th>
+												<td>{{{Name}}}</td>
+											</tr>
+											<tr>
+												<th>{{{textEntries.cookie_provider_text}}}</th>
+												<td>{{{Provider}}}</td>
+											</tr>
+											<tr>
+												<th>{{{textEntries.cookie_lifetime_text}}}</th>
+												<td>{{{Lifetime}}}</td>
+											</tr>
+											<tr>
+												<th>{{{textEntries.cookie_purpose_text}}}</th>
+												<td class="sg-cookie-optin-box-table-reason">{{{Purpose}}}</td>
+											</tr>
+										</tbody>
+									</table>
+								{{/pseudo}}
+							</div>
+						{{/cookieData}}
 					</div>
 				</li>
 			{{/cookieGroups}}
 		</ul>
-
-		<hr>
 
 		<a class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}</a>
 
@@ -49,15 +66,15 @@
 		</div>
 
 		<div class="sg-cookie-optin-box-footer">
-			<div class="sg-cookie-optin-box-copyright">
-				<a class="sg-cookie-optin-box-copyright-link"
-				   href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/"
-				   target="_blank">
-					Powered by sgalinski Cookie Opt In
-				</a>
-			</div>
-
 			<div class="sg-cookie-optin-box-footer-links">
+				<div class="sg-cookie-optin-box-copyright">
+					<a class="sg-cookie-optin-box-copyright-link"
+					   href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/"
+					   target="_blank">
+						Powered by sgalinski Cookie Opt In{{#footerLinks.0}} |{{/footerLinks.0}}
+					</a>
+				</div>
+
 				{{#footerLinks}}
 					{{#index}}
 						<span class="sg-cookie-optin-box-footer-divider"> | </span>

@@ -51,7 +51,7 @@ return [
 	'types' => [
 		'1' => [
 			'showitem' => 'hidden, parent_optin, title, group_name, description, 
-				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.scripts,scripts, 
+				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.tab.scripts,scripts, 
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.cookies,cookies',
 		],
 	],

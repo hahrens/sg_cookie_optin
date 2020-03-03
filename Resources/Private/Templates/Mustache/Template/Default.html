@@ -36,10 +36,10 @@
 				<p class="sg-cookie-optin-box-cookie-detail-description">{{{description}}}</p>
 
 				<div class="sg-cookie-optin-box-cookie-detail-sublist">
-					<div class="table-responsive">
-						<table>
-							<tbody>
-								{{#cookieData}}
+					<table>
+						<tbody>
+							{{#cookieData}}
+								{{^pseudo}}
 									{{#index}}<tr class="divider"><td colspan="2">&nbsp;</td></tr>{{/index}}
 									<tr>
 										<th>{{{textEntries.cookie_name_text}}}</th>
@@ -50,17 +50,17 @@
 										<td>{{{Provider}}}</td>
 									</tr>
 									<tr>
-										<th>{{{textEntries.cookie_purpose_text}}}</th>
-										<td>{{{Purpose}}}</td>
-									</tr>
-									<tr>
 										<th>{{{textEntries.cookie_lifetime_text}}}</th>
 										<td>{{{Lifetime}}}</td>
 									</tr>
-								{{/cookieData}}
-							</tbody>
-						</table>
-					</div>
+									<tr>
+										<th>{{{textEntries.cookie_purpose_text}}}</th>
+										<td class="sg-cookie-optin-box-table-reason">{{{Purpose}}}</td>
+									</tr>
+								{{/pseudo}}
+							{{/cookieData}}
+						</tbody>
+					</table>
 				</div>
 
 				{{#cookieData}}

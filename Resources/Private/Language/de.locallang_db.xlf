@@ -69,6 +69,10 @@
 				<source><![CDATA[Scripts (For translations: Only "translated" scripts are considered. Added scripts without a default language parent will be ignored)]]></source>
 				<target><![CDATA[Skripte (Für Übersetzungen: Es werden nur "übersetzte" Skripte berücksichtigt. Hinzugefügte Skripte ohne übergeordnete Standardsprache werden ignoriert)]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_group.tab.scripts" approved="yes">
+				<source><![CDATA[Scripts]]></source>
+				<target><![CDATA[Skripte]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.title" approved="yes">
 				<source><![CDATA[Group Title]]></source>
 				<target><![CDATA[Gruppentitel]]></target>
@@ -177,10 +181,6 @@
 				<source><![CDATA[Show the Settings Button within the Banner (Should be enabled if the website uses cookies.)]]></source>
 				<target><![CDATA[Einstellungs-Button im Banner anzeigen (Dies sollte aktiviert werden, falls die Website Cookies verwendet)]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text" approved="yes">
-				<source><![CDATA[Data Text Color]]></source>
-				<target><![CDATA[Daten-Textfarbe]]></target>
-			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_box" approved="yes">
 				<source><![CDATA[Window]]></source>
 				<target><![CDATA[Fenster]]></target>
@@ -254,12 +254,20 @@
 				<target><![CDATA[Textfarbe der Infoboxen zu den Gruppen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table" approved="yes">
-				<source><![CDATA[Cell Background]]></source>
-				<target><![CDATA[Zellenhintergrund]]></target>
+				<source><![CDATA[Cell Background - Data]]></source>
+				<target><![CDATA[Zellenhintergrund - Daten]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table_header" approved="yes">
+				<source><![CDATA[Cell Background - Row Title]]></source>
+				<target><![CDATA[Zellenhintergrund - Zeilentitel]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table_header_text" approved="yes">
-				<source><![CDATA[Text Color Row Title]]></source>
-				<target><![CDATA[Textfarbe Zeilentitel]]></target>
+				<source><![CDATA[Text Color - Row Title]]></source>
+				<target><![CDATA[Textfarbe - Zeilentitel]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text" approved="yes">
+				<source><![CDATA[Text Color - Data]]></source>
+				<target><![CDATA[Textfarbe - Daten]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_text" approved="yes">
 				<source><![CDATA[Text]]></source>
@@ -560,6 +568,18 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title" approved="yes">
 				<source><![CDATA[Script Name]]></source>
 				<target><![CDATA[Skript-Name]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_headline" approved="yes">
+				<source><![CDATA[Headline]]></source>
+				<target><![CDATA[Überschrift]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_box" approved="yes">
+				<source><![CDATA[Window (upper part)]]></source>
+				<target><![CDATA[Fenster (Oberer Teil)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_text" approved="yes">
+				<source><![CDATA[Text (upper part)]]></source>
+				<target><![CDATA[Text (Oberer Teil)]]></target>
 			</trans-unit>
 		</body>
 	</file>
