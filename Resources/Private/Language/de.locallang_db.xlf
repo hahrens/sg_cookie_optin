@@ -487,7 +487,7 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close" approved="yes">
 				<source><![CDATA[Activate the close button in the template]]></source>
-				<target><![CDATA[Aktiviere den Schließen-Button in den Template]]></target>
+				<target><![CDATA[Aktiviere den Schließen-Button im Template]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode" approved="yes">
 				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
