@@ -73,7 +73,8 @@ $configuration = [
 	'types' => [
 		'1' => [
 			'showitem' => '
-				header, description, --palette--;;accept_buttons_texts, --palette--;;link_texts,
+				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.textAndMenu,
+					header, description, --palette--;;accept_buttons_texts, --palette--;;link_texts,
 					--palette--;;cookie_texts, navigation,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.iframes,
 					iframe_enabled, iframe_title, iframe_description, --palette--;;iframe_texts,

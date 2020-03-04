@@ -470,8 +470,8 @@
 				<target><![CDATA[Akzeptieren-Button]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general" approved="yes">
-				<source><![CDATA[Labels & Menu]]></source>
-				<target><![CDATA[Texte & Menü]]></target>
+				<source><![CDATA[General]]></source>
+				<target><![CDATA[Allgemein]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general_colors" approved="yes">
 				<source><![CDATA[Banner Colors]]></source>
@@ -492,6 +492,10 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode" approved="yes">
 				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
 				<target><![CDATA[Aktiviere den Test-Modus (Der Parameter "?showOptIn=1" muss an die URL angefügt werden)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.textAndMenu" approved="yes">
+				<source><![CDATA[Labels & Menu]]></source>
+				<target><![CDATA[Texte & Menü]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.banner" approved="yes">
 				<source><![CDATA[Banner]]></source>

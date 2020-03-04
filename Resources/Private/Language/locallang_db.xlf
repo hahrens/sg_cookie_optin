@@ -355,7 +355,7 @@
 				<source><![CDATA[Accept Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general">
-				<source><![CDATA[Labels & Menu]]></source>
+				<source><![CDATA[General]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general_colors">
 				<source><![CDATA[Banner Colors]]></source>
@@ -371,6 +371,9 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode">
 				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.textAndMenu">
+				<source><![CDATA[Labels & Menu]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.banner">
 				<source><![CDATA[Banner]]></source>
