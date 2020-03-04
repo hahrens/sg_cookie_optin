@@ -54,7 +54,7 @@ call_user_func(
 			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig">'
 		);
 
-		//Register Icons
+		// Register Icons
 		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7000000) {
 			$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
 			$iconRegistry->registerIcon(
@@ -63,5 +63,12 @@ call_user_func(
 				['source' => 'EXT:' . $extKey . '/Resources/Public/Icons/extension-sg_cookie_optin.svg']
 			);
 		}
+
+		// Wizard Registration
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
+			'nodeName' => 'templatePreviewLinkWizard',
+			'priority' => 70,
+			'class' => \SGalinski\SgCookieOptin\Wizards\TemplatePreviewLinkWizard::class
+		];
 	}, 'sg_cookie_optin'
 );

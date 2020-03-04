@@ -79,8 +79,8 @@ $configuration = [
 					iframe_enabled, iframe_title, iframe_description, --palette--;;iframe_texts,
 					--palette--;;iframe_colors, --palette--;;iframe_template, --palette--;;iframe_replacement_template,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color,
-					--palette--;;color_general, --palette--;;color_checkbox, --palette--;;color_button,
-					--palette--;;color_list, --palette--;;color_table, --palette--;;template,
+					--palette--;;template, --palette--;;color_general, --palette--;;color_checkbox, 
+					--palette--;;color_button, --palette--;;color_list, --palette--;;color_table,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.banner,
 					--palette--;;banner_general, --palette--;;banner_general_colors,
 					--palette--;;banner_settings_button, --palette--;;banner_accept_button,
@@ -647,6 +647,7 @@ $configuration = [
 			],
 		],
 		'color_button_close' => [
+			'displayCond' => 'FIELD:template_selection:=:0',
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_close',
@@ -659,6 +660,7 @@ $configuration = [
 			],
 		],
 		'color_button_close_hover' => [
+			'displayCond' => 'FIELD:template_selection:=:0',
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_close_hover',
@@ -671,14 +673,15 @@ $configuration = [
 			],
 		],
 		'color_button_close_text' => [
+			'displayCond' => 'FIELD:template_selection:=:0',
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_close_text',
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
+				'default' => '#373737',
+				'placeholder' => '#373737',
 				'eval' => 'trim, required'
 			],
 		],
@@ -962,7 +965,12 @@ $configuration = [
 				'type' => 'text',
 				'renderType' => 't3editor',
 				'format' => 'html',
-				'eval' => 'trim'
+				'eval' => 'trim',
+				'fieldWizard' => [
+					'templatePreviewLinkWizard' => [
+						'renderType' => 'templatePreviewLinkWizard',
+					],
+				],
 			],
 		],
 		'template_overwritten' => [
@@ -982,6 +990,7 @@ $configuration = [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
 				'minitems' => 1,
+				'default' => 0,
 				'items' => [
 					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_selection.0', 0],
 					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_selection.1', 1],
@@ -1005,7 +1014,12 @@ $configuration = [
 				'type' => 'text',
 				'renderType' => 't3editor',
 				'format' => 'html',
-				'eval' => 'trim'
+				'eval' => 'trim',
+				'fieldWizard' => [
+					'templatePreviewLinkWizard' => [
+						'renderType' => 'templatePreviewLinkWizard'
+					],
+				],
 			],
 		],
 		'banner_overwritten' => [
@@ -1060,8 +1074,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#FFFFFF',
-				'placeholder' => '#FFFFFF',
+				'default' => '#DDDDDD',
+				'placeholder' => '#DDDDDD',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1219,8 +1233,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#02A8DE',
-				'placeholder' => '#02A8DE',
+				'default' => '#7B9B2C',
+				'placeholder' => '#7B9B2C',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1251,30 +1265,33 @@ $configuration = [
 			],
 		],
 		'color_full_button_close' => [
+			'displayCond' => 'FIELD:template_selection:=:1',
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_close',
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#02A8DE',
-				'placeholder' => '#02A8DE',
+				'default' => '#7B9B2C',
+				'placeholder' => '#7B9B2C',
 				'eval' => 'trim, required'
 			],
 		],
 		'color_full_button_close_hover' => [
+			'displayCond' => 'FIELD:template_selection:=:1',
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_close_hover',
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#02A8DE',
-				'placeholder' => '#02A8DE',
+				'default' => '#7B9B2C',
+				'placeholder' => '#7B9B2C',
 				'eval' => 'trim, required'
 			],
 		],
 		'color_full_button_close_text' => [
+			'displayCond' => 'FIELD:template_selection:=:1',
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_button_close_text',

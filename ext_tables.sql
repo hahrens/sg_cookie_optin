@@ -36,7 +36,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	banner_show_settings_button tinyint(4) unsigned DEFAULT '1' NOT NULL,
 	banner_position int(11) DEFAULT '0' NOT NULL,
 	banner_selection int(11) DEFAULT '0' NOT NULL,
-	banner_color_box varchar(255) DEFAULT '#FFFFFF' NOT NULL,
+	banner_color_box varchar(255) DEFAULT '#DDDDDD' NOT NULL,
 	banner_color_text varchar(255) DEFAULT '#373737' NOT NULL,
 	banner_color_link_text varchar(255) DEFAULT '#373737' NOT NULL,
 	banner_color_button_settings varchar(255) DEFAULT '#A5A5A5' NOT NULL,
@@ -75,11 +75,11 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_button_close_text varchar(255) DEFAULT '#373737' NOT NULL,
 
 	# Template Full
-	color_full_box varchar(255) DEFAULT '#02A8DE' NOT NULL,
+	color_full_box varchar(255) DEFAULT '#7B9B2C' NOT NULL,
 	color_full_headline varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 	color_full_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
-	color_full_button_close varchar(255) DEFAULT '#02A8DE' NOT NULL,
-	color_full_button_close_hover varchar(255) DEFAULT '#02A8DE' NOT NULL,
+	color_full_button_close varchar(255) DEFAULT '#7B9B2C' NOT NULL,
+	color_full_button_close_hover varchar(255) DEFAULT '#7B9B2C' NOT NULL,
 	color_full_button_close_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 
 	# Essential group specific columns

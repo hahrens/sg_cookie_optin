@@ -118,7 +118,7 @@
 				<source><![CDATA[Banner Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html) ]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_overwritten">
-				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
+				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_position">
 				<source><![CDATA[The Position of the Banner on the Website]]></source>
@@ -145,7 +145,7 @@
 				<source><![CDATA[Window]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all">
-				<source><![CDATA[Button "Accept All"]]></source>
+				<source><![CDATA[Button-Background: "Accept All"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_all_hover">
 				<source><![CDATA[Button-Hover "Accept All"]]></source>
@@ -154,7 +154,7 @@
 				<source><![CDATA[Button-Text "Accept All"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_close">
-				<source><![CDATA[Button: "Close"]]></source>
+				<source><![CDATA[Button-Background: "Close"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_close_hover">
 				<source><![CDATA[Button-Hover: "Close"]]></source>
@@ -163,7 +163,7 @@
 				<source><![CDATA[Button-Text: "Close"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential">
-				<source><![CDATA[Button "Accept Essential"]]></source>
+				<source><![CDATA[Button-Background: "Accept Essential"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential_hover">
 				<source><![CDATA[Button-Hover "Accept Essential"]]></source>
@@ -172,7 +172,7 @@
 				<source><![CDATA[Button-Text "Accept Essential"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific">
-				<source><![CDATA[Button "Accept Selected"]]></source>
+				<source><![CDATA[Button-Background: "Accept Selected"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific_hover">
 				<source><![CDATA[Button-Hover "Accept Selected"]]></source>
@@ -217,7 +217,7 @@
 				<source><![CDATA[List of Group Details]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.colors_tables">
-				<source><![CDATA[Tables]]></source>
+				<source><![CDATA[Cookie Description Tables]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_lifetime">
 				<source><![CDATA[Cookie lifetime in days]]></source>
@@ -310,13 +310,13 @@
 				<source><![CDATA[Link: "Open settings"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_overwritten">
-				<source><![CDATA[Overwrite Settings Window Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
+				<source><![CDATA[Overwrite Settings Window Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html">
 				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_overwritten">
-				<source><![CDATA[Overwrite iFrame Replacement Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
+				<source><![CDATA[Overwrite iFrame Replacement Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_selection">
 				<source><![CDATA[Select a Base Design for the iFrame Replacement Template (This form will be saved and reloaded when this setting changes.)]]></source>
@@ -355,7 +355,7 @@
 				<source><![CDATA[Accept Button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general">
-				<source><![CDATA[General]]></source>
+				<source><![CDATA[Labels & Menu]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general_colors">
 				<source><![CDATA[Banner Colors]]></source>
@@ -367,7 +367,7 @@
 				<source><![CDATA[Banner Design Template]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close">
-				<source><![CDATA[Activate the close button in the templates]]></source>
+				<source><![CDATA[Activate the close button in the template]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode">
 				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
@@ -397,7 +397,7 @@
 				<source><![CDATA[Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten">
-				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied.)]]></source>
+				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_selection">
 				<source><![CDATA[Select a Base Design Template (This form will be saved and reloaded when this setting changes.)]]></source>

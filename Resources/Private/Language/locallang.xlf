@@ -84,6 +84,12 @@
 			<trans-unit id="backend.toolForCookies">
 				<source><![CDATA[The following tool delivers information about used cookies on your site. Use this information for the cookie instruction in the configuration. Beware that not all cookies might be listed. URL]]></source>
 			</trans-unit>
+			<trans-unit id="backend.wizard.resetTemplateWizard">
+				<source><![CDATA[Reset Template]]></source>
+			</trans-unit>
+			<trans-unit id="backend.wizard.templatePreviewLink">
+				<source><![CDATA[Preview Template]]></source>
+			</trans-unit>
 			<trans-unit id="configuration.folder">
 				<source><![CDATA[The folder, where the generated files should be saved]]></source>
 			</trans-unit>
