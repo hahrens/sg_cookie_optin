@@ -449,8 +449,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#7B9B2C',
-				'placeholder' => '#7B9B2C',
+				'default' => '#143D59',
+				'placeholder' => '#143D59',
 				'eval' => 'trim, required'
 			],
 		],
@@ -473,8 +473,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#7B9B2C',
-				'placeholder' => '#7B9B2C',
+				'default' => '#143D59',
+				'placeholder' => '#143D59',
 				'eval' => 'trim, required'
 			],
 		],
@@ -485,8 +485,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#8FAF2D',
-				'placeholder' => '#8FAF2D',
+				'default' => '#2E6B96',
+				'placeholder' => '#2E6B96',
 				'eval' => 'trim, required'
 			],
 		],
@@ -831,8 +831,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#7B9B2C',
-				'placeholder' => '#7B9B2C',
+				'default' => '#143D59',
+				'placeholder' => '#143D59',
 				'eval' => 'trim, required'
 			],
 		],
@@ -843,8 +843,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#8FAF2D',
-				'placeholder' => '#8FAF2D',
+				'default' => '#2E6B96',
+				'placeholder' => '#2E6B96',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1146,8 +1146,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#7B9B2C',
-				'placeholder' => '#7B9B2C',
+				'default' => '#143D59',
+				'placeholder' => '#143D59',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1158,8 +1158,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#8FAF2D',
-				'placeholder' => '#8FAF2D',
+				'default' => '#2E6B96',
+				'placeholder' => '#2E6B96',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1233,8 +1233,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#7B9B2C',
-				'placeholder' => '#7B9B2C',
+				'default' => '#143D59',
+				'placeholder' => '#143D59',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1272,8 +1272,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#7B9B2C',
-				'placeholder' => '#7B9B2C',
+				'default' => '#143D59',
+				'placeholder' => '#143D59',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1285,8 +1285,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#7B9B2C',
-				'placeholder' => '#7B9B2C',
+				'default' => '#143D59',
+				'placeholder' => '#143D59',
 				'eval' => 'trim, required'
 			],
 		],

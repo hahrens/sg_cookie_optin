@@ -42,8 +42,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	banner_color_button_settings varchar(255) DEFAULT '#A5A5A5' NOT NULL,
 	banner_color_button_settings_hover varchar(255) DEFAULT '#D7D7D7' NOT NULL,
 	banner_color_button_settings_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
-	banner_color_button_accept varchar(255) DEFAULT '#7B9B2C' NOT NULL,
-	banner_color_button_accept_hover varchar(255) DEFAULT '#8FAF2D' NOT NULL,
+	banner_color_button_accept varchar(255) DEFAULT '#143D59' NOT NULL,
+	banner_color_button_accept_hover varchar(255) DEFAULT '#2E6B96' NOT NULL,
 	banner_color_button_accept_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 	banner_button_accept_text varchar(255) DEFAULT 'Akzeptieren' NOT NULL,
 	banner_button_settings_text varchar(255) DEFAULT 'Einstellungen' NOT NULL,
@@ -53,10 +53,10 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_box varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 	color_headline varchar(255) DEFAULT '#373737' NOT NULL,
 	color_text varchar(255) DEFAULT '#373737' NOT NULL,
-	color_checkbox varchar(255) DEFAULT '#7B9B2C' NOT NULL,
+	color_checkbox varchar(255) DEFAULT '#143D59' NOT NULL,
 	color_checkbox_required varchar(255) DEFAULT '#A5A5A5' NOT NULL,
-	color_button_all varchar(255) DEFAULT '#7B9B2C' NOT NULL,
-	color_button_all_hover varchar(255) DEFAULT '#8FAF2D' NOT NULL,
+	color_button_all varchar(255) DEFAULT '#143D59' NOT NULL,
+	color_button_all_hover varchar(255) DEFAULT '#2E6B96' NOT NULL,
 	color_button_all_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 	color_button_specific varchar(255) DEFAULT '#A5A5A5' NOT NULL,
 	color_button_specific_hover varchar(255) DEFAULT '#D7D7D7' NOT NULL,
@@ -75,11 +75,11 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_button_close_text varchar(255) DEFAULT '#373737' NOT NULL,
 
 	# Template Full
-	color_full_box varchar(255) DEFAULT '#7B9B2C' NOT NULL,
+	color_full_box varchar(255) DEFAULT '#143D59' NOT NULL,
 	color_full_headline varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 	color_full_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
-	color_full_button_close varchar(255) DEFAULT '#7B9B2C' NOT NULL,
-	color_full_button_close_hover varchar(255) DEFAULT '#7B9B2C' NOT NULL,
+	color_full_button_close varchar(255) DEFAULT '#143D59' NOT NULL,
+	color_full_button_close_hover varchar(255) DEFAULT '#143D59' NOT NULL,
 	color_full_button_close_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 
 	# Essential group specific columns
@@ -107,8 +107,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_open_settings_text varchar(255) DEFAULT 'Einstellungen anzeigen' NOT NULL,
 
 	iframe_color_consent_box_background varchar(255) DEFAULT '#D6D6D6' NOT NULL,
-	iframe_color_button_load_one varchar(255) DEFAULT '#7B9B2C' NOT NULL,
-	iframe_color_button_load_one_hover varchar(255) DEFAULT '#8FAF2D' NOT NULL,
+	iframe_color_button_load_one varchar(255) DEFAULT '#143D59' NOT NULL,
+	iframe_color_button_load_one_hover varchar(255) DEFAULT '#2E6B96' NOT NULL,
 	iframe_color_button_load_one_text varchar(255) DEFAULT '#FFFFFF' NOT NULL,
 	iframe_color_open_settings varchar(255) DEFAULT '#373737' NOT NULL,
 
