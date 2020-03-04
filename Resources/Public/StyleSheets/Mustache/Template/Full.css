@@ -319,4 +319,8 @@
 		border: 0;
 		margin: 0;
 	}
+
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower .sg-cookie-optin-box-footer .sg-cookie-optin-box-copyright {
+		display: block;
+	}
 }
