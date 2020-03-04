@@ -220,3 +220,103 @@
 	min-width: fit-content;
 	border-radius: 0;
 }
+
+/* Content Element */
+.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper {
+	padding: 20px 20px;
+}
+
+.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower {
+	padding: 0 20px;
+}
+
+.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item,
+.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-detail-sublist .sg-cookie-optin-box-cookie-detail-sublist-item {
+	flex: 0 0 48%;
+}
+
+.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new.sg-cookie-optin-visible .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item {
+	flex: 0 0 100%;
+}
+
+.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-sublist-open-more-link {
+	padding: 0 0 10px 0;
+	display: block;
+	float: none;
+	transform: none;
+}
+
+.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-button {
+	flex-direction: column;
+}
+
+.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-button button {
+	margin: 0 0 10px;
+	display: block;
+}
+
+/* Responsive */
+
+@media only screen and (max-width: 1250px) {
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item {
+		flex: 0 0 31%;
+	}
+}
+
+@media only screen and (max-width: 1050px) {
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item,
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-detail-sublist .sg-cookie-optin-box-cookie-detail-sublist-item {
+		flex: 0 0 48%;
+	}
+
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-sublist-open-more-link {
+		padding: 0 0 10px 0;
+		display: block;
+		float: none;
+		transform: none;
+	}
+
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-button {
+		flex-direction: column;
+	}
+
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-button button {
+		margin: 0 0 10px;
+		display: block;
+	}
+}
+
+@media only screen and (max-width: 850px) {
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper {
+		padding: 20px 20px;
+	}
+
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower {
+		padding: 0 20px;
+	}
+}
+
+@media only screen and (max-width: 750px) {
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-detail-sublist .sg-cookie-optin-box-cookie-detail-sublist-item,
+	.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-detail-sublist .sg-cookie-optin-box-cookie-detail-sublist-item {
+		flex: 0 0 100%;
+	}
+
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-detail-sublist .sg-cookie-optin-box-cookie-detail-sublist-item-pseudo {
+		display: none;
+	}
+
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item,
+	.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item {
+		padding: 20px 0 0 0;
+		margin: 25px 0 0 0;
+		border-top: 1px solid ###color_list###;
+		flex: 0 0 100%;
+	}
+
+	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item:first-of-type,
+	.sg-cookie-optin-plugin #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item:first-of-type {
+		border: 0;
+		margin: 0;
+	}
+}

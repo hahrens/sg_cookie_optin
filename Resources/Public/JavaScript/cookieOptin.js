@@ -128,7 +128,7 @@
 		}
 
 		setTimeout(function() {
-			adjustDescriptionHeight(wrapper);
+			adjustDescriptionHeight(wrapper, contentElement);
 			updateCookieList();
 		}, 10);
 	}
@@ -137,14 +137,28 @@
 	 * Adjusts the description height for each elements, for the new design.
 	 *
 	 * @param {dom} container
+	 * @param {dom} contentElement
 	 * @return {void}
 	 */
-	function adjustDescriptionHeight(container) {
+	function adjustDescriptionHeight(container, contentElement) {
+		var columnsPerRow = 4;
+		if (contentElement === null) {
+			if (window.innerWidth <= 750) {
+				return;
+			} else if (window.innerWidth <= 1050) {
+				columnsPerRow = 2;
+			} else if (window.innerWidth <= 1250) {
+				columnsPerRow = 3;
+			}
+		} else {
+			columnsPerRow = 2;
+		}
+
 		var maxHeightPerRow = [];
 		var maxHeightPerRowIndex = 0;
 		var descriptions = container.querySelectorAll('.sg-cookie-optin-box-new .sg-cookie-optin-checkbox-description');
 		for (var index = 0; index < descriptions.length; ++index) {
-			if (!(index % 4)) {
+			if (!(index % columnsPerRow)) {
 				++maxHeightPerRowIndex;
 			}
 
@@ -157,7 +171,7 @@
 
 		maxHeightPerRowIndex = 0;
 		for (index = 0; index < descriptions.length; ++index) {
-			if (!(index % 4)) {
+			if (!(index % columnsPerRow)) {
 				++maxHeightPerRowIndex;
 			}
 
@@ -169,9 +183,21 @@
 	 * Adjusts the description height for each elements, for the new design.
 	 *
 	 * @param {dom} container
+	 * @param {dom} contentElement
 	 * @return {void}
 	 */
-	function adjustReasonHeight(container) {
+	function adjustReasonHeight(container, contentElement) {
+		var columnsPerRow = 3;
+		if (contentElement === null) {
+			if (window.innerWidth <= 750) {
+				return;
+			} else if (window.innerWidth <= 1050) {
+				columnsPerRow = 2;
+			}
+		} else {
+			columnsPerRow = 2;
+		}
+
 		var listItems = container.querySelectorAll('.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list-item');
 		for (var listItemIndex = 0; listItemIndex < listItems.length; ++listItemIndex) {
 			var maxHeightPerRow = [];
@@ -179,7 +205,7 @@
 
 			var reasons = listItems[listItemIndex].querySelectorAll('.sg-cookie-optin-box-table-reason');
 			for (var index = 0; index < reasons.length; ++index) {
-				if (!(index % 3)) {
+				if (!(index % columnsPerRow)) {
 					++maxHeightPerRowIndex;
 				}
 
@@ -192,7 +218,7 @@
 
 			maxHeightPerRowIndex = 0;
 			for (index = 0; index < reasons.length; ++index) {
-				if (!(index % 3)) {
+				if (!(index % columnsPerRow)) {
 					++maxHeightPerRowIndex;
 				}
 
@@ -225,7 +251,9 @@
 		addEventListenerToList(openMoreLinks, 'click', openCookieDetails);
 
 		var openSubListLink = element.querySelectorAll('.sg-cookie-optin-box-sublist-open-more-link');
-		addEventListenerToList(openSubListLink, 'click', openSubList);
+		addEventListenerToList(openSubListLink, 'click', function (event) {
+			openSubList(event, contentElement);
+		});
 
 		var acceptAllButtons = element.querySelectorAll(
 			'.sg-cookie-optin-box-button-accept-all, .sg-cookie-optin-banner-button-accept'
@@ -386,9 +414,10 @@
 	 * Opens the subList box.
 	 *
 	 * @param event
+	 * @param {dom} contentElement
 	 * @return {void}
 	 */
-	function openSubList(event) {
+	function openSubList(event, contentElement) {
 		event.preventDefault();
 
 		// todo remove redundant code.
@@ -412,7 +441,7 @@
 				} else {
 					cookieBox.classList.remove('sg-cookie-optin-invisible');
 					cookieBox.classList.add('sg-cookie-optin-visible');
-					adjustReasonHeight(cookieOptin);
+					adjustReasonHeight(cookieOptin, contentElement);
 					event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
 				}
 

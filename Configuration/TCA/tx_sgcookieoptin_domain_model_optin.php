@@ -418,6 +418,7 @@ $configuration = [
 			],
 		],
 		'color_headline' => [
+			'displayCond' => 'FIELD:template_selection:=:0',
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_headline',
@@ -1211,6 +1212,7 @@ $configuration = [
 			],
 		],
 		'color_full_box' => [
+			'displayCond' => 'FIELD:template_selection:=:1',
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_full_box',
@@ -1223,6 +1225,7 @@ $configuration = [
 			],
 		],
 		'color_full_headline' => [
+			'displayCond' => 'FIELD:template_selection:=:1',
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_full_headline',
@@ -1235,6 +1238,7 @@ $configuration = [
 			],
 		],
 		'color_full_text' => [
+			'displayCond' => 'FIELD:template_selection:=:1',
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_full_text',
