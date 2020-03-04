@@ -81,7 +81,10 @@
 					continue;
 				}
 
-				if (jsonData.cookieGroups[groupIndex]['loadingHTML'] !== '') {
+				if (
+					jsonData.cookieGroups[groupIndex]['loadingHTML'] &&
+					jsonData.cookieGroups[groupIndex]['loadingHTML'] !== ''
+				) {
 					var head = document.getElementsByTagName('head')[0];
 					if (head) {
 						var range = document.createRange();
@@ -90,7 +93,10 @@
 					}
 				}
 
-				if (jsonData.cookieGroups[groupIndex]['loadingJavaScript'] !== '') {
+				if (
+					jsonData.cookieGroups[groupIndex]['loadingJavaScript'] &&
+					jsonData.cookieGroups[groupIndex]['loadingJavaScript'] !== ''
+				) {
 					var script = document.createElement('script');
 					script.setAttribute('src', jsonData.cookieGroups[groupIndex]['loadingJavaScript']);
 					script.setAttribute('type', 'text/javascript');
