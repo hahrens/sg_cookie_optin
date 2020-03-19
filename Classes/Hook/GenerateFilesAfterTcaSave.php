@@ -121,6 +121,7 @@ class GenerateFilesAfterTcaSave {
 		// First remove the folder with all files and then create it again. So no data artifacts are kept.
 		GeneralUtility::rmdir(PATH_site . $folderName, TRUE);
 		GeneralUtility::mkdir_deep(PATH_site . $folderName);
+		GeneralUtility::fixPermissions(PATH_site . $folder, TRUE);
 		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 
 		/** @var TypoScriptFrontendController $typoScriptFrontendController */
@@ -150,7 +151,13 @@ class GenerateFilesAfterTcaSave {
 			$typoScriptFrontendController->getPageAndRootline();
 			$typoScriptFrontendController->initTemplate();
 			$typoScriptFrontendController->no_cache = TRUE;
-			$typoScriptFrontendController->getConfigArray();
+
+			if ($currentVersion < 8000000) {
+				// prevents a possible crash, where the whole backend is loaded within the same frame and the files
+				// aren't generated.
+				$typoScriptFrontendController->getConfigArray();
+			}
+
 			$typoScriptFrontendController->settingLanguage();
 			$typoScriptFrontendController->settingLocale();
 			$typoScriptFrontendController->convPOSTCharset();
@@ -223,7 +230,7 @@ class GenerateFilesAfterTcaSave {
 
 			$translatedFullData = $this->getFullData($translatedRecord, self::TABLE_NAME, $languageUid);
 			if (count($translatedFullData) <= 0) {
-				return;
+				continue;
 			}
 
 			$this->createJavaScriptFile($folderName, $minifyFiles);
