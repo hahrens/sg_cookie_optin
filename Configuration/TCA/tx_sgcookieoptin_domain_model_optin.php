@@ -54,8 +54,8 @@ $configuration = [
 			color_button_specific_text, color_button_essential, color_button_essential_text, color_list,
 			color_list_text, essential_title, essential_description, essential_scripts, essential_cookies,
 			extend_box_link_text, extend_box_link_text_close, extend_table_link_text, extend_table_link_text_close,
-			color_button_all_hover, color_button_specific_hover, color_button_essential_hover, color_table, 
-			color_table_header_text, color_Table_data_text, color_button_close, color_button_close_hover, 
+			color_button_all_hover, color_button_specific_hover, color_button_essential_hover, color_table,
+			color_table_header_text, color_Table_data_text, color_button_close, color_button_close_hover,
 			color_button_close_text, cookie_name_text, cookie_provider_text, cookie_purpose_text, cookie_lifetime_text,
 			iframe_enabled, iframe_title, iframe_description, iframe_button_allow_all_text,
 			iframe_button_allow_one_text, iframe_button_load_one_text, iframe_open_settings_text,
@@ -67,7 +67,7 @@ $configuration = [
 			banner_color_button_settings_hover, banner_color_button_settings_text, banner_color_button_accept,
 			banner_color_button_accept_hover, banner_color_button_accept_text, banner_color_link_text,
 			banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,
-			activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close, 
+			activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,
 			color_full_button_close_hover, color_full_button_close_text, color_table_header',
 	],
 	'types' => [
@@ -77,7 +77,7 @@ $configuration = [
 					header, description, --palette--;;accept_buttons_texts, --palette--;;link_texts,
 					--palette--;;cookie_texts, navigation,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color,
-					--palette--;;template, --palette--;;color_general, --palette--;;color_checkbox, 
+					--palette--;;template, --palette--;;color_general, --palette--;;color_checkbox,
 					--palette--;;color_button, --palette--;;color_list, --palette--;;color_table,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.iframes,
 					iframe_enabled, iframe_title, iframe_description, --palette--;;iframe_texts,
@@ -1214,7 +1214,7 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.show_button_close',
 			'config' => [
 				'type' => 'check',
-				'default' => '1',
+				'default' => '0',
 			],
 		],
 		'activate_testing_mode' => [

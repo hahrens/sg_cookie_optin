@@ -115,7 +115,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	# Settings
 	cookie_lifetime int(11) DEFAULT '365' NOT NULL,
 	minify_generated_data tinyint(4) unsigned DEFAULT '1' NOT NULL,
-	show_button_close tinyint(4) unsigned DEFAULT '1' NOT NULL,
+	show_button_close tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	activate_testing_mode tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	# TYPO3 related columns
