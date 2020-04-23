@@ -27,12 +27,11 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
  ***************************************************************/
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class EditLink
  **/
-class EditOnClickViewHelper extends AbstractViewHelper {
+class EditOnClickViewHelper extends \SgCookieAbstractViewHelper {
 
 	/**
 	 * Register the ViewHelper arguments
