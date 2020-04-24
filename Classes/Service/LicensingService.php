@@ -140,7 +140,8 @@ class LicensingService {
 			return;
 		}
 
-		GeneralUtility::rmdir(PATH_site . $folder, TRUE);
+		$sitePath = defined(PATH_site) ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+		GeneralUtility::rmdir($sitePath . $folder, TRUE);
 	}
 
 	/**

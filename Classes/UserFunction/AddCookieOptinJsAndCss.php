@@ -66,30 +66,31 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
-		if (file_exists(PATH_site . $file)) {
+		$sitePath = defined(PATH_site) ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+		if (file_exists($sitePath . $file)) {
 			$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_' .
 				$this->getLanguage() . '.json';
-			if (!file_exists(PATH_site . $jsonFile)) {
+			if (!file_exists($sitePath . $jsonFile)) {
 				$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_0.json';
-				if (!file_exists(PATH_site . $jsonFile)) {
+				if (!file_exists($sitePath . $jsonFile)) {
 					return '';
 				}
 			}
 
-			return '<script id="cookieOptinData" type="application/json">' . file_get_contents(PATH_site . $jsonFile) .
+			return '<script id="cookieOptinData" type="application/json">' . file_get_contents($sitePath . $jsonFile) .
 				'</script><script src="/' . $file . '" type="text/javascript" data-ignore="1"></script>';
 		} {
 			// Old including from version 2.X.X @todo remove in version 4.X.X
 			$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin_' .
 				$this->getLanguage() . '_v2.js';
-			if (!file_exists(PATH_site . $file)) {
+			if (!file_exists($sitePath . $file)) {
 				$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin_0_v2.js';
-				if (!file_exists(PATH_site . $file)) {
+				if (!file_exists($sitePath . $file)) {
 					return '';
 				}
 			}
 
-			$cacheBuster = filemtime(PATH_site . $file);
+			$cacheBuster = filemtime($sitePath . $file);
 			if (!$cacheBuster) {
 				$cacheBuster = '';
 			}
@@ -119,11 +120,12 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		$file = $folder . 'siteroot-' . $rootPageId . '/cookieOptin.css';
-		if (!file_exists(PATH_site . $file)) {
+		$sitePath = defined(PATH_site) ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+		if (!file_exists($sitePath . $file)) {
 			return '';
 		}
 
-		$cacheBuster = filemtime(PATH_site . $file);
+		$cacheBuster = filemtime($sitePath . $file);
 		if (!$cacheBuster) {
 			$cacheBuster = '';
 		}
