@@ -27,6 +27,7 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
  ***************************************************************/
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class EditLink
@@ -51,7 +52,7 @@ class EditOnClickViewHelper extends \SgCookieAbstractViewHelper {
 	public function render() {
 		return BackendUtility::editOnClick(
 			'&edit[' . $this->arguments['table'] . '][' . $this->arguments['uid'] . ']=' .
-			($this->arguments['new'] ? 'new' : 'edit'), '', -1
+			($this->arguments['new'] ? 'new' : 'edit'), '', rawurlencode(GeneralUtility::getIndpEnv('T3_THIS_LOCATION'))
 		);
 	}
 
