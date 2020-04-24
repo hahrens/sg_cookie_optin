@@ -118,7 +118,7 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		$folderName = str_replace('#PID#', $siteRoot, $folder . self::FOLDER_SITEROOT);
-		$sitePath = defined(PATH_site) ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+		$sitePath = defined('PATH_site') ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
 		// First remove the folder with all files and then create it again. So no data artifacts are kept.
 		GeneralUtility::rmdir($sitePath . $folderName, TRUE);
 		GeneralUtility::mkdir_deep($sitePath . $folderName);
@@ -409,7 +409,7 @@ class GenerateFilesAfterTcaSave {
 	 * @return void
 	 */
 	protected function createCSSFile(array $data, $folder, array $cssData, $minifyFile = TRUE) {
-		$sitePath = defined(PATH_site) ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+		$sitePath = defined('PATH_site') ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
 		$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
 			file_get_contents($sitePath . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
 
@@ -527,7 +527,7 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		$file = $folder . $groupName . '-' . $languageUid . '.js';
-		$sitePath = defined(PATH_site) ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+		$sitePath = defined('PATH_site') ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
 		$groupFile = $sitePath . $file;
 		file_put_contents($groupFile, $content);
 
@@ -549,7 +549,7 @@ class GenerateFilesAfterTcaSave {
 	 * @return void
 	 */
 	protected function createJavaScriptFile($folder, $minifyFile = TRUE) {
-		$sitePath = defined(PATH_site) ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+		$sitePath = defined('PATH_site') ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . self::TEMPLATE_JAVA_SCRIPT_NAME;
 		copy($sitePath . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME, $file);
 
@@ -801,7 +801,7 @@ class GenerateFilesAfterTcaSave {
 			],
 		];
 
-		$sitePath = defined(PATH_site) ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+		$sitePath = defined('PATH_site') ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace('#LANG#', $translatedData['sys_language_uid'], self::TEMPLATE_JSON_NAME);
 		file_put_contents($file, json_encode($jsonDataArray, JSON_PRETTY_PRINT));
 		GeneralUtility::fixPermissions($file);
