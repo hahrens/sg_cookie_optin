@@ -36,6 +36,7 @@ use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -125,18 +126,16 @@ class GenerateFilesAfterTcaSave {
 		GeneralUtility::fixPermissions($sitePath . $folder, TRUE);
 		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 
-		/** @var TypoScriptFrontendController $typoScriptFrontendController */
-		$originalTSFE = $typoScriptFrontendController = $GLOBALS['TSFE'];
-		if (!($typoScriptFrontendController instanceof TypoScriptFrontendController)) {
-			$typoScriptFrontendController = $GLOBALS['TSFE'] = new TypoScriptFrontendController(
-				$GLOBALS['TYPO3_CONF_VARS'], $siteRoot, 0
-			);
-		}
+		if ($currentVersion < 9000000) {
+			/** @var TypoScriptFrontendController $typoScriptFrontendController */
+			$originalTSFE = $typoScriptFrontendController = $GLOBALS['TSFE'];
+			if (!($typoScriptFrontendController instanceof TypoScriptFrontendController)) {
+				$typoScriptFrontendController = $GLOBALS['TSFE'] = new TypoScriptFrontendController(
+					$GLOBALS['TYPO3_CONF_VARS'], $siteRoot, 0
+				);
+			}
 
-		// required in order to generate the menu links later on
-		if ($currentVersion >= 9000000) {
-			$typoScriptFrontendController->settingLanguage();
-		} else {
+			// required in order to generate the menu links later on
 			if (!is_object($GLOBALS['TT'])) {
 				$GLOBALS['TT'] = new NullTimeTracker();
 			}
@@ -701,21 +700,32 @@ class GenerateFilesAfterTcaSave {
 
 		$footerLinks = [];
 		$index = 0;
+		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 		$contentObject = $objectManager->get(ContentObjectRenderer::class);
 		foreach ($navigationEntries as $pageData) {
-			try {
-				$footerLinks[$index] = [
-					'url' => $contentObject->getTypoLink_URL($pageData['uid'], '&disableOptIn=1&L=' . $languageUid),
-					'name' => $contentObject->crop($pageData['title'], 35 . '|...|0'),
-					'uid' => $pageData['uid'],
-					'index' => $index,
-				];
-				++$index;
-			} catch (\Error $exception) {
-				// Occurs on the first creation of the translation.
-				continue;
+			$uid = $pageData['uid'];
+			if ($currentVersion >= 9000000) {
+				$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($uid);
+				$url = (string) $site->getRouter()->generateUri($uid, ['disableOptIn' => 1, 'L' => $languageUid]);
+				$title = $pageData['title'];
+				$name = strlen($title) > 35 ? substr($title, 0, 35) . '...' : $title;
+			} else {
+				try {
+					$url = $contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid);
+					$name = $contentObject->crop($pageData['title'], 35 . '|...|0');
+				} catch (\Error $exception) {
+					// Occurs on the first creation of the translation.
+					continue;
+				}
 			}
+			$footerLinks[$index] = [
+				'url' => $url,
+				'name' => $name,
+				'uid' => $uid,
+				'index' => $index,
+			];
+			++$index;
 		}
 
 		$settings = [
