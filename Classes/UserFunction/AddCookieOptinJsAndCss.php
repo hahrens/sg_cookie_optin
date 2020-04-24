@@ -28,7 +28,10 @@ namespace SGalinski\SgCookieOptin\UserFunction;
 
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\LicensingService;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -170,8 +173,15 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @return int
 	 */
 	protected function getLanguage() {
-		/** @var TypoScriptFrontendController $typoScriptFrontendController */
-		$typoScriptFrontendController = $GLOBALS['TSFE'];
-		return $typoScriptFrontendController->sys_language_uid;
+		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 10000000) {
+			/** @var LanguageAspect $languageAspect */
+			$languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
+			$sysLanguageUid = $languageAspect->getId();
+		} else {
+			/** @var TypoScriptFrontendController $typoScriptFrontendController */
+			$typoScriptFrontendController = $GLOBALS['TSFE'];
+			$sysLanguageUid = $typoScriptFrontendController->sys_language_uid;
+		}
+		return $sysLanguageUid;
 	}
 }
