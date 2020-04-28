@@ -277,7 +277,7 @@
 	}
 
 	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-button {
-		flex-direction: column;
+		flex-direction: column-reverse;
 	}
 
 	#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-button button {
