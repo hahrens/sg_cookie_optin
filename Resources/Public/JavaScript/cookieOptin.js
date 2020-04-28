@@ -216,6 +216,8 @@
 				}
 
 				var reasonHeight = reasons[index].getBoundingClientRect().height;
+				reasonHeight -= parseInt(window.getComputedStyle(reasons[index], null).getPropertyValue('padding-top'));
+				reasonHeight -= parseInt(window.getComputedStyle(reasons[index], null).getPropertyValue('padding-bottom'));
 				var maxHeight = (maxHeightPerRow[maxHeightPerRowIndex] ? maxHeightPerRow[maxHeightPerRowIndex] : 0);
 				if (reasonHeight > maxHeight) {
 					maxHeightPerRow[maxHeightPerRowIndex] = reasonHeight;
