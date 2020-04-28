@@ -60,10 +60,7 @@ call_user_func(
 				],
 				[
 					'access' => 'user,group',
-					'icon' => 'EXT:' . $extKey . '/Resources/Public/Icons/'
-						. (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(
-							TYPO3_version
-						) >= 10000000 ? 'extension-sg_cookie_optin.svg' : 'module-sgcookieoptin.png'),
+					'icon' => 'EXT:' . $extKey . '/Resources/Public/Icons/module-sgcookieoptin.png',
 					'labels' => 'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang.xlf',
 				]
 			);
