@@ -91,7 +91,7 @@
 				<source><![CDATA[Preview Template]]></source>
 			</trans-unit>
 			<trans-unit id="configuration.folder">
-				<source><![CDATA[The folder, where the generated files should be saved]]></source>
+				<source><![CDATA[Directory for generated files: The folder where the generated files should be saved (e.g. fileadmin/cookie-banner or EXT:extension_key/path/to/cookies).]]></source>
 			</trans-unit>
 			<trans-unit id="configuration.hideModuleInProductionContext">
 				<source><![CDATA[Hide Backend Module if TYPO3 is in production context]]></source>

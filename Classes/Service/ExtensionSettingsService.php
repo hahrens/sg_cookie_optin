@@ -87,6 +87,10 @@ class ExtensionSettingsService {
 	protected static function postProcessSetting($value, $settingKey) {
 		if ($settingKey === self::SETTING_FOLDER) {
 			$value = trim($value, " \t\n\r\0\x0B\/") . '/';
+
+			if (strpos($value, 'EXT:') === 0) {
+				$value = 'typo3conf/ext/' . substr($value, 4);
+			}
 		}
 
 		return $value;
