@@ -478,11 +478,11 @@
 				cookieSubList.style.height = 'auto';
 				height = cookieSubList.getBoundingClientRect().height + 'px';
 				cookieSubList.style.height = '';
-				requestAnimationFrame(function(item, style) {
+				requestAnimationFrame(function() {
 					setTimeout(function() {
-						item.style.height = style;
+						cookieSubList.style.height = height;
 					}, 10);
-				}(cookieSubList, height));
+				});
 
 				event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
 			}
