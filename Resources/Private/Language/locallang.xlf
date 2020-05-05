@@ -93,6 +93,9 @@
 			<trans-unit id="configuration.folder">
 				<source><![CDATA[The folder, where the generated files should be saved]]></source>
 			</trans-unit>
+			<trans-unit id="configuration.hideModuleInProductionContext">
+				<source><![CDATA[Hide Backend Module if TYPO3 is in production context]]></source>
+			</trans-unit>
 			<trans-unit id="configuration.licenseKey">
 				<source><![CDATA[License Key]]></source>
 			</trans-unit>

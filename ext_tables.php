@@ -50,20 +50,27 @@ call_user_func(
 				'tx_sgcookieoptin_domain_model_cookie'
 			);
 
-			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-				'SGalinski.' . $extKey,
-				'web',
-				'Optin',
-				'',
-				[
-					'Optin' => 'index, activateDemoMode',
-				],
-				[
-					'access' => 'user,group',
-					'icon' => 'EXT:' . $extKey . '/Resources/Public/Icons/module-sgcookieoptin.png',
-					'labels' => 'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang.xlf',
-				]
+			$hideModuleInProductionContext = \SGalinski\SgCookieOptin\Service\ExtensionSettingsService::getSetting(
+				\SGalinski\SgCookieOptin\Service\ExtensionSettingsService::SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT
 			);
+			$applicationContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
+
+			if (!($hideModuleInProductionContext && $applicationContext->isProduction())) {
+				\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+					'SGalinski.' . $extKey,
+					'web',
+					'Optin',
+					'',
+					[
+						'Optin' => 'index, activateDemoMode',
+					],
+					[
+						'access' => 'user,group',
+						'icon' => 'EXT:' . $extKey . '/Resources/Public/Icons/module-sgcookieoptin.png',
+						'labels' => 'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang.xlf',
+					]
+				);
+			}
 		}
 
 	}, 'sg_cookie_optin'

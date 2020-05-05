@@ -121,6 +121,10 @@
 				<source><![CDATA[The folder, where the generated files should be saved]]></source>
 				<target><![CDATA[Der Ordner, in welchem die generierten Dateien gespeichert werden sollen]]></target>
 			</trans-unit>
+			<trans-unit id="configuration.hideModuleInProductionContext" approved="yes">
+				<source><![CDATA[Hide Backend Module if TYPO3 is in production context]]></source>
+				<target><![CDATA[Backend-Modul verstecken, wenn TYPO3 im Production-Kontext läuft]]></target>
+			</trans-unit>
 			<trans-unit id="configuration.licenseKey" approved="yes">
 				<source><![CDATA[License Key]]></source>
 				<target><![CDATA[Lizenzschlüssel]]></target>
