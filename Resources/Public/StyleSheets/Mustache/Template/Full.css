@@ -17,6 +17,13 @@
 	border-radius: 0;
 }
 
+/* Save Confirmation Notification */
+.sg-cookie-optin-save-confirmation {
+	max-width: 1460px;
+	margin: 0 0 5px;
+	padding: 10px 20px;
+}
+
 /* Upper Part */
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-upper {
 	padding: 20px 70px;

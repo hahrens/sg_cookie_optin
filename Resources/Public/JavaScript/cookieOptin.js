@@ -245,7 +245,7 @@
 	 */
 	function addListeners(element, contentElement) {
 		var closeButtons = element.querySelectorAll('.sg-cookie-optin-box-close-button');
-		addEventListenerToList(closeButtons, 'click', function () {
+		addEventListenerToList(closeButtons, 'click', function() {
 			acceptEssentialCookies();
 			updateCookieList();
 			handleScriptActivations();
@@ -259,7 +259,7 @@
 		addEventListenerToList(openMoreLinks, 'click', openCookieDetails);
 
 		var openSubListLink = element.querySelectorAll('.sg-cookie-optin-box-sublist-open-more-link');
-		addEventListenerToList(openSubListLink, 'click', function (event) {
+		addEventListenerToList(openSubListLink, 'click', function(event) {
 			openSubList(event, contentElement);
 		});
 
@@ -273,6 +273,8 @@
 
 			if (contentElement === null) {
 				hideCookieOptIn();
+			} else {
+				showSaveConfirmation(contentElement);
 			}
 		});
 
@@ -284,6 +286,8 @@
 
 			if (contentElement === null) {
 				hideCookieOptIn();
+			} else {
+				showSaveConfirmation(contentElement);
 			}
 		});
 
@@ -295,6 +299,8 @@
 
 			if (contentElement === null) {
 				hideCookieOptIn();
+			} else {
+				showSaveConfirmation(contentElement);
 			}
 		});
 
@@ -915,6 +921,13 @@
 		document.cookie = name + '=' + value + ';path=/;expires=' + d.toGMTString();
 	}
 
+	function showSaveConfirmation(contentElement) {
+		var notification = document.createElement('DIV');
+		notification.classList.add('sg-cookie-optin-save-confirmation');
+		notification.insertAdjacentText('afterbegin', jsonData.textEntries.save_confirmation_text);
+		contentElement.insertBefore(notification, contentElement.firstChild);
+	}
+
 	/**
 	 * Returns the value of a query parameter as a string, or null on error.
 	 *
@@ -974,6 +987,7 @@
 			};
 		}
 	}
+
 	closestPolyfill();
 
 	jsonData = JSON.parse(document.getElementById('cookieOptinData').innerHTML);

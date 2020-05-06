@@ -97,6 +97,10 @@
 				<source><![CDATA[Button for Accepting Selected Cookies & Scripts]]></source>
 				<target><![CDATA[Button zum Akzeptieren ausgewählter Skripte & Cookies]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode" approved="yes">
+				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
+				<target><![CDATA[Aktiviere den Test-Modus (Der Parameter "?showOptIn=1" muss an die URL angefügt werden)]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_text" approved="yes">
 				<source><![CDATA[Accept Button Text]]></source>
 				<target><![CDATA[Akzeptieren-Button Text]]></target>
@@ -181,6 +185,10 @@
 				<source><![CDATA[Show the Settings Button within the Banner (Should be enabled if the website uses cookies.)]]></source>
 				<target><![CDATA[Einstellungs-Button im Banner anzeigen (Dies sollte aktiviert werden, falls die Website Cookies verwendet)]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text" approved="yes">
+				<source><![CDATA[Text Color - Data]]></source>
+				<target><![CDATA[Textfarbe - Daten]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_box" approved="yes">
 				<source><![CDATA[Window]]></source>
 				<target><![CDATA[Fenster]]></target>
@@ -241,6 +249,26 @@
 				<source><![CDATA[Essential Cookies & Scripts (always ticked off)]]></source>
 				<target><![CDATA[Essentielle Cookies & Skripte (immer abgehakt)]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_confirmation_background" approved="yes">
+				<source><![CDATA[Confirmation Background]]></source>
+				<target><![CDATA[Bestätigung Hintergrund]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_confirmation_text" approved="yes">
+				<source><![CDATA[Confirmation Text]]></source>
+				<target><![CDATA[Bestätigung Text]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_box" approved="yes">
+				<source><![CDATA[Window (upper part)]]></source>
+				<target><![CDATA[Fenster (Oberer Teil)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_headline" approved="yes">
+				<source><![CDATA[Headline]]></source>
+				<target><![CDATA[Überschrift]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_text" approved="yes">
+				<source><![CDATA[Text (upper part)]]></source>
+				<target><![CDATA[Text (Oberer Teil)]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_headline" approved="yes">
 				<source><![CDATA[Headline]]></source>
 				<target><![CDATA[Überschrift]]></target>
@@ -253,6 +281,10 @@
 				<source><![CDATA[Text Color in the Info Boxes for the Groups]]></source>
 				<target><![CDATA[Textfarbe der Infoboxen zu den Gruppen]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_notification" approved="yes">
+				<source><![CDATA[Notifcation Colors]]></source>
+				<target><![CDATA[Farben für Benachrichtigungen]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table" approved="yes">
 				<source><![CDATA[Cell Background - Data]]></source>
 				<target><![CDATA[Zellenhintergrund - Daten]]></target>
@@ -264,10 +296,6 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table_header_text" approved="yes">
 				<source><![CDATA[Text Color - Row Title]]></source>
 				<target><![CDATA[Textfarbe - Zeilentitel]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text" approved="yes">
-				<source><![CDATA[Text Color - Data]]></source>
-				<target><![CDATA[Textfarbe - Daten]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_text" approved="yes">
 				<source><![CDATA[Text]]></source>
@@ -485,17 +513,13 @@
 				<source><![CDATA[Banner Design Template]]></source>
 				<target><![CDATA[Banner-Designvorlage]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_confirmation_text" approved="yes">
+				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>
+				<target><![CDATA[Text für die Benachrichtigung, der angezeigt wird, wenn Cookie-Einstellungen gespeichert werden]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close" approved="yes">
 				<source><![CDATA[Activate the close button in the template]]></source>
 				<target><![CDATA[Aktiviere den Schließen-Button im Template]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode" approved="yes">
-				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
-				<target><![CDATA[Aktiviere den Test-Modus (Der Parameter "?showOptIn=1" muss an die URL angefügt werden)]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.textAndMenu" approved="yes">
-				<source><![CDATA[Labels & Menu]]></source>
-				<target><![CDATA[Texte & Menü]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.banner" approved="yes">
 				<source><![CDATA[Banner]]></source>
@@ -520,6 +544,10 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.settings" approved="yes">
 				<source><![CDATA[Settings]]></source>
 				<target><![CDATA[Einstellungen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.textAndMenu" approved="yes">
+				<source><![CDATA[Labels & Menu]]></source>
+				<target><![CDATA[Texte & Menü]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template" approved="yes">
 				<source><![CDATA[Window Design Template]]></source>
@@ -572,18 +600,6 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title" approved="yes">
 				<source><![CDATA[Script Name]]></source>
 				<target><![CDATA[Skript-Name]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_headline" approved="yes">
-				<source><![CDATA[Headline]]></source>
-				<target><![CDATA[Überschrift]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_box" approved="yes">
-				<source><![CDATA[Window (upper part)]]></source>
-				<target><![CDATA[Fenster (Oberer Teil)]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_text" approved="yes">
-				<source><![CDATA[Text (upper part)]]></source>
-				<target><![CDATA[Text (Oberer Teil)]]></target>
 			</trans-unit>
 		</body>
 	</file>

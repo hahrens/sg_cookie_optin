@@ -37,7 +37,8 @@ $configuration = [
 			extend_table_link_text, extend_table_link_text_close, cookie_name_text, cookie_provider_text,
 			cookie_purpose_text, cookie_lifetime_text, iframe_title, iframe_description, iframe_button_allow_all_text,
 			iframe_button_allow_one_text, iframe_button_load_one_text, iframe_open_settings_text, template_html,
-			banner_html, banner_button_accept_text, banner_button_settings_text, banner_description',
+			banner_html, banner_button_accept_text, banner_button_settings_text, banner_description,
+			save_confirmation_text',
 		'delete' => 'deleted',
 		'hideTable' => FALSE,
 		'languageField' => 'sys_language_uid',
@@ -68,17 +69,19 @@ $configuration = [
 			banner_color_button_accept_hover, banner_color_button_accept_text, banner_color_link_text,
 			banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,
 			activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,
-			color_full_button_close_hover, color_full_button_close_text, color_table_header',
+			color_full_button_close_hover, color_full_button_close_text, color_table_header, save_confirmation_text,
+			color_confirmation_background, color_confirmation_text',
 	],
 	'types' => [
 		'1' => [
 			'showitem' => '
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.textAndMenu,
-					header, description, --palette--;;accept_buttons_texts, --palette--;;link_texts,
-					--palette--;;cookie_texts, navigation,
+					header, description, save_confirmation_text, --palette--;;accept_buttons_texts,
+					--palette--;;link_texts, --palette--;;cookie_texts, navigation,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color,
-					--palette--;;template, --palette--;;color_general, --palette--;;color_checkbox,
-					--palette--;;color_button, --palette--;;color_list, --palette--;;color_table,
+					--palette--;;template, --palette--;;color_general, --palette--;;color_notification,
+					--palette--;;color_checkbox, --palette--;;color_button, --palette--;;color_list,
+					--palette--;;color_table,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.iframes,
 					iframe_enabled, iframe_title, iframe_description, --palette--;;iframe_texts,
 					--palette--;;iframe_colors, --palette--;;iframe_template, --palette--;;iframe_replacement_template,
@@ -111,6 +114,10 @@ $configuration = [
 		],
 		'color_general' => [
 			'showitem' => 'color_full_box, color_full_headline, color_full_text, --linebreak--, color_box, color_headline, color_text'
+		],
+		'color_notification' =>[
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_notification',
+			'showitem' => 'color_confirmation_background, color_confirmation_text'
 		],
 		'color_checkbox' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_checkboxes',
@@ -251,6 +258,17 @@ $configuration = [
 				'default' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
 				'placeholder' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
 				'eval' => 'trim'
+			],
+		],
+		'save_confirmation_text' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.save_confirmation_text',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'Cookie-Einstellungen erfolgreich gespeichert',
+				'placeholder' => 'Cookie-Einstellungen erfolgreich gespeichert',
+				'eval' => 'trim, required'
 			],
 		],
 		'accept_all_text' => [
@@ -442,6 +460,30 @@ $configuration = [
 				'placeholder' => '#373737',
 				'eval' => 'trim, required'
 			],
+		],
+		'color_confirmation_background' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_confirmation_background',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#C9FFC9',
+				'placeholder' => '#208A20',
+				'eval' => 'trim, required'
+			]
+		],
+		'color_confirmation_text' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_confirmation_text',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#208A20',
+				'placeholder' => '#208A20',
+				'eval' => 'trim, required'
+			]
 		],
 		'color_checkbox' => [
 			'exclude' => TRUE,

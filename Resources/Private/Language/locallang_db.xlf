@@ -75,6 +75,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_specific_text">
 				<source><![CDATA[Button for Accepting Selected Cookies & Scripts]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode">
+				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_text">
 				<source><![CDATA[Accept Button Text]]></source>
 			</trans-unit>
@@ -186,6 +189,21 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_checkbox_required">
 				<source><![CDATA[Essential Cookies & Scripts (always ticked off)]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_confirmation_background">
+				<source><![CDATA[Confirmation Background]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_confirmation_text">
+				<source><![CDATA[Confirmation Text]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_box">
+				<source><![CDATA[Window (upper part)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_headline">
+				<source><![CDATA[Headline]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_text">
+				<source><![CDATA[Text (upper part)]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_headline">
 				<source><![CDATA[Headline]]></source>
 			</trans-unit>
@@ -194,6 +212,9 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_list_text">
 				<source><![CDATA[Text Color in the Info Boxes for the Groups]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_notification">
+				<source><![CDATA[Notifcation Colors]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_table">
 				<source><![CDATA[Cell Background - Data]]></source>
@@ -366,14 +387,11 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_template">
 				<source><![CDATA[Banner Design Template]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_confirmation_text">
+				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close">
 				<source><![CDATA[Activate the close button in the template]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode">
-				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.textAndMenu">
-				<source><![CDATA[Labels & Menu]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.banner">
 				<source><![CDATA[Banner]]></source>
@@ -392,6 +410,9 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.settings">
 				<source><![CDATA[Settings]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.textAndMenu">
+				<source><![CDATA[Labels & Menu]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template">
 				<source><![CDATA[Window Design Template]]></source>
@@ -431,15 +452,6 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title">
 				<source><![CDATA[Script Name]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_headline">
-				<source><![CDATA[Headline]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_box">
-				<source><![CDATA[Window (upper part)]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_text">
-				<source><![CDATA[Text (upper part)]]></source>
 			</trans-unit>
 		</body>
 	</file>

@@ -172,6 +172,8 @@ class GenerateFilesAfterTcaSave {
 			'color_box' => $fullData['color_box'],
 			'color_headline' => $fullData['color_headline'],
 			'color_text' => $fullData['color_text'],
+			'color_confirmation_background' => $fullData['color_confirmation_background'],
+			'color_confirmation_text' => $fullData['color_confirmation_text'],
 			'color_checkbox' => $fullData['color_checkbox'],
 			'color_checkbox_required' => $fullData['color_checkbox_required'],
 			'color_button_all' => $fullData['color_button_all'],
@@ -760,6 +762,7 @@ class GenerateFilesAfterTcaSave {
 			'banner_button_accept_text' => $translatedData['banner_button_accept_text'],
 			'banner_button_settings_text' => $translatedData['banner_button_settings_text'],
 			'banner_description' => $translatedData['banner_description'],
+			'save_confirmation_text' => $translatedData['save_confirmation_text'],
 		];
 
 		$jsonDataArray = [
