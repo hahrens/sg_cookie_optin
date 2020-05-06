@@ -598,7 +598,11 @@
 			cookieData += groupName + ':' + status;
 		}
 
-		setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
+		if (jsonData.settings.session_only_essential_cookies) {
+			setSessionCookie(COOKIE_NAME, cookieData);
+		} else {
+			setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
+		}
 	}
 
 	/**
@@ -919,6 +923,16 @@
 		var d = new Date;
 		d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
 		document.cookie = name + '=' + value + '; path=/; expires=' + d.toGMTString();
+	}
+
+	/**
+	 * Sets the given cookie with the given value only for the current session.
+	 *
+	 * @param {string} name
+	 * @param {string} value
+	 */
+	function setSessionCookie(name, value) {
+		document.cookie = name + '=' + value + '; path=/';
 	}
 
 	/**

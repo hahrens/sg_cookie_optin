@@ -70,7 +70,7 @@ $configuration = [
 			banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,
 			activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,
 			color_full_button_close_hover, color_full_button_close_text, color_table_header, save_confirmation_text,
-			color_confirmation_background, color_confirmation_text',
+			color_confirmation_background, color_confirmation_text, session_only_essential_cookies',
 	],
 	'types' => [
 		'1' => [
@@ -94,7 +94,7 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group,
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
-					cookie_lifetime, minify_generated_data, activate_testing_mode',
+					--palette--;;cookie_lifetime_settings, minify_generated_data, activate_testing_mode',
 		],
 	],
 	'palettes' => [
@@ -191,6 +191,10 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_template',
 			'showitem' => 'banner_selection, banner_overwritten, --linebreak--,
 				banner_html'
+		],
+		'cookie_lifetime_settings' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.cookie_lifetime_settings',
+			'showitem' => 'cookie_lifetime, session_only_essential_cookies'
 		],
 	],
 	'columns' => [
@@ -989,6 +993,15 @@ $configuration = [
 				'default' => '365',
 				'placeholder' => '365',
 				'eval' => 'trim, int, required'
+			],
+		],
+		'session_only_essential_cookies' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.session_only_essential_cookies',
+			'config' => [
+				'type' => 'check',
+				'default' => '0',
 			],
 		],
 		'minify_generated_data' => [

@@ -735,6 +735,7 @@ class GenerateFilesAfterTcaSave {
 			'banner_position' => (int) $translatedData['banner_position'],
 			'banner_show_settings_button' => (boolean) $translatedData['banner_show_settings_button'],
 			'cookie_lifetime' => (int) $translatedData['cookie_lifetime'],
+			'session_only_essential_cookies' => (boolean) $translatedData['session_only_essential_cookies'],
 			'iframe_enabled' => (boolean) $translatedData['iframe_enabled'],
 			'minify_generated_data' => (boolean) $translatedData['minify_generated_data'],
 			'show_button_close' => (boolean) $translatedData['show_button_close'],

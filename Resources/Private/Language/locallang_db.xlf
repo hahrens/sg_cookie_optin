@@ -241,7 +241,7 @@
 				<source><![CDATA[Cookie Description Tables]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_lifetime">
-				<source><![CDATA[Cookie lifetime in days]]></source>
+				<source><![CDATA[Lifetime of cookie that saves the user's choices in days]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_lifetime_text">
 				<source><![CDATA[Header for the cookie lifetime]]></source>
@@ -387,8 +387,14 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_template">
 				<source><![CDATA[Banner Design Template]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.cookie_lifetime_settings">
+				<source><![CDATA[Cookie Lifetime]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_confirmation_text">
 				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.session_only_essential_cookies">
+				<source><![CDATA[Set the cookie lifetime only for the current session if only essential cookies are accepted]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close">
 				<source><![CDATA[Activate the close button in the template]]></source>
