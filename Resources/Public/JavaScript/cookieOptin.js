@@ -918,9 +918,14 @@
 	function setCookie(name, value, days) {
 		var d = new Date;
 		d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
-		document.cookie = name + '=' + value + ';path=/;expires=' + d.toGMTString();
+		document.cookie = name + '=' + value + '; path=/; expires=' + d.toGMTString();
 	}
 
+	/**
+	 * Displays a notification as a box as first element in the given contentElement
+	 *
+	 * @param {dom} contentElement
+	 */
 	function showSaveConfirmation(contentElement) {
 		var notification = document.createElement('DIV');
 		notification.classList.add('sg-cookie-optin-save-confirmation');
