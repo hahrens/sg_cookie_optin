@@ -11,6 +11,7 @@
 (function() {
 	var COOKIE_NAME = 'cookie_optin';
 	var COOKIE_GROUP_IFRAME = 'iframes';
+	var COOKIE_GROUP_ESSENTIAL = 'essential';
 
 	var iFrameObserver = null;
 	var protectedIFrames = [];
@@ -518,7 +519,7 @@
 			cookieData += groupName + ':' + 1;
 		}
 
-		setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
+		setCookieWrapper(cookieData);
 		acceptAllIFrames();
 	}
 
@@ -559,7 +560,7 @@
 			cookieData += groupName + ':' + status;
 		}
 
-		setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
+		setCookieWrapper(cookieData);
 
 		if (jsonData.settings.iframe_enabled) {
 			if (iframeGroupFoundAndActive) {
@@ -598,11 +599,7 @@
 			cookieData += groupName + ':' + status;
 		}
 
-		if (jsonData.settings.session_only_essential_cookies) {
-			setSessionCookie(COOKIE_NAME, cookieData);
-		} else {
-			setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
-		}
+		setCookieWrapper(cookieData);
 	}
 
 	/**
@@ -826,7 +823,7 @@
 				continue;
 			}
 
-			acceptIFrame(index)
+			acceptIFrame(index);
 		}
 
 		var cookieValue = getCookie(COOKIE_NAME);
@@ -867,7 +864,7 @@
 			newCookieValue += '|' + COOKIE_GROUP_IFRAME + ':' + 1;
 		}
 
-		setCookie(COOKIE_NAME, newCookieValue, jsonData.settings.cookie_lifetime);
+		setCookieWrapper(newCookieValue);
 	}
 
 	/**
@@ -933,6 +930,44 @@
 	 */
 	function setSessionCookie(name, value) {
 		document.cookie = name + '=' + value + '; path=/; SameSite=Lax';
+	}
+
+	/**
+	 * Cookie is set with lifetime if the user has accepted a non-essential group that exists.
+	 *
+	 * @param {string} cookieValue
+	 */
+	function setCookieWrapper(cookieValue) {
+		var setCookieForSessionOnly = false;
+		if (jsonData.settings.session_only_essential_cookies) {
+			var hasNonEssentialGroups = false;
+			var hasAcceptedNonEssentials = false;
+			var splitCookieValue = cookieValue.split('|');
+			for (var cookieValueIndex in splitCookieValue) {
+				if (!splitCookieValue.hasOwnProperty(cookieValueIndex)) {
+					continue;
+				}
+
+				var valueEntry = splitCookieValue[cookieValueIndex];
+				if (valueEntry.indexOf(COOKIE_GROUP_ESSENTIAL) === 0 || valueEntry.indexOf(COOKIE_GROUP_IFRAME) === 0) {
+					continue;
+				}
+
+				hasNonEssentialGroups = true;
+				if (valueEntry.indexOf(':1') > 0) {
+					hasAcceptedNonEssentials = true;
+					break;
+				}
+			}
+
+			setCookieForSessionOnly = hasNonEssentialGroups && !(hasNonEssentialGroups && hasAcceptedNonEssentials);
+		}
+
+		if (setCookieForSessionOnly) {
+			setSessionCookie(COOKIE_NAME, cookieValue);
+		} else {
+			setCookie(COOKIE_NAME, cookieValue, jsonData.settings.cookie_lifetime);
+		}
 	}
 
 	/**
