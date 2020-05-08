@@ -31,12 +31,11 @@ use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class IconViewHelper
  **/
-class IconViewHelper extends AbstractViewHelper {
+class IconViewHelper extends \SgCookieAbstractViewHelper {
 	/**
 	 * @var boolean
 	 */

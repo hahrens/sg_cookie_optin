@@ -216,6 +216,8 @@
 				}
 
 				var reasonHeight = reasons[index].getBoundingClientRect().height;
+				reasonHeight -= parseInt(window.getComputedStyle(reasons[index], null).getPropertyValue('padding-top'));
+				reasonHeight -= parseInt(window.getComputedStyle(reasons[index], null).getPropertyValue('padding-bottom'));
 				var maxHeight = (maxHeightPerRow[maxHeightPerRowIndex] ? maxHeightPerRow[maxHeightPerRowIndex] : 0);
 				if (reasonHeight > maxHeight) {
 					maxHeightPerRow[maxHeightPerRowIndex] = reasonHeight;
@@ -243,7 +245,7 @@
 	 */
 	function addListeners(element, contentElement) {
 		var closeButtons = element.querySelectorAll('.sg-cookie-optin-box-close-button');
-		addEventListenerToList(closeButtons, 'click', function () {
+		addEventListenerToList(closeButtons, 'click', function() {
 			acceptEssentialCookies();
 			updateCookieList();
 			handleScriptActivations();
@@ -257,7 +259,7 @@
 		addEventListenerToList(openMoreLinks, 'click', openCookieDetails);
 
 		var openSubListLink = element.querySelectorAll('.sg-cookie-optin-box-sublist-open-more-link');
-		addEventListenerToList(openSubListLink, 'click', function (event) {
+		addEventListenerToList(openSubListLink, 'click', function(event) {
 			openSubList(event, contentElement);
 		});
 
@@ -271,6 +273,8 @@
 
 			if (contentElement === null) {
 				hideCookieOptIn();
+			} else {
+				showSaveConfirmation(contentElement);
 			}
 		});
 
@@ -282,6 +286,8 @@
 
 			if (contentElement === null) {
 				hideCookieOptIn();
+			} else {
+				showSaveConfirmation(contentElement);
 			}
 		});
 
@@ -293,6 +299,8 @@
 
 			if (contentElement === null) {
 				hideCookieOptIn();
+			} else {
+				showSaveConfirmation(contentElement);
 			}
 		});
 
@@ -476,11 +484,11 @@
 				cookieSubList.style.height = 'auto';
 				height = cookieSubList.getBoundingClientRect().height + 'px';
 				cookieSubList.style.height = '';
-				requestAnimationFrame(function(item, style) {
+				requestAnimationFrame(function() {
 					setTimeout(function() {
-						item.style.height = style;
+						cookieSubList.style.height = height;
 					}, 10);
-				}(cookieSubList, height));
+				});
 
 				event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
 			}
@@ -590,7 +598,11 @@
 			cookieData += groupName + ':' + status;
 		}
 
-		setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
+		if (jsonData.settings.session_only_essential_cookies) {
+			setSessionCookie(COOKIE_NAME, cookieData);
+		} else {
+			setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
+		}
 	}
 
 	/**
@@ -910,7 +922,29 @@
 	function setCookie(name, value, days) {
 		var d = new Date;
 		d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
-		document.cookie = name + '=' + value + ';path=/;expires=' + d.toGMTString();
+		document.cookie = name + '=' + value + '; path=/; expires=' + d.toGMTString() + '; SameSite=Lax';
+	}
+
+	/**
+	 * Sets the given cookie with the given value only for the current session.
+	 *
+	 * @param {string} name
+	 * @param {string} value
+	 */
+	function setSessionCookie(name, value) {
+		document.cookie = name + '=' + value + '; path=/; SameSite=Lax';
+	}
+
+	/**
+	 * Displays a notification as a box as first element in the given contentElement
+	 *
+	 * @param {dom} contentElement
+	 */
+	function showSaveConfirmation(contentElement) {
+		var notification = document.createElement('DIV');
+		notification.classList.add('sg-cookie-optin-save-confirmation');
+		notification.insertAdjacentText('afterbegin', jsonData.textEntries.save_confirmation_text);
+		contentElement.insertBefore(notification, contentElement.firstChild);
 	}
 
 	/**
@@ -972,6 +1006,7 @@
 			};
 		}
 	}
+
 	closestPolyfill();
 
 	jsonData = JSON.parse(document.getElementById('cookieOptinData').innerHTML);

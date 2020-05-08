@@ -31,11 +31,13 @@ use SGalinski\SgCookieOptin\Service\LicensingService;
 use SGalinski\SgCookieOptin\Service\MinificationService;
 use SGalinski\SgCookieOptin\Service\TemplateService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -118,24 +120,23 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		$folderName = str_replace('#PID#', $siteRoot, $folder . self::FOLDER_SITEROOT);
+		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		// First remove the folder with all files and then create it again. So no data artifacts are kept.
-		GeneralUtility::rmdir(PATH_site . $folderName, TRUE);
-		GeneralUtility::mkdir_deep(PATH_site . $folderName);
-		GeneralUtility::fixPermissions(PATH_site . $folder, TRUE);
+		GeneralUtility::rmdir($sitePath . $folderName, TRUE);
+		GeneralUtility::mkdir_deep($sitePath . $folderName);
+		GeneralUtility::fixPermissions($sitePath . $folder, TRUE);
 		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 
-		/** @var TypoScriptFrontendController $typoScriptFrontendController */
-		$originalTSFE = $typoScriptFrontendController = $GLOBALS['TSFE'];
-		if (!($typoScriptFrontendController instanceof TypoScriptFrontendController)) {
-			$typoScriptFrontendController = $GLOBALS['TSFE'] = new TypoScriptFrontendController(
-				$GLOBALS['TYPO3_CONF_VARS'], $siteRoot, 0
-			);
-		}
+		if ($currentVersion < 9000000) {
+			/** @var TypoScriptFrontendController $typoScriptFrontendController */
+			$originalTSFE = $typoScriptFrontendController = $GLOBALS['TSFE'];
+			if (!($typoScriptFrontendController instanceof TypoScriptFrontendController)) {
+				$typoScriptFrontendController = $GLOBALS['TSFE'] = new TypoScriptFrontendController(
+					$GLOBALS['TYPO3_CONF_VARS'], $siteRoot, 0
+				);
+			}
 
-		// required in order to generate the menu links later on
-		if ($currentVersion >= 9000000) {
-			$typoScriptFrontendController->settingLanguage();
-		} else {
+			// required in order to generate the menu links later on
 			if (!is_object($GLOBALS['TT'])) {
 				$GLOBALS['TT'] = new NullTimeTracker();
 			}
@@ -172,6 +173,8 @@ class GenerateFilesAfterTcaSave {
 			'color_box' => $fullData['color_box'],
 			'color_headline' => $fullData['color_headline'],
 			'color_text' => $fullData['color_text'],
+			'color_confirmation_background' => $fullData['color_confirmation_background'],
+			'color_confirmation_text' => $fullData['color_confirmation_text'],
 			'color_checkbox' => $fullData['color_checkbox'],
 			'color_checkbox_required' => $fullData['color_checkbox_required'],
 			'color_button_all' => $fullData['color_button_all'],
@@ -237,7 +240,7 @@ class GenerateFilesAfterTcaSave {
 			$this->createJsonFile($folderName, $fullData, $translatedFullData, $cssData, $minifyFiles, $languageUid);
 		}
 
-		GeneralUtility::fixPermissions(PATH_site . $folder, TRUE);
+		GeneralUtility::fixPermissions($sitePath . $folder, TRUE);
 
 		// reset the TSFE to it's previous state to not influence remaining code
 		$GLOBALS['TSFE'] = $originalTSFE;
@@ -408,8 +411,9 @@ class GenerateFilesAfterTcaSave {
 	 * @return void
 	 */
 	protected function createCSSFile(array $data, $folder, array $cssData, $minifyFile = TRUE) {
+		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
-			file_get_contents(PATH_site . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
+			file_get_contents($sitePath . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
 
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
 		$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_TEMPLATE, $data['template_selection']);
@@ -431,7 +435,7 @@ class GenerateFilesAfterTcaSave {
 			$data[] = $value;
 		}
 
-		$file = PATH_site . $folder . self::TEMPLATE_STYLE_SHEET_NAME;
+		$file = $sitePath . $folder . self::TEMPLATE_STYLE_SHEET_NAME;
 		file_put_contents($file, str_replace($keys, $data, $content));
 
 		if ($minifyFile) {
@@ -525,7 +529,8 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		$file = $folder . $groupName . '-' . $languageUid . '.js';
-		$groupFile = PATH_site . $file;
+		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$groupFile = $sitePath . $file;
 		file_put_contents($groupFile, $content);
 
 		if ($minifyFile) {
@@ -546,8 +551,9 @@ class GenerateFilesAfterTcaSave {
 	 * @return void
 	 */
 	protected function createJavaScriptFile($folder, $minifyFile = TRUE) {
-		$file = PATH_site . $folder . self::TEMPLATE_JAVA_SCRIPT_NAME;
-		copy(PATH_site . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME, $file);
+		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$file = $sitePath . $folder . self::TEMPLATE_JAVA_SCRIPT_NAME;
+		copy($sitePath . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME, $file);
 
 		if ($minifyFile) {
 			$minificationService = GeneralUtility::makeInstance(MinificationService::class);
@@ -697,21 +703,32 @@ class GenerateFilesAfterTcaSave {
 
 		$footerLinks = [];
 		$index = 0;
+		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 		$contentObject = $objectManager->get(ContentObjectRenderer::class);
 		foreach ($navigationEntries as $pageData) {
-			try {
-				$footerLinks[$index] = [
-					'url' => $contentObject->getTypoLink_URL($pageData['uid'], '&disableOptIn=1&L=' . $languageUid),
-					'name' => $contentObject->crop($pageData['title'], 35 . '|...|0'),
-					'uid' => $pageData['uid'],
-					'index' => $index,
-				];
-				++$index;
-			} catch (\Error $exception) {
-				// Occurs on the first creation of the translation.
-				continue;
+			$uid = $pageData['uid'];
+			if ($currentVersion >= 9000000) {
+				$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($uid);
+				$url = (string) $site->getRouter()->generateUri($uid, ['disableOptIn' => 1, 'L' => $languageUid]);
+				$title = $pageData['title'];
+				$name = strlen($title) > 35 ? substr($title, 0, 35) . '...' : $title;
+			} else {
+				try {
+					$url = $contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid);
+					$name = $contentObject->crop($pageData['title'], 35 . '|...|0');
+				} catch (\Error $exception) {
+					// Occurs on the first creation of the translation.
+					continue;
+				}
 			}
+			$footerLinks[$index] = [
+				'url' => $url,
+				'name' => $name,
+				'uid' => $uid,
+				'index' => $index,
+			];
+			++$index;
 		}
 
 		$settings = [
@@ -719,6 +736,7 @@ class GenerateFilesAfterTcaSave {
 			'banner_position' => (int) $translatedData['banner_position'],
 			'banner_show_settings_button' => (boolean) $translatedData['banner_show_settings_button'],
 			'cookie_lifetime' => (int) $translatedData['cookie_lifetime'],
+			'session_only_essential_cookies' => (boolean) $translatedData['session_only_essential_cookies'],
 			'iframe_enabled' => (boolean) $translatedData['iframe_enabled'],
 			'minify_generated_data' => (boolean) $translatedData['minify_generated_data'],
 			'show_button_close' => (boolean) $translatedData['show_button_close'],
@@ -746,6 +764,7 @@ class GenerateFilesAfterTcaSave {
 			'banner_button_accept_text' => $translatedData['banner_button_accept_text'],
 			'banner_button_settings_text' => $translatedData['banner_button_settings_text'],
 			'banner_description' => $translatedData['banner_description'],
+			'save_confirmation_text' => $translatedData['save_confirmation_text'],
 		];
 
 		$jsonDataArray = [
@@ -797,7 +816,8 @@ class GenerateFilesAfterTcaSave {
 			],
 		];
 
-		$file = PATH_site . $folder . str_replace('#LANG#', $translatedData['sys_language_uid'], self::TEMPLATE_JSON_NAME);
+		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
+		$file = $sitePath . $folder . str_replace('#LANG#', $translatedData['sys_language_uid'], self::TEMPLATE_JSON_NAME);
 		file_put_contents($file, json_encode($jsonDataArray, JSON_PRETTY_PRINT));
 		GeneralUtility::fixPermissions($file);
 	}

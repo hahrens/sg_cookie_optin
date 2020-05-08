@@ -34,9 +34,14 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 class ExtensionSettingsService {
 	const SETTING_LICENSE = 'key';
 	const SETTING_FOLDER = 'folder';
+	const SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT = 'hideModuleInProductionContext';
 
+	/**
+	 * @var array Default settings mapped to constants.
+	 */
 	protected static $defaultValueMap = [
 		self::SETTING_FOLDER => 'fileadmin/sg_cookie_optin/',
+		self::SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT => FALSE,
 	];
 
 	/**
@@ -82,6 +87,10 @@ class ExtensionSettingsService {
 	protected static function postProcessSetting($value, $settingKey) {
 		if ($settingKey === self::SETTING_FOLDER) {
 			$value = trim($value, " \t\n\r\0\x0B\/") . '/';
+
+			if (strpos($value, 'EXT:') === 0) {
+				$value = 'typo3conf/ext/' . substr($value, 4);
+			}
 		}
 
 		return $value;
