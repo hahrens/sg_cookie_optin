@@ -30,6 +30,7 @@ use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\LicensingService;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -69,7 +70,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
-		$sitePath = defined('PATH_site') ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		if (file_exists($sitePath . $file)) {
 			$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_' .
 				$this->getLanguage() . '.json';
@@ -123,7 +124,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		$file = $folder . 'siteroot-' . $rootPageId . '/cookieOptin.css';
-		$sitePath = defined('PATH_site') ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		if (!file_exists($sitePath . $file)) {
 			return '';
 		}

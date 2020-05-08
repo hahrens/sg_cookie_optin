@@ -26,6 +26,7 @@ namespace SGalinski\SgCookieOptin\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Registry;
 
@@ -140,7 +141,7 @@ class LicensingService {
 			return;
 		}
 
-		$sitePath = defined('PATH_site') ? PATH_site : \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		GeneralUtility::rmdir($sitePath . $folder, TRUE);
 	}
 
