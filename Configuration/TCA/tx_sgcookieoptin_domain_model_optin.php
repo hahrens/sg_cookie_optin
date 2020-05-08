@@ -1368,6 +1368,8 @@ if (TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(T
 		$configuration['columns']['color_box']['config']['renderType'],
 		$configuration['columns']['color_headline']['config']['renderType'],
 		$configuration['columns']['color_text']['config']['renderType'],
+		$configuration['columns']['color_confirmation_background']['config']['renderType'],
+		$configuration['columns']['color_confirmation_text']['config']['renderType'],
 		$configuration['columns']['color_checkbox']['config']['renderType'],
 		$configuration['columns']['color_checkbox_required']['config']['renderType'],
 		$configuration['columns']['color_button_all']['config']['renderType'],
