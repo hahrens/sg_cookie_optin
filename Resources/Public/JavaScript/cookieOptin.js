@@ -976,10 +976,13 @@
 	 * @param {dom} contentElement
 	 */
 	function showSaveConfirmation(contentElement) {
-		var notification = document.createElement('DIV');
-		notification.classList.add('sg-cookie-optin-save-confirmation');
-		notification.insertAdjacentText('afterbegin', jsonData.textEntries.save_confirmation_text);
-		contentElement.insertBefore(notification, contentElement.firstChild);
+		var oldNotification = contentElement.firstChild;
+		if (!oldNotification.classList.contains('sg-cookie-optin-save-confirmation')) {
+			var notification = document.createElement('DIV');
+			notification.classList.add('sg-cookie-optin-save-confirmation');
+			notification.insertAdjacentText('afterbegin', jsonData.textEntries.save_confirmation_text);
+			contentElement.insertBefore(notification, contentElement.firstChild);
+		}
 	}
 
 	/**
