@@ -56,7 +56,9 @@ call_user_func(
 
 		// Register Icons
 		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7000000) {
-			$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+			$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+				\TYPO3\CMS\Core\Imaging\IconRegistry::class
+			);
 			$iconRegistry->registerIcon(
 				'extension-' . $extKey,
 				\TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
@@ -71,10 +73,10 @@ call_user_func(
 			'class' => \SGalinski\SgCookieOptin\Wizards\TemplatePreviewLinkWizard::class
 		];
 
-	if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 10000000) {
-		class_alias('\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
-	} else {
-		class_alias('\TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
-	}
+		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 10000000) {
+			class_alias('\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
+		} else {
+			class_alias('\TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
+		}
 	}, 'sg_cookie_optin'
 );
