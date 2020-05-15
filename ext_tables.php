@@ -53,9 +53,15 @@ call_user_func(
 			$hideModuleInProductionContext = \SGalinski\SgCookieOptin\Service\ExtensionSettingsService::getSetting(
 				\SGalinski\SgCookieOptin\Service\ExtensionSettingsService::SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT
 			);
-			$applicationContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
 
-			if (!($hideModuleInProductionContext && $applicationContext->isProduction())) {
+			$showModule = TRUE;
+			if ($hideModuleInProductionContext) {
+				$applicationContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
+				if (isset($applicationContext)) {
+					$showModule = !$applicationContext->isProduction();
+				}
+			}
+			if ($showModule) {
 				\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
 					'SGalinski.' . $extKey,
 					'web',
@@ -72,6 +78,5 @@ call_user_func(
 				);
 			}
 		}
-
 	}, 'sg_cookie_optin'
 );

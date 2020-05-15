@@ -48,8 +48,7 @@ class ExtensionSettingsService {
 	 * Returns the setting of one of the constants of this class.
 	 *
 	 * @param string $settingKey
-	 *
-	 * @return string
+	 * @return mixed
 	 */
 	public static function getSetting($settingKey) {
 		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) {
@@ -63,26 +62,24 @@ class ExtensionSettingsService {
 			$configuration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sg_cookie_optin'];
 		}
 
-		$defaultSetting = '';
+		$setting = '';
 		if (isset(self::$defaultValueMap[$settingKey])) {
-			$defaultSetting = self::$defaultValueMap[$settingKey];
+			$setting = self::$defaultValueMap[$settingKey];
 		}
 
-		if (!isset($configuration[$settingKey])) {
-			return $defaultSetting;
+		if (isset($configuration[$settingKey])) {
+			$setting = self::postProcessSetting($configuration[$settingKey], $settingKey);
 		}
 
-		$setting = trim($configuration[$settingKey]);
-		return ($setting ? self::postProcessSetting($setting, $settingKey) : $defaultSetting);
+		return $setting;
 	}
 
 	/**
 	 * Post process of the given setting, by the given setting key.
 	 *
-	 * @param string $value
+	 * @param mixed $value
 	 * @param string $settingKey
-	 *
-	 * @return string
+	 * @return mixed
 	 */
 	protected static function postProcessSetting($value, $settingKey) {
 		if ($settingKey === self::SETTING_FOLDER) {
