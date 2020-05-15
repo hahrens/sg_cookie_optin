@@ -90,6 +90,11 @@ class ExtensionSettingsService {
 			}
 		}
 
+		// TYPO3 6 stores all settings as strings, some are expected to be booleans, though.
+		if ($value === 'TRUE' || $value === 'FALSE' ) {
+			$value = (bool) $value;
+		}
+
 		return $value;
 	}
 }
