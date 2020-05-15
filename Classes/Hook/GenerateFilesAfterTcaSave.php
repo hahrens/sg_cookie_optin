@@ -717,10 +717,13 @@ class GenerateFilesAfterTcaSave {
 				try {
 					$url = $contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid);
 					$name = $contentObject->crop($pageData['title'], 35 . '|...|0');
-				} catch (\Error $exception) {
+				} catch (\Exception $exception) {
 					// Occurs on the first creation of the translation.
 					continue;
 				}
+			}
+			if (substr($url, 0, 1) === '?') {
+				$url = '/' . $url;
 			}
 			$footerLinks[$index] = [
 				'url' => $url,
