@@ -416,14 +416,22 @@ class GenerateFilesAfterTcaSave {
 			file_get_contents($sitePath . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
 
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
-		$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_TEMPLATE, $data['template_selection']);
+		$content .= " \n\n" . $templateService->getCSSContent(
+				TemplateService::TYPE_TEMPLATE, $data['template_selection']
+			);
 		if ((boolean) $data['banner_enable']) {
-			$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_BANNER, $data['banner_selection']);
+			$content .= " \n\n" . $templateService->getCSSContent(
+					TemplateService::TYPE_BANNER, $data['banner_selection']
+				);
 		}
 
 		if ((boolean) $data['iframe_enabled']) {
-			$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_IFRAME, $data['iframe_selection']);
-			$content .= " \n\n" . $templateService->getCSSContent(TemplateService::TYPE_IFRAME_REPLACEMENT, $data['iframe_replacement_selection']);
+			$content .= " \n\n" . $templateService->getCSSContent(
+					TemplateService::TYPE_IFRAME, $data['iframe_selection']
+				);
+			$content .= " \n\n" . $templateService->getCSSContent(
+					TemplateService::TYPE_IFRAME_REPLACEMENT, $data['iframe_replacement_selection']
+				);
 		}
 
 		$keys = $data = [];
@@ -574,6 +582,7 @@ class GenerateFilesAfterTcaSave {
 	 * @param int $languageUid
 	 *
 	 * @return void
+	 * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
 	 */
 	protected function createJsonFile(
 		$folder, array $data, array $translatedData, array $cssData, $minifyFiles, $languageUid = 0
@@ -710,7 +719,9 @@ class GenerateFilesAfterTcaSave {
 			$uid = $pageData['uid'];
 			if ($currentVersion >= 9000000) {
 				$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($uid);
-				$url = (string) $site->getRouter()->generateUri($uid, ['disableOptIn' => 1, 'L' => $languageUid]);
+				$url = (string) $site->getRouter()->generateUri(
+					$uid, ['disableOptIn' => 1, '_language' => $languageUid]
+				);
 				$title = $pageData['title'];
 				$name = strlen($title) > 35 ? substr($title, 0, 35) . '...' : $title;
 			} else {
@@ -722,15 +733,18 @@ class GenerateFilesAfterTcaSave {
 					continue;
 				}
 			}
-			if (substr($url, 0, 1) === '?') {
+
+			if (strpos($url, '?') === 0) {
 				$url = '/' . $url;
 			}
+
 			$footerLinks[$index] = [
 				'url' => $url,
 				'name' => $name,
 				'uid' => $uid,
 				'index' => $index,
 			];
+
 			++$index;
 		}
 
@@ -820,7 +834,9 @@ class GenerateFilesAfterTcaSave {
 		];
 
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
-		$file = $sitePath . $folder . str_replace('#LANG#', $translatedData['sys_language_uid'], self::TEMPLATE_JSON_NAME);
+		$file = $sitePath . $folder . str_replace(
+				'#LANG#', $translatedData['sys_language_uid'], self::TEMPLATE_JSON_NAME
+			);
 		file_put_contents($file, json_encode($jsonDataArray, JSON_PRETTY_PRINT));
 		GeneralUtility::fixPermissions($file);
 	}
