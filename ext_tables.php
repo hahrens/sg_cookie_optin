@@ -26,16 +26,6 @@
 
 call_user_func(
 	function ($extKey) {
-		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-			'SGalinski.' . $extKey,
-			'OptIn',
-			'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang_backend.xlf:optInPluginLabel'
-		);
-
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-			$extKey, 'Configuration/TypoScript/Frontend', 'Cookie Optin'
-		);
-
 		if (TYPO3_MODE === 'BE') {
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
 				'tx_sgcookieoptin_domain_model_optin'
@@ -56,7 +46,12 @@ call_user_func(
 
 			$showModule = TRUE;
 			if ($hideModuleInProductionContext) {
-				$applicationContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
+				if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.2.0', '<')) {
+					$applicationContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
+				} else {
+					$applicationContext = \TYPO3\CMS\Core\Core\Environment::getContext();
+				}
+
 				if (isset($applicationContext)) {
 					$showModule = !$applicationContext->isProduction();
 				}
