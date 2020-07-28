@@ -47,31 +47,7 @@ $configuration = [
 		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_optin.svg',
 		'requestUpdate' => 'template_selection, banner_selection, iframe_selection, iframe_replacement_selection',
 	],
-	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, header, description, cookie_lifetime,
-			minify_generated_data, navigation, accept_all_text, accept_specific_text, accept_essential_text, groups,
-			template_html, template_overwritten, template_selection, color_text, color_box, color_headline,
-			color_checkbox, color_checkbox_required, color_button_all, color_button_all_text, color_button_specific,
-			color_button_specific_text, color_button_essential, color_button_essential_text, color_list,
-			color_list_text, essential_title, essential_description, essential_scripts, essential_cookies,
-			extend_box_link_text, extend_box_link_text_close, extend_table_link_text, extend_table_link_text_close,
-			color_button_all_hover, color_button_specific_hover, color_button_essential_hover, color_table,
-			color_table_header_text, color_Table_data_text, color_button_close, color_button_close_hover,
-			color_button_close_text, cookie_name_text, cookie_provider_text, cookie_purpose_text, cookie_lifetime_text,
-			iframe_enabled, iframe_title, iframe_description, iframe_button_allow_all_text,
-			iframe_button_allow_one_text, iframe_button_load_one_text, iframe_open_settings_text,
-			iframe_color_consent_box_background, iframe_color_button_load_one, iframe_color_button_load_one_hover,
-			iframe_color_button_load_one_text, iframe_color_open_settings, iframe_html, iframe_overwritten,
-			iframe_selection, iframe_replacement_html, iframe_replacement_overwritten, iframe_replacement_selection,
-			banner_enable, banner_position, banner_overwritten, banner_html, banner_selection,
-			banner_show_settings_button, banner_color_box, banner_color_text, banner_color_button_settings,
-			banner_color_button_settings_hover, banner_color_button_settings_text, banner_color_button_accept,
-			banner_color_button_accept_hover, banner_color_button_accept_text, banner_color_link_text,
-			banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,
-			activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,
-			color_full_button_close_hover, color_full_button_close_text, color_table_header, save_confirmation_text,
-			color_confirmation_background, color_confirmation_text, session_only_essential_cookies',
-	],
+	'interface' => [],
 	'types' => [
 		'1' => [
 			'showitem' => '
@@ -1414,6 +1390,32 @@ if (TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(T
 		$configuration['columns']['banner_color_button_accept_hover']['config']['renderType'],
 		$configuration['columns']['banner_color_button_accept_text']['config']['renderType']
 	);
+}
+
+if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.3.0', '<')) {
+	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, header,'
+		. 'description, cookie_lifetime, minify_generated_data, navigation, accept_all_text, accept_specific_text,'
+		. 'accept_essential_text, groups, template_html, template_overwritten, template_selection, color_text,'
+		. 'color_box, color_headline, color_checkbox, color_checkbox_required, color_button_all, color_button_all_text,'
+		. 'color_button_specific, color_button_specific_text, color_button_essential, color_button_essential_text,'
+		. 'color_list, color_list_text, essential_title, essential_description, essential_scripts, essential_cookies,'
+		. 'extend_box_link_text, extend_box_link_text_close, extend_table_link_text, extend_table_link_text_close,'
+		. 'color_button_all_hover, color_button_specific_hover, color_button_essential_hover, color_table,'
+		. 'color_table_header_text, color_Table_data_text, color_button_close, color_button_close_hover,'
+		. 'color_button_close_text, cookie_name_text, cookie_provider_text, cookie_purpose_text, cookie_lifetime_text,'
+		. 'iframe_enabled, iframe_title, iframe_description, iframe_button_allow_all_text,'
+		. 'iframe_button_allow_one_text, iframe_button_load_one_text, iframe_open_settings_text,'
+		. 'iframe_color_consent_box_background, iframe_color_button_load_one, iframe_color_button_load_one_hover,'
+		. 'iframe_color_button_load_one_text, iframe_color_open_settings, iframe_html, iframe_overwritten,'
+		. 'iframe_selection, iframe_replacement_html, iframe_replacement_overwritten, iframe_replacement_selection,'
+		. 'banner_enable, banner_position, banner_overwritten, banner_html, banner_selection,'
+		. 'banner_show_settings_button, banner_color_box, banner_color_text, banner_color_button_settings,'
+		. 'banner_color_button_settings_hover, banner_color_button_settings_text, banner_color_button_accept,'
+		. 'banner_color_button_accept_hover, banner_color_button_accept_text, banner_color_link_text,'
+		. 'banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,'
+		. 'activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,'
+		. 'color_full_button_close_hover, color_full_button_close_text, color_table_header, save_confirmation_text,'
+		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies';
 }
 
 return $configuration;

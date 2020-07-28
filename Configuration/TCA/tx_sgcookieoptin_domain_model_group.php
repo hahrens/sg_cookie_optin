@@ -24,7 +24,7 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-return [
+$configuration = [
 	'ctrl' => [
 		'title' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group',
 		'label' => 'title',
@@ -44,10 +44,7 @@ return [
 		'transOrigDiffSourceField' => 'l10n_diffsource',
 		'iconfile' => 'EXT:sg_cookie_optin/Resources/Public/Icons/tx_sgcookieoptin_domain_model_group.svg'
 	],
-	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, group_name,
-			description, parent_optin, scripts, cookies',
-	],
+	'interface' => [],
 	'types' => [
 		'1' => [
 			'showitem' => 'hidden, parent_optin, title, group_name, description,
@@ -55,9 +52,7 @@ return [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_group.cookies,cookies',
 		],
 	],
-	'palettes' => [
-
-	],
+	'palettes' => [],
 	'columns' => [
 		'pid' => [
 			'exclude' => FALSE,
@@ -184,3 +179,9 @@ return [
 		],
 	],
 ];
+
+if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.3.0', '<')) {
+	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, group_name, description, parent_optin, scripts, cookies';
+}
+
+return $configuration;
