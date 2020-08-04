@@ -91,7 +91,7 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group,
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
-					cookie_lifetime, minify_generated_data, activate_testing_mode',
+					cookie_lifetime, minify_generated_data, activate_testing_mode, disable_powered_by',
 		],
 	],
 	'palettes' => [
@@ -136,7 +136,7 @@ $configuration = [
 		],
 		'template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template',
-			'showitem' => 'template_selection, template_overwritten, --linebreak--, disable_powered_by, --linebreak--,
+			'showitem' => 'template_selection, template_overwritten, --linebreak--,
 				template_html'
 		],
 		'iframe_texts' => [

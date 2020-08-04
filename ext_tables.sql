@@ -28,6 +28,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	template_html text NOT NULL,
 	template_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	template_selection int(11) DEFAULT '0' NOT NULL,
+	disable_powered_by tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	# banner
 	banner_enable tinyint(4) unsigned DEFAULT '0' NOT NULL,
