@@ -585,6 +585,10 @@
 				<source><![CDATA[Text (upper part)]]></source>
 				<target><![CDATA[Text (Oberer Teil)]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_powered_by">
+				<source><![CDATA[Disable Powered by]]></source>
+				<target><![CDATA[Powered by deaktivieren]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

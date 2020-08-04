@@ -441,6 +441,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_text">
 				<source><![CDATA[Text (upper part)]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_powered_by">
+				<source><![CDATA[Disable Powered by]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
