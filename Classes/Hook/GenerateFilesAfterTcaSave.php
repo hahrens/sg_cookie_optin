@@ -702,7 +702,7 @@ class GenerateFilesAfterTcaSave {
 		foreach ($navigationEntries as $pageData) {
 			try {
 				$footerLinks[$index] = [
-					'url' => $contentObject->getTypoLink_URL($pageData['uid'], '&disableOptIn=1&L=' . $languageUid),
+					'url' => $this->removeCHashFromUrl($contentObject->getTypoLink_URL($pageData['uid'], '&disableOptIn=1&L=' . $languageUid)),
 					'name' => $contentObject->crop($pageData['title'], 35 . '|...|0'),
 					'uid' => $pageData['uid'],
 					'index' => $index,
@@ -871,5 +871,15 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		return $records;
+	}
+
+	/**
+	 * Remove the cHash parameter from URL
+	 *
+	 * @param string $url
+	 * @return string|string[]|null
+	 */
+	protected function removeCHashFromUrl($url) {
+		return preg_replace('/([?&])' . 'cHash' . '=[^&]+(&|$)/','$2',$url);
 	}
 }
