@@ -36,6 +36,7 @@ use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -215,7 +216,7 @@ class GenerateFilesAfterTcaSave {
 		];
 		$this->createCSSFile($fullData, $folderName, $cssData, $minifyFiles);
 
-		$languages = $this->getLanguages();
+		$languages = $this->getLanguages($siteRoot);
 		foreach ($languages as $language) {
 			$languageUid = (int) $language['uid'];
 			if ($languageUid < 0) {
@@ -445,21 +446,20 @@ class GenerateFilesAfterTcaSave {
 	/**
 	 * Returns all system languages.
 	 *
+	 * @param int $siteRootUid
 	 * @return array
 	 */
-	protected function getLanguages() {
+	protected function getLanguages($siteRootUid) {
 		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows('uid', 'sys_language', '');
 		} else {
-			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-			$queryBuilder = $connectionPool->getQueryBuilderForTable('sys_language');
-			$queryBuilder->getRestrictions()
-				->removeAll()
-				->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-			$queryBuilder->select('uid')->from('sys_language');
-			$rows = $queryBuilder->execute()->fetchAll();
+			$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($siteRootUid);
+			$rows = [];
+			foreach ($site->getAllLanguages() as $siteLanguage) {
+				$rows[] = ['uid' => $siteLanguage->getLanguageId()];
+			}
 		}
 
 		if (is_array($rows)) {
