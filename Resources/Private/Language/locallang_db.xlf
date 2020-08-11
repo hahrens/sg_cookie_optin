@@ -444,6 +444,12 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_powered_by">
 				<source><![CDATA[Disable Powered by]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain">
+				<source><![CDATA[Set cookie for the whole domain]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea">
+				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

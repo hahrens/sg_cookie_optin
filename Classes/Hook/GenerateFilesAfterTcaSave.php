@@ -724,6 +724,7 @@ class GenerateFilesAfterTcaSave {
 			'show_button_close' => (boolean) $translatedData['show_button_close'],
 			'activate_testing_mode' => (boolean) $translatedData['activate_testing_mode'],
 			'disable_powered_by' => (boolean) $translatedData['disable_powered_by'],
+			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
 		];
 
 		$textEntries = [

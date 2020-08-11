@@ -910,7 +910,12 @@
 	function setCookie(name, value, days) {
 		var d = new Date;
 		d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
-		document.cookie = name + '=' + value + ';path=/;expires=' + d.toGMTString();
+		var cookie = name + '=' + value + ';path=/';
+		if (jsonData.settings.set_cookie_for_domain.length > 0) {
+			cookie += ';domain=' + jsonData.settings.set_cookie_for_domain;
+		}
+		cookie += ';expires=' + d.toGMTString();
+		document.cookie = cookie;
 	}
 
 	/**

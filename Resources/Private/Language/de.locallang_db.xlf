@@ -589,6 +589,14 @@
 				<source><![CDATA[Disable Powered by]]></source>
 				<target><![CDATA[Powered by deaktivieren]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain">
+				<source><![CDATA[Set cookie for the whole domain]]></source>
+				<target><![CDATA[Das Cookie für das ganze Domain setzen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea">
+				<source><![CDATA[This may not be GDPR compliant.]]></source>
+				<target><![CDATA[Dies ist möglicherweise nicht DSVGO-konform.]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

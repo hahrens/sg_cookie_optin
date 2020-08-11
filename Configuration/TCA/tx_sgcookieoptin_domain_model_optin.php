@@ -68,7 +68,7 @@ $configuration = [
 			banner_color_button_accept_hover, banner_color_button_accept_text, banner_color_link_text,
 			banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,
 			activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,
-			color_full_button_close_hover, color_full_button_close_text, color_table_header, disable_powered_by',
+			color_full_button_close_hover, color_full_button_close_text, color_table_header, disable_powered_by, set_cookie_for_domain',
 	],
 	'types' => [
 		'1' => [
@@ -91,7 +91,7 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group,
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
-					cookie_lifetime, minify_generated_data, activate_testing_mode, disable_powered_by',
+					cookie_lifetime, minify_generated_data, activate_testing_mode, disable_powered_by, set_cookie_for_domain',
 		],
 	],
 	'palettes' => [
@@ -1005,6 +1005,17 @@ $configuration = [
 			'config' => [
 				'type' => 'check',
 				'default' => '0',
+			],
+		],
+		'set_cookie_for_domain' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain',
+			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea',
+			'config' => [
+				'type' => 'input',
+				'default' => '',
+				'eval' => 'trim'
 			],
 		],
 		'banner_enable' => [
