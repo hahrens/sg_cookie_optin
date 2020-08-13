@@ -13,15 +13,14 @@
 		<ul class="sg-cookie-optin-box-cookie-list">
 			{{#cookieGroups}}
 				<li class="sg-cookie-optin-box-cookie-list-item">
-					<input class="sg-cookie-optin-checkbox"
-						   id="sg-cookie-optin-{{groupName}}"
+					<label >
+						<input class="sg-cookie-optin-checkbox"
 						   type="checkbox"
 						   name="cookies[]"
 						   value="{{groupName}}"
 						   {{#required}}checked="1"{{/required}}
 						   {{#required}}disabled="1"{{/required}}>
-					<label class="sg-cookie-optin-checkbox-label" for="sg-cookie-optin-{{groupName}}">
-						<span>{{{label}}}</span>
+						<span class="sg-cookie-optin-checkbox-label">{{{label}}}</span>
 					</label>
 
 					<p class="sg-cookie-optin-checkbox-description">{{{description}}}</p>
