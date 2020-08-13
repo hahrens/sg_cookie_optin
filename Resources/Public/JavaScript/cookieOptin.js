@@ -697,6 +697,13 @@
 			return;
 		}
 
+		var positionIndex = 0;
+		var child = iframe;
+		while( (child = child.previousSibling) != null ) {
+			positionIndex++;
+		}
+		iframe.setAttribute('data-position-index', positionIndex);
+
 		if (!iframe.src || iframe.src.indexOf('chrome-extension') >= 0) {
 			return;
 		}
@@ -723,7 +730,11 @@
 		var iframeConsentLink = container.querySelectorAll('.sg-cookie-optin-iframe-consent-link');
 		addEventListenerToList(iframeConsentLink, 'click', openIFrameConsent);
 
-		parent.appendChild(container);
+		if (parent.childNodes.length > 0) {
+			parent.insertBefore(container, parent.childNodes[positionIndex]);
+		} else {
+			parent.appendChild(container);
+		}
 
 		// Because of the IE11 no .remove();
 		parent.removeChild(iframe);
@@ -880,11 +891,17 @@
 		}
 
 		iframe.setAttribute('data-iframe-allow-always', 1);
+		var positionIndex = iframe.getAttribute('data-position-index');
+		iframe.removeAttribute('data-position-index');
 
 		// Because of the IE11 no .replaceWith();
 		var parentNode = container.parentNode;
 		parentNode.removeChild(container);
-		parentNode.appendChild(iframe);
+		if (parentNode.childNodes.length > 0) {
+			parentNode.insertBefore(iframe, parentNode.childNodes[positionIndex]);
+		} else {
+			parentNode.appendChild(iframe);
+		}
 	}
 
 	/**
