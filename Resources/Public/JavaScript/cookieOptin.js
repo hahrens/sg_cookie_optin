@@ -10,11 +10,11 @@
 
 (function() {
 	var COOKIE_NAME = 'cookie_optin';
-	var COOKIE_GROUP_IFRAME = 'iframes';
+	var COOKIE_GROUP_EXTERNAL_CONTENT = 'iframes';
 
-	var iFrameObserver = null;
-	var protectedIFrames = [];
-	var lastOpenedIFrameId = 0;
+	var externalContentObserver = null;
+	var protectedExternalContents = [];
+	var lastOpenedExternalContentId = 0;
 	var jsonData = {};
 
 	/**
@@ -511,7 +511,7 @@
 		}
 
 		setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
-		acceptAllIFrames();
+		acceptAllExternalContents();
 	}
 
 	/**
@@ -520,7 +520,7 @@
 	 * @return {void}
 	 */
 	function acceptSpecificCookies() {
-		var iframeGroupFoundAndActive = false;
+		var externalContentGroupFoundAndActive = false;
 		var cookieData = '';
 		var checkboxes = document.querySelectorAll('.sg-cookie-optin-checkbox:checked');
 		for (var index in jsonData.cookieGroups) {
@@ -541,8 +541,8 @@
 				}
 			}
 
-			if (groupName === COOKIE_GROUP_IFRAME && status === 1) {
-				iframeGroupFoundAndActive = true;
+			if (groupName === COOKIE_GROUP_EXTERNAL_CONTENT && status === 1) {
+				externalContentGroupFoundAndActive = true;
 			}
 
 			if (cookieData.length > 0) {
@@ -554,10 +554,10 @@
 		setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
 
 		if (jsonData.settings.iframe_enabled) {
-			if (iframeGroupFoundAndActive) {
-				acceptAllIFrames();
+			if (externalContentGroupFoundAndActive) {
+				acceptAllExternalContents();
 			} else {
-				checkForIFrames();
+				checkForExternalContents();
 			}
 		}
 	}
@@ -594,11 +594,11 @@
 	}
 
 	/**
-	 * Checks if iFrames are added to the dom and replaces them with a consent, if the cookie isn't accepted, or set.
+	 * Checks if external content elements are added to the dom and replaces them with a consent, if the cookie isn't accepted, or set.
 	 *
 	 * @return {void}
 	 */
-	function checkForIFrames() {
+	function checkForExternalContents() {
 		if (!jsonData.settings.iframe_enabled) {
 			return;
 		}
@@ -609,22 +609,22 @@
 			return;
 		}
 
-		if (!iFrameObserver) {
-			var iframes = document.querySelectorAll('iframe');
-			if (iframes.length > 0) {
-				for (var iframeIndex in iframes) {
-					if (!iframes.hasOwnProperty(iframeIndex)) {
+		if (!externalContentObserver) {
+			var externalContents = document.querySelectorAll('iframe, [data-external-content-protection]');
+			if (externalContents.length > 0) {
+				for (var externalContentIndex in externalContents) {
+					if (!externalContents.hasOwnProperty(externalContentIndex)) {
 						continue;
 					}
 
-					replaceIFrameWithConsent(iframes[iframeIndex]);
+					replaceExternalContentsWithConsent(externalContents[externalContentIndex]);
 				}
 			}
 		}
 
 		var cookieValue = getCookie(COOKIE_NAME);
 		if (cookieValue) {
-			// If the iframe group exists, then check the status. If 1 no observer needed, otherwise always activated.
+			// If the external content group exists, then check the status. If 1 no observer needed, otherwise always activated.
 			var splitedCookieValue = cookieValue.split('|');
 			for (var splitedCookieValueIndex in splitedCookieValue) {
 				if (!splitedCookieValue.hasOwnProperty(splitedCookieValueIndex)) {
@@ -639,7 +639,7 @@
 
 				var group = groupAndStatus[0];
 				var status = parseInt(groupAndStatus[1]);
-				if (group === COOKIE_GROUP_IFRAME) {
+				if (group === COOKIE_GROUP_EXTERNAL_CONTENT) {
 					if (status === 1) {
 						return;
 					}
@@ -650,7 +650,7 @@
 		}
 
 		// Create an observer instance linked to the callback function
-		iFrameObserver = new MutationObserver(function(mutationsList, observer) {
+		externalContentObserver = new MutationObserver(function(mutationsList, observer) {
 			// Use traditional 'for loops' for IE 11
 			for (var index in mutationsList) {
 				if (!mutationsList.hasOwnProperty(index)) {
@@ -668,67 +668,82 @@
 					}
 
 					var addedNode = mutation.addedNodes[addedNodeIndex];
-					if (addedNode.tagName === 'IFRAME') {
-						replaceIFrameWithConsent(addedNode);
+					if (addedNode.tagName === 'IFRAME'
+						|| (typeof addedNode.hasAttribute === 'function'
+							&& addedNode.hasAttribute('data-external-content-protection')
+						)) {
+							replaceExternalContentsWithConsent(addedNode);
+					} else if (addedNode.querySelectorAll && typeof addedNode.querySelectorAll === 'function') {
+						// check if there is an external content in the subtree
+						var externalContents = addedNode.querySelectorAll('iframe, [data-external-content-protection]');
+						if (externalContents.length > 0) {
+							for (var externalContentIndex in externalContents) {
+								if (!externalContents.hasOwnProperty(externalContentIndex)) {
+									continue;
+								}
+								replaceExternalContentsWithConsent(externalContents[externalContentIndex]);
+							}
+						}
 					}
 				}
 			}
 		});
 
 		// Start observing the target node for configured mutations
-		iFrameObserver.observe(document, {subtree: true, childList: true});
+		externalContentObserver.observe(document, {subtree: true, childList: true});
 	}
 
 	/**
-	 * Adds a consent for iFrames, which needs to be accepted.
+	 * Adds a consent for externalContents, which needs to be accepted.
 	 *
-	 * @param {dom} iframe
+	 * @param {dom} externalContent
 	 *
 	 * @return {void}
 	 */
-	function replaceIFrameWithConsent(iframe) {
+	function replaceExternalContentsWithConsent(externalContent) {
 		// noinspection EqualityComparisonWithCoercionJS
-		if (iframe.getAttribute('data-iframe-allow-always') == true) {
+		if (externalContent.getAttribute('data-iframe-allow-always') == true) {
 			return;
 		}
 
-		var parent = iframe.parentElement;
+		var parent = externalContent.parentElement;
 		if (!parent) {
 			return;
 		}
 
 		var positionIndex = 0;
-		var child = iframe;
+		var child = externalContent;
 		while( (child = child.previousSibling) != null ) {
 			positionIndex++;
 		}
-		iframe.setAttribute('data-position-index', positionIndex);
+		externalContent.setAttribute('data-position-index', positionIndex);
 
-		if (!iframe.src || iframe.src.indexOf('chrome-extension') >= 0) {
+		if (externalContent.tagName === 'IFRAME'
+			&& (!externalContent.src || externalContent.src.indexOf('chrome-extension') >= 0)) {
 			return;
 		}
 
 		// Got problems with the zero.
-		var iframeId = protectedIFrames.length + 1;
-		if (iframeId === 0) {
-			iframeId = 1;
+		var externalContentId = protectedExternalContents.length + 1;
+		if (externalContentId === 0) {
+			externalContentId = 1;
 		}
-		protectedIFrames[iframeId] = iframe;
+		protectedExternalContents[externalContentId] = externalContent;
 
 		var container = document.createElement('DIV');
-		container.setAttribute('data-iframe-id', iframeId);
-		container.setAttribute('data-src', iframe.src);
-		container.setAttribute('style', 'height: ' + iframe.offsetHeight + 'px;');
+		container.setAttribute('data-iframe-id', externalContentId);
+		container.setAttribute('data-src', externalContent.src);
+		container.setAttribute('style', 'height: ' + externalContent.offsetHeight + 'px;');
 		container.classList.add('sg-cookie-optin-iframe-consent');
 		container.insertAdjacentHTML('afterbegin', jsonData.mustacheData.iframeReplacement.markup);
 
-		var iframeConsentAccept = container.querySelectorAll('.sg-cookie-optin-iframe-consent-accept');
-		addEventListenerToList(iframeConsentAccept, 'click', function() {
-			acceptIFrame(iframeId)
+		var externalContentConsentAccept = container.querySelectorAll('.sg-cookie-optin-external-content-consent-accept');
+		addEventListenerToList(externalContentConsentAccept, 'click', function() {
+			acceptExternalContent(externalContentId)
 		});
 
-		var iframeConsentLink = container.querySelectorAll('.sg-cookie-optin-iframe-consent-link');
-		addEventListenerToList(iframeConsentLink, 'click', openIFrameConsent);
+		var externalContentConsentLink = container.querySelectorAll('.sg-cookie-optin-external-content-consent-link');
+		addEventListenerToList(externalContentConsentLink, 'click', openExternalContentConsent);
 
 		if (parent.childNodes.length > 0) {
 			parent.insertBefore(container, parent.childNodes[positionIndex]);
@@ -737,7 +752,7 @@
 		}
 
 		// Because of the IE11 no .remove();
-		parent.removeChild(iframe);
+		parent.removeChild(externalContent);
 	}
 
 	/**
@@ -745,20 +760,20 @@
 	 *
 	 * @return {void}
 	 */
-	function openIFrameConsent() {
+	function openExternalContentConsent() {
 		var parent = this.parentElement;
 		if (!parent) {
 			return;
 		}
 
-		var iframeId = parent.getAttribute('data-iframe-id');
-		if (!iframeId) {
+		var externalContentId = parent.getAttribute('data-iframe-id');
+		if (!externalContentId) {
 			return;
 		}
 
-		lastOpenedIFrameId = iframeId;
-		var iframe = protectedIFrames[iframeId];
-		if (!iframe) {
+		lastOpenedExternalContentId = externalContentId;
+		var externalContent = protectedExternalContents[externalContentId];
+		if (!externalContent) {
 			return;
 		}
 
@@ -768,7 +783,7 @@
 
 		var flashMessageContainer = wrapper.querySelector('.sg-cookie-optin-box-flash-message');
 		if (flashMessageContainer !== null) {
-			var flashMessageText = iframe.getAttribute('data-consent-description');
+			var flashMessageText = externalContent.getAttribute('data-consent-description');
 			if (flashMessageText) {
 				flashMessageContainer.appendChild(document.createTextNode(flashMessageText));
 			} else {
@@ -776,7 +791,7 @@
 			}
 		}
 
-		addIframeListeners(wrapper);
+		addExternalContentListeners(wrapper);
 
 		document.body.insertAdjacentElement('beforeend', wrapper);
 	}
@@ -788,13 +803,13 @@
 	 *
 	 * @return {void}
 	 */
-	function addIframeListeners(element) {
+	function addExternalContentListeners(element) {
 		var closeButtons = element.querySelectorAll('.sg-cookie-optin-box-close-button');
 		addEventListenerToList(closeButtons, 'click', hideCookieOptIn);
 
 		var acceptAllButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-all');
 		addEventListenerToList(acceptAllButtons, 'click', function() {
-			acceptAllIFrames();
+			acceptAllExternalContents();
 			updateCookieList();
 			handleScriptActivations();
 			hideCookieOptIn();
@@ -802,7 +817,7 @@
 
 		var acceptSpecificButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-specific');
 		addEventListenerToList(acceptSpecificButtons, 'click', function() {
-			acceptIFrame(lastOpenedIFrameId);
+			acceptExternalContent(lastOpenedExternalContentId);
 			updateCookieList();
 			handleScriptActivations();
 			hideCookieOptIn();
@@ -810,22 +825,22 @@
 	}
 
 	/**
-	 * Replaces all iFrame consent containers with the corresponding iframe and adapts the cookie for further requests.
+	 * Replaces all external content consent containers with the corresponding external content and adapts the cookie for further requests.
 	 *
 	 * @return {void}
 	 */
-	function acceptAllIFrames() {
-		if (jsonData.settings.iframe_enabled && iFrameObserver) {
-			iFrameObserver.disconnect();
+	function acceptAllExternalContents() {
+		if (jsonData.settings.iframe_enabled && externalContentObserver) {
+			externalContentObserver.disconnect();
 		}
 
-		for (var index in protectedIFrames) {
+		for (var index in protectedExternalContents) {
 			index = parseInt(index);
 			if (!document.querySelector('div[data-iframe-id="' + index + '"]')) {
 				continue;
 			}
 
-			acceptIFrame(index)
+			acceptExternalContent(index)
 		}
 
 		var cookieValue = getCookie(COOKIE_NAME);
@@ -851,7 +866,7 @@
 
 			var group = groupAndStatus[0];
 			var status = parseInt(groupAndStatus[1]);
-			if (group === COOKIE_GROUP_IFRAME) {
+			if (group === COOKIE_GROUP_EXTERNAL_CONTENT) {
 				groupFound = true;
 				status = 1;
 			}
@@ -863,44 +878,44 @@
 		}
 
 		if (!groupFound) {
-			newCookieValue += '|' + COOKIE_GROUP_IFRAME + ':' + 1;
+			newCookieValue += '|' + COOKIE_GROUP_EXTERNAL_CONTENT + ':' + 1;
 		}
 
 		setCookie(COOKIE_NAME, newCookieValue, jsonData.settings.cookie_lifetime);
 	}
 
 	/**
-	 * Replaces a iFrame consent container with the iframe.
+	 * Replaces an external content consent container with the external content element.
 	 *
-	 * @param {int} iframeId
+	 * @param {int} externalContentId
 	 *
 	 * @return {void}
 	 */
-	function acceptIFrame(iframeId) {
-		if (!iframeId) {
-			iframeId = parent.getAttribute('data-iframe-id');
-			if (!iframeId) {
+	function acceptExternalContent(externalContentId) {
+		if (!externalContentId) {
+			externalContentId = parent.getAttribute('data-iframe-id');
+			if (!externalContentId) {
 				return;
 			}
 		}
 
-		var container = document.querySelector('div[data-iframe-id="' + iframeId + '"]');
-		var iframe = protectedIFrames[iframeId];
-		if (!iframe || !container) {
+		var container = document.querySelector('div[data-iframe-id="' + externalContentId + '"]');
+		var externalContent = protectedExternalContents[externalContentId];
+		if (!externalContent || !container) {
 			return;
 		}
 
-		iframe.setAttribute('data-iframe-allow-always', 1);
-		var positionIndex = iframe.getAttribute('data-position-index');
-		iframe.removeAttribute('data-position-index');
+		externalContent.setAttribute('data-iframe-allow-always', 1);
+		var positionIndex = externalContent.getAttribute('data-position-index');
+		externalContent.removeAttribute('data-position-index');
 
 		// Because of the IE11 no .replaceWith();
 		var parentNode = container.parentNode;
 		parentNode.removeChild(container);
 		if (parentNode.childNodes.length > 0) {
-			parentNode.insertBefore(iframe, parentNode.childNodes[positionIndex]);
+			parentNode.insertBefore(externalContent, parentNode.childNodes[positionIndex]);
 		} else {
-			parentNode.appendChild(iframe);
+			parentNode.appendChild(externalContent);
 		}
 	}
 
@@ -1003,6 +1018,6 @@
 			initialize();
 		});
 
-		checkForIFrames();
+		checkForExternalContents();
 	}
 })();

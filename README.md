@@ -5,7 +5,7 @@
 1. Install this extension with the Extension Manager, or with composer.
 
 2. Add the static TypoScript named "Cookie Optin" to your instance with the "Template" backend module.
-   
+
     - Open up the "Template" module in the backend of TYPO3.
     - Go to your root site page within the page tree.
     - Choose "Info/Modify" at the select on the top.
@@ -51,22 +51,22 @@ gtag('config', 'GA_MEASUREMENT_ID');
 
 ## How is the structure of our cookie?
 
-In order for us to know which cookie groups the user has accepted, we must also store an essential cookie. 
+In order for us to know which cookie groups the user has accepted, we must also store an essential cookie.
 The structure is as follows:
 
-**Name**: cookie_optin  
-**Example data**: essential:1|analytics:0|performance:1  
+**Name**: cookie_optin
+**Example data**: essential:1|analytics:0|performance:1
 **Explanation**: The user has accepted the essential and performance groups, but not the analytics one.
 
 ## Additional Features
 
 ### Open a page without showing the cookie opt in
 
-Just add the parameter "?disableOptIn=1" to your URL, so the necessary JavaScript and Css, which shows the dialog, isn't 
+Just add the parameter "?disableOptIn=1" to your URL, so the necessary JavaScript and Css, which shows the dialog, isn't
 loaded anymore. Here is an example:
 
-``` 
-https://www.sgalinski.de/?disableOptIn=1 
+```
+https://www.sgalinski.de/?disableOptIn=1
 ```
 
 ### Show the cookie opt in, after accepting it
@@ -74,11 +74,11 @@ https://www.sgalinski.de/?disableOptIn=1
 Just add the parameter "?showOptIn=1" to your URL, so the dialog shows up again and the accepted cookies can be modified.
 Here is an example:
 
-``` 
-https://www.sgalinski.de/?showOptIn=1 
+```
+https://www.sgalinski.de/?showOptIn=1
 ```
 
-### IFrames
+### External content
 
 #### Add an additional description for a iframe on the opt in
 
@@ -94,4 +94,14 @@ Just add the data attribute "data-iframe-allow-always" to an iframe HTML tag, li
 
 ```html
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/XYZ" data-iframe-allow-always="1"></iframe>
+```
+
+#### Protect any kind of dom element with the external content protection
+
+Just add the data attribute "data-external-content-protection" to an HTML tag, like in the example below:
+
+```html
+<div class="test-content-protection" data-external-content-protection>
+Content comes here
+</div>
 ```
