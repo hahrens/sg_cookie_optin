@@ -610,6 +610,16 @@ class GenerateFilesAfterTcaSave {
 			];
 		}
 
+		$externalScriptData = [];
+		foreach ($translatedData['iframe_external_scripts'] as $index => $scriptData) {
+			$externalScriptData[] = [
+				'title' => $scriptData['title'],
+				'script' => $scriptData['script'],
+				'html' => $scriptData['html'],
+				'index' => $index,
+			];
+		}
+
 		$cookieGroups = [
 			[
 				'groupName' => 'essential',
@@ -618,6 +628,7 @@ class GenerateFilesAfterTcaSave {
 				'required' => TRUE,
 				'cookieData' => $essentialCookieData,
 				'scriptData' => $essentialScriptData,
+				'externalScriptData' => $externalScriptData,
 				'loadingHTML' => $this->getActivationHTML($translatedData['essential_scripts']),
 				'loadingJavaScript' => $this->createActivationScriptFile(
 					$folder, 'essential', $translatedData['essential_scripts'], $languageUid, $minifyFiles
@@ -685,6 +696,12 @@ class GenerateFilesAfterTcaSave {
 			'description' => $translatedData['iframe_description'],
 			'required' => FALSE,
 			'cookieData' => [],
+			'scriptData' => $externalScriptData,
+			'loadingHTML' => $this->getActivationHTML($translatedData['iframe_external_scripts']),
+			'loadingJavaScript' => $this->createActivationScriptFile(
+				$folder, 'external', $translatedData['iframe_external_scripts'], $languageUid, $minifyFiles
+			),
+
 		];
 		if ((boolean) $translatedData['iframe_enabled']) {
 			$cookieGroups[] = $iFrameGroup;

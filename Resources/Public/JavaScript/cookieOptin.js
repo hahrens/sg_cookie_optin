@@ -8,63 +8,81 @@
  * https://www.sgalinski.de/en/typo3-produkte-webentwicklung/sgalinski-cookie-optin/
  */
 
-(function() {
-	var COOKIE_NAME = 'cookie_optin';
-	var COOKIE_GROUP_EXTERNAL_CONTENT = 'iframes';
+var SgCookieOptin = {
+
+	COOKIE_NAME: 'cookie_optin',
+	COOKIE_GROUP_EXTERNAL_CONTENT: 'iframes',
 
 	/**
 	 * The CSS selector to match possible external content
 	 * @type {string}
 	 */
-	var EXTERNAL_CONTENT_ELEMENT_SELECTOR = 'iframe, object, video, audio, [data-external-content-protection], .frame-external-content-protection';
+	EXTERNAL_CONTENT_ELEMENT_SELECTOR: 'iframe, object, video, audio, [data-external-content-protection], .frame-external-content-protection',
 	/**
 	 * The CSS selector to match whitelisted external content
 	 * @type {string}
 	 */
-	var EXTERNAL_CONTENT_WHITELISTED_ELEMENT_SELECTOR = '[data-external-content-no-protection], [data-iframe-allow-always], .frame-external-content-no-protection';
+	EXTERNAL_CONTENT_WHITELISTED_ELEMENT_SELECTOR: '[data-external-content-no-protection], [data-iframe-allow-always], .frame-external-content-no-protection',
 
-	var externalContentObserver = null;
-	var protectedExternalContents = [];
-	var lastOpenedExternalContentId = 0;
-	var jsonData = {};
+	externalContentObserver: null,
+	protectedExternalContents: [],
+	lastOpenedExternalContentId: 0,
+	jsonData: {},
+
+	/**
+	 * Executes the script
+	 */
+	run: function() {
+		SgCookieOptin.closestPolyfill();
+
+		SgCookieOptin.jsonData = JSON.parse(document.getElementById('cookieOptinData').innerHTML);
+		if (SgCookieOptin.jsonData) {
+			// https://plainjs.com/javascript/events/running-code-when-the-document-is-ready-15/
+			document.addEventListener('DOMContentLoaded', function() {
+				SgCookieOptin.initialize();
+			});
+
+			SgCookieOptin.checkForExternalContents();
+		}
+	},
 
 	/**
 	 * Initializes the whole functionality.
 	 *
 	 * @return {void}
 	 */
-	function initialize() {
-		handleScriptActivations();
+	initialize: function() {
+		SgCookieOptin.handleScriptActivations();
 
 		var optInContentElements = document.querySelectorAll('.sg-cookie-optin-plugin-uninitialized');
 		for (var index = 0; index < optInContentElements.length; ++index) {
 			var optInContentElement = optInContentElements[index];
-			showCookieOptin(optInContentElement, true);
+			SgCookieOptin.showCookieOptin(optInContentElement, true);
 			optInContentElement.classList.remove('sg-cookie-optin-plugin-uninitialized');
 			optInContentElement.classList.add('sg-cookie-optin-plugin-initialized');
 		}
 
 		// noinspection EqualityComparisonWithCoercionJS
-		var disableOptIn = getParameterByName('disableOptIn') == true;
+		var disableOptIn = SgCookieOptin.getParameterByName('disableOptIn') == true;
 		if (disableOptIn) {
 			return;
 		}
 
 		// noinspection EqualityComparisonWithCoercionJS
-		var showOptIn = getParameterByName('showOptIn') == true;
-		var cookieValue = getCookie(COOKIE_NAME);
-		if ((!cookieValue && !jsonData.settings.activate_testing_mode) || showOptIn) {
-			showCookieOptin(null, false);
+		var showOptIn = SgCookieOptin.getParameterByName('showOptIn') == true;
+		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
+		if ((!cookieValue && !SgCookieOptin.jsonData.settings.activate_testing_mode) || showOptIn) {
+			SgCookieOptin.showCookieOptin(null, false);
 		}
-	}
+	},
 
 	/**
 	 * Handles the scripts of the allowed cookie groups.
 	 *
 	 * @return {void}
 	 */
-	function handleScriptActivations() {
-		var cookieValue = getCookie(COOKIE_NAME);
+	handleScriptActivations: function() {
+		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (!cookieValue) {
 			return;
 		}
@@ -87,35 +105,35 @@
 				continue;
 			}
 
-			for (var groupIndex in jsonData.cookieGroups) {
-				if (!jsonData.cookieGroups.hasOwnProperty(groupIndex) || jsonData.cookieGroups[groupIndex]['groupName'] !== group) {
+			for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+				if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex) || SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName'] !== group) {
 					continue;
 				}
 
 				if (
-					jsonData.cookieGroups[groupIndex]['loadingHTML'] &&
-					jsonData.cookieGroups[groupIndex]['loadingHTML'] !== ''
+					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML'] &&
+					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML'] !== ''
 				) {
 					var head = document.getElementsByTagName('head')[0];
 					if (head) {
 						var range = document.createRange();
 						range.selectNode(head);
-						head.appendChild(range.createContextualFragment(jsonData.cookieGroups[groupIndex]['loadingHTML']));
+						head.appendChild(range.createContextualFragment(SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML']));
 					}
 				}
 
 				if (
-					jsonData.cookieGroups[groupIndex]['loadingJavaScript'] &&
-					jsonData.cookieGroups[groupIndex]['loadingJavaScript'] !== ''
+					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript'] &&
+					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript'] !== ''
 				) {
 					var script = document.createElement('script');
-					script.setAttribute('src', jsonData.cookieGroups[groupIndex]['loadingJavaScript']);
+					script.setAttribute('src', SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript']);
 					script.setAttribute('type', 'text/javascript');
 					document.body.appendChild(script);
 				}
 			}
 		}
-	}
+	},
 
 	/**
 	 * Shows the cookie optin box.
@@ -125,18 +143,18 @@
 	 *
 	 * @return {void}
 	 */
-	function showCookieOptin(contentElement, hideBanner) {
+	showCookieOptin: function(contentElement, hideBanner) {
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
 
-		if (contentElement === null && jsonData.settings.banner_enable && !hideBanner) {
+		if (contentElement === null && SgCookieOptin.jsonData.settings.banner_enable && !hideBanner) {
 			wrapper.classList.add('sg-cookie-optin-banner-wrapper');
-			wrapper.insertAdjacentHTML('afterbegin', jsonData.mustacheData.banner.markup);
+			wrapper.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.banner.markup);
 		} else {
-			wrapper.insertAdjacentHTML('afterbegin', jsonData.mustacheData.template.markup);
+			wrapper.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.template.markup);
 		}
 
-		addListeners(wrapper, contentElement);
+		SgCookieOptin.addListeners(wrapper, contentElement);
 
 		if (contentElement === null) {
 			document.body.insertAdjacentElement('beforeend', wrapper);
@@ -145,10 +163,10 @@
 		}
 
 		setTimeout(function() {
-			adjustDescriptionHeight(wrapper, contentElement);
-			updateCookieList();
+			SgCookieOptin.adjustDescriptionHeight(wrapper, contentElement);
+			SgCookieOptin.updateCookieList();
 		}, 10);
-	}
+	},
 
 	/**
 	 * Adjusts the description height for each elements, for the new design.
@@ -157,7 +175,7 @@
 	 * @param {dom} contentElement
 	 * @return {void}
 	 */
-	function adjustDescriptionHeight(container, contentElement) {
+	adjustDescriptionHeight: function(container, contentElement) {
 		var columnsPerRow = 4;
 		if (contentElement === null) {
 			if (window.innerWidth <= 750) {
@@ -194,7 +212,7 @@
 
 			descriptions[index].style.height = maxHeightPerRow[maxHeightPerRowIndex] + 'px';
 		}
-	}
+	},
 
 	/**
 	 * Adjusts the description height for each elements, for the new design.
@@ -203,7 +221,7 @@
 	 * @param {dom} contentElement
 	 * @return {void}
 	 */
-	function adjustReasonHeight(container, contentElement) {
+	adjustReasonHeight: function(container, contentElement) {
 		var columnsPerRow = 3;
 		if (contentElement === null) {
 			if (window.innerWidth <= 750) {
@@ -242,7 +260,7 @@
 				reasons[index].style.height = maxHeightPerRow[maxHeightPerRowIndex] + 'px';
 			}
 		}
-	}
+	},
 
 	/**
 	 * Adds the listeners to the given element.
@@ -252,67 +270,67 @@
 	 *
 	 * @return {void}
 	 */
-	function addListeners(element, contentElement) {
+	addListeners: function(element, contentElement) {
 		var closeButtons = element.querySelectorAll('.sg-cookie-optin-box-close-button');
-		addEventListenerToList(closeButtons, 'click', function () {
-			acceptEssentialCookies();
-			updateCookieList();
-			handleScriptActivations();
+		SgCookieOptin.addEventListenerToList(closeButtons, 'click', function () {
+			SgCookieOptin.acceptEssentialCookies();
+			SgCookieOptin.updateCookieList();
+			SgCookieOptin.handleScriptActivations();
 
 			if (contentElement === null) {
-				hideCookieOptIn();
+				SgCookieOptin.hideCookieOptIn();
 			}
 		});
 
 		var openMoreLinks = element.querySelectorAll('.sg-cookie-optin-box-open-more-link');
-		addEventListenerToList(openMoreLinks, 'click', openCookieDetails);
+		SgCookieOptin.addEventListenerToList(openMoreLinks, 'click', SgCookieOptin.openCookieDetails);
 
 		var openSubListLink = element.querySelectorAll('.sg-cookie-optin-box-sublist-open-more-link');
-		addEventListenerToList(openSubListLink, 'click', function (event) {
-			openSubList(event, contentElement);
+		SgCookieOptin.addEventListenerToList(openSubListLink, 'click', function (event) {
+			SgCookieOptin.openSubList(event, contentElement);
 		});
 
 		var acceptAllButtons = element.querySelectorAll(
 			'.sg-cookie-optin-box-button-accept-all, .sg-cookie-optin-banner-button-accept'
 		);
-		addEventListenerToList(acceptAllButtons, 'click', function() {
-			acceptAllCookies();
-			updateCookieList();
-			handleScriptActivations();
+		SgCookieOptin.addEventListenerToList(acceptAllButtons, 'click', function() {
+			SgCookieOptin.acceptAllCookies();
+			SgCookieOptin.updateCookieList();
+			SgCookieOptin.handleScriptActivations();
 
 			if (contentElement === null) {
-				hideCookieOptIn();
+				SgCookieOptin.hideCookieOptIn();
 			}
 		});
 
 		var acceptSpecificButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-specific');
-		addEventListenerToList(acceptSpecificButtons, 'click', function() {
-			acceptSpecificCookies();
-			updateCookieList();
-			handleScriptActivations();
+		SgCookieOptin.addEventListenerToList(acceptSpecificButtons, 'click', function() {
+			SgCookieOptin.acceptSpecificCookies();
+			SgCookieOptin.updateCookieList();
+			SgCookieOptin.handleScriptActivations();
 
 			if (contentElement === null) {
-				hideCookieOptIn();
+				SgCookieOptin.hideCookieOptIn();
 			}
 		});
 
 		var acceptEssentialButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-essential');
-		addEventListenerToList(acceptEssentialButtons, 'click', function() {
-			acceptEssentialCookies();
-			updateCookieList();
-			handleScriptActivations();
+		SgCookieOptin.addEventListenerToList(acceptEssentialButtons, 'click', function() {
+			SgCookieOptin.acceptEssentialCookies();
+			SgCookieOptin.updateCookieList();
+			SgCookieOptin.handleScriptActivations();
 
 			if (contentElement === null) {
-				hideCookieOptIn();
+				SgCookieOptin.hideCookieOptIn();
 			}
 		});
 
 		var openSettingsButtons = element.querySelectorAll('.sg-cookie-optin-banner-button-settings');
-		addEventListenerToList(openSettingsButtons, 'click', function() {
-			hideCookieOptIn();
-			showCookieOptin(null, true);
+		SgCookieOptin.addEventListenerToList(openSettingsButtons, 'click', function() {
+			SgCookieOptin.hideCookieOptIn();
+			SgCookieOptin.showCookieOptin(null, true);
 		});
-	}
+	},
 
 	/**
 	 * Adds an event to a given node list.
@@ -323,18 +341,18 @@
 	 *
 	 * @return {void}
 	 */
-	function addEventListenerToList(list, event, assignedFunction) {
+	addEventListenerToList: function(list, event, assignedFunction) {
 		for (var index = 0; index < list.length; ++index) {
 			list[index].addEventListener(event, assignedFunction, false);
 		}
-	}
+	},
 
 	/**
 	 * Hides the cookie opt in.
 	 *
 	 * @return {void}
 	 */
-	function hideCookieOptIn() {
+	hideCookieOptIn: function() {
 		// The content element cookie optins aren't removed, because querySelector gets only the first entry and it's
 		// always the modular one.
 		var optins = document.querySelectorAll('#SgCookieOptin');
@@ -352,16 +370,16 @@
 
 			parentNode.removeChild(optin);
 		}
-	}
+	},
 
 	/**
 	 * Returns the cookie list DOM.
 	 *
 	 * @return {void}
 	 */
-	function updateCookieList() {
+	updateCookieList: function() {
 		var statusMap = {};
-		var cookieValue = getCookie(COOKIE_NAME);
+		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (cookieValue) {
 			var splitedCookieValue = cookieValue.split('|');
 			for (var valueIndex in splitedCookieValue) {
@@ -379,12 +397,12 @@
 			}
 		}
 
-		for (var groupIndex in jsonData.cookieGroups) {
-			if (!jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
+		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
 				continue;
 			}
 
-			var groupName = jsonData.cookieGroups[groupIndex]['groupName'];
+			var groupName = SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName'];
 			if (!groupName) {
 				continue;
 			}
@@ -398,14 +416,15 @@
 				cookieList[index].checked = (statusMap[groupName] === 1);
 			}
 		}
-	}
+	},
 
 	/**
 	 * Opens the cookie details box.
 	 *
+	 * @param {event} event
 	 * @return {void}
 	 */
-	function openCookieDetails(event) {
+	openCookieDetails: function(event) {
 		event.preventDefault();
 
 		var openMoreElement = event.target.parentNode;
@@ -420,12 +439,12 @@
 
 		if (cookieDetailList.classList.contains('sg-cookie-optin-visible')) {
 			cookieDetailList.classList.remove('sg-cookie-optin-visible');
-			event.target.innerHTML = jsonData.textEntries.extend_box_link_text;
+			event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_box_link_text;
 		} else {
 			cookieDetailList.classList.add('sg-cookie-optin-visible');
-			event.target.innerHTML = jsonData.textEntries.extend_box_link_text_close;
+			event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_box_link_text_close;
 		}
-	}
+	},
 
 	/**
 	 * Opens the subList box.
@@ -434,7 +453,7 @@
 	 * @param {dom} contentElement
 	 * @return {void}
 	 */
-	function openSubList(event, contentElement) {
+	openSubList: function(event, contentElement) {
 		event.preventDefault();
 
 		// todo remove redundant code.
@@ -454,12 +473,12 @@
 					visible = false;
 					cookieBox.classList.remove('sg-cookie-optin-visible');
 					cookieBox.classList.add('sg-cookie-optin-invisible');
-					event.target.innerHTML = jsonData.textEntries.extend_table_link_text;
+					event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
 				} else {
 					cookieBox.classList.remove('sg-cookie-optin-invisible');
 					cookieBox.classList.add('sg-cookie-optin-visible');
-					adjustReasonHeight(cookieOptin, contentElement);
-					event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
+					SgCookieOptin.adjustReasonHeight(cookieOptin, contentElement);
+					event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
 				}
 
 				var descriptions = cookieBox.querySelectorAll('.sg-cookie-optin-checkbox-description');
@@ -481,7 +500,7 @@
 			if (cookieSubList.classList.contains('sg-cookie-optin-visible')) {
 				cookieSubList.classList.remove('sg-cookie-optin-visible');
 				cookieSubList.style.height = '';
-				event.target.innerHTML = jsonData.textEntries.extend_table_link_text;
+				event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
 			} else {
 				cookieSubList.classList.add('sg-cookie-optin-visible');
 				cookieSubList.style.height = 'auto';
@@ -493,24 +512,24 @@
 					}, 10);
 				}(cookieSubList, height));
 
-				event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
+				event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
 			}
 		}
-	}
+	},
 
 	/**
 	 * Accepts all cookies and saves them.
 	 *
 	 * @return {void}
 	 */
-	function acceptAllCookies() {
+	acceptAllCookies: function() {
 		var cookieData = '';
-		for (var index in jsonData.cookieGroups) {
-			if (!jsonData.cookieGroups.hasOwnProperty(index)) {
+		for (var index in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(index)) {
 				continue;
 			}
 
-			var groupName = jsonData.cookieGroups[index]['groupName'];
+			var groupName = SgCookieOptin.jsonData.cookieGroups[index]['groupName'];
 			if (!groupName) {
 				continue;
 			}
@@ -521,25 +540,25 @@
 			cookieData += groupName + ':' + 1;
 		}
 
-		setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
-		acceptAllExternalContents();
-	}
+		SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieData, SgCookieOptin.jsonData.settings.cookie_lifetime);
+		SgCookieOptin.acceptAllExternalContents();
+	},
 
 	/**
 	 * Accepts specific cookies and saves them.
 	 *
 	 * @return {void}
 	 */
-	function acceptSpecificCookies() {
+	acceptSpecificCookies: function() {
 		var externalContentGroupFoundAndActive = false;
 		var cookieData = '';
 		var checkboxes = document.querySelectorAll('.sg-cookie-optin-checkbox:checked');
-		for (var index in jsonData.cookieGroups) {
-			if (!jsonData.cookieGroups.hasOwnProperty(index)) {
+		for (var index in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(index)) {
 				continue;
 			}
 
-			var groupName = jsonData.cookieGroups[index]['groupName'];
+			var groupName = SgCookieOptin.jsonData.cookieGroups[index]['groupName'];
 			if (!groupName) {
 				continue;
 			}
@@ -552,7 +571,7 @@
 				}
 			}
 
-			if (groupName === COOKIE_GROUP_EXTERNAL_CONTENT && status === 1) {
+			if (groupName === SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT && status === 1) {
 				externalContentGroupFoundAndActive = true;
 			}
 
@@ -562,36 +581,36 @@
 			cookieData += groupName + ':' + status;
 		}
 
-		setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
+		SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieData, SgCookieOptin.jsonData.settings.cookie_lifetime);
 
-		if (jsonData.settings.iframe_enabled) {
+		if (SgCookieOptin.jsonData.settings.iframe_enabled) {
 			if (externalContentGroupFoundAndActive) {
-				acceptAllExternalContents();
+				SgCookieOptin.acceptAllExternalContents();
 			} else {
-				checkForExternalContents();
+				SgCookieOptin.checkForExternalContents();
 			}
 		}
-	}
+	},
 
 	/**
 	 * Accepts essential cookies and saves them.
 	 *
 	 * @return {void}
 	 */
-	function acceptEssentialCookies() {
+	acceptEssentialCookies: function() {
 		var cookieData = '';
-		for (var index in jsonData.cookieGroups) {
-			if (!jsonData.cookieGroups.hasOwnProperty(index)) {
+		for (var index in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(index)) {
 				continue;
 			}
 
-			var groupName = jsonData.cookieGroups[index]['groupName'];
+			var groupName = SgCookieOptin.jsonData.cookieGroups[index]['groupName'];
 			if (!groupName) {
 				continue;
 			}
 
 			var status = 0;
-			if (jsonData.cookieGroups[index]['required']) {
+			if (SgCookieOptin.jsonData.cookieGroups[index]['required']) {
 				status = 1;
 			}
 
@@ -601,39 +620,39 @@
 			cookieData += groupName + ':' + status;
 		}
 
-		setCookie(COOKIE_NAME, cookieData, jsonData.settings.cookie_lifetime);
-	}
+		SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieData, SgCookieOptin.jsonData.settings.cookie_lifetime);
+	},
 
 	/**
 	 * Checks if external content elements are added to the dom and replaces them with a consent, if the cookie isn't accepted, or set.
 	 *
 	 * @return {void}
 	 */
-	function checkForExternalContents() {
-		if (!jsonData.settings.iframe_enabled) {
+	checkForExternalContents: function() {
+		if (!SgCookieOptin.jsonData.settings.iframe_enabled) {
 			return;
 		}
 
 		// noinspection EqualityComparisonWithCoercionJS
-		var showOptIn = getParameterByName('showOptIn') == true;
-		if (jsonData.settings.activate_testing_mode && !showOptIn) {
+		var showOptIn = SgCookieOptin.getParameterByName('showOptIn') == true;
+		if (SgCookieOptin.jsonData.settings.activate_testing_mode && !showOptIn) {
 			return;
 		}
 
-		if (!externalContentObserver) {
-			var externalContents = document.querySelectorAll(EXTERNAL_CONTENT_ELEMENT_SELECTOR);
+		if (!SgCookieOptin.externalContentObserver) {
+			var externalContents = document.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR);
 			if (externalContents.length > 0) {
 				for (var externalContentIndex in externalContents) {
 					if (!externalContents.hasOwnProperty(externalContentIndex)) {
 						continue;
 					}
 
-					replaceExternalContentsWithConsent(externalContents[externalContentIndex]);
+					SgCookieOptin.replaceExternalContentsWithConsent(externalContents[externalContentIndex]);
 				}
 			}
 		}
 
-		var cookieValue = getCookie(COOKIE_NAME);
+		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (cookieValue) {
 			// If the external content group exists, then check the status. If 1 no observer needed, otherwise always activated.
 			var splitedCookieValue = cookieValue.split('|');
@@ -650,7 +669,7 @@
 
 				var group = groupAndStatus[0];
 				var status = parseInt(groupAndStatus[1]);
-				if (group === COOKIE_GROUP_EXTERNAL_CONTENT) {
+				if (group === SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT) {
 					if (status === 1) {
 						return;
 					}
@@ -661,7 +680,7 @@
 		}
 
 		// Create an observer instance linked to the callback function
-		externalContentObserver = new MutationObserver(function(mutationsList, observer) {
+		SgCookieOptin.externalContentObserver = new MutationObserver(function(mutationsList, observer) {
 			// Use traditional 'for loops' for IE 11
 			for (var index in mutationsList) {
 				if (!mutationsList.hasOwnProperty(index)) {
@@ -679,17 +698,17 @@
 					}
 
 					var addedNode = mutation.addedNodes[addedNodeIndex];
-					if (typeof addedNode.matches === 'function' && addedNode.matches(EXTERNAL_CONTENT_ELEMENT_SELECTOR)) {
-							replaceExternalContentsWithConsent(addedNode);
+					if (typeof addedNode.matches === 'function' && addedNode.matches(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR)) {
+						SgCookieOptin.replaceExternalContentsWithConsent(addedNode);
 					} else if (addedNode.querySelectorAll && typeof addedNode.querySelectorAll === 'function') {
 						// check if there is an external content in the subtree
-						var externalContents = addedNode.querySelectorAll(EXTERNAL_CONTENT_ELEMENT_SELECTOR);
+						var externalContents = addedNode.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR);
 						if (externalContents.length > 0) {
 							for (var externalContentIndex in externalContents) {
 								if (!externalContents.hasOwnProperty(externalContentIndex)) {
 									continue;
 								}
-								replaceExternalContentsWithConsent(externalContents[externalContentIndex]);
+								SgCookieOptin.replaceExternalContentsWithConsent(externalContents[externalContentIndex]);
 							}
 						}
 					}
@@ -698,8 +717,8 @@
 		});
 
 		// Start observing the target node for configured mutations
-		externalContentObserver.observe(document, {subtree: true, childList: true});
-	}
+		SgCookieOptin.externalContentObserver.observe(document, {subtree: true, childList: true});
+	},
 
 	/**
 	 * Checks whether this element matches the rules in the whitelist
@@ -707,7 +726,7 @@
 	 * @param {dom} externalContent
 	 * @return {boolean}
 	 */
-	function isContentWhiteListed(externalContent) {
+	isContentWhiteListed: function(externalContent) {
 		return false;
 		switch (externalContent.tagName) {
 			case 'IFRAME':
@@ -725,43 +744,43 @@
 			default:
 				return false;
 		}
-	}
+	},
 
 	/**
 	 *
 	 * @param {dom} externalContent
 	 * @return {boolean}
 	 */
-	function isIframeWhitelisted(externalContent) {
+	isIframeWhitelisted: function(externalContent) {
 
-	}
+	},
 
-	function isObjectWhitelisted(externalContent) {
+	isObjectWhitelisted: function(externalContent) {
 
-	}
+	},
 
-	function isVideoWhitelisted(externalContent) {
+	isVideoWhitelisted: function(externalContent) {
 
-	}
+	},
 
-	function isAudioWhitelisted(externalContent) {
+	isAudioWhitelisted: function(externalContent) {
 
-	}
+	},
 
 	/**
 	 * Checks whether the given element is in a container that is whitelisted to always render external content
 	 * @param {dom} externalContent
 	 * @returns {boolean}
 	 */
-	function isElementInWhitelistedNode(externalContent) {
-		var potentialParents = document.querySelectorAll(EXTERNAL_CONTENT_WHITELISTED_ELEMENT_SELECTOR);
+	isElementInWhitelistedNode: function(externalContent) {
+		var potentialParents = document.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_WHITELISTED_ELEMENT_SELECTOR);
 		for (i in potentialParents) {
 			if (typeof potentialParents[i].contains === 'function' && potentialParents[i].contains(externalContent)) {
 				return true;
 			}
 		}
 		return false;
-	}
+	},
 
 	/**
 	 * Adds a consent for externalContents, which needs to be accepted.
@@ -770,17 +789,27 @@
 	 *
 	 * @return {void}
 	 */
-	function replaceExternalContentsWithConsent(externalContent) {
+	replaceExternalContentsWithConsent: function(externalContent) {
+		// Skip whitelisted
 		// noinspection EqualityComparisonWithCoercionJS
-		if (externalContent.matches(EXTERNAL_CONTENT_WHITELISTED_ELEMENT_SELECTOR) || isElementInWhitelistedNode(externalContent)) {
+		if (externalContent.matches(SgCookieOptin.EXTERNAL_CONTENT_WHITELISTED_ELEMENT_SELECTOR)
+			|| SgCookieOptin.isElementInWhitelistedNode(externalContent)) {
 			return;
 		}
 
+		// Skip detached elements
 		var parent = externalContent.parentElement;
 		if (!parent) {
 			return;
 		}
 
+		// Skip iframes with no source
+		if (externalContent.tagName === 'IFRAME'
+			&& (!externalContent.src || externalContent.src.indexOf('chrome-extension') >= 0)) {
+			return;
+		}
+
+		// Get the position of the element within its parent
 		var positionIndex = 0;
 		var child = externalContent;
 		while( (child = child.previousSibling) != null ) {
@@ -788,33 +817,31 @@
 		}
 		externalContent.setAttribute('data-position-index', positionIndex);
 
-		if (externalContent.tagName === 'IFRAME'
-			&& (!externalContent.src || externalContent.src.indexOf('chrome-extension') >= 0)) {
-			return;
-		}
-
 		// Got problems with the zero.
-		var externalContentId = protectedExternalContents.length + 1;
+		var externalContentId = SgCookieOptin.protectedExternalContents.length + 1;
 		if (externalContentId === 0) {
 			externalContentId = 1;
 		}
-		protectedExternalContents[externalContentId] = externalContent;
+		SgCookieOptin.protectedExternalContents[externalContentId] = externalContent;
 
+		// Create the external content consent box DIV container
 		var container = document.createElement('DIV');
 		container.setAttribute('data-iframe-id', externalContentId);
 		container.setAttribute('data-src', externalContent.src);
 		container.setAttribute('style', 'height: ' + externalContent.offsetHeight + 'px;');
 		container.classList.add('sg-cookie-optin-iframe-consent');
-		container.insertAdjacentHTML('afterbegin', jsonData.mustacheData.iframeReplacement.markup);
+		container.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.iframeReplacement.markup);
 
+		// Add event Listeners to the consent buttons
 		var externalContentConsentAccept = container.querySelectorAll('.sg-cookie-optin-external-content-consent-accept');
-		addEventListenerToList(externalContentConsentAccept, 'click', function() {
-			acceptExternalContent(externalContentId)
+		SgCookieOptin.addEventListenerToList(externalContentConsentAccept, 'click', function() {
+			SgCookieOptin.acceptExternalContent(externalContentId)
 		});
 
 		var externalContentConsentLink = container.querySelectorAll('.sg-cookie-optin-external-content-consent-link');
-		addEventListenerToList(externalContentConsentLink, 'click', openExternalContentConsent);
+		SgCookieOptin.addEventListenerToList(externalContentConsentLink, 'click', SgCookieOptin.openExternalContentConsent);
 
+		// Replace the element
 		if (parent.childNodes.length > 0) {
 			parent.insertBefore(container, parent.childNodes[positionIndex]);
 		} else {
@@ -823,14 +850,25 @@
 
 		// Because of the IE11 no .remove();
 		parent.removeChild(externalContent);
-	}
+
+		// Emit event for replaced content
+		var externalContentReplacedEvent = new CustomEvent('externalContentReplaced', {
+			bubbles: true,
+			detail: {
+				positionIndex: positionIndex,
+				parent: parent,
+				externalContent: externalContent
+			}
+		});
+		container.dispatchEvent(externalContentReplacedEvent);
+	},
 
 	/**
 	 * Adds a consent for iFrames, which needs to be accepted.
 	 *
 	 * @return {void}
 	 */
-	function openExternalContentConsent() {
+	openExternalContentConsent: function() {
 		var parent = this.parentElement;
 		if (!parent) {
 			return;
@@ -841,15 +879,15 @@
 			return;
 		}
 
-		lastOpenedExternalContentId = externalContentId;
-		var externalContent = protectedExternalContents[externalContentId];
+		SgCookieOptin.lastOpenedExternalContentId = externalContentId;
+		var externalContent = SgCookieOptin.protectedExternalContents[externalContentId];
 		if (!externalContent) {
 			return;
 		}
 
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
-		wrapper.insertAdjacentHTML('afterbegin', jsonData.mustacheData.iframe.markup);
+		wrapper.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.iframe.markup);
 
 		var flashMessageContainer = wrapper.querySelector('.sg-cookie-optin-box-flash-message');
 		if (flashMessageContainer !== null) {
@@ -861,10 +899,10 @@
 			}
 		}
 
-		addExternalContentListeners(wrapper);
+		SgCookieOptin.addExternalContentListeners(wrapper);
 
 		document.body.insertAdjacentElement('beforeend', wrapper);
-	}
+	},
 
 	/**
 	 * Adds the listeners to the given element.
@@ -873,50 +911,50 @@
 	 *
 	 * @return {void}
 	 */
-	function addExternalContentListeners(element) {
+	addExternalContentListeners: function(element) {
 		var closeButtons = element.querySelectorAll('.sg-cookie-optin-box-close-button');
-		addEventListenerToList(closeButtons, 'click', hideCookieOptIn);
+		SgCookieOptin.addEventListenerToList(closeButtons, 'click', SgCookieOptin.hideCookieOptIn);
 
 		var acceptAllButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-all');
-		addEventListenerToList(acceptAllButtons, 'click', function() {
-			acceptAllExternalContents();
-			updateCookieList();
-			handleScriptActivations();
-			hideCookieOptIn();
+		SgCookieOptin.addEventListenerToList(acceptAllButtons, 'click', function() {
+			SgCookieOptin.acceptAllExternalContents();
+			SgCookieOptin.updateCookieList();
+			SgCookieOptin.handleScriptActivations();
+			SgCookieOptin.hideCookieOptIn();
 		});
 
 		var acceptSpecificButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-specific');
-		addEventListenerToList(acceptSpecificButtons, 'click', function() {
-			acceptExternalContent(lastOpenedExternalContentId);
-			updateCookieList();
-			handleScriptActivations();
-			hideCookieOptIn();
+		SgCookieOptin.addEventListenerToList(acceptSpecificButtons, 'click', function() {
+			SgCookieOptin.acceptExternalContent(SgCookieOptin.lastOpenedExternalContentId);
+			SgCookieOptin.updateCookieList();
+			SgCookieOptin.handleScriptActivations();
+			SgCookieOptin.hideCookieOptIn();
 		});
-	}
+	},
 
 	/**
 	 * Replaces all external content consent containers with the corresponding external content and adapts the cookie for further requests.
 	 *
 	 * @return {void}
 	 */
-	function acceptAllExternalContents() {
-		if (jsonData.settings.iframe_enabled && externalContentObserver) {
-			externalContentObserver.disconnect();
+	acceptAllExternalContents: function() {
+		if (SgCookieOptin.jsonData.settings.iframe_enabled && SgCookieOptin.externalContentObserver) {
+			SgCookieOptin.externalContentObserver.disconnect();
 		}
 
-		for (var index in protectedExternalContents) {
+		for (var index in SgCookieOptin.protectedExternalContents) {
 			index = parseInt(index);
 			if (!document.querySelector('div[data-iframe-id="' + index + '"]')) {
 				continue;
 			}
 
-			acceptExternalContent(index)
+			SgCookieOptin.acceptExternalContent(index)
 		}
 
-		var cookieValue = getCookie(COOKIE_NAME);
+		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (!cookieValue) {
-			acceptAllCookies();
-			hideCookieOptIn();
+			SgCookieOptin.acceptAllCookies();
+			SgCookieOptin.hideCookieOptIn();
 			return;
 		}
 
@@ -936,7 +974,7 @@
 
 			var group = groupAndStatus[0];
 			var status = parseInt(groupAndStatus[1]);
-			if (group === COOKIE_GROUP_EXTERNAL_CONTENT) {
+			if (group === SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT) {
 				groupFound = true;
 				status = 1;
 			}
@@ -948,11 +986,11 @@
 		}
 
 		if (!groupFound) {
-			newCookieValue += '|' + COOKIE_GROUP_EXTERNAL_CONTENT + ':' + 1;
+			newCookieValue += '|' + SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT + ':' + 1;
 		}
 
-		setCookie(COOKIE_NAME, newCookieValue, jsonData.settings.cookie_lifetime);
-	}
+		SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, newCookieValue, SgCookieOptin.jsonData.settings.cookie_lifetime);
+	},
 
 	/**
 	 * Replaces an external content consent container with the external content element.
@@ -961,7 +999,7 @@
 	 *
 	 * @return {void}
 	 */
-	function acceptExternalContent(externalContentId) {
+	acceptExternalContent: function(externalContentId) {
 		if (!externalContentId) {
 			externalContentId = parent.getAttribute('data-iframe-id');
 			if (!externalContentId) {
@@ -970,7 +1008,7 @@
 		}
 
 		var container = document.querySelector('div[data-iframe-id="' + externalContentId + '"]');
-		var externalContent = protectedExternalContents[externalContentId];
+		var externalContent = SgCookieOptin.protectedExternalContents[externalContentId];
 		if (!externalContent || !container) {
 			return;
 		}
@@ -987,7 +1025,7 @@
 		} else {
 			parentNode.appendChild(externalContent);
 		}
-	}
+	},
 
 	/**
 	 * todo Optimize the cookie handling with hasSetting, addSetting, removeSetting and use it everywhere.
@@ -997,10 +1035,10 @@
 	 * @param {string} name
 	 * @return {string}
 	 */
-	function getCookie(name) {
+	getCookie: function(name) {
 		var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
 		return v ? v[2] : null;
-	}
+	},
 
 	/**
 	 * Sets the given cookie with the given value for X days.
@@ -1009,16 +1047,16 @@
 	 * @param {string} value
 	 * @param {string} days
 	 */
-	function setCookie(name, value, days) {
+	setCookie: function(name, value, days) {
 		var d = new Date;
 		d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
 		var cookie = name + '=' + value + ';path=/';
-		if (jsonData.settings.set_cookie_for_domain.length > 0) {
-			cookie += ';domain=' + jsonData.settings.set_cookie_for_domain;
+		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
+			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
 		}
 		cookie += ';expires=' + d.toGMTString();
 		document.cookie = cookie;
-	}
+	},
 
 	/**
 	 * Returns the value of a query parameter as a string, or null on error.
@@ -1027,7 +1065,7 @@
 	 * @param {string} url
 	 * @return {string|null}
 	 */
-	function getParameterByName(name, url) {
+	getParameterByName: function(name, url) {
 		if (!url) {
 			url = window.location.href;
 		}
@@ -1044,9 +1082,9 @@
 		}
 
 		return decodeURIComponent(results[2].replace(/\+/g, ' '));
-	}
+	},
 
-	function closestPolyfill() {
+	closestPolyfill: function() {
 		const ElementPrototype = window.Element.prototype;
 
 		if (typeof ElementPrototype.matches !== 'function') {
@@ -1079,15 +1117,6 @@
 			};
 		}
 	}
-	closestPolyfill();
+};
 
-	jsonData = JSON.parse(document.getElementById('cookieOptinData').innerHTML);
-	if (jsonData) {
-		// https://plainjs.com/javascript/events/running-code-when-the-document-is-ready-15/
-		document.addEventListener('DOMContentLoaded', function() {
-			initialize();
-		});
-
-		checkForExternalContents();
-	}
-})();
+SgCookieOptin.run();
