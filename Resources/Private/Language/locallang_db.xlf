@@ -249,6 +249,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_scripts">
 				<source><![CDATA[Scripts (For translations: Only "translated" scripts are considered. Added scripts without a default language parent will be ignored)]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.external_scripts">
+				<source><![CDATA[Scripts (For translations: Only "translated" scripts are considered. Added scripts without a default language parent will be ignored)]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_title">
 				<source><![CDATA[Group Title for Essential Cookies & Scripts the User has to Accept]]></source>
 			</trans-unit>

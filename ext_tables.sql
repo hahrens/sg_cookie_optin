@@ -113,6 +113,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_color_button_load_one_hover varchar(10) DEFAULT '#2E6B96' NOT NULL,
 	iframe_color_button_load_one_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	iframe_color_open_settings varchar(10) DEFAULT '#373737' NOT NULL,
+	iframe_external_scripts int(11) DEFAULT '0' NOT NULL,
 
 	# Settings
 	cookie_lifetime int(11) DEFAULT '365' NOT NULL,
@@ -178,6 +179,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_script (
 	html text NOT NULL,
 	parent_group int(11) DEFAULT '0' NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
+	parent_optin_external int(11) DEFAULT '0' NOT NULL,
+
 
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

@@ -61,7 +61,7 @@ $configuration = [
 			iframe_button_allow_one_text, iframe_button_load_one_text, iframe_open_settings_text,
 			iframe_color_consent_box_background, iframe_color_button_load_one, iframe_color_button_load_one_hover,
 			iframe_color_button_load_one_text, iframe_color_open_settings, iframe_html, iframe_overwritten,
-			iframe_selection, iframe_replacement_html, iframe_replacement_overwritten, iframe_replacement_selection,
+			iframe_selection, iframe_replacement_html, iframe_replacement_overwritten, iframe_external_scripts, iframe_replacement_selection,
 			banner_enable, banner_position, banner_overwritten, banner_html, banner_selection,
 			banner_show_settings_button, banner_color_box, banner_color_text, banner_color_button_settings,
 			banner_color_button_settings_hover, banner_color_button_settings_text, banner_color_button_accept,
@@ -82,6 +82,7 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.iframes,
 					iframe_enabled, iframe_title, iframe_description, --palette--;;iframe_texts,
 					--palette--;;iframe_colors, --palette--;;iframe_template, --palette--;;iframe_replacement_template,
+					--;;--palette--;;, iframe_external_scripts,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.banner,
 					--palette--;;banner_general, --palette--;;banner_general_colors,
 					--palette--;;banner_settings_button, --palette--;;banner_accept_button,
@@ -906,6 +907,22 @@ $configuration = [
 				],
 			],
 		],
+		'iframe_external_scripts' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.external_scripts',
+			'config' => [
+				'type' => 'inline',
+				'foreign_table' => 'tx_sgcookieoptin_domain_model_script',
+				'foreign_field' => 'parent_optin_external',
+				'foreign_sortby' => 'sorting',
+				'appearance' => [
+					'showPossibleLocalizationRecords' => TRUE,
+					'showRemovedLocalizationRecords' => FALSE,
+					'showAllLocalizationLink' => TRUE,
+				],
+				'maxitems' => 99999,
+			],
+		],
 		'iframe_replacement_html' => [
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
@@ -1322,6 +1339,22 @@ $configuration = [
 				'default' => '#FFFFFF',
 				'placeholder' => '#FFFFFF',
 				'eval' => 'trim, required'
+			],
+		],
+		'whitelist' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_html',
+			'config' => [
+				'type' => 'text',
+				'renderType' => 't3editor',
+				'format' => 'html',
+				'eval' => 'trim',
+				'fieldWizard' => [
+					'templatePreviewLinkWizard' => [
+						'renderType' => 'templatePreviewLinkWizard',
+					],
+				],
 			],
 		],
 	],
