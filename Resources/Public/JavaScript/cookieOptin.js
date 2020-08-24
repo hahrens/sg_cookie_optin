@@ -12,6 +12,17 @@
 	var COOKIE_NAME = 'cookie_optin';
 	var COOKIE_GROUP_EXTERNAL_CONTENT = 'iframes';
 
+	/**
+	 * The CSS selector to match possible external content
+	 * @type {string}
+	 */
+	var EXTERNAL_CONTENT_ELEMENT_SELECTOR = 'iframe, object, video, audio, [data-external-content-protection], .frame-external-content-protection';
+	/**
+	 * The CSS selector to match whitelisted external content
+	 * @type {string}
+	 */
+	var EXTERNAL_CONTENT_WHITELISTED_ELEMENT_SELECTOR = '[data-external-content-no-protection], [data-iframe-allow-always], .frame-external-content-no-protection';
+
 	var externalContentObserver = null;
 	var protectedExternalContents = [];
 	var lastOpenedExternalContentId = 0;
@@ -610,7 +621,7 @@
 		}
 
 		if (!externalContentObserver) {
-			var externalContents = document.querySelectorAll('iframe, [data-external-content-protection]');
+			var externalContents = document.querySelectorAll(EXTERNAL_CONTENT_ELEMENT_SELECTOR);
 			if (externalContents.length > 0) {
 				for (var externalContentIndex in externalContents) {
 					if (!externalContents.hasOwnProperty(externalContentIndex)) {
@@ -668,14 +679,11 @@
 					}
 
 					var addedNode = mutation.addedNodes[addedNodeIndex];
-					if (addedNode.tagName === 'IFRAME'
-						|| (typeof addedNode.hasAttribute === 'function'
-							&& addedNode.hasAttribute('data-external-content-protection')
-						)) {
+					if (typeof addedNode.matches === 'function' && addedNode.matches(EXTERNAL_CONTENT_ELEMENT_SELECTOR)) {
 							replaceExternalContentsWithConsent(addedNode);
 					} else if (addedNode.querySelectorAll && typeof addedNode.querySelectorAll === 'function') {
 						// check if there is an external content in the subtree
-						var externalContents = addedNode.querySelectorAll('iframe, [data-external-content-protection]');
+						var externalContents = addedNode.querySelectorAll(EXTERNAL_CONTENT_ELEMENT_SELECTOR);
 						if (externalContents.length > 0) {
 							for (var externalContentIndex in externalContents) {
 								if (!externalContents.hasOwnProperty(externalContentIndex)) {
@@ -694,6 +702,68 @@
 	}
 
 	/**
+	 * Checks whether this element matches the rules in the whitelist
+	 *
+	 * @param {dom} externalContent
+	 * @return {boolean}
+	 */
+	function isContentWhiteListed(externalContent) {
+		return false;
+		switch (externalContent.tagName) {
+			case 'IFRAME':
+
+				break;
+			case 'OBJECT':
+
+				break;
+			case 'VIDEO':
+
+				break;
+			case 'AUDIO':
+
+				break;
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 *
+	 * @param {dom} externalContent
+	 * @return {boolean}
+	 */
+	function isIframeWhitelisted(externalContent) {
+
+	}
+
+	function isObjectWhitelisted(externalContent) {
+
+	}
+
+	function isVideoWhitelisted(externalContent) {
+
+	}
+
+	function isAudioWhitelisted(externalContent) {
+
+	}
+
+	/**
+	 * Checks whether the given element is in a container that is whitelisted to always render external content
+	 * @param {dom} externalContent
+	 * @returns {boolean}
+	 */
+	function isElementInWhitelistedNode(externalContent) {
+		var potentialParents = document.querySelectorAll(EXTERNAL_CONTENT_WHITELISTED_ELEMENT_SELECTOR);
+		for (i in potentialParents) {
+			if (typeof potentialParents[i].contains === 'function' && potentialParents[i].contains(externalContent)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Adds a consent for externalContents, which needs to be accepted.
 	 *
 	 * @param {dom} externalContent
@@ -702,7 +772,7 @@
 	 */
 	function replaceExternalContentsWithConsent(externalContent) {
 		// noinspection EqualityComparisonWithCoercionJS
-		if (externalContent.getAttribute('data-iframe-allow-always') == true) {
+		if (externalContent.matches(EXTERNAL_CONTENT_WHITELISTED_ELEMENT_SELECTOR) || isElementInWhitelistedNode(externalContent)) {
 			return;
 		}
 
