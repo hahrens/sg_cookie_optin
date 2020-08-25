@@ -39,15 +39,15 @@ class TemplateService implements SingletonInterface {
 	const TYPE_BANNER = 1;
 	const TYPE_IFRAME = 2;
 	const TYPE_IFRAME_REPLACEMENT = 3;
+	const TYPE_IFRAME_WHITELIST = 4;
 
 	const TEMPLATE_ID_DEFAULT = 0;
 	const TEMPLATE_ID_NEW = 1;
 
 	const BANNER_TEMPLATE_ID_DEFAULT = 0;
-
 	const IFRAME_TEMPLATE_ID_DEFAULT = 0;
-
 	const IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT = 0;
+	const IFRAME_WHITELIST_TEMPLATE_ID_DEFAULT = 0;
 
 	protected static $templateIdToNameMap = [
 		self::TYPE_TEMPLATE => [
@@ -63,6 +63,9 @@ class TemplateService implements SingletonInterface {
 		self::TYPE_IFRAME_REPLACEMENT => [
 			self::IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT => 'Default',
 		],
+		self::TYPE_IFRAME_WHITELIST => [
+			self::IFRAME_WHITELIST_TEMPLATE_ID_DEFAULT => 'Default',
+		],
 	];
 
 	protected static $templateIdToFolderMap = [
@@ -70,6 +73,7 @@ class TemplateService implements SingletonInterface {
 		self::TYPE_BANNER => 'Banner',
 		self::TYPE_IFRAME => 'Iframe',
 		self::TYPE_IFRAME_REPLACEMENT => 'IframeReplacement',
+		self::TYPE_IFRAME_WHITELIST => 'IframeWhitelist',
 	];
 
 	/**

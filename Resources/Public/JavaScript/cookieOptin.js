@@ -22,7 +22,7 @@ var SgCookieOptin = {
 	 * The CSS selector to match whitelisted external content
 	 * @type {string}
 	 */
-	EXTERNAL_CONTENT_WHITELISTED_ELEMENT_SELECTOR: '[data-external-content-no-protection], [data-iframe-allow-always], .frame-external-content-no-protection',
+	EXTERNAL_CONTENT_ALLOWED_ELEMENT_SELECTOR: '[data-external-content-no-protection], [data-iframe-allow-always], .frame-external-content-no-protection',
 
 	externalContentObserver: null,
 	protectedExternalContents: [],
@@ -727,53 +727,74 @@ var SgCookieOptin = {
 	 * @return {boolean}
 	 */
 	isContentWhiteListed: function(externalContent) {
-		return false;
+		var regularExpressions = SgCookieOptin.jsonData.mustacheData.iframeWhitelist.markup.trim()
+			.split(/\r?\n/).map(function (value) {
+				return new RegExp(value);
+			});
+		if (typeof regularExpressions === 'object' && regularExpressions.length < 1) {
+			return false;
+		}
+
 		switch (externalContent.tagName) {
 			case 'IFRAME':
-
-				break;
+				return SgCookieOptin.isElementWhitelisted(externalContent, 'src', regularExpressions);
 			case 'OBJECT':
-
-				break;
+				return SgCookieOptin.isElementWhitelisted(externalContent, 'data', regularExpressions);
 			case 'VIDEO':
-
-				break;
 			case 'AUDIO':
-
-				break;
+				return SgCookieOptin.isAudioVideoWhitelisted(externalContent, regularExpressions);
 			default:
 				return false;
 		}
 	},
 
 	/**
+	 * Tests whether a dom element attribute is whitelisted
 	 *
 	 * @param {dom} externalContent
+	 * @param {string} attribute
+	 * @param {RegExp[]} regularExpressions
 	 * @return {boolean}
 	 */
-	isIframeWhitelisted: function(externalContent) {
-
-	},
-
-	isObjectWhitelisted: function(externalContent) {
-
-	},
-
-	isVideoWhitelisted: function(externalContent) {
-
-	},
-
-	isAudioWhitelisted: function(externalContent) {
-
+	isElementWhitelisted: function(externalContent, attribute, regularExpressions) {
+		for (var regExIndex in regularExpressions) {
+			if (regularExpressions[regExIndex].test(externalContent.getAttribute(attribute))) {
+				return true;
+			}
+		}
+		return false;
 	},
 
 	/**
-	 * Checks whether the given element is in a container that is whitelisted to always render external content
+	 * Tests if an audio or video element is whitelisted
+	 *
+	 * @param {dom} externalContent
+	 * @param {RegExp[]} regularExpressions
+	 * @return {boolean}
+	 */
+	isAudioVideoWhitelisted: function(externalContent, regularExpressions) {
+		if (externalContent.hasAttribute('src')) {
+			return SgCookieOptin.isElementWhitelisted(externalContent, 'src', regularExpressions);
+		}
+
+		var sources = externalContent.querySelectorAll('source');
+		for (var sourceIndex in sources) {
+			// noinspection JSUnfilteredForInLoop
+			if (SgCookieOptin.isElementWhitelisted(sources[sourceIndex], 'src', regularExpressions)) {
+				return true;
+			}
+		}
+
+		return false;
+	},
+
+	/**
+	 * Checks whether the given element is in a container that is allowed to always render external content
 	 * @param {dom} externalContent
 	 * @returns {boolean}
 	 */
-	isElementInWhitelistedNode: function(externalContent) {
-		var potentialParents = document.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_WHITELISTED_ELEMENT_SELECTOR);
+	isElementInAllowedNode: function(externalContent) {
+		var potentialParents = document.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ALLOWED_ELEMENT_SELECTOR);
 		for (i in potentialParents) {
 			if (typeof potentialParents[i].contains === 'function' && potentialParents[i].contains(externalContent)) {
 				return true;
@@ -790,10 +811,11 @@ var SgCookieOptin = {
 	 * @return {void}
 	 */
 	replaceExternalContentsWithConsent: function(externalContent) {
-		// Skip whitelisted
+		// Skip allowed elements and whitelisted sources
 		// noinspection EqualityComparisonWithCoercionJS
-		if (externalContent.matches(SgCookieOptin.EXTERNAL_CONTENT_WHITELISTED_ELEMENT_SELECTOR)
-			|| SgCookieOptin.isElementInWhitelistedNode(externalContent)) {
+		if (externalContent.matches(SgCookieOptin.EXTERNAL_CONTENT_ALLOWED_ELEMENT_SELECTOR)
+			|| SgCookieOptin.isElementInAllowedNode(externalContent)
+			|| SgCookieOptin.isContentWhiteListed(externalContent)) {
 			return;
 		}
 

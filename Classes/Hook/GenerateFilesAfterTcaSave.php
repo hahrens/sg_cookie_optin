@@ -797,6 +797,16 @@ class GenerateFilesAfterTcaSave {
 					$jsonDataArray
 				),
 			],
+			'iframeWhitelist' => [
+				'iframe_whitelist_regex' => $translatedData['iframe_whitelist_regex'],
+				'iframe_whitelist_overwritten' => $translatedData['iframe_whitelist_overwritten'],
+				'iframe_whitelist_selection' => $translatedData['iframe_whitelist_selection'],
+				'markup' => $this->getRenderedMustacheTemplate(
+					$translatedData['iframe_whitelist_overwritten'], $translatedData['iframe_whitelist_regex'],
+					$translatedData['iframe_whitelist_selection'], TemplateService::TYPE_IFRAME_WHITELIST,
+					$jsonDataArray
+				),
+			],
 		];
 
 		$file = PATH_site . $folder . str_replace('#LANG#', $translatedData['sys_language_uid'], self::TEMPLATE_JSON_NAME);

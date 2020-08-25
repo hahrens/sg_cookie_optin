@@ -315,6 +315,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_overwritten">
 				<source><![CDATA[Overwrite Settings Window Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_overwritten" approved="yes">
+				<source><![CDATA[Overwrite Whitelist Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html">
 				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 			</trans-unit>
@@ -333,7 +336,13 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_selection">
 				<source><![CDATA[Select a Base Design for the Settings Window Template (This form will be saved and reloaded when this setting changes.)]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection" approved="yes">
+				<source><![CDATA[Select a base template for your whitelist (This form will be saved and reloaded when this setting changes.)]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_selection.0">
+				<source><![CDATA[Default]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection.0">
 				<source><![CDATA[Default]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_template">
@@ -401,6 +410,9 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html">
 				<source><![CDATA[Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex" approved="yes">
+				<source><![CDATA[Whitelist external content. Every new line is interpreted as a new regular expression]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten">
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>

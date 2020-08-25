@@ -417,6 +417,10 @@
 				<source><![CDATA[Overwrite Settings Window Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 				<target><![CDATA[Template des Einstellungsfensters überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_overwritten" approved="yes">
+				<source><![CDATA[Overwrite Whitelist Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
+				<target><![CDATA[Template des Einstellungsfensters überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html" approved="yes">
 				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 				<target><![CDATA[iFrame-Ersatz Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe http://mustache.github.io/mustache.5.html)]]></target>
@@ -441,7 +445,15 @@
 				<source><![CDATA[Select a Base Design for the Settings Window Template (This form will be saved and reloaded when this setting changes.)]]></source>
 				<target><![CDATA[Basis-Designvorlage für das Einstellungsfenster auswählen (Dieses Formular wird bei Änderung gespeichert und neu geladen.)]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection" approved="yes">
+				<source><![CDATA[Select a base template for your whitelist (This form will be saved and reloaded when this setting changes.)]]></source>
+				<target><![CDATA[Basis-Vorlage für Ihre Whiteliste auswählen (Dieses Formular wird bei Änderung gespeichert und neu geladen.)]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_selection.0" approved="yes">
+				<source><![CDATA[Default]]></source>
+				<target><![CDATA[Standard]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection.0" approved="yes">
 				<source><![CDATA[Default]]></source>
 				<target><![CDATA[Standard]]></target>
 			</trans-unit>
@@ -532,6 +544,10 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html" approved="yes">
 				<source><![CDATA[Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 				<target><![CDATA[Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe http://mustache.github.io/mustache.5.html)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex" approved="yes">
+				<source><![CDATA[Whitelist external content. Every new line is interpreted as a new regular expression]]></source>
+				<target><![CDATA[Externe Inhalte whitelisten. Jede neue Zeile wird als einen neuen regulären Ausdruck interpretiert.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten" approved="yes">
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
