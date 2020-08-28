@@ -4,7 +4,10 @@
 
 1. Install this extension with the Extension Manager, or with composer.
 
-2. Add the static TypoScript named "Cookie Optin" to your instance with the "Template" backend module.
+2. Go to the extension configuration and set your license key and output folder. You must set this folder accordingly in
+case your TYPO3 installation is in a subdirectory relative to the web server document root.
+
+3. Add the static TypoScript named "Cookie Optin" to your instance with the "Template" backend module.
 
     - Open up the "Template" module in the backend of TYPO3.
     - Go to your root site page within the page tree.
@@ -14,7 +17,7 @@
     - Choose the template "Cookie Optin (sg_cookie_optin)" on the multi select box with the name "Include static (from extensions)"
     - Save
 
-3. Go into the "Cookie Opt In" backend module, configure it and save it once.
+4. Go into the "Cookie Opt In" backend module, configure it and save it once.
 
 ## How to add scripts / How to rewrite the script HTML?
 
@@ -88,20 +91,42 @@ Just add the data attribute "data-consent-description" to an iframe HTML tag, li
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/XYZ" data-consent-description="An additional description about this video!"></iframe>
 ```
 
-#### Whitelist an iframe for the external content opt in logic
+#### Whitelist an element for the external content opt in logic
 
-Just add the data attribute "data-iframe-allow-always" to an iframe HTML tag, like in the example below:
+There are three ways to do this and all of them will result in having this element and all of it's children whitelisted
+for the external content protection:
 
+1. Just add the data attribute "data-iframe-allow-always" or "data-external-content-no-protection" to an iframe HTML tag, like in the example below:
 ```html
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/XYZ" data-iframe-allow-always="1"></iframe>
 ```
 
-#### Protect any kind of dom element with the external content protection
-
-Just add the data attribute "data-external-content-protection" to an HTML tag, like in the example below:
-
+2. Add the class "frame-external-content-no-protection" to the HTML tag.
 ```html
-<div class="test-content-protection" data-external-content-protection>
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/XYZ" class="frame-external-content-no-protection"></iframe>
+```
+
+3. From the TYPO3 Backend Page module edit the element's appearance and set the Frame Class "Unprotected External Content"
+
+
+
+#### Protect any kind of dom element with the external content protection (force opt-in)
+
+There are three ways to do this and all of them will result in replacing this element and all of its contents with the
+opt-in dialog:
+
+1. Add the data attribute "data-external-content-protection" to the HTML tag.
+```html
+<div class="test-content-protection" data-external-content-protection="1">
 Content comes here
 </div>
 ```
+
+2. Add the class "frame-external-content-protection" to the HTML tag.
+```html
+<div class="test-content-protection frame-external-content-protection">
+Content comes here
+</div>
+```
+
+3. From the TYPO3 Backend Page module edit the element's appearance and set the Frame Class "External Content"
