@@ -12,6 +12,7 @@ var SgCookieOptin = {
 
 	COOKIE_NAME: 'cookie_optin',
 	COOKIE_GROUP_EXTERNAL_CONTENT: 'iframes',
+	COOKIE_GROUP_ESSENTIAL: 'essential',
 
 	/**
 	 * The CSS selector to match possible external content
@@ -245,6 +246,8 @@ var SgCookieOptin = {
 				}
 
 				var reasonHeight = reasons[index].getBoundingClientRect().height;
+				reasonHeight -= parseInt(window.getComputedStyle(reasons[index], null).getPropertyValue('padding-top'));
+				reasonHeight -= parseInt(window.getComputedStyle(reasons[index], null).getPropertyValue('padding-bottom'));
 				var maxHeight = (maxHeightPerRow[maxHeightPerRowIndex] ? maxHeightPerRow[maxHeightPerRowIndex] : 0);
 				if (reasonHeight > maxHeight) {
 					maxHeightPerRow[maxHeightPerRowIndex] = reasonHeight;
@@ -506,11 +509,11 @@ var SgCookieOptin = {
 				cookieSubList.style.height = 'auto';
 				height = cookieSubList.getBoundingClientRect().height + 'px';
 				cookieSubList.style.height = '';
-				requestAnimationFrame(function(item, style) {
+				requestAnimationFrame(function() {
 					setTimeout(function() {
-						item.style.height = style;
+						cookieSubList.style.height = height;
 					}, 10);
-				}(cookieSubList, height));
+				});
 
 				event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
 			}
@@ -620,7 +623,7 @@ var SgCookieOptin = {
 			cookieData += groupName + ':' + status;
 		}
 
-		SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieData, SgCookieOptin.jsonData.settings.cookie_lifetime);
+		SgCookieOptin.setCookieWrapper(cookieData);
 	},
 
 	/**
@@ -1011,7 +1014,7 @@ var SgCookieOptin = {
 			newCookieValue += '|' + SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT + ':' + 1;
 		}
 
-		SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, newCookieValue, SgCookieOptin.jsonData.settings.cookie_lifetime);
+		SgCookieOptin.setCookieWrapper(newCookieValue);
 	},
 
 	/**
@@ -1079,6 +1082,69 @@ var SgCookieOptin = {
 		cookie += ';expires=' + d.toGMTString();
 		document.cookie = cookie;
 	},
+
+	/**
+	 * Sets the given cookie with the given value only for the current session.
+	 *
+	 * @param {string} name
+	 * @param {string} value
+	 */
+	setSessionCookie: function(name, value) {
+		document.cookie = name + '=' + value + '; path=/; SameSite=Lax';
+	},
+
+	/**
+	 * Cookie is set with lifetime if the user has accepted a non-essential group that exists.
+	 *
+	 * @param {string} cookieValue
+	 */
+	setCookieWrapper: function(cookieValue) {
+		var setCookieForSessionOnly = false;
+		if (SgCookieOptin.jsonData.settings.session_only_essential_cookies) {
+			var hasNonEssentialGroups = false;
+			var hasAcceptedNonEssentials = false;
+			var splitCookieValue = cookieValue.split('|');
+			for (var cookieValueIndex in splitCookieValue) {
+				if (!splitCookieValue.hasOwnProperty(cookieValueIndex)) {
+					continue;
+				}
+
+				var valueEntry = splitCookieValue[cookieValueIndex];
+				if (valueEntry.indexOf(SgCookieOptin.COOKIE_GROUP_ESSENTIAL) === 0 || valueEntry.indexOf(SgCookieOptin.COOKIE_GROUP_IFRAME) === 0) {
+					continue;
+				}
+
+				hasNonEssentialGroups = true;
+				if (valueEntry.indexOf(':1') > 0) {
+					hasAcceptedNonEssentials = true;
+					break;
+				}
+			}
+
+			setCookieForSessionOnly = hasNonEssentialGroups && !(hasNonEssentialGroups && hasAcceptedNonEssentials);
+		}
+
+		if (setCookieForSessionOnly) {
+			SgCookieOptin.setSessionCookie(COOKIE_NAME, cookieValue);
+		} else {
+			SgCookieOptin.setCookie(COOKIE_NAME, cookieValue, jsonData.settings.cookie_lifetime);
+		}
+	},
+
+	/**
+	 * Displays a notification as a box as first element in the given contentElement
+	 *
+	 * @param {dom} contentElement
+	 */
+	showSaveConfirmation: function(contentElement) {
+		var oldNotification = contentElement.firstChild;
+		if (!oldNotification.classList.contains('sg-cookie-optin-save-confirmation')) {
+			var notification = document.createElement('DIV');
+			notification.classList.add('sg-cookie-optin-save-confirmation');
+			notification.insertAdjacentText('afterbegin', jsonData.textEntries.save_confirmation_text);
+			contentElement.insertBefore(notification, contentElement.firstChild);
+		}
+	}
 
 	/**
 	 * Returns the value of a query parameter as a string, or null on error.

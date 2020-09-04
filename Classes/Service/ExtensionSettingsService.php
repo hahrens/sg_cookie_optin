@@ -34,17 +34,21 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 class ExtensionSettingsService {
 	const SETTING_LICENSE = 'key';
 	const SETTING_FOLDER = 'folder';
+	const SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT = 'hideModuleInProductionContext';
 
+	/**
+	 * @var array Default settings mapped to constants.
+	 */
 	protected static $defaultValueMap = [
 		self::SETTING_FOLDER => 'fileadmin/sg_cookie_optin/',
+		self::SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT => FALSE,
 	];
 
 	/**
 	 * Returns the setting of one of the constants of this class.
 	 *
 	 * @param string $settingKey
-	 *
-	 * @return string
+	 * @return mixed
 	 */
 	public static function getSetting($settingKey) {
 		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) {
@@ -58,31 +62,36 @@ class ExtensionSettingsService {
 			$configuration = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sg_cookie_optin'];
 		}
 
-		$defaultSetting = '';
+		$setting = '';
 		if (isset(self::$defaultValueMap[$settingKey])) {
-			$defaultSetting = self::$defaultValueMap[$settingKey];
+			$setting = self::$defaultValueMap[$settingKey];
 		}
 
-		if (!isset($configuration[$settingKey])) {
-			return $defaultSetting;
+		if (isset($configuration[$settingKey])) {
+			$setting = self::postProcessSetting($configuration[$settingKey], $settingKey);
 		}
 
-		$setting = trim($configuration[$settingKey]);
-		return ($setting ? self::postProcessSetting($setting, $settingKey) : $defaultSetting);
+		return $setting;
 	}
 
 	/**
 	 * Post process of the given setting, by the given setting key.
 	 *
-	 * @param string $value
+	 * @param mixed $value
 	 * @param string $settingKey
-	 *
-	 * @return string
+	 * @return mixed
 	 */
 	protected static function postProcessSetting($value, $settingKey) {
 		if ($settingKey === self::SETTING_FOLDER) {
 			$value = trim($value, " \t\n\r\0\x0B\/") . '/';
+
+			if (strpos($value, 'EXT:') === 0) {
+				$value = 'typo3conf/ext/' . substr($value, 4);
+			}
 		}
+
+		// TYPO3 6 stores all settings as strings, some are expected to be booleans, though.
+		$value = ($value === 'FALSE') ? FALSE : $value;
 
 		return $value;
 	}

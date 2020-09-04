@@ -23,6 +23,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	cookie_provider_text varchar(255) DEFAULT 'Anbieter' NOT NULL,
 	cookie_purpose_text varchar(255) DEFAULT 'Zweck' NOT NULL,
 	cookie_lifetime_text varchar(255) DEFAULT 'Laufzeit' NOT NULL,
+	save_confirmation_text varchar(255) DEFAULT 'Cookie-Einstellungen erfolgreich gespeichert' NOT NULL,
 
 	# template
 	template_html text NOT NULL,
@@ -55,6 +56,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_box varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	color_headline varchar(10) DEFAULT '#373737' NOT NULL,
 	color_text varchar(10) DEFAULT '#373737' NOT NULL,
+	color_confirmation_background varchar(10) DEFAULT '#C9FFC9' NOT NULL,
+	color_confirmation_text varchar(10) DEFAULT '#208A20' NOT NULL,
 	color_checkbox varchar(10) DEFAULT '#143D59' NOT NULL,
 	color_checkbox_required varchar(10) DEFAULT '#A5A5A5' NOT NULL,
 	color_button_all varchar(10) DEFAULT '#143D59' NOT NULL,
@@ -121,6 +124,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 
 	# Settings
 	cookie_lifetime int(11) DEFAULT '365' NOT NULL,
+	session_only_essential_cookies tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	minify_generated_data tinyint(4) unsigned DEFAULT '1' NOT NULL,
 	show_button_close tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	activate_testing_mode tinyint(4) unsigned DEFAULT '0' NOT NULL,

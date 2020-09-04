@@ -37,6 +37,17 @@
 	display: none;
 }
 
+/* Save Confirmation Notification */
+.sg-cookie-optin-save-confirmation {
+	max-width: 500px;
+	margin: 0 0 5px;
+	padding: 10px 20px;
+	border: solid 1px ###color_confirmation_text###;
+	border-radius: 5px;
+	color: ###color_confirmation_text###;
+	background-color: ###color_confirmation_background###;
+}
+
 /* Header */
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-close-button {
 	padding: 4px 11px;

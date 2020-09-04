@@ -8,7 +8,7 @@ $EM_CONF[$_EXTKEY] = [
 		For more details visit https://www.sgalinski.de/en/typo3-products-web-development/cookie-optin-for-typo3/.
 	',
 	'category' => 'module',
-	'version' => '3.0.2',
+	'version' => '3.1.3',
 	'state' => 'stable',
 	'uploadfolder' => FALSE,
 	'createDirs' => '',
@@ -18,8 +18,8 @@ $EM_CONF[$_EXTKEY] = [
 	'author_company' => 'sgalinski Internet Services (https://www.sgalinski.de)',
 	'constraints' => [
 		'depends' => [
-			'typo3' => '6.2.0-9.5.99',
-			'php' => '5.5.0-7.3.99',
+			'typo3' => '6.2.0-10.4.99',
+			'php' => '5.5.0-7.4.99',
 		],
 		'conflicts' => [
 		],

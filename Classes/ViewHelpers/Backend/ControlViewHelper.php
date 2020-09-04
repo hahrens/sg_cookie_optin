@@ -31,13 +31,12 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3\CMS\Recordlist\RecordList\DatabaseRecordList;
 
 /**
  * Class ControlViewHelper
  **/
-class ControlViewHelper extends AbstractViewHelper {
+class ControlViewHelper extends \SgCookieAbstractViewHelper {
 
 	/**
 	 * Initialize the ViewHelper arguments

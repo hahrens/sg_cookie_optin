@@ -25,9 +25,9 @@
  */
 
 call_user_func(
-	function ($extKey) {
+	static function () {
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'SGalinski.' . $extKey,
+			'SGalinski.sg_cookie_optin',
 			'OptIn',
 			[
 				'Optin' => 'show',
@@ -46,12 +46,12 @@ call_user_func(
 
 		// User TSConfig
 		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig(
-			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/User/HideTableButtons.tsconfig">'
+			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/User/HideTableButtons.tsconfig">'
 		);
 
 		// Page TSConfig
 		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig">'
+			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig">'
 		);
 
 		// External Content Frame Class TSConfig
@@ -61,11 +61,13 @@ call_user_func(
 
 		// Register Icons
 		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7000000) {
-			$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+			$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+				\TYPO3\CMS\Core\Imaging\IconRegistry::class
+			);
 			$iconRegistry->registerIcon(
-				'extension-' . $extKey,
+				'extension-sg_cookie_optin',
 				\TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-				['source' => 'EXT:' . $extKey . '/Resources/Public/Icons/extension-sg_cookie_optin.svg']
+				['source' => 'EXT:sg_cookie_optin/Resources/Public/Icons/extension-sg_cookie_optin.svg']
 			);
 		}
 
@@ -75,5 +77,14 @@ call_user_func(
 			'priority' => 70,
 			'class' => \SGalinski\SgCookieOptin\Wizards\TemplatePreviewLinkWizard::class
 		];
-	}, 'sg_cookie_optin'
+
+		if (!class_exists('SgCookieAbstractViewHelper')) {
+			$typo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+			if ($typo3Version >= 10000000) {
+				class_alias('\TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
+			} else {
+				class_alias('\TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper', 'SgCookieAbstractViewHelper');
+			}
+		}
+	}
 );

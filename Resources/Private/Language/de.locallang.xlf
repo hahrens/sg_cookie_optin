@@ -118,8 +118,12 @@
 				<target><![CDATA[Template-Vorschau]]></target>
 			</trans-unit>
 			<trans-unit id="configuration.folder" approved="yes">
-				<source><![CDATA[The folder, where the generated files should be saved]]></source>
-				<target><![CDATA[Der Ordner, in welchem die generierten Dateien gespeichert werden sollen]]></target>
+				<source><![CDATA[Directory for generated files: The folder where the generated files should be saved (e.g. fileadmin/cookie-banner or EXT:extension_key/path/to/cookies).]]></source>
+				<target><![CDATA[Ordner für generierte Dateien: Der Ordner, in dem die generierten Dateien gespeichert werden sollen (z.B. fileadmin/cookie-banner oder EXT:extension_key/path/to/cookies).]]></target>
+			</trans-unit>
+			<trans-unit id="configuration.hideModuleInProductionContext" approved="yes">
+				<source><![CDATA[Hide Backend Module if TYPO3 is in production context]]></source>
+				<target><![CDATA[Backend-Modul verstecken, wenn TYPO3 im Production-Kontext läuft]]></target>
 			</trans-unit>
 			<trans-unit id="configuration.licenseKey" approved="yes">
 				<source><![CDATA[License Key]]></source>

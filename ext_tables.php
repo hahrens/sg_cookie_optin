@@ -25,17 +25,7 @@
  */
 
 call_user_func(
-	function ($extKey) {
-		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-			'SGalinski.' . $extKey,
-			'OptIn',
-			'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang_backend.xlf:optInPluginLabel'
-		);
-
-		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-			$extKey, 'Configuration/TypoScript/Frontend', 'Cookie Optin'
-		);
-
+	static function () {
 		if (TYPO3_MODE === 'BE') {
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
 				'tx_sgcookieoptin_domain_model_optin'
@@ -50,21 +40,38 @@ call_user_func(
 				'tx_sgcookieoptin_domain_model_cookie'
 			);
 
-			\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-				'SGalinski.' . $extKey,
-				'web',
-				'Optin',
-				'',
-				[
-					'Optin' => 'index, activateDemoMode',
-				],
-				[
-					'access' => 'user,group',
-					'icon' => 'EXT:' . $extKey . '/Resources/Public/Icons/module-sgcookieoptin.png',
-					'labels' => 'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang.xlf',
-				]
+			$hideModuleInProductionContext = \SGalinski\SgCookieOptin\Service\ExtensionSettingsService::getSetting(
+				\SGalinski\SgCookieOptin\Service\ExtensionSettingsService::SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT
 			);
-		}
 
-	}, 'sg_cookie_optin'
+			$showModule = TRUE;
+			if ($hideModuleInProductionContext) {
+				if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.2.0', '<')) {
+					$applicationContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
+				} else {
+					$applicationContext = \TYPO3\CMS\Core\Core\Environment::getContext();
+				}
+
+				if (isset($applicationContext)) {
+					$showModule = !$applicationContext->isProduction();
+				}
+			}
+			if ($showModule) {
+				\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+					'SGalinski.sg_cookie_optin',
+					'web',
+					'Optin',
+					'',
+					[
+						'Optin' => 'index, activateDemoMode',
+					],
+					[
+						'access' => 'user,group',
+						'icon' => 'EXT:sg_cookie_optin/Resources/Public/Icons/module-sgcookieoptin.png',
+						'labels' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang.xlf',
+					]
+				);
+			}
+		}
+	}
 );
