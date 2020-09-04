@@ -54,8 +54,8 @@
 				<target><![CDATA[Beschreibung (erklärt die Verwendung dieser Skripte & Cookies)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.group_name" approved="yes">
-				<source><![CDATA[Group Key for Google Tag Manager (Do not change while on live mode!)]]></source>
-				<target><![CDATA[Gruppen-Key für Google Tag Manager (Nicht im Live-Betrieb ändern!)]]></target>
+				<source><![CDATA[Group ID (Unique name, do not change while on live mode!)]]></source>
+				<target><![CDATA[Gruppen-ID (Eindeutiger Name, Nicht im Live-Betrieb ändern!)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.hidden" approved="yes">
 				<source><![CDATA[Deactivate]]></source>
