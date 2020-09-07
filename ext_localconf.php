@@ -56,7 +56,7 @@ call_user_func(
 
 		// External Content Frame Class TSConfig
 		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:' . $extKey . '/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig">'
+			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig">'
 		);
 
 		// Register Icons
