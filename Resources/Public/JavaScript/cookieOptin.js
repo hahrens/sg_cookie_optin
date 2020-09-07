@@ -58,7 +58,7 @@ var SgCookieOptin = {
 		var optInContentElements = document.querySelectorAll('.sg-cookie-optin-plugin-uninitialized');
 		for (var index = 0; index < optInContentElements.length; ++index) {
 			var optInContentElement = optInContentElements[index];
-			SgCookieOptin.showCookieOptin(optInContentElement, true);
+			SgCookieOptin.openCookieOptin(optInContentElement, true);
 			optInContentElement.classList.remove('sg-cookie-optin-plugin-uninitialized');
 			optInContentElement.classList.add('sg-cookie-optin-plugin-initialized');
 		}
@@ -73,7 +73,7 @@ var SgCookieOptin = {
 		var showOptIn = SgCookieOptin.getParameterByName('showOptIn') == true;
 		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if ((!cookieValue && !SgCookieOptin.jsonData.settings.activate_testing_mode) || showOptIn) {
-			SgCookieOptin.showCookieOptin(null, false);
+			SgCookieOptin.openCookieOptin(null, false);
 		}
 	},
 
@@ -137,18 +137,18 @@ var SgCookieOptin = {
 	},
 
 	/**
-	 * Shows the cookie optin box.
+	 * Opens the cookie optin box.
 	 *
 	 * @param {dom} contentElement
 	 * @param {bool} hideBanner
 	 *
 	 * @return {void}
 	 */
-	showCookieOptin: function(contentElement, hideBanner) {
+	openCookieOptin: function(contentElement, hideBanner) {
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
 
-		if (contentElement === null && SgCookieOptin.jsonData.settings.banner_enable && !hideBanner) {
+		if (!contentElement && SgCookieOptin.jsonData.settings.banner_enable && !hideBanner) {
 			wrapper.classList.add('sg-cookie-optin-banner-wrapper');
 			wrapper.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.banner.markup);
 		} else {
@@ -157,7 +157,7 @@ var SgCookieOptin = {
 
 		SgCookieOptin.addListeners(wrapper, contentElement);
 
-		if (contentElement === null) {
+		if (!contentElement) {
 			document.body.insertAdjacentElement('beforeend', wrapper);
 		} else {
 			contentElement.appendChild(wrapper);
@@ -331,7 +331,7 @@ var SgCookieOptin = {
 		var openSettingsButtons = element.querySelectorAll('.sg-cookie-optin-banner-button-settings');
 		SgCookieOptin.addEventListenerToList(openSettingsButtons, 'click', function() {
 			SgCookieOptin.hideCookieOptIn();
-			SgCookieOptin.showCookieOptin(null, true);
+			SgCookieOptin.openCookieOptin(null, true);
 		});
 	},
 
@@ -1136,9 +1136,9 @@ var SgCookieOptin = {
 		}
 
 		if (setCookieForSessionOnly) {
-			SgCookieOptin.setSessionCookie(COOKIE_NAME, cookieValue);
+			SgCookieOptin.setSessionCookie(SgCookieOptin.COOKIE_NAME, cookieValue);
 		} else {
-			SgCookieOptin.setCookie(COOKIE_NAME, cookieValue, jsonData.settings.cookie_lifetime);
+			SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieValue, SgCookieOptin.jsonData.settings.cookie_lifetime);
 		}
 	},
 
@@ -1152,7 +1152,7 @@ var SgCookieOptin = {
 		if (!oldNotification.classList.contains('sg-cookie-optin-save-confirmation')) {
 			var notification = document.createElement('DIV');
 			notification.classList.add('sg-cookie-optin-save-confirmation');
-			notification.insertAdjacentText('afterbegin', jsonData.textEntries.save_confirmation_text);
+			notification.insertAdjacentText('afterbegin', SgCookieOptin.jsonData.textEntries.save_confirmation_text);
 			contentElement.insertBefore(notification, contentElement.firstChild);
 		}
 	},
