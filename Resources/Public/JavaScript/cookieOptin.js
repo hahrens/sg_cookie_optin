@@ -1050,6 +1050,17 @@ var SgCookieOptin = {
 		} else {
 			parentNode.appendChild(externalContent);
 		}
+
+		// Emit event when the external content has been accepted
+		var externalContentAcceptedEvent = new CustomEvent('externalContentAccepted', {
+			bubbles: true,
+			detail: {
+				positionIndex: positionIndex,
+				parent: parent,
+				externalContent: externalContent
+			}
+		});
+		externalContent.dispatchEvent(externalContentAcceptedEvent);
 	},
 
 	/**
@@ -1144,7 +1155,7 @@ var SgCookieOptin = {
 			notification.insertAdjacentText('afterbegin', jsonData.textEntries.save_confirmation_text);
 			contentElement.insertBefore(notification, contentElement.firstChild);
 		}
-	}
+	},
 
 	/**
 	 * Returns the value of a query parameter as a string, or null on error.
@@ -1170,6 +1181,39 @@ var SgCookieOptin = {
 		}
 
 		return decodeURIComponent(results[2].replace(/\+/g, ' '));
+	},
+
+	/**
+	 * Returns all the protected and unaccepted elements that match the given selector
+	 *
+	 * @param {string} selector
+	 * @returns {[]}
+	 */
+	findProtectedElementsBySelector: function(selector) {
+		var foundElements = [];
+		for (var elementIndex in SgCookieOptin.protectedExternalContents) {
+			if (typeof SgCookieOptin.protectedExternalContents[elementIndex].matches === 'function'
+				&& SgCookieOptin.protectedExternalContents[elementIndex].matches(selector)) {
+				foundElements.push(SgCookieOptin.protectedExternalContents[elementIndex]);
+			}
+		}
+		return foundElements;
+	},
+
+	/**
+	 * Adds a trigger function to all protected elements that will be fired when the respective element has been granted
+	 * consent. You may filter the elements by a CSS selector.
+	 *
+	 * @param {function} callback
+	 * @param {string} selector
+	 */
+	addAcceptHandlerToProtectedElements: function(callback, selector) {
+		if (!selector) {
+			selector = '*';
+		}
+
+		var elements = SgCookieOptin.findProtectedElementsBySelector(selector);
+		this.addEventListenerToList(elements, 'externalContentAccepted', callback);
 	},
 
 	closestPolyfill: function() {
