@@ -140,7 +140,7 @@ $configuration = [
 				iframe_html'
 		],
 		'iframe_whitelist' => [
-			'label' => 'Test',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_whitelist',
 			'showitem' => 'iframe_whitelist_selection, iframe_whitelist_overwritten, --linebreak--,
 			iframe_whitelist_regex'
 		],

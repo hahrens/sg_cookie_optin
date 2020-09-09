@@ -597,6 +597,10 @@
 				<source><![CDATA[Whitelist external content. Every new line is interpreted as a new regular expression]]></source>
 				<target><![CDATA[Externe Inhalte whitelisten. Jede neue Zeile wird als einen neuen regulären Ausdruck interpretiert.]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist" approved="yes">
+				<source><![CDATA[External content whitelist. (Object sources matching these regular expressions will not be replaced.)]]></source>
+				<target><![CDATA[Externe Inhalte whitelisten. (Objekte, deren Quelle diese reguläre Ausdrücke entspricht, werden nicht ersetzt)]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten" approved="yes">
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 				<target><![CDATA[Vorlage überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
