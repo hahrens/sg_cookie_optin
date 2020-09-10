@@ -324,6 +324,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_description">
 				<source><![CDATA[Description (Shown in the opt in)]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_cookies">
+				<source><![CDATA[Cookies]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_enabled">
 				<source><![CDATA[Activate opt in for external content (iframe)]]></source>
 			</trans-unit>

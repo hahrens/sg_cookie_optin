@@ -586,6 +586,7 @@ class GenerateFilesAfterTcaSave {
 		$folder, array $data, array $translatedData, array $cssData, $minifyFiles, $languageUid = 0
 	) {
 		$essentialCookieData = [];
+		$iframeCookieData = [];
 		$pseudoElements = 0;
 		$groupIndex = 0;
 		foreach ($translatedData['essential_cookies'] as $index => $cookieData) {
@@ -692,12 +693,39 @@ class GenerateFilesAfterTcaSave {
 			];
 		}
 
+		$pseudoElements = 0;
+		$groupIndex = 0;
+		foreach ($translatedData['iframe_cookies'] as $index => $cookieData) {
+			$iframeCookieData[] = [
+				'Name' => $cookieData['name'],
+				'Provider' => $cookieData['provider'],
+				'Purpose' => $cookieData['purpose'],
+				'Lifetime' => $cookieData['lifetime'],
+				'index' => $groupIndex,
+				'pseudo' => FALSE,
+			];
+			++$groupIndex;
+				$pseudoElements = $groupIndex % 3;
+			}
+
+			for ($index = 1; $index < $pseudoElements; ++$index) {
+				$iframeCookieData[] = [
+					'Name' => '',
+					'Provider' => '',
+					'Purpose' => '',
+					'Lifetime' => '',
+					'index' => $groupIndex,
+					'pseudo' => TRUE,
+				];
+				++$groupIndex;
+			}
+
 		$iFrameGroup = [
 			'groupName' => 'iframes',
 			'label' => $translatedData['iframe_title'],
 			'description' => $translatedData['iframe_description'],
 			'required' => FALSE,
-			'cookieData' => [],
+			'cookieData' => $iframeCookieData,
 		];
 		if ((boolean) $translatedData['iframe_enabled']) {
 			$cookieGroups[] = $iFrameGroup;
