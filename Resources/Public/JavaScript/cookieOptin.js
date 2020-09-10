@@ -1030,7 +1030,7 @@ var SgCookieOptin = {
 	 * @param {dom} container
 	 * @return {void}
 	 */
-	acceptExternalContent: function(externalContentId, container) {
+	acceptExternalContent: function(externalContentId) {
 		if (!externalContentId) {
 			externalContentId = parent.getAttribute('data-iframe-id');
 			if (!externalContentId) {
@@ -1038,9 +1038,7 @@ var SgCookieOptin = {
 			}
 		}
 
-		if (!container) {
-			var container = document.querySelector('div[data-iframe-id="' + externalContentId + '"]');
-		}
+		var container = document.querySelector('div[data-iframe-id="' + externalContentId + '"]');
 		var externalContent = SgCookieOptin.protectedExternalContents[externalContentId];
 		if (!externalContent || !container) {
 			return;
@@ -1089,7 +1087,7 @@ var SgCookieOptin = {
 				if (!externalContentId) {
 					continue;
 				}
-				SgCookieOptin.acceptExternalContent(externalContentId, container);
+				SgCookieOptin.acceptExternalContent(externalContentId);
 			}
 		}
 	},
