@@ -840,7 +840,7 @@ var SgCookieOptin = {
 		while( (child = child.previousSibling) != null ) {
 			positionIndex++;
 		}
-		externalContent.setAttribute('data-position-index', positionIndex);
+		externalContent.setAttribute('data-iframe-position-index', positionIndex);
 
 		// Got problems with the zero.
 		var externalContentId = SgCookieOptin.protectedExternalContents.length + 1;
@@ -872,6 +872,12 @@ var SgCookieOptin = {
 		} else {
 			parent.appendChild(container);
 		}
+
+		// Accept child nodes as well when it is accepted
+		externalContent.addEventListener('externalContentAccepted', function() {
+			SgCookieOptin.acceptContainerChildNodes(externalContent);
+			return true;
+		});
 
 		// Because of the IE11 no .remove();
 		parent.removeChild(externalContent);
@@ -1021,10 +1027,10 @@ var SgCookieOptin = {
 	 * Replaces an external content consent container with the external content element.
 	 *
 	 * @param {int} externalContentId
-	 *
+	 * @param {dom} container
 	 * @return {void}
 	 */
-	acceptExternalContent: function(externalContentId) {
+	acceptExternalContent: function(externalContentId, container) {
 		if (!externalContentId) {
 			externalContentId = parent.getAttribute('data-iframe-id');
 			if (!externalContentId) {
@@ -1032,15 +1038,17 @@ var SgCookieOptin = {
 			}
 		}
 
-		var container = document.querySelector('div[data-iframe-id="' + externalContentId + '"]');
+		if (!container) {
+			var container = document.querySelector('div[data-iframe-id="' + externalContentId + '"]');
+		}
 		var externalContent = SgCookieOptin.protectedExternalContents[externalContentId];
 		if (!externalContent || !container) {
 			return;
 		}
 
 		externalContent.setAttribute('data-iframe-allow-always', 1);
-		var positionIndex = externalContent.getAttribute('data-position-index');
-		externalContent.removeAttribute('data-position-index');
+		var positionIndex = externalContent.getAttribute('data-iframe-position-index');
+		externalContent.removeAttribute('data-iframe-position-index');
 
 		// Because of the IE11 no .replaceWith();
 		var parentNode = container.parentNode;
@@ -1061,6 +1069,29 @@ var SgCookieOptin = {
 			}
 		});
 		externalContent.dispatchEvent(externalContentAcceptedEvent);
+
+	},
+
+	/**
+	 * Accept the external contents nested into the given container
+	 *
+	 * @param {dom} container
+	 */
+	acceptContainerChildNodes: function(container) {
+		var replacedChildren = container.querySelectorAll('[data-iframe-id]');
+		if (replacedChildren.length > 0) {
+			for (var childIndex in replacedChildren) {
+				var childElement = replacedChildren[childIndex];
+				if (typeof childElement.getAttribute !== 'function') {
+					continue;
+				}
+				var externalContentId = childElement.getAttribute('data-iframe-id');
+				if (!externalContentId) {
+					continue;
+				}
+				SgCookieOptin.acceptExternalContent(externalContentId, container);
+			}
+		}
 	},
 
 	/**

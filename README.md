@@ -110,7 +110,7 @@ for the external content protection:
 
 
 
-#### Protect any kind of dom element with the external content protection (force opt-in)
+#### Protect any kind of DOM element with the external content protection (force opt-in)
 
 There are three ways to do this and all of them will result in replacing this element and all of its contents with the
 opt-in dialog:
