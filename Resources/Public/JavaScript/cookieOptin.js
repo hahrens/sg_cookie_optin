@@ -58,7 +58,7 @@ var SgCookieOptin = {
 		var optInContentElements = document.querySelectorAll('.sg-cookie-optin-plugin-uninitialized');
 		for (var index = 0; index < optInContentElements.length; ++index) {
 			var optInContentElement = optInContentElements[index];
-			SgCookieOptin.openCookieOptin(optInContentElement, true);
+			SgCookieOptin.openCookieOptin(optInContentElement, {hideBanner: true});
 			optInContentElement.classList.remove('sg-cookie-optin-plugin-uninitialized');
 			optInContentElement.classList.add('sg-cookie-optin-plugin-initialized');
 		}
@@ -73,7 +73,7 @@ var SgCookieOptin = {
 		var showOptIn = SgCookieOptin.getParameterByName('showOptIn') == true;
 		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if ((!cookieValue && !SgCookieOptin.jsonData.settings.activate_testing_mode) || showOptIn) {
-			SgCookieOptin.openCookieOptin(null, false);
+			SgCookieOptin.openCookieOptin(null, {hideBanner: false});
 		}
 	},
 
@@ -139,12 +139,16 @@ var SgCookieOptin = {
 	/**
 	 * Opens the cookie optin box.
 	 *
+	 * Supported options:
+	 * {boolean} hideBanner Whether to show the cookie banner or not, if it's enabled
+	 *
 	 * @param {dom} contentElement
-	 * @param {bool} hideBanner
+	 * @param {object} options
 	 *
 	 * @return {void}
 	 */
-	openCookieOptin: function(contentElement, hideBanner) {
+	openCookieOptin: function(contentElement, options) {
+		var hideBanner = typeof options == 'object' && options.hideBanner === true;
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
 
@@ -280,7 +284,7 @@ var SgCookieOptin = {
 			SgCookieOptin.updateCookieList();
 			SgCookieOptin.handleScriptActivations();
 
-			if (contentElement === null) {
+			if (!contentElement) {
 				SgCookieOptin.hideCookieOptIn();
 			}
 		});
@@ -301,7 +305,7 @@ var SgCookieOptin = {
 			SgCookieOptin.updateCookieList();
 			SgCookieOptin.handleScriptActivations();
 
-			if (contentElement === null) {
+			if (!contentElement) {
 				SgCookieOptin.hideCookieOptIn();
 			}
 		});
@@ -312,7 +316,7 @@ var SgCookieOptin = {
 			SgCookieOptin.updateCookieList();
 			SgCookieOptin.handleScriptActivations();
 
-			if (contentElement === null) {
+			if (!contentElement) {
 				SgCookieOptin.hideCookieOptIn();
 			}
 		});
@@ -323,7 +327,7 @@ var SgCookieOptin = {
 			SgCookieOptin.updateCookieList();
 			SgCookieOptin.handleScriptActivations();
 
-			if (contentElement === null) {
+			if (!contentElement) {
 				SgCookieOptin.hideCookieOptIn();
 			}
 		});
@@ -331,7 +335,7 @@ var SgCookieOptin = {
 		var openSettingsButtons = element.querySelectorAll('.sg-cookie-optin-banner-button-settings');
 		SgCookieOptin.addEventListenerToList(openSettingsButtons, 'click', function() {
 			SgCookieOptin.hideCookieOptIn();
-			SgCookieOptin.openCookieOptin(null, true);
+			SgCookieOptin.openCookieOptin(null, {hideBanner: true});
 		});
 	},
 
@@ -650,7 +654,7 @@ var SgCookieOptin = {
 						continue;
 					}
 
-					SgCookieOptin.replaceExternalContentsWithConsent(externalContents[externalContentIndex]);
+					SgCookieOptin.replaceExternalContentWithConsent(externalContents[externalContentIndex]);
 				}
 			}
 		}
@@ -702,7 +706,7 @@ var SgCookieOptin = {
 
 					var addedNode = mutation.addedNodes[addedNodeIndex];
 					if (typeof addedNode.matches === 'function' && addedNode.matches(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR)) {
-						SgCookieOptin.replaceExternalContentsWithConsent(addedNode);
+						SgCookieOptin.replaceExternalContentWithConsent(addedNode);
 					} else if (addedNode.querySelectorAll && typeof addedNode.querySelectorAll === 'function') {
 						// check if there is an external content in the subtree
 						var externalContents = addedNode.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR);
@@ -711,7 +715,7 @@ var SgCookieOptin = {
 								if (!externalContents.hasOwnProperty(externalContentIndex)) {
 									continue;
 								}
-								SgCookieOptin.replaceExternalContentsWithConsent(externalContents[externalContentIndex]);
+								SgCookieOptin.replaceExternalContentWithConsent(externalContents[externalContentIndex]);
 							}
 						}
 					}
@@ -813,7 +817,7 @@ var SgCookieOptin = {
 	 *
 	 * @return {void}
 	 */
-	replaceExternalContentsWithConsent: function(externalContent) {
+	replaceExternalContentWithConsent: function(externalContent) {
 		// Skip allowed elements and whitelisted sources
 		// noinspection EqualityComparisonWithCoercionJS
 		if (externalContent.matches(SgCookieOptin.EXTERNAL_CONTENT_ALLOWED_ELEMENT_SELECTOR)
