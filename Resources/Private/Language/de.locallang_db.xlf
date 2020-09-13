@@ -361,10 +361,6 @@
 				<source><![CDATA[Scripts (For translations: Only "translated" scripts are considered. Added scripts without a default language parent will be ignored)]]></source>
 				<target><![CDATA[Skripte (Für Übersetzungen: Es werden nur "übersetzte" Skripte berücksichtigt. Hinzugefügte Skripte ohne übergeordnete Standardsprache werden ignoriert)]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.external_scripts" approved="yes">
-				<source><![CDATA[Scripts (For translations: Only "translated" scripts are considered. Added scripts without a default language parent will be ignored)]]></source>
-				<target><![CDATA[Skripte (Für Übersetzungen: Es werden nur "übersetzte" Skripte berücksichtigt. Hinzugefügte Skripte ohne übergeordnete Standardsprache werden ignoriert)]]></target>
-			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_title" approved="yes">
 				<source><![CDATA[Group Title for Essential Cookies & Scripts the User has to Accept]]></source>
 				<target><![CDATA[Gruppentitel für essentielle Cookies & Skripte, die der Benutzer akzeptieren muss.]]></target>

@@ -956,6 +956,6 @@ class GenerateFilesAfterTcaSave {
 	 * @return string|string[]|null
 	 */
 	protected function removeCHashFromUrl($url) {
-		return preg_replace('/([?&])' . 'cHash' . '=[^&]+(&|$)/','$2',$url);
+		return preg_replace('/([?&])' . 'cHash' . '=[^&^#]+(&|#|$)/','$2',$url);
 	}
 }

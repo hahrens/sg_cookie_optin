@@ -862,12 +862,12 @@ var SgCookieOptin = {
 		container.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.iframeReplacement.markup);
 
 		// Add event Listeners to the consent buttons
-		var externalContentConsentAccept = container.querySelectorAll('.sg-cookie-optin-external-content-consent-accept');
+		var externalContentConsentAccept = container.querySelectorAll('.sg-cookie-optin-iframe-consent-accept');
 		SgCookieOptin.addEventListenerToList(externalContentConsentAccept, 'click', function() {
 			SgCookieOptin.acceptExternalContent(externalContentId)
 		});
 
-		var externalContentConsentLink = container.querySelectorAll('.sg-cookie-optin-external-content-consent-link');
+		var externalContentConsentLink = container.querySelectorAll('.sg-cookie-optin-iframe-consent-link');
 		SgCookieOptin.addEventListenerToList(externalContentConsentLink, 'click', SgCookieOptin.openExternalContentConsent);
 
 		// Replace the element
