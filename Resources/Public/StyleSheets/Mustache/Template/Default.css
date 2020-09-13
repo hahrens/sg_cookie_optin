@@ -351,6 +351,10 @@
 	float: right;
 }
 
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer .sg-cookie-optin-box-copyright.sg-cookie-optin-box-copyright-link-hidden {
+	display: none;
+}
+
 /* The Content Element */
 .sg-cookie-optin-plugin #SgCookieOptin {
 	display: block;

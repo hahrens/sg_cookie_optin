@@ -1,0 +1,13 @@
+TCEFORM.tt_content.frame_class {
+	addItems.external-content-protection = External Content
+	addItems.external-content-no-protection = Unprotected External Content
+}
+
+tt_content.stdWrap.innerWrap.cObject = CASE
+tt_content.stdWrap.innerWrap.cObject {
+key.field = frame_class
+	external-content-protection = TEXT
+	external-content-protection.value = <div class="external-content-protection">|</div>
+	external-content-protection = TEXT
+	external-content-no-protection.value = <div class="external-content-no-protection">|</div>
+}

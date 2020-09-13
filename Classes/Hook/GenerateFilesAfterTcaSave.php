@@ -218,7 +218,7 @@ class GenerateFilesAfterTcaSave {
 		];
 		$this->createCSSFile($fullData, $folderName, $cssData, $minifyFiles);
 
-		$languages = $this->getLanguages();
+		$languages = $this->getLanguages($siteRoot);
 		foreach ($languages as $language) {
 			$languageUid = (int) $language['uid'];
 			if ($languageUid < 0) {
@@ -459,19 +459,17 @@ class GenerateFilesAfterTcaSave {
 	 *
 	 * @return array
 	 */
-	protected function getLanguages() {
+	protected function getLanguages($siteRootUid) {
 		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows('uid', 'sys_language', '');
 		} else {
-			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-			$queryBuilder = $connectionPool->getQueryBuilderForTable('sys_language');
-			$queryBuilder->getRestrictions()
-				->removeAll()
-				->add(GeneralUtility::makeInstance(DeletedRestriction::class));
-			$queryBuilder->select('uid')->from('sys_language');
-			$rows = $queryBuilder->execute()->fetchAll();
+			$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($siteRootUid);
+			$rows = [];
+			foreach ($site->getAllLanguages() as $siteLanguage) {
+				$rows[] = ['uid' => $siteLanguage->getLanguageId()];
+			}
 		}
 
 		if (is_array($rows)) {
@@ -588,6 +586,7 @@ class GenerateFilesAfterTcaSave {
 		$folder, array $data, array $translatedData, array $cssData, $minifyFiles, $languageUid = 0
 	) {
 		$essentialCookieData = [];
+		$iframeCookieData = [];
 		$pseudoElements = 0;
 		$groupIndex = 0;
 		foreach ($translatedData['essential_cookies'] as $index => $cookieData) {
@@ -694,12 +693,39 @@ class GenerateFilesAfterTcaSave {
 			];
 		}
 
+		$pseudoElements = 0;
+		$groupIndex = 0;
+		foreach ($translatedData['iframe_cookies'] as $index => $cookieData) {
+			$iframeCookieData[] = [
+				'Name' => $cookieData['name'],
+				'Provider' => $cookieData['provider'],
+				'Purpose' => $cookieData['purpose'],
+				'Lifetime' => $cookieData['lifetime'],
+				'index' => $groupIndex,
+				'pseudo' => FALSE,
+			];
+			++$groupIndex;
+				$pseudoElements = $groupIndex % 3;
+			}
+
+			for ($index = 1; $index < $pseudoElements; ++$index) {
+				$iframeCookieData[] = [
+					'Name' => '',
+					'Provider' => '',
+					'Purpose' => '',
+					'Lifetime' => '',
+					'index' => $groupIndex,
+					'pseudo' => TRUE,
+				];
+				++$groupIndex;
+			}
+
 		$iFrameGroup = [
 			'groupName' => 'iframes',
 			'label' => $translatedData['iframe_title'],
 			'description' => $translatedData['iframe_description'],
 			'required' => FALSE,
-			'cookieData' => [],
+			'cookieData' => $iframeCookieData,
 		];
 		if ((boolean) $translatedData['iframe_enabled']) {
 			$cookieGroups[] = $iFrameGroup;
@@ -719,14 +745,14 @@ class GenerateFilesAfterTcaSave {
 			$uid = $pageData['uid'];
 			if ($currentVersion >= 9000000) {
 				$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($uid);
-				$url = (string) $site->getRouter()->generateUri(
+				$url =  $this->removeCHashFromUrl((string) $site->getRouter()->generateUri(
 					$uid, ['disableOptIn' => 1, '_language' => $languageUid]
-				);
+				));
 				$title = $pageData['title'];
 				$name = strlen($title) > 35 ? substr($title, 0, 35) . '...' : $title;
 			} else {
 				try {
-					$url = $contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid);
+					$url =  $this->removeCHashFromUrl($contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid));
 					$name = $contentObject->crop($pageData['title'], 35 . '|...|0');
 				} catch (\Exception $exception) {
 					// Occurs on the first creation of the translation.
@@ -758,6 +784,8 @@ class GenerateFilesAfterTcaSave {
 			'minify_generated_data' => (boolean) $translatedData['minify_generated_data'],
 			'show_button_close' => (boolean) $translatedData['show_button_close'],
 			'activate_testing_mode' => (boolean) $translatedData['activate_testing_mode'],
+			'disable_powered_by' => (boolean) $translatedData['disable_powered_by'],
+			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
 		];
 
 		$textEntries = [
@@ -828,6 +856,16 @@ class GenerateFilesAfterTcaSave {
 				'markup' => $this->getRenderedMustacheTemplate(
 					$translatedData['iframe_replacement_overwritten'], $translatedData['iframe_replacement_html'],
 					$translatedData['iframe_replacement_selection'], TemplateService::TYPE_IFRAME_REPLACEMENT,
+					$jsonDataArray
+				),
+			],
+			'iframeWhitelist' => [
+				'iframe_whitelist_regex' => $translatedData['iframe_whitelist_regex'],
+				'iframe_whitelist_overwritten' => $translatedData['iframe_whitelist_overwritten'],
+				'iframe_whitelist_selection' => $translatedData['iframe_whitelist_selection'],
+				'markup' => $this->getRenderedMustacheTemplate(
+					$translatedData['iframe_whitelist_overwritten'], $translatedData['iframe_whitelist_regex'],
+					$translatedData['iframe_whitelist_selection'], TemplateService::TYPE_IFRAME_WHITELIST,
 					$jsonDataArray
 				),
 			],
@@ -909,5 +947,15 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		return $records;
+	}
+
+	/**
+	 * Remove the cHash parameter from URL
+	 *
+	 * @param string $url
+	 * @return string|string[]|null
+	 */
+	protected function removeCHashFromUrl($url) {
+		return preg_replace('/([?&])' . 'cHash' . '=[^&^#]+(&|#|$)/','$2',$url);
 	}
 }

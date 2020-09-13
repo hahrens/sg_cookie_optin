@@ -32,7 +32,7 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 /**
@@ -80,8 +80,9 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 					return '';
 				}
 			}
-
-			return '<script id="cookieOptinData" type="application/json">' . file_get_contents($sitePath . $jsonFile) .
+			// we decode and encode again to remove the PRETTY_PRINT when rendering
+			// see https://gitlab.sgalinski.de/typo3/sg_cookie_optin/-/issues/118
+			return '<script id="cookieOptinData" type="application/json">' . json_encode(json_decode(file_get_contents($sitePath . $jsonFile))) .
 				'</script><script src="/' . $file . '" type="text/javascript" data-ignore="1"></script>';
 		} {
 			// Old including from version 2.X.X @todo remove in version 4.X.X
@@ -174,15 +175,17 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @return int
 	 */
 	protected function getLanguage() {
-		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 10000000) {
-			/** @var LanguageAspect $languageAspect */
-			$languageAspect = GeneralUtility::makeInstance(Context::class)->getAspect('language');
-			$sysLanguageUid = $languageAspect->getId();
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		if ($versionNumber >= 9005000) {
+			$languageAspect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+				\TYPO3\CMS\Core\Context\Context::class
+			)->getAspect('language');
+			// no object check, because if the object is not set we don't know which language that is anyway
+			return $languageAspect->getId();
 		} else {
 			/** @var TypoScriptFrontendController $typoScriptFrontendController */
 			$typoScriptFrontendController = $GLOBALS['TSFE'];
-			$sysLanguageUid = $typoScriptFrontendController->sys_language_uid;
+			return $typoScriptFrontendController->sys_language_uid;
 		}
-		return $sysLanguageUid;
 	}
 }

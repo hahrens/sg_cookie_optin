@@ -29,6 +29,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	template_html text NOT NULL,
 	template_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	template_selection int(11) DEFAULT '0' NOT NULL,
+	disable_powered_by tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	set_cookie_for_domain varchar(255) DEFAULT '' NOT NULL,
 
 	# banner
 	banner_enable tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -95,6 +97,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_enabled tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	iframe_title varchar(255) DEFAULT 'Externe Inhalte' NOT NULL,
 	iframe_description text NOT NULL,
+	iframe_cookies int(11) DEFAULT '0' NOT NULL,
 
 	iframe_html text NOT NULL,
 	iframe_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -103,6 +106,10 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_replacement_html text NOT NULL,
 	iframe_replacement_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	iframe_replacement_selection int(11) DEFAULT '0' NOT NULL,
+
+	iframe_whitelist_regex TEXT NOT NULL,
+	iframe_whitelist_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	iframe_whitelist_selection int(11) DEFAULT '0' NOT NULL,
 
 	iframe_button_allow_all_text varchar(255) DEFAULT 'Alle externen Inhalte erlauben' NOT NULL,
 	iframe_button_allow_one_text varchar(255) DEFAULT 'Einmalig erlauben' NOT NULL,
@@ -114,6 +121,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_color_button_load_one_hover varchar(10) DEFAULT '#2E6B96' NOT NULL,
 	iframe_color_button_load_one_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	iframe_color_open_settings varchar(10) DEFAULT '#373737' NOT NULL,
+
 
 	# Settings
 	cookie_lifetime int(11) DEFAULT '365' NOT NULL,
@@ -181,6 +189,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_script (
 	parent_group int(11) DEFAULT '0' NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
 
+
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -211,6 +220,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
 	lifetime varchar(255) DEFAULT '' NOT NULL,
 	parent_group int(11) DEFAULT '0' NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
+	parent_iframe int(11) DEFAULT '0' NOT NULL,
+
 
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

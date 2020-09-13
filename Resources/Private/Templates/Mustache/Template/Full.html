@@ -13,15 +13,14 @@
 		<ul class="sg-cookie-optin-box-cookie-list">
 			{{#cookieGroups}}
 				<li class="sg-cookie-optin-box-cookie-list-item">
-					<input class="sg-cookie-optin-checkbox"
-						   id="sg-cookie-optin-{{groupName}}"
+					<label >
+						<input class="sg-cookie-optin-checkbox"
 						   type="checkbox"
 						   name="cookies[]"
 						   value="{{groupName}}"
 						   {{#required}}checked="1"{{/required}}
 						   {{#required}}disabled="1"{{/required}}>
-					<label class="sg-cookie-optin-checkbox-label" for="sg-cookie-optin-{{groupName}}">
-						<span>{{{label}}}</span>
+						<span class="sg-cookie-optin-checkbox-label">{{{label}}}</span>
 					</label>
 
 					<p class="sg-cookie-optin-checkbox-description">{{{description}}}</p>
@@ -68,7 +67,7 @@
 
 		<div class="sg-cookie-optin-box-footer">
 			<div class="sg-cookie-optin-box-footer-links">
-				<div class="sg-cookie-optin-box-copyright">
+				<div class="sg-cookie-optin-box-copyright{{#settings.disable_powered_by}} sg-cookie-optin-box-copyright-link-hidden{{/settings.disable_powered_by}}">
 					<a class="sg-cookie-optin-box-copyright-link"
 					   href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/"
 					   target="_blank">

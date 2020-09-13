@@ -54,8 +54,8 @@
 				<target><![CDATA[Beschreibung (erklärt die Verwendung dieser Skripte & Cookies)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.group_name" approved="yes">
-				<source><![CDATA[Group Key for Google Tag Manager (Do not change while on live mode!)]]></source>
-				<target><![CDATA[Gruppen-Key für Google Tag Manager (Nicht im Live-Betrieb ändern!)]]></target>
+				<source><![CDATA[Group ID (Unique name, do not change while on live mode!)]]></source>
+				<target><![CDATA[Gruppen-ID (Eindeutiger Name, Nicht im Live-Betrieb ändern!)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_group.hidden" approved="yes">
 				<source><![CDATA[Deactivate]]></source>
@@ -297,6 +297,10 @@
 				<source><![CDATA[Text Color - Row Title]]></source>
 				<target><![CDATA[Textfarbe - Zeilentitel]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_Table_data_text" approved="yes">
+				<source><![CDATA[Text Color - Data]]></source>
+				<target><![CDATA[Textfarbe - Daten]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_text" approved="yes">
 				<source><![CDATA[Text]]></source>
 				<target><![CDATA[Text]]></target>
@@ -425,6 +429,10 @@
 				<source><![CDATA[Description (Shown in the opt in)]]></source>
 				<target><![CDATA[Beschreibung (Dargestellt im Opt-In)]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_cookies">
+				<source><![CDATA[Cookies]]></source>
+				<target><![CDATA[Cookies]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_enabled" approved="yes">
 				<source><![CDATA[Activate opt in for external content (iframe)]]></source>
 				<target><![CDATA[Aktiviere den Opt-In für externe Inhalte (iframe)]]></target>
@@ -439,6 +447,10 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_overwritten" approved="yes">
 				<source><![CDATA[Overwrite Settings Window Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
+				<target><![CDATA[Template des Einstellungsfensters überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_overwritten" approved="yes">
+				<source><![CDATA[Overwrite Whitelist Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 				<target><![CDATA[Template des Einstellungsfensters überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html" approved="yes">
@@ -465,7 +477,15 @@
 				<source><![CDATA[Select a Base Design for the Settings Window Template (This form will be saved and reloaded when this setting changes.)]]></source>
 				<target><![CDATA[Basis-Designvorlage für das Einstellungsfenster auswählen (Dieses Formular wird bei Änderung gespeichert und neu geladen.)]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection" approved="yes">
+				<source><![CDATA[Select a base template for your whitelist (This form will be saved and reloaded when this setting changes.)]]></source>
+				<target><![CDATA[Basis-Vorlage für Ihre Whiteliste auswählen (Dieses Formular wird bei Änderung gespeichert und neu geladen.)]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_selection.0" approved="yes">
+				<source><![CDATA[Default]]></source>
+				<target><![CDATA[Standard]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection.0" approved="yes">
 				<source><![CDATA[Default]]></source>
 				<target><![CDATA[Standard]]></target>
 			</trans-unit>
@@ -529,6 +549,14 @@
 				<source><![CDATA[Activate the close button in the template]]></source>
 				<target><![CDATA[Aktiviere den Schließen-Button im Template]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode" approved="yes">
+				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
+				<target><![CDATA[Aktiviere den Test-Modus (Der Parameter "?showOptIn=1" muss an die URL angefügt werden)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.textAndMenu" approved="yes">
+				<source><![CDATA[Labels & Menu]]></source>
+				<target><![CDATA[Texte & Menü]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.banner" approved="yes">
 				<source><![CDATA[Banner]]></source>
 				<target><![CDATA[Banner]]></target>
@@ -564,6 +592,14 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html" approved="yes">
 				<source><![CDATA[Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 				<target><![CDATA[Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe http://mustache.github.io/mustache.5.html)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex" approved="yes">
+				<source><![CDATA[Whitelist external content. Every new line is interpreted as a new regular expression]]></source>
+				<target><![CDATA[Externe Inhalte whitelisten. Jede neue Zeile wird als einen neuen regulären Ausdruck interpretiert.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist" approved="yes">
+				<source><![CDATA[External content whitelist. (Object sources matching these regular expressions will not be replaced.)]]></source>
+				<target><![CDATA[Externe Inhalte whitelisten. (Objekte, deren Quelle diese reguläre Ausdrücke entspricht, werden nicht ersetzt)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten" approved="yes">
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
@@ -608,6 +644,30 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title" approved="yes">
 				<source><![CDATA[Script Name]]></source>
 				<target><![CDATA[Skript-Name]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_headline" approved="yes">
+				<source><![CDATA[Headline]]></source>
+				<target><![CDATA[Überschrift]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_box" approved="yes">
+				<source><![CDATA[Window (upper part)]]></source>
+				<target><![CDATA[Fenster (Oberer Teil)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_full_text" approved="yes">
+				<source><![CDATA[Text (upper part)]]></source>
+				<target><![CDATA[Text (Oberer Teil)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_powered_by">
+				<source><![CDATA[Disable Powered by]]></source>
+				<target><![CDATA[Powered by deaktivieren]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain">
+				<source><![CDATA[Set cookie for the whole domain]]></source>
+				<target><![CDATA[Das Cookie für das ganze Domain setzen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea">
+				<source><![CDATA[This may not be GDPR compliant.]]></source>
+				<target><![CDATA[Dies ist möglicherweise nicht DSVGO-konform.]]></target>
 			</trans-unit>
 		</body>
 	</file>

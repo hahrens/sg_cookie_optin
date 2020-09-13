@@ -8,53 +8,82 @@
  * https://www.sgalinski.de/en/typo3-produkte-webentwicklung/sgalinski-cookie-optin/
  */
 
-(function() {
-	var COOKIE_NAME = 'cookie_optin';
-	var COOKIE_GROUP_IFRAME = 'iframes';
-	var COOKIE_GROUP_ESSENTIAL = 'essential';
+var SgCookieOptin = {
 
-	var iFrameObserver = null;
-	var protectedIFrames = [];
-	var lastOpenedIFrameId = 0;
-	var jsonData = {};
+	COOKIE_NAME: 'cookie_optin',
+	COOKIE_GROUP_EXTERNAL_CONTENT: 'iframes',
+	COOKIE_GROUP_ESSENTIAL: 'essential',
+
+	/**
+	 * The CSS selector to match possible external content
+	 * @type {string}
+	 */
+	EXTERNAL_CONTENT_ELEMENT_SELECTOR: 'iframe, object, video, audio, [data-external-content-protection], .frame-external-content-protection',
+	/**
+	 * The CSS selector to match whitelisted external content
+	 * @type {string}
+	 */
+	EXTERNAL_CONTENT_ALLOWED_ELEMENT_SELECTOR: '[data-external-content-no-protection], [data-iframe-allow-always], .frame-external-content-no-protection',
+
+	externalContentObserver: null,
+	protectedExternalContents: [],
+	lastOpenedExternalContentId: 0,
+	jsonData: {},
+
+	/**
+	 * Executes the script
+	 */
+	run: function() {
+		SgCookieOptin.closestPolyfill();
+
+		SgCookieOptin.jsonData = JSON.parse(document.getElementById('cookieOptinData').innerHTML);
+		if (SgCookieOptin.jsonData) {
+			// https://plainjs.com/javascript/events/running-code-when-the-document-is-ready-15/
+			document.addEventListener('DOMContentLoaded', function() {
+				SgCookieOptin.initialize();
+			});
+
+			SgCookieOptin.checkForExternalContents();
+		}
+	},
 
 	/**
 	 * Initializes the whole functionality.
 	 *
 	 * @return {void}
 	 */
-	function initialize() {
-		handleScriptActivations();
+	initialize: function() {
+		SgCookieOptin.handleScriptActivations();
 
 		var optInContentElements = document.querySelectorAll('.sg-cookie-optin-plugin-uninitialized');
 		for (var index = 0; index < optInContentElements.length; ++index) {
 			var optInContentElement = optInContentElements[index];
-			showCookieOptin(optInContentElement, true);
+			SgCookieOptin.openCookieOptin(optInContentElement, {hideBanner: true});
 			optInContentElement.classList.remove('sg-cookie-optin-plugin-uninitialized');
 			optInContentElement.classList.add('sg-cookie-optin-plugin-initialized');
 		}
 
 		// noinspection EqualityComparisonWithCoercionJS
-		var disableOptIn = getParameterByName('disableOptIn') == true;
+		var disableOptIn = SgCookieOptin.getParameterByName('disableOptIn') == true;
 		if (disableOptIn) {
 			return;
 		}
 
 		// noinspection EqualityComparisonWithCoercionJS
-		var showOptIn = getParameterByName('showOptIn') == true;
-		var cookieValue = getCookie(COOKIE_NAME);
-		if ((!cookieValue && !jsonData.settings.activate_testing_mode) || showOptIn) {
-			showCookieOptin(null, false);
+		var showOptIn = SgCookieOptin.getParameterByName('showOptIn') == true;
+		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
+		if ((!cookieValue && !SgCookieOptin.jsonData.settings.activate_testing_mode) || showOptIn) {
+			SgCookieOptin.openCookieOptin(null, {hideBanner: false});
 		}
-	}
+	},
 
 	/**
 	 * Handles the scripts of the allowed cookie groups.
 	 *
 	 * @return {void}
 	 */
-	function handleScriptActivations() {
-		var cookieValue = getCookie(COOKIE_NAME);
+	handleScriptActivations: function() {
+		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (!cookieValue) {
 			return;
 		}
@@ -77,68 +106,72 @@
 				continue;
 			}
 
-			for (var groupIndex in jsonData.cookieGroups) {
-				if (!jsonData.cookieGroups.hasOwnProperty(groupIndex) || jsonData.cookieGroups[groupIndex]['groupName'] !== group) {
+			for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+				if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex) || SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName'] !== group) {
 					continue;
 				}
 
 				if (
-					jsonData.cookieGroups[groupIndex]['loadingHTML'] &&
-					jsonData.cookieGroups[groupIndex]['loadingHTML'] !== ''
+					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML'] &&
+					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML'] !== ''
 				) {
 					var head = document.getElementsByTagName('head')[0];
 					if (head) {
 						var range = document.createRange();
 						range.selectNode(head);
-						head.appendChild(range.createContextualFragment(jsonData.cookieGroups[groupIndex]['loadingHTML']));
+						head.appendChild(range.createContextualFragment(SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML']));
 					}
 				}
 
 				if (
-					jsonData.cookieGroups[groupIndex]['loadingJavaScript'] &&
-					jsonData.cookieGroups[groupIndex]['loadingJavaScript'] !== ''
+					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript'] &&
+					SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript'] !== ''
 				) {
 					var script = document.createElement('script');
-					script.setAttribute('src', jsonData.cookieGroups[groupIndex]['loadingJavaScript']);
+					script.setAttribute('src', SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript']);
 					script.setAttribute('type', 'text/javascript');
 					document.body.appendChild(script);
 				}
 			}
 		}
-	}
+	},
 
 	/**
-	 * Shows the cookie optin box.
+	 * Opens the cookie optin box.
+	 *
+	 * Supported options:
+	 * {boolean} hideBanner Whether to show the cookie banner or not, if it's enabled
 	 *
 	 * @param {dom} contentElement
-	 * @param {bool} hideBanner
+	 * @param {object} options
 	 *
 	 * @return {void}
 	 */
-	function showCookieOptin(contentElement, hideBanner) {
+	openCookieOptin: function(contentElement, options) {
+		var hideBanner = typeof options == 'object' && options.hideBanner === true;
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
 
-		if (contentElement === null && jsonData.settings.banner_enable && !hideBanner) {
+		if (!contentElement && SgCookieOptin.jsonData.settings.banner_enable && !hideBanner) {
 			wrapper.classList.add('sg-cookie-optin-banner-wrapper');
-			wrapper.insertAdjacentHTML('afterbegin', jsonData.mustacheData.banner.markup);
+			wrapper.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.banner.markup);
 		} else {
-			wrapper.insertAdjacentHTML('afterbegin', jsonData.mustacheData.template.markup);
+			wrapper.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.template.markup);
 		}
 
-		addListeners(wrapper, contentElement);
+		SgCookieOptin.addListeners(wrapper, contentElement);
 
-		if (contentElement === null) {
+		if (!contentElement) {
 			document.body.insertAdjacentElement('beforeend', wrapper);
 		} else {
 			contentElement.appendChild(wrapper);
 		}
 
 		setTimeout(function() {
-			adjustDescriptionHeight(wrapper, contentElement);
-			updateCookieList();
+			SgCookieOptin.adjustDescriptionHeight(wrapper, contentElement);
+			SgCookieOptin.updateCookieList();
 		}, 10);
-	}
+	},
 
 	/**
 	 * Adjusts the description height for each elements, for the new design.
@@ -147,7 +180,7 @@
 	 * @param {dom} contentElement
 	 * @return {void}
 	 */
-	function adjustDescriptionHeight(container, contentElement) {
+	adjustDescriptionHeight: function(container, contentElement) {
 		var columnsPerRow = 4;
 		if (contentElement === null) {
 			if (window.innerWidth <= 750) {
@@ -184,7 +217,7 @@
 
 			descriptions[index].style.height = maxHeightPerRow[maxHeightPerRowIndex] + 'px';
 		}
-	}
+	},
 
 	/**
 	 * Adjusts the description height for each elements, for the new design.
@@ -193,7 +226,7 @@
 	 * @param {dom} contentElement
 	 * @return {void}
 	 */
-	function adjustReasonHeight(container, contentElement) {
+	adjustReasonHeight: function(container, contentElement) {
 		var columnsPerRow = 3;
 		if (contentElement === null) {
 			if (window.innerWidth <= 750) {
@@ -234,7 +267,7 @@
 				reasons[index].style.height = maxHeightPerRow[maxHeightPerRowIndex] + 'px';
 			}
 		}
-	}
+	},
 
 	/**
 	 * Adds the listeners to the given element.
@@ -244,73 +277,67 @@
 	 *
 	 * @return {void}
 	 */
-	function addListeners(element, contentElement) {
+	addListeners: function(element, contentElement) {
 		var closeButtons = element.querySelectorAll('.sg-cookie-optin-box-close-button');
-		addEventListenerToList(closeButtons, 'click', function() {
-			acceptEssentialCookies();
-			updateCookieList();
-			handleScriptActivations();
+		SgCookieOptin.addEventListenerToList(closeButtons, 'click', function () {
+			SgCookieOptin.acceptEssentialCookies();
+			SgCookieOptin.updateCookieList();
+			SgCookieOptin.handleScriptActivations();
 
-			if (contentElement === null) {
-				hideCookieOptIn();
+			if (!contentElement) {
+				SgCookieOptin.hideCookieOptIn();
 			}
 		});
 
 		var openMoreLinks = element.querySelectorAll('.sg-cookie-optin-box-open-more-link');
-		addEventListenerToList(openMoreLinks, 'click', openCookieDetails);
+		SgCookieOptin.addEventListenerToList(openMoreLinks, 'click', SgCookieOptin.openCookieDetails);
 
 		var openSubListLink = element.querySelectorAll('.sg-cookie-optin-box-sublist-open-more-link');
-		addEventListenerToList(openSubListLink, 'click', function(event) {
-			openSubList(event, contentElement);
+		SgCookieOptin.addEventListenerToList(openSubListLink, 'click', function (event) {
+			SgCookieOptin.openSubList(event, contentElement);
 		});
 
 		var acceptAllButtons = element.querySelectorAll(
 			'.sg-cookie-optin-box-button-accept-all, .sg-cookie-optin-banner-button-accept'
 		);
-		addEventListenerToList(acceptAllButtons, 'click', function() {
-			acceptAllCookies();
-			updateCookieList();
-			handleScriptActivations();
+		SgCookieOptin.addEventListenerToList(acceptAllButtons, 'click', function() {
+			SgCookieOptin.acceptAllCookies();
+			SgCookieOptin.updateCookieList();
+			SgCookieOptin.handleScriptActivations();
 
-			if (contentElement === null) {
-				hideCookieOptIn();
-			} else {
-				showSaveConfirmation(contentElement);
+			if (!contentElement) {
+				SgCookieOptin.hideCookieOptIn();
 			}
 		});
 
 		var acceptSpecificButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-specific');
-		addEventListenerToList(acceptSpecificButtons, 'click', function() {
-			acceptSpecificCookies();
-			updateCookieList();
-			handleScriptActivations();
+		SgCookieOptin.addEventListenerToList(acceptSpecificButtons, 'click', function() {
+			SgCookieOptin.acceptSpecificCookies();
+			SgCookieOptin.updateCookieList();
+			SgCookieOptin.handleScriptActivations();
 
-			if (contentElement === null) {
-				hideCookieOptIn();
-			} else {
-				showSaveConfirmation(contentElement);
+			if (!contentElement) {
+				SgCookieOptin.hideCookieOptIn();
 			}
 		});
 
 		var acceptEssentialButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-essential');
-		addEventListenerToList(acceptEssentialButtons, 'click', function() {
-			acceptEssentialCookies();
-			updateCookieList();
-			handleScriptActivations();
+		SgCookieOptin.addEventListenerToList(acceptEssentialButtons, 'click', function() {
+			SgCookieOptin.acceptEssentialCookies();
+			SgCookieOptin.updateCookieList();
+			SgCookieOptin.handleScriptActivations();
 
-			if (contentElement === null) {
-				hideCookieOptIn();
-			} else {
-				showSaveConfirmation(contentElement);
+			if (!contentElement) {
+				SgCookieOptin.hideCookieOptIn();
 			}
 		});
 
 		var openSettingsButtons = element.querySelectorAll('.sg-cookie-optin-banner-button-settings');
-		addEventListenerToList(openSettingsButtons, 'click', function() {
-			hideCookieOptIn();
-			showCookieOptin(null, true);
+		SgCookieOptin.addEventListenerToList(openSettingsButtons, 'click', function() {
+			SgCookieOptin.hideCookieOptIn();
+			SgCookieOptin.openCookieOptin(null, {hideBanner: true});
 		});
-	}
+	},
 
 	/**
 	 * Adds an event to a given node list.
@@ -321,18 +348,18 @@
 	 *
 	 * @return {void}
 	 */
-	function addEventListenerToList(list, event, assignedFunction) {
+	addEventListenerToList: function(list, event, assignedFunction) {
 		for (var index = 0; index < list.length; ++index) {
 			list[index].addEventListener(event, assignedFunction, false);
 		}
-	}
+	},
 
 	/**
 	 * Hides the cookie opt in.
 	 *
 	 * @return {void}
 	 */
-	function hideCookieOptIn() {
+	hideCookieOptIn: function() {
 		// The content element cookie optins aren't removed, because querySelector gets only the first entry and it's
 		// always the modular one.
 		var optins = document.querySelectorAll('#SgCookieOptin');
@@ -350,16 +377,16 @@
 
 			parentNode.removeChild(optin);
 		}
-	}
+	},
 
 	/**
 	 * Returns the cookie list DOM.
 	 *
 	 * @return {void}
 	 */
-	function updateCookieList() {
+	updateCookieList: function() {
 		var statusMap = {};
-		var cookieValue = getCookie(COOKIE_NAME);
+		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (cookieValue) {
 			var splitedCookieValue = cookieValue.split('|');
 			for (var valueIndex in splitedCookieValue) {
@@ -377,12 +404,12 @@
 			}
 		}
 
-		for (var groupIndex in jsonData.cookieGroups) {
-			if (!jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
+		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
 				continue;
 			}
 
-			var groupName = jsonData.cookieGroups[groupIndex]['groupName'];
+			var groupName = SgCookieOptin.jsonData.cookieGroups[groupIndex]['groupName'];
 			if (!groupName) {
 				continue;
 			}
@@ -396,14 +423,15 @@
 				cookieList[index].checked = (statusMap[groupName] === 1);
 			}
 		}
-	}
+	},
 
 	/**
 	 * Opens the cookie details box.
 	 *
+	 * @param {event} event
 	 * @return {void}
 	 */
-	function openCookieDetails(event) {
+	openCookieDetails: function(event) {
 		event.preventDefault();
 
 		var openMoreElement = event.target.parentNode;
@@ -418,12 +446,12 @@
 
 		if (cookieDetailList.classList.contains('sg-cookie-optin-visible')) {
 			cookieDetailList.classList.remove('sg-cookie-optin-visible');
-			event.target.innerHTML = jsonData.textEntries.extend_box_link_text;
+			event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_box_link_text;
 		} else {
 			cookieDetailList.classList.add('sg-cookie-optin-visible');
-			event.target.innerHTML = jsonData.textEntries.extend_box_link_text_close;
+			event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_box_link_text_close;
 		}
-	}
+	},
 
 	/**
 	 * Opens the subList box.
@@ -432,7 +460,7 @@
 	 * @param {dom} contentElement
 	 * @return {void}
 	 */
-	function openSubList(event, contentElement) {
+	openSubList: function(event, contentElement) {
 		event.preventDefault();
 
 		// todo remove redundant code.
@@ -452,12 +480,12 @@
 					visible = false;
 					cookieBox.classList.remove('sg-cookie-optin-visible');
 					cookieBox.classList.add('sg-cookie-optin-invisible');
-					event.target.innerHTML = jsonData.textEntries.extend_table_link_text;
+					event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
 				} else {
 					cookieBox.classList.remove('sg-cookie-optin-invisible');
 					cookieBox.classList.add('sg-cookie-optin-visible');
-					adjustReasonHeight(cookieOptin, contentElement);
-					event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
+					SgCookieOptin.adjustReasonHeight(cookieOptin, contentElement);
+					event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
 				}
 
 				var descriptions = cookieBox.querySelectorAll('.sg-cookie-optin-checkbox-description');
@@ -479,7 +507,7 @@
 			if (cookieSubList.classList.contains('sg-cookie-optin-visible')) {
 				cookieSubList.classList.remove('sg-cookie-optin-visible');
 				cookieSubList.style.height = '';
-				event.target.innerHTML = jsonData.textEntries.extend_table_link_text;
+				event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text;
 			} else {
 				cookieSubList.classList.add('sg-cookie-optin-visible');
 				cookieSubList.style.height = 'auto';
@@ -491,24 +519,24 @@
 					}, 10);
 				});
 
-				event.target.innerHTML = jsonData.textEntries.extend_table_link_text_close;
+				event.target.innerHTML = SgCookieOptin.jsonData.textEntries.extend_table_link_text_close;
 			}
 		}
-	}
+	},
 
 	/**
 	 * Accepts all cookies and saves them.
 	 *
 	 * @return {void}
 	 */
-	function acceptAllCookies() {
+	acceptAllCookies: function() {
 		var cookieData = '';
-		for (var index in jsonData.cookieGroups) {
-			if (!jsonData.cookieGroups.hasOwnProperty(index)) {
+		for (var index in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(index)) {
 				continue;
 			}
 
-			var groupName = jsonData.cookieGroups[index]['groupName'];
+			var groupName = SgCookieOptin.jsonData.cookieGroups[index]['groupName'];
 			if (!groupName) {
 				continue;
 			}
@@ -519,25 +547,25 @@
 			cookieData += groupName + ':' + 1;
 		}
 
-		setCookieWrapper(cookieData);
-		acceptAllIFrames();
-	}
+		SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieData, SgCookieOptin.jsonData.settings.cookie_lifetime);
+		SgCookieOptin.acceptAllExternalContents();
+	},
 
 	/**
 	 * Accepts specific cookies and saves them.
 	 *
 	 * @return {void}
 	 */
-	function acceptSpecificCookies() {
-		var iframeGroupFoundAndActive = false;
+	acceptSpecificCookies: function() {
+		var externalContentGroupFoundAndActive = false;
 		var cookieData = '';
 		var checkboxes = document.querySelectorAll('.sg-cookie-optin-checkbox:checked');
-		for (var index in jsonData.cookieGroups) {
-			if (!jsonData.cookieGroups.hasOwnProperty(index)) {
+		for (var index in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(index)) {
 				continue;
 			}
 
-			var groupName = jsonData.cookieGroups[index]['groupName'];
+			var groupName = SgCookieOptin.jsonData.cookieGroups[index]['groupName'];
 			if (!groupName) {
 				continue;
 			}
@@ -550,8 +578,8 @@
 				}
 			}
 
-			if (groupName === COOKIE_GROUP_IFRAME && status === 1) {
-				iframeGroupFoundAndActive = true;
+			if (groupName === SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT && status === 1) {
+				externalContentGroupFoundAndActive = true;
 			}
 
 			if (cookieData.length > 0) {
@@ -560,36 +588,36 @@
 			cookieData += groupName + ':' + status;
 		}
 
-		setCookieWrapper(cookieData);
+		SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieData, SgCookieOptin.jsonData.settings.cookie_lifetime);
 
-		if (jsonData.settings.iframe_enabled) {
-			if (iframeGroupFoundAndActive) {
-				acceptAllIFrames();
+		if (SgCookieOptin.jsonData.settings.iframe_enabled) {
+			if (externalContentGroupFoundAndActive) {
+				SgCookieOptin.acceptAllExternalContents();
 			} else {
-				checkForIFrames();
+				SgCookieOptin.checkForExternalContents();
 			}
 		}
-	}
+	},
 
 	/**
 	 * Accepts essential cookies and saves them.
 	 *
 	 * @return {void}
 	 */
-	function acceptEssentialCookies() {
+	acceptEssentialCookies: function() {
 		var cookieData = '';
-		for (var index in jsonData.cookieGroups) {
-			if (!jsonData.cookieGroups.hasOwnProperty(index)) {
+		for (var index in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(index)) {
 				continue;
 			}
 
-			var groupName = jsonData.cookieGroups[index]['groupName'];
+			var groupName = SgCookieOptin.jsonData.cookieGroups[index]['groupName'];
 			if (!groupName) {
 				continue;
 			}
 
 			var status = 0;
-			if (jsonData.cookieGroups[index]['required']) {
+			if (SgCookieOptin.jsonData.cookieGroups[index]['required']) {
 				status = 1;
 			}
 
@@ -599,41 +627,41 @@
 			cookieData += groupName + ':' + status;
 		}
 
-		setCookieWrapper(cookieData);
-	}
+		SgCookieOptin.setCookieWrapper(cookieData);
+	},
 
 	/**
-	 * Checks if iFrames are added to the dom and replaces them with a consent, if the cookie isn't accepted, or set.
+	 * Checks if external content elements are added to the dom and replaces them with a consent, if the cookie isn't accepted, or set.
 	 *
 	 * @return {void}
 	 */
-	function checkForIFrames() {
-		if (!jsonData.settings.iframe_enabled) {
+	checkForExternalContents: function() {
+		if (!SgCookieOptin.jsonData.settings.iframe_enabled) {
 			return;
 		}
 
 		// noinspection EqualityComparisonWithCoercionJS
-		var showOptIn = getParameterByName('showOptIn') == true;
-		if (jsonData.settings.activate_testing_mode && !showOptIn) {
+		var showOptIn = SgCookieOptin.getParameterByName('showOptIn') == true;
+		if (SgCookieOptin.jsonData.settings.activate_testing_mode && !showOptIn) {
 			return;
 		}
 
-		if (!iFrameObserver) {
-			var iframes = document.querySelectorAll('iframe');
-			if (iframes.length > 0) {
-				for (var iframeIndex in iframes) {
-					if (!iframes.hasOwnProperty(iframeIndex)) {
+		if (!SgCookieOptin.externalContentObserver) {
+			var externalContents = document.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR);
+			if (externalContents.length > 0) {
+				for (var externalContentIndex in externalContents) {
+					if (!externalContents.hasOwnProperty(externalContentIndex)) {
 						continue;
 					}
 
-					replaceIFrameWithConsent(iframes[iframeIndex]);
+					SgCookieOptin.replaceExternalContentWithConsent(externalContents[externalContentIndex]);
 				}
 			}
 		}
 
-		var cookieValue = getCookie(COOKIE_NAME);
+		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (cookieValue) {
-			// If the iframe group exists, then check the status. If 1 no observer needed, otherwise always activated.
+			// If the external content group exists, then check the status. If 1 no observer needed, otherwise always activated.
 			var splitedCookieValue = cookieValue.split('|');
 			for (var splitedCookieValueIndex in splitedCookieValue) {
 				if (!splitedCookieValue.hasOwnProperty(splitedCookieValueIndex)) {
@@ -648,7 +676,7 @@
 
 				var group = groupAndStatus[0];
 				var status = parseInt(groupAndStatus[1]);
-				if (group === COOKIE_GROUP_IFRAME) {
+				if (group === SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT) {
 					if (status === 1) {
 						return;
 					}
@@ -659,7 +687,7 @@
 		}
 
 		// Create an observer instance linked to the callback function
-		iFrameObserver = new MutationObserver(function(mutationsList, observer) {
+		SgCookieOptin.externalContentObserver = new MutationObserver(function(mutationsList, observer) {
 			// Use traditional 'for loops' for IE 11
 			for (var index in mutationsList) {
 				if (!mutationsList.hasOwnProperty(index)) {
@@ -677,96 +705,228 @@
 					}
 
 					var addedNode = mutation.addedNodes[addedNodeIndex];
-					if (addedNode.tagName === 'IFRAME') {
-						replaceIFrameWithConsent(addedNode);
+					if (typeof addedNode.matches === 'function' && addedNode.matches(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR)) {
+						SgCookieOptin.replaceExternalContentWithConsent(addedNode);
+					} else if (addedNode.querySelectorAll && typeof addedNode.querySelectorAll === 'function') {
+						// check if there is an external content in the subtree
+						var externalContents = addedNode.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR);
+						if (externalContents.length > 0) {
+							for (var externalContentIndex in externalContents) {
+								if (!externalContents.hasOwnProperty(externalContentIndex)) {
+									continue;
+								}
+								SgCookieOptin.replaceExternalContentWithConsent(externalContents[externalContentIndex]);
+							}
+						}
 					}
 				}
 			}
 		});
 
 		// Start observing the target node for configured mutations
-		iFrameObserver.observe(document, {subtree: true, childList: true});
-	}
+		SgCookieOptin.externalContentObserver.observe(document, {subtree: true, childList: true});
+	},
 
 	/**
-	 * Adds a consent for iFrames, which needs to be accepted.
+	 * Checks whether this element matches the rules in the whitelist
 	 *
-	 * @param {dom} iframe
+	 * @param {dom} externalContent
+	 * @return {boolean}
+	 */
+	isContentWhiteListed: function(externalContent) {
+		var regularExpressions = SgCookieOptin.jsonData.mustacheData.iframeWhitelist.markup.trim()
+			.split(/\r?\n/).map(function (value) {
+				return new RegExp(value);
+			});
+		if (typeof regularExpressions === 'object' && regularExpressions.length < 1) {
+			return false;
+		}
+
+		switch (externalContent.tagName) {
+			case 'IFRAME':
+				return SgCookieOptin.isElementWhitelisted(externalContent, 'src', regularExpressions);
+			case 'OBJECT':
+				return SgCookieOptin.isElementWhitelisted(externalContent, 'data', regularExpressions);
+			case 'VIDEO':
+			case 'AUDIO':
+				return SgCookieOptin.isAudioVideoWhitelisted(externalContent, regularExpressions);
+			default:
+				return false;
+		}
+	},
+
+	/**
+	 * Tests whether a dom element attribute is whitelisted
+	 *
+	 * @param {dom} externalContent
+	 * @param {string} attribute
+	 * @param {RegExp[]} regularExpressions
+	 * @return {boolean}
+	 */
+	isElementWhitelisted: function(externalContent, attribute, regularExpressions) {
+		for (var regExIndex in regularExpressions) {
+			if (regularExpressions[regExIndex].test(externalContent.getAttribute(attribute))) {
+				return true;
+			}
+		}
+		return false;
+	},
+
+	/**
+	 * Tests if an audio or video element is whitelisted
+	 *
+	 * @param {dom} externalContent
+	 * @param {RegExp[]} regularExpressions
+	 * @return {boolean}
+	 */
+	isAudioVideoWhitelisted: function(externalContent, regularExpressions) {
+		if (externalContent.hasAttribute('src')) {
+			return SgCookieOptin.isElementWhitelisted(externalContent, 'src', regularExpressions);
+		}
+
+		var sources = externalContent.querySelectorAll('source');
+		for (var sourceIndex in sources) {
+			// noinspection JSUnfilteredForInLoop
+			if (SgCookieOptin.isElementWhitelisted(sources[sourceIndex], 'src', regularExpressions)) {
+				return true;
+			}
+		}
+
+		return false;
+	},
+
+	/**
+	 * Checks whether the given element is in a container that is allowed to always render external content
+	 * @param {dom} externalContent
+	 * @returns {boolean}
+	 */
+	isElementInAllowedNode: function(externalContent) {
+		var potentialParents = document.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ALLOWED_ELEMENT_SELECTOR);
+		for (i in potentialParents) {
+			if (typeof potentialParents[i].contains === 'function' && potentialParents[i].contains(externalContent)) {
+				return true;
+			}
+		}
+		return false;
+	},
+
+	/**
+	 * Adds a consent for externalContents, which needs to be accepted.
+	 *
+	 * @param {dom} externalContent
 	 *
 	 * @return {void}
 	 */
-	function replaceIFrameWithConsent(iframe) {
+	replaceExternalContentWithConsent: function(externalContent) {
+		// Skip allowed elements and whitelisted sources
 		// noinspection EqualityComparisonWithCoercionJS
-		if (iframe.getAttribute('data-iframe-allow-always') == true) {
+		if (externalContent.matches(SgCookieOptin.EXTERNAL_CONTENT_ALLOWED_ELEMENT_SELECTOR)
+			|| SgCookieOptin.isElementInAllowedNode(externalContent)
+			|| SgCookieOptin.isContentWhiteListed(externalContent)) {
 			return;
 		}
 
-		var parent = iframe.parentElement;
+		// Skip detached elements
+		var parent = externalContent.parentElement;
 		if (!parent) {
 			return;
 		}
 
-		if (!iframe.src || iframe.src.indexOf('chrome-extension') >= 0) {
+		// Skip iframes with no source
+		if (externalContent.tagName === 'IFRAME'
+			&& (!externalContent.src || externalContent.src.indexOf('chrome-extension') >= 0)) {
 			return;
 		}
 
-		// Got problems with the zero.
-		var iframeId = protectedIFrames.length + 1;
-		if (iframeId === 0) {
-			iframeId = 1;
+		// Get the position of the element within its parent
+		var positionIndex = 0;
+		var child = externalContent;
+		while( (child = child.previousSibling) != null ) {
+			positionIndex++;
 		}
-		protectedIFrames[iframeId] = iframe;
+		externalContent.setAttribute('data-iframe-position-index', positionIndex);
 
+		// Got problems with the zero.
+		var externalContentId = SgCookieOptin.protectedExternalContents.length + 1;
+		if (externalContentId === 0) {
+			externalContentId = 1;
+		}
+		SgCookieOptin.protectedExternalContents[externalContentId] = externalContent;
+
+		// Create the external content consent box DIV container
 		var container = document.createElement('DIV');
-		container.setAttribute('data-iframe-id', iframeId);
-		container.setAttribute('data-src', iframe.src);
-		container.setAttribute('style', 'height: ' + iframe.offsetHeight + 'px;');
+		container.setAttribute('data-iframe-id', externalContentId);
+		container.setAttribute('data-src', externalContent.src);
+		container.setAttribute('style', 'height: ' + externalContent.offsetHeight + 'px;');
 		container.classList.add('sg-cookie-optin-iframe-consent');
-		container.insertAdjacentHTML('afterbegin', jsonData.mustacheData.iframeReplacement.markup);
+		container.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.iframeReplacement.markup);
 
-		var iframeConsentAccept = container.querySelectorAll('.sg-cookie-optin-iframe-consent-accept');
-		addEventListenerToList(iframeConsentAccept, 'click', function() {
-			acceptIFrame(iframeId)
+		// Add event Listeners to the consent buttons
+		var externalContentConsentAccept = container.querySelectorAll('.sg-cookie-optin-iframe-consent-accept');
+		SgCookieOptin.addEventListenerToList(externalContentConsentAccept, 'click', function() {
+			SgCookieOptin.acceptExternalContent(externalContentId)
 		});
 
-		var iframeConsentLink = container.querySelectorAll('.sg-cookie-optin-iframe-consent-link');
-		addEventListenerToList(iframeConsentLink, 'click', openIFrameConsent);
+		var externalContentConsentLink = container.querySelectorAll('.sg-cookie-optin-iframe-consent-link');
+		SgCookieOptin.addEventListenerToList(externalContentConsentLink, 'click', SgCookieOptin.openExternalContentConsent);
 
-		parent.appendChild(container);
+		// Replace the element
+		if (parent.childNodes.length > 0) {
+			parent.insertBefore(container, parent.childNodes[positionIndex]);
+		} else {
+			parent.appendChild(container);
+		}
+
+		// Accept child nodes as well when it is accepted
+		externalContent.addEventListener('externalContentAccepted', function() {
+			SgCookieOptin.acceptContainerChildNodes(externalContent);
+			return true;
+		});
 
 		// Because of the IE11 no .remove();
-		parent.removeChild(iframe);
-	}
+		parent.removeChild(externalContent);
+
+		// Emit event for replaced content
+		var externalContentReplacedEvent = new CustomEvent('externalContentReplaced', {
+			bubbles: true,
+			detail: {
+				positionIndex: positionIndex,
+				parent: parent,
+				externalContent: externalContent
+			}
+		});
+		container.dispatchEvent(externalContentReplacedEvent);
+	},
 
 	/**
 	 * Adds a consent for iFrames, which needs to be accepted.
 	 *
 	 * @return {void}
 	 */
-	function openIFrameConsent() {
+	openExternalContentConsent: function() {
 		var parent = this.parentElement;
 		if (!parent) {
 			return;
 		}
 
-		var iframeId = parent.getAttribute('data-iframe-id');
-		if (!iframeId) {
+		var externalContentId = parent.getAttribute('data-iframe-id');
+		if (!externalContentId) {
 			return;
 		}
 
-		lastOpenedIFrameId = iframeId;
-		var iframe = protectedIFrames[iframeId];
-		if (!iframe) {
+		SgCookieOptin.lastOpenedExternalContentId = externalContentId;
+		var externalContent = SgCookieOptin.protectedExternalContents[externalContentId];
+		if (!externalContent) {
 			return;
 		}
 
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
-		wrapper.insertAdjacentHTML('afterbegin', jsonData.mustacheData.iframe.markup);
+		wrapper.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.iframe.markup);
 
 		var flashMessageContainer = wrapper.querySelector('.sg-cookie-optin-box-flash-message');
 		if (flashMessageContainer !== null) {
-			var flashMessageText = iframe.getAttribute('data-consent-description');
+			var flashMessageText = externalContent.getAttribute('data-consent-description');
 			if (flashMessageText) {
 				flashMessageContainer.appendChild(document.createTextNode(flashMessageText));
 			} else {
@@ -774,10 +934,10 @@
 			}
 		}
 
-		addIframeListeners(wrapper);
+		SgCookieOptin.addExternalContentListeners(wrapper);
 
 		document.body.insertAdjacentElement('beforeend', wrapper);
-	}
+	},
 
 	/**
 	 * Adds the listeners to the given element.
@@ -786,50 +946,50 @@
 	 *
 	 * @return {void}
 	 */
-	function addIframeListeners(element) {
+	addExternalContentListeners: function(element) {
 		var closeButtons = element.querySelectorAll('.sg-cookie-optin-box-close-button');
-		addEventListenerToList(closeButtons, 'click', hideCookieOptIn);
+		SgCookieOptin.addEventListenerToList(closeButtons, 'click', SgCookieOptin.hideCookieOptIn);
 
 		var acceptAllButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-all');
-		addEventListenerToList(acceptAllButtons, 'click', function() {
-			acceptAllIFrames();
-			updateCookieList();
-			handleScriptActivations();
-			hideCookieOptIn();
+		SgCookieOptin.addEventListenerToList(acceptAllButtons, 'click', function() {
+			SgCookieOptin.acceptAllExternalContents();
+			SgCookieOptin.updateCookieList();
+			SgCookieOptin.handleScriptActivations();
+			SgCookieOptin.hideCookieOptIn();
 		});
 
 		var acceptSpecificButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-specific');
-		addEventListenerToList(acceptSpecificButtons, 'click', function() {
-			acceptIFrame(lastOpenedIFrameId);
-			updateCookieList();
-			handleScriptActivations();
-			hideCookieOptIn();
+		SgCookieOptin.addEventListenerToList(acceptSpecificButtons, 'click', function() {
+			SgCookieOptin.acceptExternalContent(SgCookieOptin.lastOpenedExternalContentId);
+			SgCookieOptin.updateCookieList();
+			SgCookieOptin.handleScriptActivations();
+			SgCookieOptin.hideCookieOptIn();
 		});
-	}
+	},
 
 	/**
-	 * Replaces all iFrame consent containers with the corresponding iframe and adapts the cookie for further requests.
+	 * Replaces all external content consent containers with the corresponding external content and adapts the cookie for further requests.
 	 *
 	 * @return {void}
 	 */
-	function acceptAllIFrames() {
-		if (jsonData.settings.iframe_enabled && iFrameObserver) {
-			iFrameObserver.disconnect();
+	acceptAllExternalContents: function() {
+		if (SgCookieOptin.jsonData.settings.iframe_enabled && SgCookieOptin.externalContentObserver) {
+			SgCookieOptin.externalContentObserver.disconnect();
 		}
 
-		for (var index in protectedIFrames) {
+		for (var index in SgCookieOptin.protectedExternalContents) {
 			index = parseInt(index);
 			if (!document.querySelector('div[data-iframe-id="' + index + '"]')) {
 				continue;
 			}
 
-			acceptIFrame(index);
+			SgCookieOptin.acceptExternalContent(index)
 		}
 
-		var cookieValue = getCookie(COOKIE_NAME);
+		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (!cookieValue) {
-			acceptAllCookies();
-			hideCookieOptIn();
+			SgCookieOptin.acceptAllCookies();
+			SgCookieOptin.hideCookieOptIn();
 			return;
 		}
 
@@ -849,7 +1009,7 @@
 
 			var group = groupAndStatus[0];
 			var status = parseInt(groupAndStatus[1]);
-			if (group === COOKIE_GROUP_IFRAME) {
+			if (group === SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT) {
 				groupFound = true;
 				status = 1;
 			}
@@ -861,40 +1021,80 @@
 		}
 
 		if (!groupFound) {
-			newCookieValue += '|' + COOKIE_GROUP_IFRAME + ':' + 1;
+			newCookieValue += '|' + SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT + ':' + 1;
 		}
 
-		setCookieWrapper(newCookieValue);
-	}
+		SgCookieOptin.setCookieWrapper(newCookieValue);
+	},
 
 	/**
-	 * Replaces a iFrame consent container with the iframe.
+	 * Replaces an external content consent container with the external content element.
 	 *
-	 * @param {int} iframeId
-	 *
+	 * @param {int} externalContentId
+	 * @param {dom} container
 	 * @return {void}
 	 */
-	function acceptIFrame(iframeId) {
-		if (!iframeId) {
-			iframeId = parent.getAttribute('data-iframe-id');
-			if (!iframeId) {
+	acceptExternalContent: function(externalContentId) {
+		if (!externalContentId) {
+			externalContentId = parent.getAttribute('data-iframe-id');
+			if (!externalContentId) {
 				return;
 			}
 		}
 
-		var container = document.querySelector('div[data-iframe-id="' + iframeId + '"]');
-		var iframe = protectedIFrames[iframeId];
-		if (!iframe || !container) {
+		var container = document.querySelector('div[data-iframe-id="' + externalContentId + '"]');
+		var externalContent = SgCookieOptin.protectedExternalContents[externalContentId];
+		if (!externalContent || !container) {
 			return;
 		}
 
-		iframe.setAttribute('data-iframe-allow-always', 1);
+		externalContent.setAttribute('data-iframe-allow-always', 1);
+		var positionIndex = externalContent.getAttribute('data-iframe-position-index');
+		externalContent.removeAttribute('data-iframe-position-index');
 
 		// Because of the IE11 no .replaceWith();
 		var parentNode = container.parentNode;
 		parentNode.removeChild(container);
-		parentNode.appendChild(iframe);
-	}
+		if (parentNode.childNodes.length > 0) {
+			parentNode.insertBefore(externalContent, parentNode.childNodes[positionIndex]);
+		} else {
+			parentNode.appendChild(externalContent);
+		}
+
+		// Emit event when the external content has been accepted
+		var externalContentAcceptedEvent = new CustomEvent('externalContentAccepted', {
+			bubbles: true,
+			detail: {
+				positionIndex: positionIndex,
+				parent: parent,
+				externalContent: externalContent
+			}
+		});
+		externalContent.dispatchEvent(externalContentAcceptedEvent);
+
+	},
+
+	/**
+	 * Accept the external contents nested into the given container
+	 *
+	 * @param {dom} container
+	 */
+	acceptContainerChildNodes: function(container) {
+		var replacedChildren = container.querySelectorAll('[data-iframe-id]');
+		if (replacedChildren.length > 0) {
+			for (var childIndex in replacedChildren) {
+				var childElement = replacedChildren[childIndex];
+				if (typeof childElement.getAttribute !== 'function') {
+					continue;
+				}
+				var externalContentId = childElement.getAttribute('data-iframe-id');
+				if (!externalContentId) {
+					continue;
+				}
+				SgCookieOptin.acceptExternalContent(externalContentId);
+			}
+		}
+	},
 
 	/**
 	 * todo Optimize the cookie handling with hasSetting, addSetting, removeSetting and use it everywhere.
@@ -904,10 +1104,10 @@
 	 * @param {string} name
 	 * @return {string}
 	 */
-	function getCookie(name) {
+	getCookie: function(name) {
 		var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
 		return v ? v[2] : null;
-	}
+	},
 
 	/**
 	 * Sets the given cookie with the given value for X days.
@@ -916,11 +1116,16 @@
 	 * @param {string} value
 	 * @param {string} days
 	 */
-	function setCookie(name, value, days) {
+	setCookie: function(name, value, days) {
 		var d = new Date;
 		d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
-		document.cookie = name + '=' + value + '; path=/; expires=' + d.toGMTString() + '; SameSite=Lax';
-	}
+		var cookie = name + '=' + value + ';path=/';
+		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
+			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
+		}
+		cookie += ';expires=' + d.toGMTString();
+		document.cookie = cookie;
+	},
 
 	/**
 	 * Sets the given cookie with the given value only for the current session.
@@ -928,18 +1133,18 @@
 	 * @param {string} name
 	 * @param {string} value
 	 */
-	function setSessionCookie(name, value) {
+	setSessionCookie: function(name, value) {
 		document.cookie = name + '=' + value + '; path=/; SameSite=Lax';
-	}
+	},
 
 	/**
 	 * Cookie is set with lifetime if the user has accepted a non-essential group that exists.
 	 *
 	 * @param {string} cookieValue
 	 */
-	function setCookieWrapper(cookieValue) {
+	setCookieWrapper: function(cookieValue) {
 		var setCookieForSessionOnly = false;
-		if (jsonData.settings.session_only_essential_cookies) {
+		if (SgCookieOptin.jsonData.settings.session_only_essential_cookies) {
 			var hasNonEssentialGroups = false;
 			var hasAcceptedNonEssentials = false;
 			var splitCookieValue = cookieValue.split('|');
@@ -949,7 +1154,7 @@
 				}
 
 				var valueEntry = splitCookieValue[cookieValueIndex];
-				if (valueEntry.indexOf(COOKIE_GROUP_ESSENTIAL) === 0 || valueEntry.indexOf(COOKIE_GROUP_IFRAME) === 0) {
+				if (valueEntry.indexOf(SgCookieOptin.COOKIE_GROUP_ESSENTIAL) === 0 || valueEntry.indexOf(SgCookieOptin.COOKIE_GROUP_IFRAME) === 0) {
 					continue;
 				}
 
@@ -964,26 +1169,26 @@
 		}
 
 		if (setCookieForSessionOnly) {
-			setSessionCookie(COOKIE_NAME, cookieValue);
+			SgCookieOptin.setSessionCookie(SgCookieOptin.COOKIE_NAME, cookieValue);
 		} else {
-			setCookie(COOKIE_NAME, cookieValue, jsonData.settings.cookie_lifetime);
+			SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieValue, SgCookieOptin.jsonData.settings.cookie_lifetime);
 		}
-	}
+	},
 
 	/**
 	 * Displays a notification as a box as first element in the given contentElement
 	 *
 	 * @param {dom} contentElement
 	 */
-	function showSaveConfirmation(contentElement) {
+	showSaveConfirmation: function(contentElement) {
 		var oldNotification = contentElement.firstChild;
 		if (!oldNotification.classList.contains('sg-cookie-optin-save-confirmation')) {
 			var notification = document.createElement('DIV');
 			notification.classList.add('sg-cookie-optin-save-confirmation');
-			notification.insertAdjacentText('afterbegin', jsonData.textEntries.save_confirmation_text);
+			notification.insertAdjacentText('afterbegin', SgCookieOptin.jsonData.textEntries.save_confirmation_text);
 			contentElement.insertBefore(notification, contentElement.firstChild);
 		}
-	}
+	},
 
 	/**
 	 * Returns the value of a query parameter as a string, or null on error.
@@ -992,7 +1197,7 @@
 	 * @param {string} url
 	 * @return {string|null}
 	 */
-	function getParameterByName(name, url) {
+	getParameterByName: function(name, url) {
 		if (!url) {
 			url = window.location.href;
 		}
@@ -1009,9 +1214,42 @@
 		}
 
 		return decodeURIComponent(results[2].replace(/\+/g, ' '));
-	}
+	},
 
-	function closestPolyfill() {
+	/**
+	 * Returns all the protected and unaccepted elements that match the given selector
+	 *
+	 * @param {string} selector
+	 * @returns {[]}
+	 */
+	findProtectedElementsBySelector: function(selector) {
+		var foundElements = [];
+		for (var elementIndex in SgCookieOptin.protectedExternalContents) {
+			if (typeof SgCookieOptin.protectedExternalContents[elementIndex].matches === 'function'
+				&& SgCookieOptin.protectedExternalContents[elementIndex].matches(selector)) {
+				foundElements.push(SgCookieOptin.protectedExternalContents[elementIndex]);
+			}
+		}
+		return foundElements;
+	},
+
+	/**
+	 * Adds a trigger function to all protected elements that will be fired when the respective element has been granted
+	 * consent. You may filter the elements by a CSS selector.
+	 *
+	 * @param {function} callback
+	 * @param {string} selector
+	 */
+	addAcceptHandlerToProtectedElements: function(callback, selector) {
+		if (!selector) {
+			selector = '*';
+		}
+
+		var elements = SgCookieOptin.findProtectedElementsBySelector(selector);
+		this.addEventListenerToList(elements, 'externalContentAccepted', callback);
+	},
+
+	closestPolyfill: function() {
 		const ElementPrototype = window.Element.prototype;
 
 		if (typeof ElementPrototype.matches !== 'function') {
@@ -1044,16 +1282,6 @@
 			};
 		}
 	}
+};
 
-	closestPolyfill();
-
-	jsonData = JSON.parse(document.getElementById('cookieOptinData').innerHTML);
-	if (jsonData) {
-		// https://plainjs.com/javascript/events/running-code-when-the-document-is-ready-15/
-		document.addEventListener('DOMContentLoaded', function() {
-			initialize();
-		});
-
-		checkForIFrames();
-	}
-})();
+SgCookieOptin.run();

@@ -97,6 +97,14 @@ class HandleTemplateAfterTcaSave {
 				);
 			}
 
+			if ((boolean) $data['iframe_whitelist_overwritten']) {
+				$iframeWhitelistTemplate = $data['iframe_whitelist_regex'];
+			} else {
+				$iframeWhitelistTemplate = $templateService->getMustacheContent(
+					TemplateService::TYPE_IFRAME_WHITELIST, (int) $data['iframe_whitelist_selection']
+				);
+			}
+
 			if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
 				/** @var DatabaseConnection $database */
 				$database = $GLOBALS['TYPO3_DB'];
@@ -105,6 +113,7 @@ class HandleTemplateAfterTcaSave {
 					'banner_html' => $bannerTemplate,
 					'iframe_html' => $iframeTemplate,
 					'iframe_replacement_html' => $iframeReplacementTemplate,
+					'iframe_whitelist_regex' => $iframeWhitelistTemplate,
 				]);
 			} else {
 				$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
@@ -115,6 +124,7 @@ class HandleTemplateAfterTcaSave {
 					->set('banner_html', $bannerTemplate)
 					->set('iframe_html', $iframeTemplate)
 					->set('iframe_replacement_html', $iframeReplacementTemplate)
+					->set('iframe_whitelist_regex', $iframeWhitelistTemplate)
 					->where(
 						$queryBuilder->expr()->eq(
 							'uid',

@@ -54,6 +54,11 @@ call_user_func(
 			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/Page/NewContentElementWizard.tsconfig">'
 		);
 
+		// External Content Frame Class TSConfig
+		\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig">'
+		);
+
 		// Register Icons
 		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7000000) {
 			$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
