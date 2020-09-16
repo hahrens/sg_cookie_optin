@@ -1070,7 +1070,7 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'default' => '',
-				'eval' => 'trim'
+				'eval' => 'trim,domainname'
 			],
 		],
 		'banner_enable' => [
