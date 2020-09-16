@@ -312,8 +312,8 @@ var SgCookieOptin = {
 
 		var acceptSpecificButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-specific');
 		SgCookieOptin.addEventListenerToList(acceptSpecificButtons, 'click', function() {
-			SgCookieOptin.acceptSpecificCookies();
-			SgCookieOptin.updateCookieList();
+			SgCookieOptin.acceptSpecificCookies(this);
+			SgCookieOptin.updateCookieList(this);
 			SgCookieOptin.handleScriptActivations();
 
 			if (!contentElement) {
@@ -382,9 +382,11 @@ var SgCookieOptin = {
 	/**
 	 * Returns the cookie list DOM.
 	 *
+	 * @param {dom} triggerElement
+	 *
 	 * @return {void}
 	 */
-	updateCookieList: function() {
+	updateCookieList: function(triggerElement) {
 		var statusMap = {};
 		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (cookieValue) {
@@ -418,7 +420,12 @@ var SgCookieOptin = {
 				continue;
 			}
 
-			var cookieList = document.querySelectorAll('.sg-cookie-optin-checkbox[value="' + groupName + '"]');
+			if (!triggerElement) {
+				var checkBoxesContainer = document;
+			} else {
+				var checkBoxesContainer = triggerElement.closest('.sg-cookie-optin-box-new-lower');
+			}
+			var cookieList = checkBoxesContainer.querySelectorAll('.sg-cookie-optin-checkbox[value="' + groupName + '"]');
 			for (var index = 0; index < cookieList.length; ++index) {
 				cookieList[index].checked = (statusMap[groupName] === 1);
 			}
@@ -554,12 +561,19 @@ var SgCookieOptin = {
 	/**
 	 * Accepts specific cookies and saves them.
 	 *
+	 * @param {dom} triggerElement
 	 * @return {void}
 	 */
-	acceptSpecificCookies: function() {
+	acceptSpecificCookies: function(triggerElement) {
 		var externalContentGroupFoundAndActive = false;
 		var cookieData = '';
-		var checkboxes = document.querySelectorAll('.sg-cookie-optin-checkbox:checked');
+		var checkBoxesContainer = null;
+		if (!triggerElement) {
+			checkBoxesContainer = document;
+		} else {
+			checkBoxesContainer = triggerElement.closest('.sg-cookie-optin-box-new-lower');
+		}
+		var checkboxes = checkBoxesContainer.querySelectorAll('.sg-cookie-optin-checkbox:checked');
 		for (var index in SgCookieOptin.jsonData.cookieGroups) {
 			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(index)) {
 				continue;
@@ -764,8 +778,12 @@ var SgCookieOptin = {
 	 * @return {boolean}
 	 */
 	isElementWhitelisted: function(externalContent, attribute, regularExpressions) {
+		if (typeof externalContent.getAttribute !== 'function') {
+			return false;
+		}
+
 		for (var regExIndex in regularExpressions) {
-			if (regularExpressions[regExIndex].test(externalContent.getAttribute(attribute))) {
+			if (externalContent.getAttribute === 'function' && regularExpressions[regExIndex].test(externalContent.getAttribute(attribute))) {
 				return true;
 			}
 		}
