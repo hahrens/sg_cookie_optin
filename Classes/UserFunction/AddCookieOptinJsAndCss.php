@@ -80,9 +80,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 					return '';
 				}
 			}
-			// we decode and encode again to remove the PRETTY_PRINT when rendering
-			// see https://gitlab.sgalinski.de/typo3/sg_cookie_optin/-/issues/118
-			return '<script id="cookieOptinData" type="application/json">' . json_encode(json_decode(file_get_contents($sitePath . $jsonFile))) .
+			return '<script id="cookieOptinData" type="application/json">' . file_get_contents($sitePath . $jsonFile) .
 				'</script><script src="/' . $file . '" type="text/javascript" data-ignore="1"></script>';
 		} {
 			// Old including from version 2.X.X @todo remove in version 4.X.X

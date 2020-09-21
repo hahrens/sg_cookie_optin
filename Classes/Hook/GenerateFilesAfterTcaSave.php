@@ -875,7 +875,11 @@ class GenerateFilesAfterTcaSave {
 		$file = $sitePath . $folder . str_replace(
 				'#LANG#', $translatedData['sys_language_uid'], self::TEMPLATE_JSON_NAME
 			);
-		file_put_contents($file, json_encode($jsonDataArray, JSON_PRETTY_PRINT));
+		if ($minifyFiles) {
+			file_put_contents($file, json_encode($jsonDataArray));
+		} else {
+			file_put_contents($file, json_encode($jsonDataArray, JSON_PRETTY_PRINT));
+		}
 		GeneralUtility::fixPermissions($file);
 	}
 
