@@ -783,7 +783,7 @@ var SgCookieOptin = {
 		}
 
 		for (var regExIndex in regularExpressions) {
-			if (externalContent.getAttribute === 'function' && regularExpressions[regExIndex].test(externalContent.getAttribute(attribute))) {
+			if (typeof externalContent.getAttribute === 'function' && regularExpressions[regExIndex].test(externalContent.getAttribute(attribute))) {
 				return true;
 			}
 		}
