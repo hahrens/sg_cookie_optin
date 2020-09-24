@@ -107,7 +107,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_replacement_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	iframe_replacement_selection int(11) DEFAULT '0' NOT NULL,
 
-	iframe_whitelist_regex TEXT NOT NULL,
+	iframe_whitelist_regex text NOT NULL,
 	iframe_whitelist_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	iframe_whitelist_selection int(11) DEFAULT '0' NOT NULL,
 
