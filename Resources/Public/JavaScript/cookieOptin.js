@@ -429,7 +429,12 @@ var SgCookieOptin = {
 			if (!triggerElement) {
 				var checkBoxesContainer = document;
 			} else {
-				var checkBoxesContainer = triggerElement.closest('.sg-cookie-optin-box-new-lower');
+				var checkBoxesContainer = triggerElement.closest('.sg-cookie-optin-box');
+			}
+
+			// fallback to document if not found
+			if (!checkBoxesContainer) {
+				checkBoxesContainer = document;
 			}
 			var cookieList = checkBoxesContainer.querySelectorAll('.sg-cookie-optin-checkbox[value="' + groupName + '"]');
 			for (var index = 0; index < cookieList.length; ++index) {
@@ -577,7 +582,7 @@ var SgCookieOptin = {
 		if (!triggerElement) {
 			checkBoxesContainer = document;
 		} else {
-			checkBoxesContainer = triggerElement.closest('.sg-cookie-optin-box-new-lower');
+			checkBoxesContainer = triggerElement.closest('.sg-cookie-optin-box');
 		}
 		var checkboxes = checkBoxesContainer.querySelectorAll('.sg-cookie-optin-checkbox:checked');
 		for (var index in SgCookieOptin.jsonData.cookieGroups) {
