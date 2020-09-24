@@ -122,7 +122,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_color_button_load_one_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	iframe_color_open_settings varchar(10) DEFAULT '#373737' NOT NULL,
 
-
 	# Settings
 	cookie_lifetime int(11) DEFAULT '365' NOT NULL,
 	session_only_essential_cookies tinyint(4) unsigned DEFAULT '0' NOT NULL,
