@@ -91,6 +91,14 @@ Just add the data attribute "data-consent-description" to an iframe HTML tag, li
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/XYZ" data-consent-description="An additional description about this video!"></iframe>
 ```
 
+#### Change the button text for a specific external content element
+
+Just add the data attribute "data-consent-button-text" to an iframe HTML tag, like in the example below:
+
+```html
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/XYZ" data-consent-button-text="Custom text here"></iframe>
+```
+
 #### Whitelist an element for the external content opt in logic
 
 There are three ways to do this and all of them will result in having this element and all of it's children whitelisted

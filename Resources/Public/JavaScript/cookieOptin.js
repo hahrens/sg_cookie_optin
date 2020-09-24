@@ -896,6 +896,13 @@ var SgCookieOptin = {
 			SgCookieOptin.acceptExternalContent(externalContentId)
 		});
 
+		// Set custom accept text if available
+		if (externalContent.getAttribute('data-consent-button-text')) {
+			for (var acceptButtonIndex = 0; acceptButtonIndex < externalContentConsentAccept.length; ++acceptButtonIndex) {
+				externalContentConsentAccept[acceptButtonIndex].innerText = externalContent.getAttribute('data-consent-button-text');
+			}
+		}
+
 		var externalContentConsentLink = container.querySelectorAll('.sg-cookie-optin-iframe-consent-link');
 		SgCookieOptin.addEventListenerToList(externalContentConsentLink, 'click', SgCookieOptin.openExternalContentConsent);
 
