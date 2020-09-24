@@ -613,7 +613,7 @@ var SgCookieOptin = {
 			cookieData += groupName + ':' + status;
 		}
 
-		SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieData, SgCookieOptin.jsonData.settings.cookie_lifetime);
+		SgCookieOptin.setCookieWrapper(cookieData);
 
 		if (SgCookieOptin.jsonData.settings.iframe_enabled) {
 			if (externalContentGroupFoundAndActive) {
@@ -1170,7 +1170,12 @@ var SgCookieOptin = {
 	 * @param {string} value
 	 */
 	setSessionCookie: function(name, value) {
-		document.cookie = name + '=' + value + '; path=/; SameSite=Lax';
+		var cookie = name + '=' + value + '; path=/';
+		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
+			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
+		}
+		cookie += ';SameSite=Lax';
+		document.cookie = cookie;
 	},
 
 	/**
