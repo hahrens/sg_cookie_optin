@@ -1311,14 +1311,18 @@ var SgCookieOptin = {
 
 	/**
 	 * Adds a trigger function to all protected elements that will be fired when the respective element has been granted
-	 * consent. You may filter the elements by a CSS selector.
+	 * consent. You must filter the elements by a CSS selector.
 	 *
 	 * @param {function} callback
 	 * @param {string} selector
 	 */
 	addAcceptHandlerToProtectedElements: function(callback, selector) {
+		if (typeof callback !== 'function') {
+			throw new Error('Required argument "callback" has not been passed.');
+		}
+
 		if (!selector) {
-			selector = '*'; // this can be a VERY big problem, if I change the selector parameter (currently optional) - it's a breaking change
+			throw new Error('Required argument "selector" has not been passed.');
 		}
 
 		var elements = SgCookieOptin.findProtectedElementsBySelector(selector);
