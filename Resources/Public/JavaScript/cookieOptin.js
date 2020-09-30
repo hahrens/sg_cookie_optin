@@ -1323,11 +1323,13 @@ var SgCookieOptin = {
 			}
 
 			elements = document.querySelectorAll(selector);
-			// add the listener with the same callback to keep the same API
-			SgCookieOptin.addEventListenerToList(elements, 'externalContentAccepted', callback);
-			// trigger the event immediately
-			for (var index = 0; index < elements.length; ++index) {
-				SgCookieOptin.emitExternalContentAcceptedEvent(elements[index]);
+			if (elements.length > 0) {
+				// add the listener with the same callback to keep the same API
+				SgCookieOptin.addEventListenerToList(elements, 'externalContentAccepted', callback);
+				// trigger the event immediately
+				for (var index = 0; index < elements.length; ++index) {
+					SgCookieOptin.emitExternalContentAcceptedEvent(elements[index]);
+				}
 			}
 		}
 	},
