@@ -83,9 +83,18 @@ var SgCookieOptin = {
 	 * @returns {boolean}
 	 */
 	checkIsExternalGroupAccepted: function() {
+		return SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT);
+	},
+
+	/**
+	 * Checks whether the given group has been accepted or not
+	 *
+	 * @param {string} groupName
+	 * @returns {boolean}
+	 */
+	checkIsGroupAccepted: function(groupName) {
 		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (cookieValue) {
-			// If the external content group exists, then check the status. If 1 no observer needed, otherwise always activated.
 			var splitedCookieValue = cookieValue.split('|');
 			for (var splitedCookieValueIndex in splitedCookieValue) {
 				if (!splitedCookieValue.hasOwnProperty(splitedCookieValueIndex)) {
@@ -100,11 +109,10 @@ var SgCookieOptin = {
 
 				var group = groupAndStatus[0];
 				var status = parseInt(groupAndStatus[1]);
-				if (group === SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT) {
+				if (group === groupName) {
 					if (status === 1) {
 						return true;
 					}
-
 					break;
 				}
 			}
