@@ -714,6 +714,10 @@ var SgCookieOptin = {
 			return;
 		}
 
+		if (SgCookieOptin.isExternalGroupAccepted) {
+			return;
+		}
+
 		if (!SgCookieOptin.externalContentObserver) {
 			var externalContents = document.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR);
 			if (externalContents.length > 0) {
@@ -721,13 +725,7 @@ var SgCookieOptin = {
 					if (!externalContents.hasOwnProperty(externalContentIndex)) {
 						continue;
 					}
-
-					// If the external group has been accepted - emit the event immediately and do not replace the content
-					if (SgCookieOptin.isExternalGroupAccepted) {
-						SgCookieOptin.emitExternalContentAcceptedEvent(externalContents[externalContentIndex])
-					} else {
-						SgCookieOptin.replaceExternalContentWithConsent(externalContents[externalContentIndex]);
-					}
+					SgCookieOptin.replaceExternalContentWithConsent(externalContents[externalContentIndex]);
 				}
 			}
 		}
@@ -752,12 +750,7 @@ var SgCookieOptin = {
 
 					var addedNode = mutation.addedNodes[addedNodeIndex];
 					if (typeof addedNode.matches === 'function' && addedNode.matches(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR)) {
-						// If the external group has been accepted - emit the event immediately and do not replace the content
-						if (SgCookieOptin.isExternalGroupAccepted) {
-							SgCookieOptin.emitExternalContentAcceptedEvent(addedNode)
-						} else {
-							SgCookieOptin.replaceExternalContentWithConsent(addedNode);
-						}
+						SgCookieOptin.replaceExternalContentWithConsent(addedNode);
 					} else if (addedNode.querySelectorAll && typeof addedNode.querySelectorAll === 'function') {
 						// check if there is an external content in the subtree
 						var externalContents = addedNode.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR);
@@ -766,12 +759,7 @@ var SgCookieOptin = {
 								if (!externalContents.hasOwnProperty(externalContentIndex)) {
 									continue;
 								}
-								// If the external group has been accepted - emit the event immediately and do not replace the content
-								if (SgCookieOptin.isExternalGroupAccepted) {
-									SgCookieOptin.emitExternalContentAcceptedEvent(externalContents[externalContentIndex])
-								} else {
-									SgCookieOptin.replaceExternalContentWithConsent(externalContents[externalContentIndex]);
-								}
+								SgCookieOptin.replaceExternalContentWithConsent(externalContents[externalContentIndex]);
 							}
 						}
 					}
