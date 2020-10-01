@@ -1299,7 +1299,7 @@ var SgCookieOptin = {
 
 	/**
 	 * Adds a trigger function to all protected elements that will be fired when the respective element has been granted
-	 * consent. You must filter the elements by a CSS selector.
+	 * consent. You may filter the elements by a CSS selector.
 	 *
 	 * @param {function} callback
 	 * @param {string} selector
@@ -1310,7 +1310,7 @@ var SgCookieOptin = {
 		}
 
 		if (!selector) {
-			throw new Error('Required argument "selector" has not been passed.');
+			selector = '*';
 		}
 
 		var elements = SgCookieOptin.findProtectedElementsBySelector(selector);
@@ -1318,18 +1318,34 @@ var SgCookieOptin = {
 			SgCookieOptin.addEventListenerToList(elements, 'externalContentAccepted', callback);
 		} else {
 			// workaround for when the external group has been accepted and we have no protected elements
-			if (!SgCookieOptin.isExternalGroupAccepted) {
-				return;
+			if (SgCookieOptin.isExternalGroupAccepted) {
+				SgCookieOptin.triggerAcceptedEventListenerToExternalContentElements(callback, selector);
 			}
+		}
+	},
 
-			elements = document.querySelectorAll(selector);
-			if (elements.length > 0) {
-				// add the listener with the same callback to keep the same API
-				SgCookieOptin.addEventListenerToList(elements, 'externalContentAccepted', callback);
-				// trigger the event immediately
-				for (var index = 0; index < elements.length; ++index) {
-					SgCookieOptin.emitExternalContentAcceptedEvent(elements[index]);
-				}
+	/**
+	 * Filters the elements that would have been replaced by the external protection by the given selector and triggers
+	 * the ExternalContentAccepted Event for each of the elements found
+	 *
+	 * @param {function} callback
+	 * @param {string} selector
+	 */
+	triggerAcceptedEventListenerToExternalContentElements: function(callback, selector) {
+		var elements = [];
+		var externalContentElements = document.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR);
+		for (var index = 0; index < externalContentElements.length; ++index) {
+			if (typeof externalContentElements[index].matches === 'function' && externalContentElements[index].matches(selector)) {
+				elements.push(externalContentElements[index]);
+			}
+		}
+
+		if (elements.length > 0) {
+			// add the listener with the same callback to keep the same API
+			SgCookieOptin.addEventListenerToList(elements, 'externalContentAccepted', callback);
+			// trigger the event immediately
+			for (var index = 0; index < elements.length; ++index) {
+				SgCookieOptin.emitExternalContentAcceptedEvent(elements[index]);
 			}
 		}
 	},
