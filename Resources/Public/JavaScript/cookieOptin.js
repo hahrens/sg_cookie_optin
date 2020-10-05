@@ -29,6 +29,7 @@ var SgCookieOptin = {
 	protectedExternalContents: [],
 	lastOpenedExternalContentId: 0,
 	jsonData: {},
+	isExternalGroupAccepted: false,
 
 	/**
 	 * Executes the script
@@ -42,7 +43,7 @@ var SgCookieOptin = {
 			document.addEventListener('DOMContentLoaded', function() {
 				SgCookieOptin.initialize();
 			});
-
+			SgCookieOptin.isExternalGroupAccepted = SgCookieOptin.checkIsExternalGroupAccepted();
 			SgCookieOptin.checkForExternalContents();
 		}
 	},
@@ -75,6 +76,48 @@ var SgCookieOptin = {
 		if ((!cookieValue && !SgCookieOptin.jsonData.settings.activate_testing_mode) || showOptIn) {
 			SgCookieOptin.openCookieOptin(null, {hideBanner: false});
 		}
+	},
+
+	/**
+	 * Checks if the external cookie group has been accepted
+	 * @returns {boolean}
+	 */
+	checkIsExternalGroupAccepted: function() {
+		return SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT);
+	},
+
+	/**
+	 * Checks whether the given group has been accepted or not
+	 *
+	 * @param {string} groupName
+	 * @returns {boolean}
+	 */
+	checkIsGroupAccepted: function(groupName) {
+		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
+		if (cookieValue) {
+			var splitedCookieValue = cookieValue.split('|');
+			for (var splitedCookieValueIndex in splitedCookieValue) {
+				if (!splitedCookieValue.hasOwnProperty(splitedCookieValueIndex)) {
+					continue;
+				}
+
+				var splitedCookieValueEntry = splitedCookieValue[splitedCookieValueIndex];
+				var groupAndStatus = splitedCookieValueEntry.split(':');
+				if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
+					continue;
+				}
+
+				var group = groupAndStatus[0];
+				var status = parseInt(groupAndStatus[1]);
+				if (group === groupName) {
+					if (status === 1) {
+						return true;
+					}
+					break;
+				}
+			}
+		}
+		return false;
 	},
 
 	/**
@@ -671,6 +714,10 @@ var SgCookieOptin = {
 			return;
 		}
 
+		if (SgCookieOptin.isExternalGroupAccepted) {
+			return;
+		}
+
 		if (!SgCookieOptin.externalContentObserver) {
 			var externalContents = document.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR);
 			if (externalContents.length > 0) {
@@ -678,35 +725,7 @@ var SgCookieOptin = {
 					if (!externalContents.hasOwnProperty(externalContentIndex)) {
 						continue;
 					}
-
 					SgCookieOptin.replaceExternalContentWithConsent(externalContents[externalContentIndex]);
-				}
-			}
-		}
-
-		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
-		if (cookieValue) {
-			// If the external content group exists, then check the status. If 1 no observer needed, otherwise always activated.
-			var splitedCookieValue = cookieValue.split('|');
-			for (var splitedCookieValueIndex in splitedCookieValue) {
-				if (!splitedCookieValue.hasOwnProperty(splitedCookieValueIndex)) {
-					continue;
-				}
-
-				var splitedCookieValueEntry = splitedCookieValue[splitedCookieValueIndex];
-				var groupAndStatus = splitedCookieValueEntry.split(':');
-				if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
-					continue;
-				}
-
-				var group = groupAndStatus[0];
-				var status = parseInt(groupAndStatus[1]);
-				if (group === SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT) {
-					if (status === 1) {
-						return;
-					}
-
-					break;
 				}
 			}
 		}
@@ -1097,17 +1116,21 @@ var SgCookieOptin = {
 			parentNode.appendChild(externalContent);
 		}
 
-		// Emit event when the external content has been accepted
+		SgCookieOptin.emitExternalContentAcceptedEvent(externalContent);
+	},
+
+	/**
+	 * Emit event when the external content element has been accepted
+	 * @param {dom} externalContent
+	 */
+	emitExternalContentAcceptedEvent: function(externalContent) {
 		var externalContentAcceptedEvent = new CustomEvent('externalContentAccepted', {
 			bubbles: true,
 			detail: {
-				positionIndex: positionIndex,
-				parent: parent,
 				externalContent: externalContent
 			}
 		});
 		externalContent.dispatchEvent(externalContentAcceptedEvent);
-
 	},
 
 	/**
@@ -1282,12 +1305,49 @@ var SgCookieOptin = {
 	 * @param {string} selector
 	 */
 	addAcceptHandlerToProtectedElements: function(callback, selector) {
+		if (typeof callback !== 'function') {
+			throw new Error('Required argument "callback" has not been passed.');
+		}
+
 		if (!selector) {
 			selector = '*';
 		}
 
 		var elements = SgCookieOptin.findProtectedElementsBySelector(selector);
-		this.addEventListenerToList(elements, 'externalContentAccepted', callback);
+		if (elements.length > 0) {
+			SgCookieOptin.addEventListenerToList(elements, 'externalContentAccepted', callback);
+		} else {
+			// workaround for when the external group has been accepted and we have no protected elements
+			if (SgCookieOptin.isExternalGroupAccepted) {
+				SgCookieOptin.triggerAcceptedEventListenerToExternalContentElements(callback, selector);
+			}
+		}
+	},
+
+	/**
+	 * Filters the elements that would have been replaced by the external protection by the given selector and triggers
+	 * the ExternalContentAccepted Event for each of the elements found
+	 *
+	 * @param {function} callback
+	 * @param {string} selector
+	 */
+	triggerAcceptedEventListenerToExternalContentElements: function(callback, selector) {
+		var elements = [];
+		var externalContentElements = document.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR);
+		for (var index = 0; index < externalContentElements.length; ++index) {
+			if (typeof externalContentElements[index].matches === 'function' && externalContentElements[index].matches(selector)) {
+				elements.push(externalContentElements[index]);
+			}
+		}
+
+		if (elements.length > 0) {
+			// add the listener with the same callback to keep the same API
+			SgCookieOptin.addEventListenerToList(elements, 'externalContentAccepted', callback);
+			// trigger the event immediately
+			for (var index = 0; index < elements.length; ++index) {
+				SgCookieOptin.emitExternalContentAcceptedEvent(elements[index]);
+			}
+		}
 	},
 
 	closestPolyfill: function() {
