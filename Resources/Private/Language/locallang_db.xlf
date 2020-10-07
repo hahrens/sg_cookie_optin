@@ -424,6 +424,9 @@
 				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
 Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example by writing example.com so that the configuration is used for both dev.example.com and www.example.com.]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_show_again_interval">
+				<source>Show the cookie banner again if not all groups were selected after: (in days)</source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close">
 				<source><![CDATA[Activate the close button in the template]]></source>
 			</trans-unit>

@@ -71,7 +71,7 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group,
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
-					--palette--;;cookie_lifetime_settings, minify_generated_data, activate_testing_mode, disable_powered_by, set_cookie_for_domain',
+					--palette--;;cookie_lifetime_settings, minify_generated_data, activate_testing_mode, disable_powered_by, set_cookie_for_domain, banner_show_again_interval',
 		],
 	],
 	'palettes' => [
@@ -1073,6 +1073,17 @@ $configuration = [
 				'eval' => 'trim,domainname'
 			],
 		],
+		'banner_show_again_interval' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+//			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_show_again_interval',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_show_again_interval',
+			'config' => [
+				'type' => 'input',
+				'default' => '',
+				'eval' => 'trim, int'
+			],
+		],
 		'banner_enable' => [
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
@@ -1489,7 +1500,7 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,'
 		. 'activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,'
 		. 'color_full_button_close_hover, color_full_button_close_text, color_table_header, save_confirmation_text,'
-		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist, iframe_whitelist_overwritten, iframe_whitelist_selection, iframe_whitelist_regex, set_cookie_for_domain, disable_powered_by';
+		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist, iframe_whitelist_overwritten, iframe_whitelist_selection, iframe_whitelist_regex, set_cookie_for_domain, disable_powered_by, banner_show_again_interval';
 }
 
 return $configuration;

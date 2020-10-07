@@ -128,6 +128,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	minify_generated_data tinyint(4) unsigned DEFAULT '1' NOT NULL,
 	show_button_close tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	activate_testing_mode tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	banner_show_again_interval int(11) unsigned DEFAULT '14' NOT NULL,
 
 	# TYPO3 related columns
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
