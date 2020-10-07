@@ -92,7 +92,7 @@ $configuration = [
 		'color_general' => [
 			'showitem' => 'color_full_box, color_full_headline, color_full_text, --linebreak--, color_box, color_headline, color_text'
 		],
-		'color_notification' =>[
+		'color_notification' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_notification',
 			'showitem' => 'color_confirmation_background, color_confirmation_text'
 		],
