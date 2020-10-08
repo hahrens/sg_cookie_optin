@@ -49,7 +49,7 @@ $configuration = [
 	'interface' => [],
 	'types' => [
 		'1' => [
-			'showitem' => 'hidden, name, provider, purpose, lifetime',
+			'showitem' => 'hidden, name, provider, lifetime, purpose',
 		],
 	],
 	'palettes' => [
