@@ -345,7 +345,8 @@ var SgCookieOptin = {
 			}
 
 			// is the group new
-			if (SgCookieOptin.jsonData.cookieGroups[groupIndex].crdate > lastPreferences.timestamp) {
+			if (typeof SgCookieOptin.jsonData.cookieGroups[groupIndex].crdate !== 'undefined' &&
+				SgCookieOptin.jsonData.cookieGroups[groupIndex].crdate > lastPreferences.timestamp) {
 				return true;
 			}
 
@@ -355,13 +356,15 @@ var SgCookieOptin = {
 					continue;
 				}
 
-				if (SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex].crdate > lastPreferences.timestamp) {
+				if (typeof SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex].crdate !== 'undefined'
+					&& SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex].crdate > lastPreferences.timestamp) {
 					return true;
 				}
 			}
 
 			// if the user didn't select all group last time, check if the the group was not accepted and the configured interval has expired
 			if (!lastPreferences.isAll &&
+				typeof SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName !== 'undefined' &&
 				!SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName,
 				lastPreferences.cookieValue)
 				&& (new Date().getTime() / 1000) > (lastPreferences.timestamp + 24 * 60 * 60
