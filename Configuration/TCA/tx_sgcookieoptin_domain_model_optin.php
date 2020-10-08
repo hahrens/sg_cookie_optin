@@ -111,12 +111,12 @@ $configuration = [
 		],
 		'color_list' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_lists',
-			'showitem' => 'color_list, color_list_text'
+			'showitem' => 'color_list, color_list_text',
 		],
 		'color_table' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_tables',
-			'showitem' => 'color_table_header, color_table_header_text, --linebreak--,
-				color_table, color_Table_data_text'
+			'showitem' => 'color_table_header, color_table, --linebreak--,
+				color_table_header_text, color_Table_data_text'
 		],
 		'template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template',
@@ -613,6 +613,7 @@ $configuration = [
 				'placeholder' => '#888888',
 				'eval' => 'trim, required'
 			],
+			'displayCond' => 'FIELD:template_selection:=:0',
 		],
 		'color_list_text' => [
 			'exclude' => TRUE,
@@ -625,6 +626,7 @@ $configuration = [
 				'placeholder' => '#FFFFFF',
 				'eval' => 'trim, required'
 			],
+			'displayCond' => 'FIELD:template_selection:=:0',
 		],
 		'color_table' => [
 			'exclude' => TRUE,
