@@ -596,6 +596,8 @@ class GenerateFilesAfterTcaSave {
 				'Purpose' => $cookieData['purpose'],
 				'Lifetime' => $cookieData['lifetime'],
 				'index' => $groupIndex,
+				'crdate' => $cookieData['crdate'],
+				'tstamp' => $cookieData['tstamp'],
 				'pseudo' => FALSE,
 			];
 			++$groupIndex;
@@ -609,6 +611,8 @@ class GenerateFilesAfterTcaSave {
 				'Purpose' => '',
 				'Lifetime' => '',
 				'index' => $groupIndex,
+				'crdate' => '',
+				'tstamp' => '',
 				'pseudo' => TRUE,
 			];
 			++$groupIndex;
@@ -650,6 +654,8 @@ class GenerateFilesAfterTcaSave {
 					'Purpose' => $cookieData['purpose'],
 					'Lifetime' => $cookieData['lifetime'],
 					'index' => $groupIndex,
+					'crdate' => $cookieData['crdate'],
+					'tstamp' => $cookieData['tstamp'],
 					'pseudo' => FALSE,
 				];
 				++$groupIndex;
@@ -663,6 +669,8 @@ class GenerateFilesAfterTcaSave {
 					'Purpose' => '',
 					'Lifetime' => '',
 					'index' => $groupIndex,
+					'crdate' => '',
+					'tstamp' => '',
 					'pseudo' => TRUE,
 				];
 				++$groupIndex;
@@ -690,6 +698,8 @@ class GenerateFilesAfterTcaSave {
 				'loadingJavaScript' => $this->createActivationScriptFile(
 					$folder, $group['group_name'], $group['scripts'], $languageUid, $minifyFiles
 				),
+				'crdate' => $group['crdate'],
+				'tstamp' => $group['tstamp'],
 			];
 		}
 
@@ -702,6 +712,8 @@ class GenerateFilesAfterTcaSave {
 				'Purpose' => $cookieData['purpose'],
 				'Lifetime' => $cookieData['lifetime'],
 				'index' => $groupIndex,
+				'crdate' => $cookieData['crdate'],
+				'tstamp' => $cookieData['tstamp'],
 				'pseudo' => FALSE,
 			];
 			++$groupIndex;
@@ -715,6 +727,8 @@ class GenerateFilesAfterTcaSave {
 					'Purpose' => '',
 					'Lifetime' => '',
 					'index' => $groupIndex,
+					'crdate' => '',
+					'tstamp' => '',
 					'pseudo' => TRUE,
 				];
 				++$groupIndex;
@@ -786,6 +800,7 @@ class GenerateFilesAfterTcaSave {
 			'activate_testing_mode' => (boolean) $translatedData['activate_testing_mode'],
 			'disable_powered_by' => (boolean) $translatedData['disable_powered_by'],
 			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
+			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
 		];
 
 		$textEntries = [

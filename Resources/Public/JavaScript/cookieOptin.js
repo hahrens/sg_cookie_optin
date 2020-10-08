@@ -73,7 +73,9 @@ var SgCookieOptin = {
 		// noinspection EqualityComparisonWithCoercionJS
 		var showOptIn = SgCookieOptin.getParameterByName('showOptIn') == true;
 		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
-		if ((!cookieValue && !SgCookieOptin.jsonData.settings.activate_testing_mode) || showOptIn) {
+		if ((!cookieValue && !SgCookieOptin.jsonData.settings.activate_testing_mode) || showOptIn
+			|| SgCookieOptin.shouldShowBannerBasedOnLastPreferences()
+		) {
 			SgCookieOptin.openCookieOptin(null, {hideBanner: false});
 		}
 	},
@@ -90,10 +92,13 @@ var SgCookieOptin = {
 	 * Checks whether the given group has been accepted or not
 	 *
 	 * @param {string} groupName
+	 * @param {string} cookieValue
 	 * @returns {boolean}
 	 */
-	checkIsGroupAccepted: function(groupName) {
-		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
+	checkIsGroupAccepted: function(groupName, cookieValue) {
+		if (typeof cookieValue === 'undefined') {
+			cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
+		}
 		if (cookieValue) {
 			var splitedCookieValue = cookieValue.split('|');
 			for (var splitedCookieValueIndex in splitedCookieValue) {
@@ -310,6 +315,86 @@ var SgCookieOptin = {
 				reasons[index].style.height = maxHeightPerRow[maxHeightPerRowIndex] + 'px';
 			}
 		}
+	},
+
+	/**
+	 * Checks whether we must show the cookie banner based on the last preferences of the user.
+	 * This may be necessary if there are new groups or new cookies since the last preferences save,
+	 * or the user didn't select all preferences and the configured interval has expired
+	 *
+	 * @returns {boolean}
+	 */
+	shouldShowBannerBasedOnLastPreferences: function() {
+		var lastPreferences = window.localStorage.getItem('SgCookieOptin.lastPreferences');
+		if (!lastPreferences) {
+			return true;
+		}
+		try {
+			lastPreferences = JSON.parse(lastPreferences);
+		} catch (e) { // we don't want to break the rest of the code if the JSON is malformed for some reason
+			return true;
+		}
+
+		if (typeof lastPreferences.timestamp === 'undefined') {
+			return true;
+		}
+
+		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
+				continue;
+			}
+
+			// is the group new
+			if (SgCookieOptin.jsonData.cookieGroups[groupIndex].crdate > lastPreferences.timestamp) {
+				return true;
+			}
+
+			// is there a new cookie in this group
+			for (var cookieIndex in SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData) {
+				if (!SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData.hasOwnProperty(cookieIndex)) {
+					continue;
+				}
+
+				if (SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex].crdate > lastPreferences.timestamp) {
+					return true;
+				}
+			}
+
+			// if the user didn't select all group last time, check if the the group was not accepted and the configured interval has expired
+			if (!lastPreferences.isAll &&
+				!SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName,
+				lastPreferences.cookieValue)
+				&& (new Date().getTime() / 1000) > (lastPreferences.timestamp + 24 * 60 * 60
+					* SgCookieOptin.jsonData.settings.banner_show_again_interval)) {
+				return true;
+			}
+		}
+		return false;
+	},
+
+	/**
+	 * Stores the last saved preferences in the localstorage
+	 *
+	 * @param {string} cookieValue
+	 */
+	saveLastPreferences: function(cookieValue) {
+		var isAll = true;
+		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
+				continue;
+			}
+			if (!SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName)) {
+				isAll = false;
+			}
+		}
+
+		//TODO: should we add timezone support?
+		var lastPreferences = {
+			timestamp: Math.floor(new Date().getTime() / 1000),
+			cookieValue: cookieValue,
+			isAll: isAll
+		};
+		window.localStorage.setItem('SgCookieOptin.lastPreferences', JSON.stringify(lastPreferences));
 	},
 
 	/**
@@ -608,7 +693,7 @@ var SgCookieOptin = {
 			cookieData += groupName + ':' + 1;
 		}
 
-		SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieData, SgCookieOptin.jsonData.settings.cookie_lifetime);
+		SgCookieOptin.setCookieWrapper(cookieData);
 		SgCookieOptin.acceptAllExternalContents();
 	},
 
@@ -1237,6 +1322,8 @@ var SgCookieOptin = {
 		} else {
 			SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieValue, SgCookieOptin.jsonData.settings.cookie_lifetime);
 		}
+
+		SgCookieOptin.saveLastPreferences(cookieValue);
 	},
 
 	/**
