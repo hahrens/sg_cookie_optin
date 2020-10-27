@@ -29,8 +29,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	template_html text NOT NULL,
 	template_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	template_selection int(11) DEFAULT '0' NOT NULL,
-	disable_powered_by tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	set_cookie_for_domain varchar(255) DEFAULT '' NOT NULL,
+
 
 	# banner
 	banner_enable tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -129,6 +128,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	show_button_close tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	activate_testing_mode tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	banner_show_again_interval int(11) unsigned DEFAULT '14' NOT NULL,
+	disable_powered_by tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	set_cookie_for_domain varchar(255) DEFAULT '' NOT NULL,
 
 	# TYPO3 related columns
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

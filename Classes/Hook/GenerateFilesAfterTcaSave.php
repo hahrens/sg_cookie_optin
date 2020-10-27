@@ -27,6 +27,7 @@ namespace SGalinski\SgCookieOptin\Hook;
  ***************************************************************/
 
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
+use SGalinski\SgCookieOptin\Service\LanguageService;
 use SGalinski\SgCookieOptin\Service\LicensingService;
 use SGalinski\SgCookieOptin\Service\MinificationService;
 use SGalinski\SgCookieOptin\Service\TemplateService;
@@ -218,7 +219,7 @@ class GenerateFilesAfterTcaSave {
 		];
 		$this->createCSSFile($fullData, $folderName, $cssData, $minifyFiles);
 
-		$languages = $this->getLanguages($siteRoot);
+		$languages = LanguageService::getLanguages($siteRoot);
 		foreach ($languages as $language) {
 			$languageUid = (int) $language['uid'];
 			if ($languageUid < 0) {
@@ -452,37 +453,6 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		GeneralUtility::fixPermissions($file);
-	}
-
-	/**
-	 * Returns all system languages.
-	 *
-	 * @return array
-	 */
-	protected function getLanguages($siteRootUid) {
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
-			/** @var DatabaseConnection $database */
-			$database = $GLOBALS['TYPO3_DB'];
-			$rows = $database->exec_SELECTgetRows('uid', 'sys_language', '');
-		} else {
-			$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($siteRootUid);
-			$rows = [];
-			foreach ($site->getAllLanguages() as $siteLanguage) {
-				$rows[] = ['uid' => $siteLanguage->getLanguageId()];
-			}
-		}
-
-		if (is_array($rows)) {
-			$rows[] = [
-				'uid' => 0,
-			];
-		} else {
-			$rows = [[
-				'uid' => 0,
-			]];
-		}
-
-		return $rows;
 	}
 
 	/**

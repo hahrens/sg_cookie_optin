@@ -27,7 +27,9 @@ namespace SGalinski\SgCookieOptin\Controller;
  ***************************************************************/
 
 use SGalinski\SgCookieOptin\Service\BackendService;
+use SGalinski\SgCookieOptin\Service\LanguageService;
 use SGalinski\SgCookieOptin\Service\LicensingService;
+use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
@@ -165,5 +167,81 @@ class OptinController extends ActionController {
 	 */
 	public function showAction() {
 
+	}
+
+	/**
+	 * Create an optin entry in the database and redirect to edit action
+	 *
+	 * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+	 * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
+	 */
+	public function createAction() {
+		$pid = (int)\TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
+		// create with DataHandler
+		$dataMapArray = array (
+		  'description' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
+		  'template_html' => '',
+		  'show_button_close' => '0',
+		  'iframe_description' => 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.',
+		  'iframe_html' => '',
+		  'iframe_replacement_html' => '',
+		  'iframe_whitelist_regex' => '',
+		  'banner_description' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
+		  'banner_html' => '',
+		  'essential_description' => 'Essentielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.',
+		  'groups' => '',
+		  'set_cookie_for_domain' => '',
+		  'pid' => $pid,
+		);
+
+		$data['tx_sgcookieoptin_domain_model_optin']['NEW9823be87'] = $dataMapArray;
+
+		$newCookieKey = 'NEW' . md5(microtime());
+		$data['tx_sgcookieoptin_domain_model_cookie'][$newCookieKey] = [
+			'pid' => $pid,
+			'name' => 'cookie_optin',
+			'provider' => '',
+			'purpose' => 'This cookie is used to store your cookie preferences for this website.',
+			'lifetime' => '1 Year',
+			'parent_optin' => 'NEW9823be87'
+		];
+
+		$dataHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
+		$dataHandler->start($data, []);
+		$dataHandler->process_datamap();
+
+		$newOptinId = $dataHandler->substNEWwithIDs['NEW9823be87'];
+
+		// Add cookie translations for each non-default language that is enabled for this site root
+		$translatedCookiesData = [];
+		$languages = LanguageService::getLanguages($pid);
+		foreach ($languages as $language) {
+			$languageUid = (int) $language['uid'];
+			if ($languageUid <= 0) {
+				continue;
+			}
+
+			// We are using the values from the old DataHandler call to avoid redundancy
+			$thisLanguageKey = 'NEW' . $languageUid . md5(microtime());
+			$translatedCookiesData['tx_sgcookieoptin_domain_model_cookie'][$thisLanguageKey]
+				= $data['tx_sgcookieoptin_domain_model_cookie'][$newCookieKey];
+			$translatedCookiesData['tx_sgcookieoptin_domain_model_cookie'][$thisLanguageKey]['l10n_parent']
+				= $dataHandler->substNEWwithIDs[$newCookieKey];
+			$translatedCookiesData['tx_sgcookieoptin_domain_model_cookie'][$thisLanguageKey]['sys_language_uid'] = $languageUid;
+		}
+
+		// Replace the $dataHandler object with a fresh one and add the cookies
+		$dataHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\DataHandling\DataHandler::class);
+		$dataHandler->start($translatedCookiesData, []);
+		$dataHandler->process_datamap();
+
+		// Redirect to Edit
+		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+		$params = [
+			'edit' => ['tx_sgcookieoptin_domain_model_optin' => [$newOptinId => 'edit']],
+			'returnUrl' => (string)$uriBuilder->buildUriFromRoute('web_SgCookieOptinOptin', ['id' => $pid])
+		];
+		$uri = (string)$uriBuilder->buildUriFromRoute('record_edit', $params);
+		header('Location: ' . $uri);
 	}
 }

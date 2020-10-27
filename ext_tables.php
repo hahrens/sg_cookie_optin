@@ -63,7 +63,7 @@ call_user_func(
 					'Optin',
 					'',
 					[
-						'Optin' => 'index, activateDemoMode',
+						'Optin' => 'index, activateDemoMode, create',
 					],
 					[
 						'access' => 'user,group',
