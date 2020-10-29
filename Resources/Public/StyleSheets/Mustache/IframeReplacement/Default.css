@@ -60,3 +60,8 @@
 	font-size: 16px;
 	text-align: center;
 }
+
+.sg-cookie-optin-iframe-consent p {
+	text-align: center;
+	margin-top: 15px;
+}

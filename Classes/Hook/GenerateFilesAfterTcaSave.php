@@ -791,6 +791,7 @@ class GenerateFilesAfterTcaSave {
 			'iframe_button_allow_one_text' => $translatedData['iframe_button_allow_one_text'],
 			'iframe_button_load_one_text' => $translatedData['iframe_button_load_one_text'],
 			'iframe_open_settings_text' => $translatedData['iframe_open_settings_text'],
+			'iframe_button_load_one_description' => $translatedData['iframe_button_load_one_description'],
 			'banner_button_accept_text' => $translatedData['banner_button_accept_text'],
 			'banner_button_settings_text' => $translatedData['banner_button_settings_text'],
 			'banner_description' => $translatedData['banner_description'],

@@ -397,6 +397,10 @@
 				<source><![CDATA[Button: "Allow once"]]></source>
 				<target><![CDATA[Button: "Einmalig erlauben"]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_description" approved="yes">
+				<source><![CDATA[Additional text below the "Load external content" button]]></source>
+				<target><![CDATA[Zusätzlicher Text unter dem "Externen Inhalt laden" Button]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_text" approved="yes">
 				<source><![CDATA[Button: "Load external content"]]></source>
 				<target><![CDATA[Button: "Externen Inhalt laden"]]></target>

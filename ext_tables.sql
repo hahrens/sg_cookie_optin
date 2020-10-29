@@ -114,6 +114,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_button_allow_one_text varchar(255) DEFAULT 'Einmalig erlauben' NOT NULL,
 	iframe_button_load_one_text varchar(255) DEFAULT 'Externen Inhalt laden' NOT NULL,
 	iframe_open_settings_text varchar(255) DEFAULT 'Einstellungen anzeigen' NOT NULL,
+	iframe_button_load_one_description text NOT NULL,
 
 	iframe_color_consent_box_background varchar(10) DEFAULT '#D6D6D6' NOT NULL,
 	iframe_color_button_load_one varchar(10) DEFAULT '#143D59' NOT NULL,

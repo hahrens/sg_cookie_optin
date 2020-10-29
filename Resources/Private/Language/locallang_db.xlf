@@ -300,6 +300,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_allow_one_text">
 				<source><![CDATA[Button: "Allow once"]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_description">
+				<source><![CDATA[Additional text below the "load external content" button]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_text">
 				<source><![CDATA[Button: "Load external content"]]></source>
 			</trans-unit>
