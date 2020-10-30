@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2011-10-17T20:22:33Z" product-name="lang">
+		<header />
+		<body>
+			<trans-unit id="essential_cookies.description">
+				<source>There must always be at least one essential cookie, as the sg_cookie_optin extension always sets
+				the "cookie_optin" cookie to store the user preferences.</source>
+			</trans-unit>
+			<trans-unit id="essential_cookies.details">
+				<source>Name: cookie_optin&lt;br/&gt;
+				Provider: Your company name&lt;br/&gt;
+				Lifetime: The cookie lifetime value (default 1 year)&lt;br/&gt;
+				Purpose: Used to store your cookie preferences
+				</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

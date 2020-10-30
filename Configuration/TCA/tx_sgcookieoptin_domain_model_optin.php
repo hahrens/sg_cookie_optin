@@ -767,6 +767,7 @@ $configuration = [
 					'showAllLocalizationLink' => TRUE,
 				],
 				'maxitems' => 99999,
+				'minitems' => 1,
 			],
 		],
 		'iframe_enabled' => [
