@@ -505,6 +505,10 @@
 				<source><![CDATA[Whitelist external content. Every new line is interpreted as a new regular expression]]></source>
 				<target><![CDATA[Externe Inhalte whitelisten. Jede neue Zeile wird als einen neuen regulären Ausdruck interpretiert.]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookiebanner_whitelist_regex" approved="yes">
+				<source><![CDATA[Don't show cookie banner on the following page URIs. Every new line is interpreted as a new regular expression]]></source>
+				<target><![CDATA[Das Cookiebanner auf diesen Seiten URI nicht anzeigen. Jede neue Zeile wird als einen neuen regulären Ausdruck interpretiert.]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection" approved="yes">
 				<source><![CDATA[Select a base template for your whitelist (This form will be saved and reloaded when this setting changes.)]]></source>
 				<target><![CDATA[Basis-Vorlage für Ihre Whiteliste auswählen (Dieses Formular wird bei Änderung gespeichert und neu geladen.)]]></target>

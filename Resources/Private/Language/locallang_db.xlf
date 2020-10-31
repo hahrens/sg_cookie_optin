@@ -381,6 +381,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex">
 				<source><![CDATA[Whitelist external content. Every new line is interpreted as a new regular expression]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookiebanner_whitelist_regex" approved="yes">
+				<source><![CDATA[Don't show cookie banner on the following page URIs. Every new line is interpreted as a new regular expression]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection">
 				<source><![CDATA[Select a base template for your whitelist (This form will be saved and reloaded when this setting changes.)]]></source>
 			</trans-unit>

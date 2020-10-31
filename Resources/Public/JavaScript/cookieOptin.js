@@ -196,6 +196,9 @@ var SgCookieOptin = {
 	 * @return {void}
 	 */
 	openCookieOptin: function(contentElement, options) {
+		if (!SgCookieOptin.shouldShowOptinBanner()) {
+			return;
+		}
 		var hideBanner = typeof options == 'object' && options.hideBanner === true;
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
@@ -219,6 +222,30 @@ var SgCookieOptin = {
 			SgCookieOptin.adjustDescriptionHeight(wrapper, contentElement);
 			SgCookieOptin.updateCookieList();
 		}, 10);
+	},
+
+	/**
+	 * Checks if the cookie banner should be shown
+	 *
+	 * @returns {boolean}
+	 */
+	shouldShowOptinBanner: function() {
+		// test if the current URL matches one of the whitelist regex
+		if (typeof SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex !== 'undefined'
+		) {
+			var regularExpressions = SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex.trim()
+				.split(/\r?\n/).map(function (value) {
+					return new RegExp(value);
+				});
+			if (typeof regularExpressions === 'object' && regularExpressions.length > 0) {
+				for (var regExIndex in regularExpressions) {
+					if (regularExpressions[regExIndex].test(window.location)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	},
 
 	/**

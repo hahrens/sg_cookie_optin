@@ -770,6 +770,7 @@ class GenerateFilesAfterTcaSave {
 			'activate_testing_mode' => (boolean) $translatedData['activate_testing_mode'],
 			'disable_powered_by' => (boolean) $translatedData['disable_powered_by'],
 			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
+			'cookiebanner_whitelist_regex' => (string) $translatedData['cookiebanner_whitelist_regex'],
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
 		];
 
