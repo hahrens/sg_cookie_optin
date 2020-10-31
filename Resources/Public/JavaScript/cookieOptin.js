@@ -428,6 +428,33 @@ var SgCookieOptin = {
 	},
 
 	/**
+	 * Delete all cookies that match the regex of the cookie name if a given group has been unselected by the user
+	 *
+	 * @param {string} cookieValue
+	 */
+	deleteCookiesForUnsetGroups: function(cookieValue) {
+		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
+				continue;
+			}
+			var documentCookies = document.cookie.split('; ');
+			if (!SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName)) {
+				for (var cookieIndex in SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData) {
+					for (var documentCookieIndex in documentCookies) {
+						var cookieName = documentCookies[documentCookieIndex].split('=')[0];
+						var regEx = new RegExp(SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex]
+							.Name.trim())
+						if (regEx.test(cookieName)) {
+							// delete the cookie
+							document.cookie = cookieName + "=; path=/; Max-Age=-99999999;";
+						}
+					}
+				}
+			}
+		}
+	},
+
+	/**
 	 * Adds the listeners to the given element.
 	 *
 	 * @param {dom} element
@@ -1297,7 +1324,7 @@ var SgCookieOptin = {
 		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
 			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
 		}
-		cookie += ';expires=' + d.toGMTString() + '; SameSite=Lax';
+		cookie += ';expires=' + d.toUTCString() + '; SameSite=Lax';
 		document.cookie = cookie;
 	},
 
@@ -1354,6 +1381,7 @@ var SgCookieOptin = {
 		}
 
 		SgCookieOptin.saveLastPreferences(cookieValue);
+		SgCookieOptin.deleteCookiesForUnsetGroups(cookieValue);
 	},
 
 	/**
