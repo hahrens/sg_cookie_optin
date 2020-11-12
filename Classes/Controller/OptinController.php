@@ -27,8 +27,10 @@ namespace SGalinski\SgCookieOptin\Controller;
  ***************************************************************/
 
 use SGalinski\SgCookieOptin\Service\BackendService;
+use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
 use SGalinski\SgCookieOptin\Service\LicensingService;
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -38,6 +40,7 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
 use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
+use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
@@ -170,6 +173,190 @@ class OptinController extends ActionController {
 	}
 
 	/**
+	 * Imports JSON configuration
+	 */
+	public function importJsonAction() {
+		$pid = (int) GeneralUtility::_GP('id');
+		if (isset($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin'])) {
+			try {
+				$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
+				$jsonImportService = $objectManager->get(JsonImportService::class);
+
+				$languages = LanguageService::getLanguages($pid);
+				// get and import the default language
+				foreach ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['name']['file'] as $key => $fileName) {
+					if ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'][$key] !== 'application/json'
+						|| $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'][$key] !== 0) {
+						// TODO: what to do in case of an error
+						continue;
+					}
+					$fileName = str_replace('.json', '', $fileName);
+					$parts = explode('--', $fileName);
+					$parts = array_reverse($parts);
+					$languageId = (int) $parts[0];
+					$locale = $parts[1];
+
+					$defaultFound = FALSE;
+					foreach ($languages as $language) {
+						if ($language['uid'] === 0 && strpos($language['locale'], $locale) !== FALSE) {
+							$defaultLanguageId = $languageId;
+							$defaultFound = TRUE;
+							break;
+						}
+					}
+
+					if (!$defaultFound) {
+						continue;
+					}
+
+					$defaultLanguageJsonData = json_decode(file_get_contents($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file'][$key]), TRUE);
+					$defaultLanguageOptinId = $jsonImportService->importJsonData($defaultLanguageJsonData, $pid);
+				}
+
+				if (!$defaultFound) {
+					throw new \Exception('Please upload the default language configuration file');
+				}
+
+				// import the other languages
+				foreach ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['name']['file'] as $key => $fileName) {
+					if ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'][$key] !== 'application/json'
+						|| $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'][$key] !== 0) {
+						// TODO: what to do in case of an error
+						continue;
+					}
+
+					$fileName = str_replace('.json', '', $fileName);
+					$parts = explode('--', $fileName);
+					$parts = array_reverse($parts);
+					$languageId = (int) $parts[0];
+					$locale = $parts[1];
+
+					// we already imported that
+					if ($languageId === $defaultLanguageId) {
+						continue;
+					}
+
+					$jsonData = json_decode(file_get_contents($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file'][$key]), TRUE);
+					$optInId = $jsonImportService->importJsonData($jsonData, $pid, $languageId, $defaultLanguageOptinId, $defaultLanguageJsonData);
+
+					$this->redirectToEditAction($optInId);
+				}
+			} catch (Exception $exception) {
+				// show error message
+				throw $exception;
+			}
+		}
+	}
+
+	/**
+	 * Redirects to the edit action
+	 *
+	 * @param $optinId
+	 * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+	 */
+	protected function redirectToEditAction($optinId) {
+		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+		$params = [
+			'edit' => ['tx_sgcookieoptin_domain_model_optin' => [$optInId => 'edit']],
+			'returnUrl' => (string)$uriBuilder->buildUriFromRoute('web_SgCookieOptinOptin', ['id' => $pid])
+		];
+		$uri = (string)$uriBuilder->buildUriFromRoute('record_edit', $params);
+		header('Location: ' . $uri);
+	}
+
+	/**
+	 * Renders the upload JSON form
+	 */
+	public function uploadJsonAction() {
+		// ToDo: do we need this check in every action? Move to trait?
+		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		$keyState = LicensingService::checkKey();
+		$isInDemoMode = LicensingService::isInDemoMode();
+		if ($keyState !== LicensingService::STATE_LICENSE_VALID && $isInDemoMode) {
+			// - 1 because the flash message would show 00:00:00 instead of 23:59:59
+			$this->addFlashMessage(
+				LocalizationUtility::translate(
+					'backend.licenseKey.isInDemoMode.description', 'sg_cookie_optin', [
+						date('H:i:s', mktime(0, 0, LicensingService::getRemainingTimeInDemoMode() - 1))
+					]
+				),
+				LocalizationUtility::translate('backend.licenseKey.isInDemoMode.header', 'sg_cookie_optin'),
+				AbstractMessage::INFO
+			);
+		} elseif ($keyState === LicensingService::STATE_LICENSE_INVALID) {
+			LicensingService::removeAllCookieOptInFiles();
+
+			if ($typo3Version < 9000000) {
+				$description = LocalizationUtility::translate(
+					'backend.licenseKey.invalid.description', 'sg_cookie_optin'
+				);
+			} else {
+				$description = LocalizationUtility::translate(
+					'backend.licenseKey.invalid.descriptionTYPO3-9', 'sg_cookie_optin'
+				);
+			}
+
+			$this->addFlashMessage(
+				$description,
+				LocalizationUtility::translate('backend.licenseKey.invalid.header', 'sg_cookie_optin'),
+				AbstractMessage::ERROR
+			);
+		} elseif ($keyState === LicensingService::STATE_LICENSE_NOT_SET) {
+			LicensingService::removeAllCookieOptInFiles();
+
+			if ($typo3Version < 9000000) {
+				$description = LocalizationUtility::translate(
+					'backend.licenseKey.notSet.description', 'sg_cookie_optin'
+				);
+			} else {
+				$description = LocalizationUtility::translate(
+					'backend.licenseKey.notSet.descriptionTYPO3-9', 'sg_cookie_optin'
+				);
+			}
+
+			$this->addFlashMessage(
+				$description,
+				LocalizationUtility::translate('backend.licenseKey.notSet.header', 'sg_cookie_optin'),
+				AbstractMessage::WARNING
+			);
+		}
+
+		// create doc header component
+		$pageUid = (int) GeneralUtility::_GP('id');
+		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
+		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
+			$optIns = BackendService::getOptins($pageUid);
+			if (count($optIns) > 1) {
+				$this->addFlashMessage(
+					LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
+					LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
+					AbstractMessage::ERROR
+				);
+			}
+
+			$this->view->assign('isSiteRoot', TRUE);
+			$this->view->assign('optins', $optIns);
+		}
+
+		// the docHeaderComponent do not exist below version 7
+		if ($typo3Version > 7000000) {
+			$this->docHeaderComponent = GeneralUtility::makeInstance(DocHeaderComponent::class);
+			if ($pageInfo === FALSE) {
+				$pageInfo = ['uid' => $pageUid];
+			}
+			$this->docHeaderComponent->setMetaInformation($pageInfo);
+			BackendService::makeButtons($this->docHeaderComponent, $this->request);
+			$this->view->assign('docHeader', $this->docHeaderComponent->docHeaderContent());
+		}
+
+		$this->view->assign('pages', BackendService::getPages());
+		$this->view->assign('typo3Version', $typo3Version);
+		$this->view->assign('pageUid', $pageUid);
+		$this->view->assign('invalidKey', $keyState !== LicensingService::STATE_LICENSE_VALID);
+		$this->view->assign('showDemoButton', !$isInDemoMode && LicensingService::isDemoModeAcceptable());
+	}
+
+	/**
 	 * Create an optin entry in the database and redirect to edit action
 	 *
 	 * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
@@ -235,13 +422,6 @@ class OptinController extends ActionController {
 		$dataHandler->start($translatedCookiesData, []);
 		$dataHandler->process_datamap();
 
-		// Redirect to Edit
-		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
-		$params = [
-			'edit' => ['tx_sgcookieoptin_domain_model_optin' => [$newOptinId => 'edit']],
-			'returnUrl' => (string)$uriBuilder->buildUriFromRoute('web_SgCookieOptinOptin', ['id' => $pid])
-		];
-		$uri = (string)$uriBuilder->buildUriFromRoute('record_edit', $params);
-		header('Location: ' . $uri);
+		$this->redirectToEditAction($newOptinId);
 	}
 }

@@ -32,6 +32,8 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Site\SiteFinder;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
@@ -72,12 +74,16 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		if (file_exists($sitePath . $file)) {
-			$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_' .
-				$this->getLanguage() . '.json';
+			$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData--' .
+				$this->getLanguageWithLocale() . '.json';
 			if (!file_exists($sitePath . $jsonFile)) {
-				$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_0.json';
+				$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_' .
+					$this->getLanguage() . '.json';
 				if (!file_exists($sitePath . $jsonFile)) {
-					return '';
+					$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_0.json';
+					if (!file_exists($sitePath . $jsonFile)) {
+						return '';
+					}
 				}
 			}
 			// we decode and encode again to remove the PRETTY_PRINT when rendering for better performance on the frontend
@@ -85,7 +91,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			// see https://gitlab.sgalinski.de/typo3/sg_cookie_optin/-/issues/118
 			return '<script id="cookieOptinData" type="application/json">' . json_encode(json_decode(file_get_contents($sitePath . $jsonFile))) .
 				'</script><script src="/' . $file . '" type="text/javascript" data-ignore="1"></script>';
-		} {
+		} else {
 			// Old including from version 2.X.X @todo remove in version 4.X.X
 			$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin_' .
 				$this->getLanguage() . '_v2.js';
@@ -171,7 +177,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	}
 
 	/**
-	 * Returns always the first page within the rootline
+	 * Returns the current language id
 	 *
 	 * @return int
 	 */
@@ -188,5 +194,30 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			$typoScriptFrontendController = $GLOBALS['TSFE'];
 			return $typoScriptFrontendController->sys_language_uid;
 		}
+	}
+
+	/**
+	 * Returns the current Language Id with locale
+	 *
+	 * @return array|false|int|mixed|string
+	 * @throws \TYPO3\CMS\Core\Context\Exception\AspectNotFoundException
+	 */
+	protected function getLanguageWithLocale() {
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		if ($versionNumber >= 9005000) {
+			$languageAspect = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+				\TYPO3\CMS\Core\Context\Context::class
+			)->getAspect('language');
+			// no object check, because if the object is not set we don't know which language that is anyway
+			$languageId = $languageAspect->getId();
+		} else {
+			/** @var TypoScriptFrontendController $typoScriptFrontendController */
+			$typoScriptFrontendController = $GLOBALS['TSFE'];
+			$languageId = $typoScriptFrontendController->sys_language_uid;
+		}
+
+		$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->getRootPageId());
+		$language = $site->getLanguageById($languageId);
+		return $language->getLocale() . '--' . $language->getLanguageId();
 	}
 }

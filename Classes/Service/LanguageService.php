@@ -46,22 +46,26 @@ class LanguageService {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows('uid', 'sys_language', '');
+
+			// Add the default language because it's not in the table
+			if (is_array($rows)) {
+				$rows[] = [
+					'uid' => 0,
+				];
+			} else {
+				$rows = [[
+					'uid' => 0,
+				]];
+			}
 		} else {
 			$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($siteRootUid);
 			$rows = [];
 			foreach ($site->getAllLanguages() as $siteLanguage) {
-				$rows[] = ['uid' => $siteLanguage->getLanguageId()];
+				$rows[] = [
+					'uid' => $siteLanguage->getLanguageId(),
+					'locale' => $siteLanguage->getLocale()
+				];
 			}
-		}
-
-		if (is_array($rows)) {
-			$rows[] = [
-				'uid' => 0,
-			];
-		} else {
-			$rows = [[
-				'uid' => 0,
-			]];
 		}
 
 		return $rows;

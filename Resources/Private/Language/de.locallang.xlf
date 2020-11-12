@@ -93,6 +93,18 @@
 				<source><![CDATA[Product Information]]></source>
 				<target><![CDATA[Produkt-Informationen]]></target>
 			</trans-unit>
+			<trans-unit id="backend.importConfig" approved="yes">
+				<source><![CDATA[Import Configuration]]></source>
+				<target><![CDATA[Konfiguration importieren]]></target>
+			</trans-unit>
+			<trans-unit id="backend.upload" approved="yes">
+				<source><![CDATA[Upload]]></source>
+				<target><![CDATA[Hochladen]]></target>
+			</trans-unit>
+			<trans-unit id="backend.fileUploadLabel" approved="yes">
+				<source><![CDATA[JSON Configuration File]]></source>
+				<target><![CDATA[JSON Konfigurationsdatei]]></target>
+			</trans-unit>
 			<trans-unit id="backend.productInformation.url" approved="yes">
 				<source><![CDATA[https://www.sgalinski.de/en/typo3-products-web-development/cookie-optin-for-typo3/]]></source>
 				<target><![CDATA[https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/]]></target>

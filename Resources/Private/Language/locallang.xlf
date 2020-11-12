@@ -72,6 +72,15 @@
 			<trans-unit id="backend.productInformation">
 				<source><![CDATA[Product Information]]></source>
 			</trans-unit>
+			<trans-unit id="backend.importConfig" approved="yes">
+				<source><![CDATA[Import Configuration]]></source>
+			</trans-unit>
+			<trans-unit id="backend.upload" approved="yes">
+				<source><![CDATA[Upload]]></source>
+			</trans-unit>
+			<trans-unit id="backend.fileUploadLabel" approved="yes">
+				<source><![CDATA[JSON Configuration File]]></source>
+			</trans-unit>
 			<trans-unit id="backend.productInformation.url">
 				<source><![CDATA[https://www.sgalinski.de/en/typo3-products-web-development/cookie-optin-for-typo3/]]></source>
 			</trans-unit>

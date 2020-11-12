@@ -1,3 +1,5 @@
+{namespace sg=SGalinski\SgCookieOptin\ViewHelpers}
+
 <f:if condition="{invalidKey}">
 	<f:then>
 		<a href="{f:translate(key: 'backend.buyLicense.url')}" target="_bĺank" class="btn btn-default btn-sm btn-danger btn-sm">
@@ -20,3 +22,9 @@
 <a href="{f:translate(key: 'backend.documentation.url')}" target="_blank" class="btn btn-default btn-sm">
 	<f:translate key="backend.documentation" />
 </a>
+
+<f:if condition="{sg:backend.isVersionHigherThan(version: '9.0.0')} && {pageUid}">
+	<f:link.action class="btn btn-default btn-sm" action="uploadJson">
+		<f:translate key="backend.importConfig" />
+	</f:link.action>
+</f:if>

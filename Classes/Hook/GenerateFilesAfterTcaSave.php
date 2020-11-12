@@ -59,7 +59,7 @@ class GenerateFilesAfterTcaSave {
 	const TEMPLATE_JAVA_SCRIPT_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/JavaScript/';
 	const TEMPLATE_JAVA_SCRIPT_NAME = 'cookieOptin.js';
 
-	const TEMPLATE_JSON_NAME = 'cookieOptinData_#LANG#.json';
+	const TEMPLATE_JSON_NAME = 'cookieOptinData--#LANG#.json';
 
 	const TEMPLATE_STYLE_SHEET_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/StyleSheets/';
 	const TEMPLATE_STYLE_SHEET_NAME = 'cookieOptin.css';
@@ -226,6 +226,8 @@ class GenerateFilesAfterTcaSave {
 				continue;
 			}
 
+			$locale = isset($language['locale']) ? $language['locale'] : '';
+
 			$translatedRecord = $originalRecord;
 			if ($languageUid > 0) {
 				$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
@@ -238,7 +240,9 @@ class GenerateFilesAfterTcaSave {
 			}
 
 			$this->createJavaScriptFile($folderName, $minifyFiles);
-			$this->createJsonFile($folderName, $fullData, $translatedFullData, $cssData, $minifyFiles, $languageUid);
+			$this->createJsonFile(
+				$folderName, $fullData, $translatedFullData, $cssData, $minifyFiles, $languageUid, $locale
+			);
 		}
 
 		GeneralUtility::fixPermissions($sitePath . $folder, TRUE);
@@ -548,12 +552,13 @@ class GenerateFilesAfterTcaSave {
 	 * @param array $cssData
 	 * @param bool $minifyFiles
 	 * @param int $languageUid
+	 * @param string $locale
 	 *
 	 * @return void
 	 * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
 	 */
 	protected function createJsonFile(
-		$folder, array $data, array $translatedData, array $cssData, $minifyFiles, $languageUid = 0
+		$folder, array $data, array $translatedData, array $cssData, $minifyFiles, $languageUid = 0, $locale = ''
 	) {
 		$essentialCookieData = [];
 		$iframeCookieData = [];
@@ -687,22 +692,22 @@ class GenerateFilesAfterTcaSave {
 				'pseudo' => FALSE,
 			];
 			++$groupIndex;
-				$pseudoElements = $groupIndex % 3;
-			}
+			$pseudoElements = $groupIndex % 3;
+		}
 
-			for ($index = 1; $index < $pseudoElements; ++$index) {
-				$iframeCookieData[] = [
-					'Name' => '',
-					'Provider' => '',
-					'Purpose' => '',
-					'Lifetime' => '',
-					'index' => $groupIndex,
-					'crdate' => '',
-					'tstamp' => '',
-					'pseudo' => TRUE,
-				];
-				++$groupIndex;
-			}
+		for ($index = 1; $index < $pseudoElements; ++$index) {
+			$iframeCookieData[] = [
+				'Name' => '',
+				'Provider' => '',
+				'Purpose' => '',
+				'Lifetime' => '',
+				'index' => $groupIndex,
+				'crdate' => '',
+				'tstamp' => '',
+				'pseudo' => TRUE,
+			];
+			++$groupIndex;
+		}
 
 		$iFrameGroup = [
 			'groupName' => 'iframes',
@@ -729,14 +734,18 @@ class GenerateFilesAfterTcaSave {
 			$uid = $pageData['uid'];
 			if ($currentVersion >= 9000000) {
 				$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($uid);
-				$url =  $this->removeCHashFromUrl((string) $site->getRouter()->generateUri(
-					$uid, ['disableOptIn' => 1, '_language' => $languageUid]
-				));
+				$url = $this->removeCHashFromUrl(
+					(string) $site->getRouter()->generateUri(
+						$uid, ['disableOptIn' => 1, '_language' => $languageUid]
+					)
+				);
 				$title = $pageData['title'];
 				$name = strlen($title) > 35 ? substr($title, 0, 35) . '...' : $title;
 			} else {
 				try {
-					$url =  $this->removeCHashFromUrl($contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid));
+					$url = $this->removeCHashFromUrl(
+						$contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid)
+					);
 					$name = $contentObject->crop($pageData['title'], 35 . '|...|0');
 				} catch (\Exception $exception) {
 					// Occurs on the first creation of the translation.
@@ -860,7 +869,8 @@ class GenerateFilesAfterTcaSave {
 
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace(
-				'#LANG#', $translatedData['sys_language_uid'], self::TEMPLATE_JSON_NAME
+				'#LANG#', (($locale !== '') ? $locale . '--' : '') . $translatedData['sys_language_uid'],
+				self::TEMPLATE_JSON_NAME
 			);
 		file_put_contents($file, json_encode($jsonDataArray, JSON_PRETTY_PRINT));
 		GeneralUtility::fixPermissions($file);
@@ -943,6 +953,6 @@ class GenerateFilesAfterTcaSave {
 	 * @return string|string[]|null
 	 */
 	protected function removeCHashFromUrl($url) {
-		return preg_replace('/([?&])' . 'cHash' . '=[^&^#]+(&|#|$)/','$2',$url);
+		return preg_replace('/([?&])' . 'cHash' . '=[^&^#]+(&|#|$)/', '$2', $url);
 	}
 }
