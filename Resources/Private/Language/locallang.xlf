@@ -102,6 +102,9 @@
 			<trans-unit id="backend.jsonImport.warnings.language.missing" approved="yes">
 				<source><![CDATA[You have not uploaded a translation file for the local language %s. You must translate it manually after the import.]]></source>
 			</trans-unit>
+			<trans-unit id="backend.jsonImport.info" approved="yes">
+				<source><![CDATA[Please upload the configuration files for each language that you would like to import.]]></source>
+			</trans-unit>
 			<trans-unit id="backend.toolForCookies">
 				<source><![CDATA[The following tool delivers information about used cookies on your site. Use this information for the cookie instruction in the configuration. Beware that not all cookies might be listed. URL]]></source>
 			</trans-unit>
