@@ -129,6 +129,54 @@
 				<source><![CDATA[Preview Template]]></source>
 				<target><![CDATA[Template-Vorschau]]></target>
 			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.groupsCount" approved="yes">
+				<source><![CDATA[The different languages do not contain the same amount of groups. Some groups may not have been properly translated and thus will not be rendered. Please double-check after importing.]]></source>
+				<target><![CDATA[Die verschiedenen Sprachen enthalten nicht die gleiche Anzahl von Gruppen. Einige Gruppen wurden möglicherweise nicht richtig übersetzt und werden daher nicht wiedergegeben. Bitte überprüfen Sie dies nach dem Import noch einmal.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.cookiesCount" approved="yes">
+				<source><![CDATA[The different languages do not contain the same amount of cookies. Some cookies may not have been properly translated and thus will not be rendered. Please double-check after importing.]]></source>
+				<target><![CDATA[Die verschiedenen Sprachen enthalten nicht die gleiche Anzahl von Cookies. Einige Cookies wurden möglicherweise nicht richtig übersetzt und werden daher nicht wiedergegeben. Bitte überprüfen Sie dies nach dem Import noch einmal.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.scriptsCount" approved="yes">
+				<source><![CDATA[The different languages do not contain the same amount of scripts. Some scripts may not have been properly translated and thus will not be rendered. Please double-check after importing.]]></source>
+				<target><![CDATA[Die verschiedenen Sprachen enthalten nicht die gleiche Anzahl von Skripten. Einige Skripte wurden möglicherweise nicht richtig übersetzt und werden daher nicht wiedergegeben. Bitte überprüfen Sie dies nach dem Import noch einmal.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.header" approved="yes">
+				<source><![CDATA[Import data inconcistency]]></source>
+				<target><![CDATA[Inkonsistenz bei der Importdaten]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.language.header" approved="yes">
+				<source><![CDATA[Translation configuration file is missing]]></source>
+				<target><![CDATA[Übersetzungs-Konfigurationsdatei fehlt]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.language.missing" approved="yes">
+				<source><![CDATA[You have not uploaded a translation file for the local language %s. You must translate it manually after the import.]]></source>
+				<target><![CDATA[Sie haben keine Übersetzungsdatei für die lokale Sprache %s hochgeladen. Sie müssen sie nach dem Import manuell übersetzen.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.tooManyRecorsException.description">
+				<source><![CDATA[Your system already contains a cookie optin configuration for this site. Please make sure to clean up and keep only one configuration after the import.]]></source>
+				<target><![CDATA[Ihr System enthält bereits eine Cookie-Optin-Konfiguration für diese Website. Bitte stellen Sie sicher, dass Sie nach dem Import nur eine Konfiguration bereinigen und behalten.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.tooManyRecorsException.header">
+				<source><![CDATA[You already have a Cookie Opt-In configuration]]></source>
+				<target><![CDATA[Sie haben bereits eine Cookie-Opt-In-Konfiguration]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.language" approved="yes">
+				<source><![CDATA[Language]]></source>
+				<target><![CDATA[Sprache]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.groups" approved="yes">
+				<source><![CDATA[Groups]]></source>
+				<target><![CDATA[Gruppen]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.cookies" approved="yes">
+				<source><![CDATA[Cookies]]></source>
+				<target><![CDATA[Cookies]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.scripts" approved="yes">
+				<source><![CDATA[Scripts]]></source>
+				<target><![CDATA[Skripte]]></target>
+			</trans-unit>
 			<trans-unit id="configuration.folder" approved="yes">
 				<source><![CDATA[Directory for generated files: The folder where the generated files should be saved (e.g. fileadmin/cookie-banner or EXT:extension_key/path/to/cookies).]]></source>
 				<target><![CDATA[Ordner für generierte Dateien: Der Ordner, in dem die generierten Dateien gespeichert werden sollen (z.B. fileadmin/cookie-banner oder EXT:extension_key/path/to/cookies).]]></target>

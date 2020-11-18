@@ -6,9 +6,14 @@
 	<f:flashMessages />
 	<div class="form-group">
 		<p>Please select all of the configuration JSON files that you must import</p>
-		<f:form action="importJson" enctype="multipart/form-data">
-			<f:form.upload name="file" multiple="true"/>
-			<f:form.submit value="{f:translate(key:'backend.upload')}" />
+		<f:form action="previewImport" enctype="multipart/form-data">
+			<div class="jsonImport-buttonsContainer">
+				<f:form.upload name="file" multiple="true" class="btn btn-default "/>
+				<f:form.submit value="{f:translate(key:'backend.upload')}" class="btn btn-default jsonImport-submit" />
+			</div>
+			<div>
+
+			</div>
 		</f:form>
 	</div>
 </f:section>

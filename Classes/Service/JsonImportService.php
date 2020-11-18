@@ -26,6 +26,7 @@ namespace SGalinski\SgCookieOptin\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use SGalinski\SgCookieOptin\Exception\JsonImportException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -93,26 +94,7 @@ class JsonImportService {
 		foreach ($cookieGroups as $groupIndex => $group) {
 			$groupIdentifier = $groupIndex;
 			if ($group['groupName'] !== 'essential' && $group['groupName'] !== 'iframes') {
-				$groupData = [
-					'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
-					'group_name' => $group['groupName'],
-					'description' => $group['description'],
-					'sorting' => $groupIndex + 1,
-					'parent_optin' => $optInId,
-					'crdate' => time(),
-					'tstamp' => time(),
-				];
-				if ($defaultLanguageOptinId !== NULL) {
-					$groupData['l10n_parent'] = $this->defaultLanguageIdMappingLookup[$groupIndex]['id'];
-					$groupData['sys_language_uid'] = $sysLanguageUid;
-				}
-
-				$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_group');
-				$queryBuilder->insert('tx_sgcookieoptin_domain_model_group')->values($groupData);
-				$queryBuilder->execute();
-
-				$groupId = $queryBuilder->getConnection()->lastInsertId();
-
+				$groupId = $this->addGroup($group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool);
 			} else {
 				// we use this only for the internal language mapping lookup array
 				$groupIdentifier = $group['groupName'];
@@ -133,36 +115,8 @@ class JsonImportService {
 					if ($cookie['pseudo'] === TRUE) {
 						continue;
 					}
-					$cookieData = [
-						'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
-						'name' => $cookie['Name'],
-						'provider' => $cookie['Provider'],
-						'purpose' => $cookie['Purpose'],
-						'lifetime' => $cookie['Lifetime'],
-						'sorting' => $cookieIndex + 1,
-						'crdate' => time(),
-						'tstamp' => time(),
-					];
-					switch ($group['groupName']) {
-						case 'essential':
-							$cookieData['parent_optin'] = $optInId;
-							break;
-						case 'iframes':
-							$cookieData['parent_iframe'] = $optInId;
-							break;
-						default:
-							$cookieData['parent_group'] = $groupId;
-							break;
-					}
-					if ($defaultLanguageOptinId !== NULL) {
-						$cookieData['sys_language_uid'] = $sysLanguageUid;
-						$cookieData['l10n_parent'] = $this->defaultLanguageIdMappingLookup[$groupIdentifier]['cookies'][$cookieIndex];
-					}
-					$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_cookie');
-					$queryBuilder->insert('tx_sgcookieoptin_domain_model_cookie')->values($cookieData);
-					$queryBuilder->execute();
-
-					$cookieId = $queryBuilder->getConnection()->lastInsertId();
+					$cookieId = $this->addCookie($cookie, $cookieIndex, $group['groupName'], $optInId, $groupId,
+						$sysLanguageUid, $groupIdentifier, $defaultLanguageOptinId, $connectionPool);
 					if ($defaultLanguageOptinId === NULL) {
 						$this->defaultLanguageIdMappingLookup[$groupIdentifier]['cookies'][$cookieIndex] = $cookieId;
 					}
@@ -171,32 +125,8 @@ class JsonImportService {
 			// Add Scripts
 			if (isset($group['scriptData'])) {
 				foreach ($group['scriptData'] as $scriptIndex => $script) {
-					$scriptData = [
-						'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
-						'title' => $script['title'],
-						'script' => $script['script'],
-						'html' => $script['html'],
-						'sorting' => $scriptIndex + 1,
-						'crdate' => time(),
-						'tstamp' => time(),
-					];
-					switch ($group['groupName']) {
-						case 'essential':
-							$scriptData['parent_optin'] = $optInId;
-							break;
-						default:
-							$scriptData['parent_group'] = $groupId;
-							break;
-					}
-					if ($defaultLanguageOptinId !== NULL) {
-						$scriptData['sys_language_uid'] = $sysLanguageUid;
-						$scriptData['l10n_parent'] = $this->defaultLanguageIdMappingLookup[$groupIdentifier]['scripts'][$scriptIndex];
-					}
-					$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgscriptoptin_domain_model_script');
-					$queryBuilder->insert('tx_sgcookieoptin_domain_model_script')->values($scriptData);
-					$queryBuilder->execute();
-
-					$scriptId = $queryBuilder->getConnection()->lastInsertId();
+					$scriptId = $this->addScript($script, $scriptIndex, $group['groupName'], $optInId, $groupId, $sysLanguageUid,
+						$defaultLanguageOptinId, $groupIdentifier, $connectionPool);
 					if ($defaultLanguageOptinId === NULL) {
 						$this->defaultLanguageIdMappingLookup[$groupIdentifier]['scripts'][$scriptIndex] = $scriptId;
 					}
@@ -205,5 +135,197 @@ class JsonImportService {
 		}
 
 		return $optInId;
+	}
+
+	/**
+	 * @param array $group
+	 * @param int $groupIndex
+	 * @param int $optInId
+	 * @param int|null $sysLanguageUid
+	 * @param int|null $defaultLanguageOptinId
+	 * @param ConnectionPool $connectionPool
+	 * @return mixed
+	 */
+	protected function addGroup($group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool) {
+		$groupData = array(
+			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
+			'group_name' => $group['groupName'],
+			'title' => $group['label'],
+			'description' => $group['description'],
+			'sorting' => $groupIndex + 1,
+			'parent_optin' => $optInId,
+			'crdate' => time(),
+			'tstamp' => time(),
+		);
+		if ($defaultLanguageOptinId !== NULL) {
+			$groupData['l10n_parent'] = $this->defaultLanguageIdMappingLookup[$groupIndex]['id'];
+			$groupData['sys_language_uid'] = $sysLanguageUid;
+		}
+
+		$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_group');
+		$queryBuilder->insert('tx_sgcookieoptin_domain_model_group')->values($groupData);
+		$queryBuilder->execute();
+
+		return $queryBuilder->getConnection()->lastInsertId();
+	}
+
+	/**
+	 * @param array $cookie
+	 * @param int $cookieIndex
+	 * @param string $groupName
+	 * @param int $optInId
+	 * @param int $groupId
+	 * @param int|null $sysLanguageUid
+	 * @param string $groupIdentifier
+	 * @param int $defaultLanguageOptinId
+	 * @param ConnectionPool $connectionPool
+	 */
+	protected function addCookie($cookie, $cookieIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $groupIdentifier,
+		$defaultLanguageOptinId, $connectionPool) {
+		$cookieData = array(
+			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
+			'name' => $cookie['Name'],
+			'provider' => $cookie['Provider'],
+			'purpose' => $cookie['Purpose'],
+			'lifetime' => $cookie['Lifetime'],
+			'sorting' => $cookieIndex + 1,
+			'crdate' => time(),
+			'tstamp' => time(),
+		);
+		switch ($groupName) {
+			case 'essential':
+				$cookieData['parent_optin'] = $optInId;
+				break;
+			case 'iframes':
+				$cookieData['parent_iframe'] = $optInId;
+				break;
+			default:
+				$cookieData['parent_group'] = $groupId;
+				break;
+		}
+		if ($defaultLanguageOptinId !== NULL) {
+			$cookieData['sys_language_uid'] = $sysLanguageUid;
+			$cookieData['l10n_parent'] = $this->defaultLanguageIdMappingLookup[$groupIdentifier]['cookies'][$cookieIndex];
+		}
+		$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_cookie');
+		$queryBuilder->insert('tx_sgcookieoptin_domain_model_cookie')->values($cookieData);
+		$queryBuilder->execute();
+
+		return $queryBuilder->getConnection()->lastInsertId();
+	}
+
+	/**
+	 * @param array $script
+	 * @param int $scriptIndex
+	 * @param int $optInId
+	 * @param int $groupId
+	 * @param int|null $sysLanguageUid
+	 * @param int|null $defaultLanguageOptinId
+	 * @param string $groupIdentifier
+	 * @param ConnectionPool $connectionPool
+	 * @return mixed
+	 */
+	protected function addScript($script, $scriptIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $defaultLanguageOptinId,
+		$groupIdentifier, $connectionPool) {
+		$scriptData = [
+			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
+			'title' => $script['title'],
+			'script' => $script['script'],
+			'html' => $script['html'],
+			'sorting' => $scriptIndex + 1,
+			'crdate' => time(),
+			'tstamp' => time(),
+		];
+		switch ($groupName) {
+			case 'essential':
+				$scriptData['parent_optin'] = $optInId;
+				break;
+			default:
+				$scriptData['parent_group'] = $groupId;
+				break;
+		}
+		if ($defaultLanguageOptinId !== NULL) {
+			$scriptData['sys_language_uid'] = $sysLanguageUid;
+			$scriptData['l10n_parent'] = $this->defaultLanguageIdMappingLookup[$groupIdentifier]['scripts'][$scriptIndex];
+		}
+		$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgscriptoptin_domain_model_script');
+		$queryBuilder->insert('tx_sgcookieoptin_domain_model_script')->values($scriptData);
+		$queryBuilder->execute();
+
+		return $queryBuilder->getConnection()->lastInsertId();
+	}
+
+	/**
+	 * @param array $languages
+	 * @throws JsonImportException
+	 */
+	public function parseAndStoreImportedData($languages) {
+		$dataStorage = array();
+		unset($_SESSION['tx_sgcookieoptin']['importJsonData']);
+		// get and import the default language
+		foreach ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['name']['file'] as $key => $fileName) {
+			if ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'][$key] !== 'application/json'
+				|| $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'][$key] !== 0) {
+				// TODO: what to do in case of an error
+				continue;
+			}
+			$fileName = str_replace('.json', '', $fileName);
+			$parts = explode('--', $fileName);
+			$parts = array_reverse($parts);
+			$languageId = (int) $parts[0];
+			$locale = $parts[1];
+
+			$defaultFound = FALSE;
+			foreach ($languages as $language) {
+				if ($language['uid'] === 0 && strpos($language['locale'], $locale) !== FALSE) {
+					$defaultLanguageId = $languageId;
+					$defaultFound = TRUE;
+					break;
+				}
+			}
+
+			if (!$defaultFound) {
+				continue;
+			}
+
+			$defaultLanguageJsonData = json_decode(
+				file_get_contents($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file'][$key]),
+				TRUE
+			);
+			$dataStorage['defaultLanguageId'] = $defaultLanguageId;
+			$dataStorage['languageData'][$defaultLanguageId] = $defaultLanguageJsonData;
+		}
+
+		if (!$defaultFound) {
+			throw new JsonImportException('Please upload the default language configuration file');
+		}
+
+		// import the other languages
+		foreach ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['name']['file'] as $key => $fileName) {
+			if ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'][$key] !== 'application/json'
+				|| $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'][$key] !== 0) {
+				// TODO: what to do in case of an error
+				continue;
+			}
+
+			$fileName = str_replace('.json', '', $fileName);
+			$parts = explode('--', $fileName);
+			$parts = array_reverse($parts);
+			$languageId = (int) $parts[0];
+
+			// we already stored that
+			if ($languageId === $defaultLanguageId) {
+				continue;
+			}
+
+			$jsonData = json_decode(
+				file_get_contents($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file'][$key]),
+				TRUE
+			);
+			$dataStorage['languageData'][$languageId] = $jsonData;
+		}
+
+		// Save into session
+		$_SESSION['tx_sgcookieoptin']['importJsonData'] = $dataStorage;
 	}
 }
