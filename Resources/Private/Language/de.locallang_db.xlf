@@ -349,6 +349,10 @@
 				<source><![CDATA[Disable "Powered by" lettering]]></source>
 				<target><![CDATA["Powered by"-Schriftzug deaktivieren]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_for_this_language" approved="yes">
+				<source><![CDATA[Disable OptIn for this language]]></source>
+				<target><![CDATA[Das OptIn für diese Sprache deaktivieren]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_cookies" approved="yes">
 				<source><![CDATA[Cookies]]></source>
 				<target><![CDATA[Cookies]]></target>

@@ -89,8 +89,11 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			// we decode and encode again to remove the PRETTY_PRINT when rendering for better performance on the frontend
 			// for easier debugging, you can check the generated file in the fileadmin
 			// see https://gitlab.sgalinski.de/typo3/sg_cookie_optin/-/issues/118
-			return '<script id="cookieOptinData" type="application/json">' . json_encode(json_decode(file_get_contents($sitePath . $jsonFile))) .
-				'</script><script src="/' . $file . '" type="text/javascript" data-ignore="1"></script>';
+			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
+			if (isset($jsonData['settings']['disable_for_this_language']) && !$jsonData['settings']['disable_for_this_language']) {
+				return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
+					'</script><script src="/' . $file . '" type="text/javascript" data-ignore="1"></script>';
+			}
 		} else {
 			// Old including from version 2.X.X @todo remove in version 4.X.X
 			$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin_' .

@@ -264,6 +264,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_powered_by">
 				<source><![CDATA[Disable "Powered by" lettering]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_for_this_language" approved="yes">
+				<source><![CDATA[Disable OptIn for this language]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_cookies">
 				<source><![CDATA[Cookies]]></source>
 			</trans-unit>
