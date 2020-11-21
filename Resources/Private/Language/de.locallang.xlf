@@ -13,6 +13,10 @@
 				<source><![CDATA[Activate Demo]]></source>
 				<target><![CDATA[Demo aktivieren]]></target>
 			</trans-unit>
+			<trans-unit id="backend.no_site_root_found" approved="yes">
+				<source><![CDATA[No site root found. Please create a site root and configure it.]]></source>
+				<target><![CDATA[Kein Site-Root gefunden. Bitte erstellen Sie ein Site-Root und konfigurieren Sie es.]]></target>
+			</trans-unit>
 			<trans-unit id="backend.addContentElementToDataPrivacy" approved="yes">
 				<source><![CDATA[The "Cookie-Optin" content element must be added to the data protection page.]]></source>
 				<target><![CDATA[Das "Cookie-OptIn"-Inhaltselement muss auf die Datenschutzseite eingefügt werden.]]></target>
