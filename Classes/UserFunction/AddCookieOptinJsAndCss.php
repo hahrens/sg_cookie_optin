@@ -27,7 +27,7 @@ namespace SGalinski\SgCookieOptin\UserFunction;
  ***************************************************************/
 
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
-use SGalinski\SgCookieOptin\Service\LicensingService;
+use SGalinski\SgCookieOptin\Service\DemoModeService;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Context\LanguageAspect;
 use TYPO3\CMS\Core\Core\Environment;
@@ -54,10 +54,10 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @return string
 	 */
 	public function addJavaScript($content, array $configuration) {
-		if (LicensingService::checkKey() !== LicensingService::STATE_LICENSE_VALID
-			&& !LicensingService::isInDemoMode()
+		if (DemoModeService::checkKey() !== DemoModeService::STATE_LICENSE_VALID
+			&& !DemoModeService::isInDemoMode()
 		) {
-			LicensingService::removeAllCookieOptInFiles();
+			DemoModeService::removeAllCookieOptInFiles();
 			return '';
 		}
 

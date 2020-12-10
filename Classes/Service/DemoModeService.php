@@ -33,7 +33,7 @@ use TYPO3\CMS\Core\Registry;
 /**
  * Class SGalinski\SgCookieOptin\Service\LicensingService
  */
-class LicensingService {
+class DemoModeService {
 	const STATE_LICENSE_VALID = 2;
 	const STATE_LICENSE_INVALID = 1;
 	const STATE_LICENSE_NOT_SET = 0;

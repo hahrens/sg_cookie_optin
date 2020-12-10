@@ -28,7 +28,7 @@ namespace SGalinski\SgCookieOptin\Hook;
 
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
-use SGalinski\SgCookieOptin\Service\LicensingService;
+use SGalinski\SgCookieOptin\Service\DemoModeService;
 use SGalinski\SgCookieOptin\Service\MinificationService;
 use SGalinski\SgCookieOptin\Service\TemplateService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -79,8 +79,8 @@ class GenerateFilesAfterTcaSave {
 			return;
 		}
 
-		if (LicensingService::checkKey() !== LicensingService::STATE_LICENSE_VALID
-			&& !LicensingService::isInDemoMode()
+		if (DemoModeService::checkKey() !== DemoModeService::STATE_LICENSE_VALID
+			&& !DemoModeService::isInDemoMode()
 		) {
 			return;
 		}

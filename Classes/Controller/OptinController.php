@@ -30,7 +30,7 @@ use SGalinski\SgCookieOptin\Exception\JsonImportException;
 use SGalinski\SgCookieOptin\Service\BackendService;
 use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
-use SGalinski\SgCookieOptin\Service\LicensingService;
+use SGalinski\SgCookieOptin\Service\DemoModeService;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
@@ -89,11 +89,11 @@ class OptinController extends ActionController {
 	 * @throws StopActionException
 	 */
 	public function activateDemoModeAction() {
-		if (LicensingService::isInDemoMode() || !LicensingService::isDemoModeAcceptable()) {
+		if (DemoModeService::isInDemoMode() || !DemoModeService::isDemoModeAcceptable()) {
 			$this->redirect('index');
 		}
 
-		LicensingService::activateDemoMode();
+		DemoModeService::activateDemoMode();
 		$this->redirect('index');
 	}
 
@@ -280,21 +280,21 @@ class OptinController extends ActionController {
 	 */
 	protected function initComponents() {
 		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-		$keyState = LicensingService::checkKey();
-		$isInDemoMode = LicensingService::isInDemoMode();
-		if ($keyState !== LicensingService::STATE_LICENSE_VALID && $isInDemoMode) {
+		$keyState = DemoModeService::checkKey();
+		$isInDemoMode = DemoModeService::isInDemoMode();
+		if ($keyState !== DemoModeService::STATE_LICENSE_VALID && $isInDemoMode) {
 			// - 1 because the flash message would show 00:00:00 instead of 23:59:59
 			$this->addFlashMessage(
 				LocalizationUtility::translate(
 					'backend.licenseKey.isInDemoMode.description', 'sg_cookie_optin', [
-						date('H:i:s', mktime(0, 0, LicensingService::getRemainingTimeInDemoMode() - 1))
+						date('H:i:s', mktime(0, 0, DemoModeService::getRemainingTimeInDemoMode() - 1))
 					]
 				),
 				LocalizationUtility::translate('backend.licenseKey.isInDemoMode.header', 'sg_cookie_optin'),
 				AbstractMessage::INFO
 			);
-		} elseif ($keyState === LicensingService::STATE_LICENSE_INVALID) {
-			LicensingService::removeAllCookieOptInFiles();
+		} elseif ($keyState === DemoModeService::STATE_LICENSE_INVALID) {
+			DemoModeService::removeAllCookieOptInFiles();
 
 			if ($typo3Version < 9000000) {
 				$description = LocalizationUtility::translate(
@@ -311,8 +311,8 @@ class OptinController extends ActionController {
 				LocalizationUtility::translate('backend.licenseKey.invalid.header', 'sg_cookie_optin'),
 				AbstractMessage::ERROR
 			);
-		} elseif ($keyState === LicensingService::STATE_LICENSE_NOT_SET) {
-			LicensingService::removeAllCookieOptInFiles();
+		} elseif ($keyState === DemoModeService::STATE_LICENSE_NOT_SET) {
+			DemoModeService::removeAllCookieOptInFiles();
 
 			if ($typo3Version < 9000000) {
 				$description = LocalizationUtility::translate(
@@ -348,8 +348,8 @@ class OptinController extends ActionController {
 
 		$this->view->assign('typo3Version', $typo3Version);
 		$this->view->assign('pageUid', $pageUid);
-		$this->view->assign('invalidKey', $keyState !== LicensingService::STATE_LICENSE_VALID);
-		$this->view->assign('showDemoButton', !$isInDemoMode && LicensingService::isDemoModeAcceptable());
+		$this->view->assign('invalidKey', $keyState !== DemoModeService::STATE_LICENSE_VALID);
+		$this->view->assign('showDemoButton', !$isInDemoMode && DemoModeService::isDemoModeAcceptable());
 	}
 
 	/**

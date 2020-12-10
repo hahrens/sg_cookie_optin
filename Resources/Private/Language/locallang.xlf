@@ -105,6 +105,21 @@
 			<trans-unit id="backend.jsonImport.info" approved="yes">
 				<source><![CDATA[Please upload the configuration files for each language that you would like to import.]]></source>
 			</trans-unit>
+			<trans-unit id="backend.licenceCheck.expiringWarning.title" approved="yes">
+				<source><![CDATA[Sg Cookie Optin]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.expiringWarning.message" approved="yes">
+				<source><![CDATA[Your Sg Cookie Optin license is about to expire on %s. Make sure to renew it before this date from %s.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.expiredError.title" approved="yes">
+				<source><![CDATA[Sg Cookie Optin]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.expiredError.message" approved="yes">
+				<source><![CDATA[Your Sg Cookie Optin license has expired. Please renew it from %s.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.shopLink" approved="yes">
+				<source>our shop</source>
+			</trans-unit>
 			<trans-unit id="backend.toolForCookies">
 				<source><![CDATA[The following tool delivers information about used cookies on your site. Use this information for the cookie instruction in the configuration. Beware that not all cookies might be listed. URL]]></source>
 			</trans-unit>

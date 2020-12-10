@@ -185,6 +185,26 @@
 				<source><![CDATA[Scripts]]></source>
 				<target><![CDATA[Skripte]]></target>
 			</trans-unit>
+			<trans-unit id="backend.licenceCheck.expiringWarning.title" approved="yes">
+				<source><![CDATA[Sg Cookie Optin]]></source>
+				<target><![CDATA[Sg Cookie Optin]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.expiringWarning.message" approved="yes">
+				<source><![CDATA[Your Sg Cookie Optin license is about to expire on %s. Make sure to renew it before this date from %s.]]></source>
+				<target><![CDATA[Ihre Sg Cookie Optin Lizenz läuft am %s ab. Stellen Sie sicher, dass Sie sie vor diesem Datum von %s erneuern.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.shopLink" approved="yes">
+				<source><![CDATA[our shop]]></source>
+				<target><![CDATA[unserem Webshop]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.expiredError.title" approved="yes">
+				<source><![CDATA[Sg Cookie Optin]]></source>
+				<target><![CDATA[Sg Cookie Optin]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.expiredError.message" approved="yes">
+				<source><![CDATA[Your Sg Cookie Optin license has expired. Please renew it from %s.]]></source>
+				<target><![CDATA[Ihre Sg-Cookie-Optin-Lizenz ist abgelaufen. Bitte erneuern Sie sie von %s.]]></target>
+			</trans-unit>
 			<trans-unit id="configuration.folder" approved="yes">
 				<source><![CDATA[Directory for generated files: The folder where the generated files should be saved (e.g. fileadmin/cookie-banner or EXT:extension_key/path/to/cookies).]]></source>
 				<target><![CDATA[Ordner für generierte Dateien: Der Ordner, in dem die generierten Dateien gespeichert werden sollen (z.B. fileadmin/cookie-banner oder EXT:extension_key/path/to/cookies).]]></target>

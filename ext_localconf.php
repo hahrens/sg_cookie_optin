@@ -59,6 +59,10 @@ call_user_func(
 			'<INCLUDE_TYPOSCRIPT: source="FILE:EXT:sg_cookie_optin/Configuration/TsConfig/Page/ExternalContentFrameClass.tsconfig">'
 		);
 
+		// Licence check
+		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['typo3/backend.php']['constructPostProcess'][] =
+			\SGalinski\SgCookieOptin\Hook\LicenceCheckHook::class . '->performLicenseCheck';
+
 		// Register Icons
 		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7000000) {
 			$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
