@@ -232,6 +232,7 @@ var SgCookieOptin = {
 	shouldShowOptinBanner: function() {
 		// test if the current URL matches one of the whitelist regex
 		if (typeof SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex !== 'undefined'
+			&& SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex.trim() !== ''
 		) {
 			var regularExpressions = SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex.trim()
 				.split(/\r?\n/).map(function (value) {
