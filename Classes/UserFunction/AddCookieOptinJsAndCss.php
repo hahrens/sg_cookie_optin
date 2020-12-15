@@ -26,6 +26,7 @@ namespace SGalinski\SgCookieOptin\UserFunction;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use SGalinski\SgCookieOptin\Service\BaseUrlService;
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\DemoModeService;
 use TYPO3\CMS\Core\Context\Context;
@@ -70,6 +71,8 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		if (!$folder) {
 			return '';
 		}
+		
+		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage);
 
 		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
@@ -92,7 +95,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
 			if (isset($jsonData['settings']['disable_for_this_language']) && !$jsonData['settings']['disable_for_this_language']) {
 				return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
-					'</script><script src="/' . $file . '" type="text/javascript" data-ignore="1"></script>';
+					'</script><script src="' . $siteBaseUrl . $file . '" type="text/javascript" data-ignore="1"></script>';
 			}
 		} else {
 			// Old including from version 2.X.X @todo remove in version 4.X.X
@@ -110,7 +113,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 				$cacheBuster = '';
 			}
 
-			return '<script src="/' . $file . '?' . $cacheBuster . '" type="text/javascript" data-ignore="1"></script>';
+			return '<script src="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" type="text/javascript" data-ignore="1"></script>';
 		}
 	}
 
@@ -144,8 +147,10 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		if (!$cacheBuster) {
 			$cacheBuster = '';
 		}
+		
+		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage);
 
-		return '<link rel="stylesheet" type="text/css" href="/' . $file . '?' . $cacheBuster . '" media="all">';
+		return '<link rel="stylesheet" type="text/css" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all">';
 	}
 
 	/**

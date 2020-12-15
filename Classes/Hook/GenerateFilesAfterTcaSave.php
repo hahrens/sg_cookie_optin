@@ -26,6 +26,7 @@ namespace SGalinski\SgCookieOptin\Hook;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use SGalinski\SgCookieOptin\Service\BaseUrlService;
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
 use SGalinski\SgCookieOptin\Service\DemoModeService;
@@ -63,6 +64,9 @@ class GenerateFilesAfterTcaSave {
 
 	const TEMPLATE_STYLE_SHEET_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/StyleSheets/';
 	const TEMPLATE_STYLE_SHEET_NAME = 'cookieOptin.css';
+
+	/** @var int */
+	protected $siteRoot = NULL;
 
 	/**
 	 * Generates the files out of the TCA data.
@@ -110,8 +114,8 @@ class GenerateFilesAfterTcaSave {
 			}
 		}
 
-		$siteRoot = (int) $dataHandler->getPID(self::TABLE_NAME, $originalRecord['uid']);
-		if ($siteRoot <= 0) {
+		$this->siteRoot = (int) $dataHandler->getPID(self::TABLE_NAME, $originalRecord['uid']);
+		if ($this->siteRoot <= 0) {
 			return;
 		}
 
@@ -120,7 +124,7 @@ class GenerateFilesAfterTcaSave {
 			return;
 		}
 
-		$folderName = str_replace('#PID#', $siteRoot, $folder . self::FOLDER_SITEROOT);
+		$folderName = str_replace('#PID#', $this->siteRoot, $folder . self::FOLDER_SITEROOT);
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		// First remove the folder with all files and then create it again. So no data artifacts are kept.
 		GeneralUtility::rmdir($sitePath . $folderName, TRUE);
@@ -133,7 +137,7 @@ class GenerateFilesAfterTcaSave {
 			$originalTSFE = $typoScriptFrontendController = $GLOBALS['TSFE'];
 			if (!($typoScriptFrontendController instanceof TypoScriptFrontendController)) {
 				$typoScriptFrontendController = $GLOBALS['TSFE'] = new TypoScriptFrontendController(
-					$GLOBALS['TYPO3_CONF_VARS'], $siteRoot, 0
+					$GLOBALS['TYPO3_CONF_VARS'], $this->siteRoot, 0
 				);
 			}
 
@@ -219,7 +223,7 @@ class GenerateFilesAfterTcaSave {
 		];
 		$this->createCSSFile($fullData, $folderName, $cssData, $minifyFiles);
 
-		$languages = LanguageService::getLanguages($siteRoot);
+		$languages = LanguageService::getLanguages($this->siteRoot);
 		foreach ($languages as $language) {
 			$languageUid = (int) $language['uid'];
 			if ($languageUid < 0) {
@@ -519,7 +523,7 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		GeneralUtility::fixPermissions($groupFile);
-		return '/' . $file;
+		return BaseUrlService::getSiteBaseUrl($this->siteRoot) . $file;
 	}
 
 	/**
