@@ -21,6 +21,18 @@
 				Zweck: Wird zum Speichern Ihrer Cookie-Einstellungen verwendet
 				</target>
 			</trans-unit>
+			<trans-unit id="iframe_whitelist_regex.description">
+				<source>Regular expressions are used to check whether a given text matches a certain pattern. Click to open the details for more information. </source>
+				<target>Reguläre Ausdrücke werden verwendet, um zu prüfen, ob ein gegebener Text einem bestimmten Muster entspricht. Klicken Sie darauf, um die Details für weitere Informationen zu öffnen. </target>
+			</trans-unit>
+			<trans-unit id="iframe_whitelist_regex.details">
+				<source>The value that you enter in the text field is the pattern and we will check each external content address against it. URLs that match this pattern will be whitelisted and the content elements will not be marked as external content.<br />
+				To test whether the syntax works or it’s ok you can refer to <a href="https://regex101.com/">https://regex101.com/</a>. After you are done and save your preferences, make sure you open your page, clear the browser cache and reload it. Then try granting and removing the consent and see if any JavaScript errors appear in your console.
+				</source>
+				<target>Der Wert, den Sie in das Textfeld eingeben, ist das Muster, gegen das wir jede externe Inhaltsadresse prüfen werden. URLs, die mit diesem Muster übereinstimmen, werden in die Whitelist aufgenommen und die Inhaltselemente werden nicht als externe Inhalte markiert.<br />
+				Um zu testen, ob die Syntax funktioniert, können Sie auf <a href="https://regex101.com/">https://regex101.com/</a> nachsehen. Nachdem Sie fertig sind und Ihre Einstellungen gespeichert haben, stellen Sie sicher, dass Sie Ihre Seite öffnen, den Browser-Cache leeren und sie neu laden. Versuchen Sie dann, die Zustimmung zu erteilen und zu entfernen, und sehen Sie, ob in Ihrer Konsole JavaScript-Fehler erscheinen.
+				</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

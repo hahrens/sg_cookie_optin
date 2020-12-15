@@ -509,6 +509,10 @@
 				<source><![CDATA[Whitelist external content. Every new line is interpreted as a new regular expression]]></source>
 				<target><![CDATA[Externe Inhalte whitelisten. Jede neue Zeile wird als einen neuen regulären Ausdruck interpretiert.]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex.description" approved="yes">
+				<source><![CDATA[This field is interpreted as a regular expression. Syntax errors in this expression may lead to errors on your website. Therefore please always test your website after you change this value. For more information hover over the field label.]]></source>
+				<target><![CDATA[Dieses Feld wird als regulärer Ausdruck interpretiert. Syntaxfehler in diesem Ausdruck können zu Fehlern auf Ihrer Website führen. Testen Sie daher bitte immer Ihre Website, nachdem Sie diesen Wert geändert haben. Für weitere Informationen fahren Sie mit dem Mauszeiger über die Feldbezeichnung.]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookiebanner_whitelist_regex" approved="yes">
 				<source><![CDATA[Don't show cookie banner on the following page URIs. Every new line is interpreted as a new regular expression]]></source>
 				<target><![CDATA[Das Cookiebanner auf diesen Seiten URI nicht anzeigen. Jede neue Zeile wird als einen neuen regulären Ausdruck interpretiert.]]></target>

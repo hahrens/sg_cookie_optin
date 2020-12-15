@@ -77,6 +77,10 @@ call_user_func(
 			        'tx_sgcookieoptin_domain_model_optin',
 			        'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_optin.xlf'
 			);
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+			        'tx_sgcookieoptin_domain_model_cookie',
+			        'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf'
+			);
 		}
 	}
 );
