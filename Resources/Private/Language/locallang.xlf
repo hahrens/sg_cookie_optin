@@ -106,7 +106,7 @@
 				<source><![CDATA[You have not uploaded a translation file for the local language %s. You must translate it manually after the import.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.jsonImport.info" approved="yes">
-				<source><![CDATA[Please upload the configuration files for each language that you would like to import.]]></source>
+				<source><![CDATA[Please upload the exported configuration file that you would like to import.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiringWarning.message" approved="yes">
 				<source><![CDATA[Your Sg Cookie Optin license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
