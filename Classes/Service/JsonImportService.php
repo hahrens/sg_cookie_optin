@@ -57,8 +57,10 @@ class JsonImportService {
 		// value mapping
 		$cookieGroups = $jsonData['cookieGroups'];
 		$iframeGroup = $jsonData['iFrameGroup'];
+		$footerLinks = $jsonData['footerLinks'];
 		unset($jsonData['cookieGroups']);
 		unset($jsonData['iFrameGroup']);
+		unset($jsonData['footerLinks']);
 
 		// flatten the data into one array to prepare it for SQL
 		$flatJsonData = [];
@@ -74,6 +76,7 @@ class JsonImportService {
 		$flatJsonData['crdate'] = time();
 		$flatJsonData['tstamp'] = time();
 		$flatJsonData['cruser_id'] = $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column];
+		$flatJsonData['navigation'] = $this->buildNavigationFromFooterLinks($footerLinks);
 		// essential_description TODO: is essential always 0
 		$flatJsonData['essential_description'] = $cookieGroups[0]['description'];
 		$flatJsonData['iframe_description'] = $iframeGroup['description'];
@@ -135,6 +138,22 @@ class JsonImportService {
 		}
 
 		return $optInId;
+	}
+
+	/**
+	 * Builds the navigation CSV string from the footerlinks
+	 *
+	 * @param $footerLinks
+	 * @return string
+	 */
+	protected function buildNavigationFromFooterLinks($footerLinks) {
+		$navigationIds = array();
+		foreach ($footerLinks as $footerLink) {
+			if (isset($footerLink['uid'])) {
+				$navigationIds[] = $footerLink['uid'];
+			}
+		}
+		return implode(', ', $navigationIds);
 	}
 
 	/**
@@ -294,6 +313,7 @@ class JsonImportService {
 			);
 			$dataStorage['defaultLanguageId'] = $defaultLanguageId;
 			$dataStorage['languageData'][$defaultLanguageId] = $defaultLanguageJsonData;
+			break;
 		}
 
 		if (!$defaultFound) {
