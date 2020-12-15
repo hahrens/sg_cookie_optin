@@ -75,6 +75,9 @@
 			<trans-unit id="backend.importConfig" approved="yes">
 				<source><![CDATA[Import Configuration]]></source>
 			</trans-unit>
+			<trans-unit id="backend.exportConfig" approved="yes">
+				<source><![CDATA[Export Configuration]]></source>
+			</trans-unit>
 			<trans-unit id="backend.upload" approved="yes">
 				<source><![CDATA[Upload]]></source>
 			</trans-unit>

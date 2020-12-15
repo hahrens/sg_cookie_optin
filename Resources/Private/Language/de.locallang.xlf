@@ -101,6 +101,10 @@
 				<source><![CDATA[Import Configuration]]></source>
 				<target><![CDATA[Konfiguration importieren]]></target>
 			</trans-unit>
+			<trans-unit id="backend.exportConfig" approved="yes">
+				<source><![CDATA[Export Configuration]]></source>
+				<target><![CDATA[Konfiguration exportieren]]></target>
+			</trans-unit>
 			<trans-unit id="backend.upload" approved="yes">
 				<source><![CDATA[Upload]]></source>
 				<target><![CDATA[Hochladen]]></target>
