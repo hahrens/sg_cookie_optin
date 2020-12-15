@@ -26,9 +26,11 @@ namespace SGalinski\SgCookieOptin\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class LicenceCheckService
@@ -37,11 +39,34 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  */
 class LicenceCheckService {
 
+	/**
+	 * The product key from ShopWare
+	 */
 	const PRODUCT_KEY = "sg_cookie_optin";
-	const REGISTRY_NAMESPACE = 'tx_sgcookieoptin';
-	const EXTENSION_NAMESPACE = "SgCookieOptin";
-	const IS_KEY_VALID_KEY = 'isKeyValid';
 
+	/**
+	 * Namespace for the sys registry
+	 */
+	const REGISTRY_NAMESPACE = 'tx_sgcookieoptin';
+
+	/**
+	 * Class Namespace
+	 */
+	const EXTENSION_NAMESPACE = "SgCookieOptin";
+
+	/**
+	 * Keys for the sys registry
+	 */
+	const IS_KEY_VALID_KEY = 'isKeyValid';
+	const LAST_WARNING_TIMESTAMP_KEY = 'lastWarningTimestamp';
+	const HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY = 'hasValidLicenseUntilTimestamp';
+	const LICENSE_CHECKED_IN_VERSION_KEY = 'licenceCheckedInVersion';
+	const LAST_CHECKED_TIMESTAMP_KEY = 'lastCheckedTimestamp';
+	const LAST_LICENSE_KEY_CHECKED_KEY = 'lastLicenseKeyChecked';
+
+	/**
+	 * Error codes
+	 */
 	const ERROR_INVALID_RESPONSE_CODE = -1;
 	const ERROR_INVALID_RESPONSE_DATA = -2;
 	const ERROR_INVALID_LICENSE_KEY = -3;
@@ -49,24 +74,53 @@ class LicenceCheckService {
 	const ERROR_TIMESTAMP_INVALID = -5;
 	const ERROR_LICENSE_CHECK_EXCEPTION = -6;
 
+	/**
+	 * Earliest TYPO3 Version that we support
+	 */
+	const EARLIEST_SUPPORTED_VERSION = 8000000;
+
+	/**
+	 * Last response code from server
+	 *
+	 * @var int
+	 */
 	protected static $lastHttpResponseCode = 0;
+
+	/**
+	 * The last exception from the server
+	 *
+	 * @var string
+	 */
 	protected static $lastException = "";
 
+	/**
+	 * The validUntil timestamp
+	 *
+	 * @var null|int
+	 */
 	protected static $validUntil;
 
-	const HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY = 'hasValidLicenseUntilTimestamp';
-	const LICENSE_CHECKED_IN_VERSION_KEY = 'licenceCheckedInVersion';
-	const LAST_CHECKED_TIMESTAMP_KEY = 'lastCheckedTimestamp';
-	const LAST_LICENSE_KEY_CHECKED_KEY = 'lastLicenseKeyChecked';
-
+	/**
+	 * Check the license key once per how many days
+	 */
 	const AMOUNT_OF_DAYS_UNTIL_NEXT_CHECK = 1;
+
+	/**
+	 * Show a warning if the license has expired but we are still in the same version once per how many days
+	 */
 	const AMOUNT_OF_DAYS_UNTIL_WARNING = 30;
 
+	/**
+	 * License server credentials
+	 */
 	const API_USER = "license_check";
 	const API_PASSWORD = "lGKLiHc5We6gBqsggVlwdLNoWv9CEKnWiy7cgMUO";
 	const API_URL = "https://shop.sgalinski.de/api/license";
 
-	const CURRENT_VERSION = "3.2";
+	/**
+	 * The current extension version
+	 */
+	const CURRENT_VERSION = "3.3";
 
 	/**
 	 * @var array
@@ -127,11 +181,12 @@ class LicenceCheckService {
 		return FALSE;
 	}
 
-	private static function getLicenseKey() {
-//		return '5NEBTB-FS3QR3-IP2SQI-57ADYR'; // lifetime
-//		return 'T6VCXM-DMBDJA-UP8B4L-LDUSRK'; // expiring 18 dec
-//		return 'XEALXA-NCLA5K-U6XGX1-VD9DVR'; // valid until end of next year
-		return 'E17QZO-Z1GGE4-HT7DVE-IJ6T7R'; // expired
+	/**
+	 * Returns the license key that has been set
+	 *
+	 * @return false|mixed|string
+	 */
+	public static function getLicenseKey() {
 		return ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_LICENSE);
 	}
 
@@ -151,6 +206,7 @@ class LicenceCheckService {
 		if (!self::isLicenseValid($licenseKey)) {
 			self::setValidLicense(FALSE);
 			self::setValidLicenseUntilTimestamp(0);
+			self::setLastLicenseCheckTimestamp();
 		} else {
 			self::setValidLicenseUntilTimestamp(self::getValidUntil());
 			self::setValidLicense(TRUE);
@@ -201,6 +257,26 @@ class LicenceCheckService {
 	protected static function getValidLicense() {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		return $registry->get(self::REGISTRY_NAMESPACE, self::IS_KEY_VALID_KEY);
+	}
+
+	/**
+	 * Stores the last warning timestamp
+	 *
+	 * @param $timestamp
+	 */
+	protected static function setLastWarningTimestamp($timestamp) {
+		$registry = GeneralUtility::makeInstance(Registry::class);
+		$registry->set(self::REGISTRY_NAMESPACE, self::LAST_WARNING_TIMESTAMP_KEY, $timestamp);
+	}
+
+	/**
+	 * Gets the last warning timestamp
+	 *
+	 * @return mixed|null
+	 */
+	protected static function getLastWarningTimestamp() {
+		$registry = GeneralUtility::makeInstance(Registry::class);
+		return $registry->get(self::REGISTRY_NAMESPACE, self::LAST_WARNING_TIMESTAMP_KEY);
 	}
 
 	/**
@@ -271,6 +347,7 @@ class LicenceCheckService {
 		$registry->remove(self::REGISTRY_NAMESPACE, self::LICENSE_CHECKED_IN_VERSION_KEY);
 		$registry->remove(self::REGISTRY_NAMESPACE, self::IS_KEY_VALID_KEY);
 		$registry->remove(self::REGISTRY_NAMESPACE, self::LAST_LICENSE_KEY_CHECKED_KEY);
+		$registry->remove(self::REGISTRY_NAMESPACE, self::LAST_WARNING_TIMESTAMP_KEY);
 	}
 
 	/**
@@ -279,7 +356,7 @@ class LicenceCheckService {
 	 * @return mixed
 	 */
 	public static function getValidUntil() {
-		if (self::$validUntil === null) {
+		if (self::$validUntil === NULL) {
 			self::$validUntil = self::getValidLicenseUntilTimestamp();
 		}
 		return self::$validUntil;
@@ -288,7 +365,7 @@ class LicenceCheckService {
 	/**
 	 * The timestamp of the key lifetime, if the given license key is valid, or -1 if invalid.
 	 *
-	 * @param $licenseKey A license key, which should be validated.
+	 * @param string $licenseKey A license key, which should be validated.
 	 * @return
 	 */
 	public static function isLicenseValid($licenseKey) {
@@ -303,12 +380,12 @@ class LicenceCheckService {
 	/**
 	 * Check if the given license key is valid.
 	 *
-	 * @param $licenseKey A license key, which should be validated.
+	 * @param string $licenseKey A license key, which should be validated.
 	 * @return boolean
 	 */
 	public static function checkLicenseKeyStructure($licenseKey) {
 		// Structure: XXXXXX-XXXXXX-XXXXXX-XXXXXX | All upper case
-		if (substr_count($licenseKey, "-") != 3) {
+		if (substr_count($licenseKey, "-") !== 3) {
 			return FALSE;
 		}
 
@@ -323,14 +400,16 @@ class LicenceCheckService {
 	 */
 	public static function isLicenseServerReachable() {
 		try {
-			$ch = curl_init(self::API_URL);
-			curl_setopt($ch, CURLOPT_HEADER, 1);
-			curl_setopt($ch, CURLOPT_USERPWD, self::API_USER . ":" . self::API_PASSWORD);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-			curl_exec($ch);
-			self::$lastHttpResponseCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-			curl_close($ch);
+			$requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+			$response = $requestFactory->request(
+				self::API_URL, 'GET', [
+					'auth' => [self::API_USER, self::API_PASSWORD],
+					'timeout' => 1,
+					'connect_timeout' => 1,
+				]
+			);
+
+			self::$lastHttpResponseCode = (int) $response->getStatusCode();
 
 			if (self::$lastHttpResponseCode !== 200 && self::$lastHttpResponseCode !== 201) {
 				return FALSE;
@@ -345,31 +424,33 @@ class LicenceCheckService {
 	/**
 	 * Returns The timestamp of the key lifetime, if the given license key is valid, on the server, or -1 if invalid.
 	 *
-	 * @param string $licenceKey
+	 * @param string $licenseKey
 	 * @return int
 	 */
 	private static function getValidUntilTimestampByLicenseKey($licenseKey) {
 		try {
 			$url = self::API_URL . "/" . urldecode($licenseKey) . "?product="
 				. self::PRODUCT_KEY;
-			$ch = curl_init($url);
-			curl_setopt($ch, CURLOPT_USERPWD, self::API_USER . ":" . self::API_PASSWORD);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 1);
-			curl_setopt($ch, CURLOPT_HEADER, FALSE);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-			$result = curl_exec($ch);
-			self::$lastHttpResponseCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
-			curl_close($ch);
+			$requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
+			$response = $requestFactory->request(
+				$url, 'GET', [
+					'auth' => [self::API_USER, self::API_PASSWORD],
+					'timeout' => 1,
+					'connect_timeout' => 1,
+				]
+			);
+
+			self::$lastHttpResponseCode = (int) $response->getStatusCode();
 
 			if (self::$lastHttpResponseCode !== 200 && self::$lastHttpResponseCode !== 201) {
 				return self::ERROR_INVALID_RESPONSE_CODE;
 			}
 
-			if (!$result) {
+			if (!$response->getBody()) {
 				return self::ERROR_INVALID_RESPONSE_DATA;
 			}
 
-			$jsonData = json_decode($result, TRUE);
+			$jsonData = json_decode($response->getBody(), TRUE);
 			if (!$jsonData['serial']['valid']) {
 				return self::ERROR_INVALID_LICENSE_KEY;
 			}
@@ -394,8 +475,86 @@ class LicenceCheckService {
 			$context = \TYPO3\CMS\Core\Core\Environment::getContext();
 		} else {
 			// Prior to TYPO3 9LTS
-			$context = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext()
+			$context = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
 		}
 		return $context->isDevelopment();
+	}
+
+	/**
+	 * Checks if the current TYPO3 version is supported for the license check
+	 *
+	 * @return bool
+	 */
+	public static function isTYPO3VersionSupported() {
+		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		return $versionNumber >= self::EARLIEST_SUPPORTED_VERSION;
+	}
+
+	/**
+	 * Checks if the time for the next check has expired.
+	 * error = 0 means no error
+	 * error = 1 is an error
+	 * error = 2 is a warning
+	 *
+	 * @return bool
+	 */
+	public static function isTimeForNextCheck() {
+		return self::getLastLicenseCheckTimestamp(
+			) + self::AMOUNT_OF_DAYS_UNTIL_NEXT_CHECK * 24 * 60 * 60 < $GLOBALS['EXEC_TIME'];
+	}
+
+	/**
+	 * Performs the license check and returns the output data to the frontend
+	 *
+	 * @return array|int[]
+	 */
+	public static function getLicenseCheckResponseData() {
+		// if the key is empty - error
+		if (!self::getLicenseKey()) {
+			return [
+				'error' => 1,
+				'title' => LocalizationUtility::translate('backend.licenceCheck.error.title', 'sg_cookie_optin'),
+				'message' => LocalizationUtility::translate(
+					'backend.licenceCheck.noLicenseKey', 'sg_cookie_optin', [
+					LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')
+				]
+				),
+			];
+		}
+
+		// if not valid - error
+		if (!self::hasValidLicense()) {
+			return [
+				'error' => 1,
+				'title' => LocalizationUtility::translate('backend.licenceCheck.error.title', 'sg_cookie_optin'),
+				'message' => LocalizationUtility::translate(
+					'backend.licenceCheck.expiredError.message', 'sg_cookie_optin', [
+						LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')
+					]
+				),
+			];
+		}
+
+		// if it's valid - check validUntil and throw a warning if the license has expired but you are still
+		// on the valid version
+		if (self::getValidUntil() < $GLOBALS['EXEC_TIME']) {
+			$date = date('d.m.Y', self::getValidUntil());
+			$lastWarningTimestamp = (int) self::getLastWarningTimestamp();
+			if ($lastWarningTimestamp + self::AMOUNT_OF_DAYS_UNTIL_WARNING * 24 * 60 * 60 < $GLOBALS['EXEC_TIME']) {
+				self::setLastWarningTimestamp($GLOBALS['EXEC_TIME']);
+				return [
+					'error' => 2,
+					'title' => LocalizationUtility::translate('backend.licenceCheck.warning.title', 'sg_cookie_optin'),
+					'message' => LocalizationUtility::translate(
+						'backend.licenceCheck.expiringWarning.message', 'sg_cookie_optin', [
+							$date, LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')
+						]
+					)
+				];
+			}
+		}
+		return [
+			'error' => 0
+		];
 	}
 }

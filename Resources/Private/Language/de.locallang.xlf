@@ -185,21 +185,25 @@
 				<source><![CDATA[Scripts]]></source>
 				<target><![CDATA[Skripte]]></target>
 			</trans-unit>
-			<trans-unit id="backend.licenceCheck.expiringWarning.title" approved="yes">
-				<source><![CDATA[Sg Cookie Optin]]></source>
-				<target><![CDATA[Sg Cookie Optin]]></target>
+			<trans-unit id="backend.licenceCheck.error.title" approved="yes">
+				<source><![CDATA[License Check: Error!]]></source>
+				<target><![CDATA[Lizenzprüfung: Fehler!]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.warning.title" approved="yes">
+				<source><![CDATA[License Check: Warning!]]></source>
+				<target><![CDATA[Lizenzprüfung: Warnung!]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.noLicenseKey" approved="yes">
+				<source><![CDATA[You have not entered a license key for the Sg Cookie Optin extension. Please purchase a key from %s and enter it.]]></source>
+				<target><![CDATA[Sie haben keinen Lizenzschlüssel für die Sg Cookie Optin Erweiterung eingegeben. Bitte erwerben Sie einen Schlüssel aus %s und geben Sie ihn ein.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiringWarning.message" approved="yes">
-				<source><![CDATA[Your Sg Cookie Optin license is about to expire on %s. Make sure to renew it before this date from %s.]]></source>
-				<target><![CDATA[Ihre Sg Cookie Optin Lizenz läuft am %s ab. Stellen Sie sicher, dass Sie sie vor diesem Datum von %s erneuern.]]></target>
+				<source><![CDATA[Your Sg Cookie Optin license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
+				<target><![CDATA[Ihre Sg Cookie Optin-Lizenz ist am %s abgelaufen, aber Ihre Version wird noch mit dieser Lizenz unterstützt. Bitte erneuern Sie sie ab %s, damit Sie von unseren neusten Versionen profitieren können.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.shopLink" approved="yes">
 				<source><![CDATA[our shop]]></source>
 				<target><![CDATA[unserem Webshop]]></target>
-			</trans-unit>
-			<trans-unit id="backend.licenceCheck.expiredError.title" approved="yes">
-				<source><![CDATA[Sg Cookie Optin]]></source>
-				<target><![CDATA[Sg Cookie Optin]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiredError.message" approved="yes">
 				<source><![CDATA[Your Sg Cookie Optin license has expired. Please renew it from %s.]]></source>

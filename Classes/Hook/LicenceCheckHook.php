@@ -44,53 +44,8 @@ class LicenceCheckHook {
 	 *
 	 * @param string $date
 	 */
-	protected function addExpiringWarningJavaScript($date) {
-		// build text
-		$warningText = LocalizationUtility::translate(
-			'backend.licenceCheck.expiringWarning.message', 'sg_cookie_optin', [
-				// ToDo inject HTML somehow
-				$date, LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')
-			]
-		);
-		$warningTitle = LocalizationUtility::translate('backend.licenceCheck.expiringWarning.title', 'sg_cookie_optin');
-		// check
-		$evalText = 'Notification.warning("' . $warningTitle . '", "' . $warningText . '");';
+	protected function addAjaxLicenseCheck() {
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-		$pageRenderer->addJsInlineCode(
-			'LicenseCheckNotification',
-			"if (typeof SgCookieOptinLicenseCheck !== 'Object') {
-				SgCookieOptinLicenseCheck = {};
-			}
-			SgCookieOptinLicenseCheck.licenseWarning = {
-				evalScript: '$evalText'
-			}"
-		);
-		$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/LicenseNotification');
-	}
-
-	/**
-	 * Add JavaScript to display the expired license error
-	 */
-	protected function addExpiredErrorJavaScript() {
-		// build text
-		$warningText = LocalizationUtility::translate(
-			'backend.licenceCheck.expiredError.message', 'sg_cookie_optin', [
-				LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')
-			]
-		);
-		$warningTitle = LocalizationUtility::translate('backend.licenceCheck.expiredError.title', 'sg_cookie_optin');
-		// check
-		$evalText = 'Notification.error("' . $warningTitle . '", "' . $warningText . '");';
-		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-		$pageRenderer->addJsInlineCode(
-			'LicenseCheckNotification',
-			"if (typeof SgCookieOptinLicenseCheck !== 'Object') {
-					SgCookieOptinLicenseCheck = {};
-				}
-				SgCookieOptinLicenseCheck.licenseWarning = {
-					evalScript: '$evalText'
-				}"
-		);
 		$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/LicenseNotification');
 	}
 
@@ -101,29 +56,13 @@ class LicenceCheckHook {
 	 * @param BackendController $parentBackendController
 	 */
 	public function performLicenseCheck(array $configuration, BackendController $parentBackendController) {
-		// has it been checked already this session
-		session_start();
-		if (isset($_SESSION[LicenceCheckService::REGISTRY_NAMESPACE]['keyChecked'])
+		if (!LicenceCheckService::isTYPO3VersionSupported()
+			|| !LicenceCheckService::isTimeForNextCheck()
 			|| LicenceCheckService::isInDevelopmentContext()
 		) {
 			return;
 		}
 
-		// if not valid - error
-		if (!LicenceCheckService::hasValidLicense()) {
-			$this->addExpiredErrorJavaScript();
-		} else {
-			// if it's valid - check validUntil and throw a warning
-			if (LicenceCheckService::getValidUntil() < $GLOBALS['EXEC_TIME']
-				+ LicenceCheckService::AMOUNT_OF_DAYS_UNTIL_WARNING * 24 * 60 * 60) {
-				$date = date('d.m.Y', LicenceCheckService::getValidUntil());
-				$this->addExpiringWarningJavaScript($date);
-			}
-		}
-
-		$_SESSION[LicenceCheckService::REGISTRY_NAMESPACE] = array(
-			'keyChecked' => TRUE
-		);
-
+		$this->addAjaxLicenseCheck();
 	}
 }

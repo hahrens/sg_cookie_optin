@@ -105,14 +105,17 @@
 			<trans-unit id="backend.jsonImport.info" approved="yes">
 				<source><![CDATA[Please upload the configuration files for each language that you would like to import.]]></source>
 			</trans-unit>
-			<trans-unit id="backend.licenceCheck.expiringWarning.title" approved="yes">
-				<source><![CDATA[Sg Cookie Optin]]></source>
-			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiringWarning.message" approved="yes">
-				<source><![CDATA[Your Sg Cookie Optin license is about to expire on %s. Make sure to renew it before this date from %s.]]></source>
+				<source><![CDATA[Your Sg Cookie Optin license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
 			</trans-unit>
-			<trans-unit id="backend.licenceCheck.expiredError.title" approved="yes">
-				<source><![CDATA[Sg Cookie Optin]]></source>
+			<trans-unit id="backend.licenceCheck.error.title" approved="yes">
+				<source><![CDATA[License Check: Error!]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.warning.title" approved="yes">
+				<source><![CDATA[License Check: Warning!]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.noLicenseKey" approved="yes">
+				<source><![CDATA[You have not entered a license key for the Sg Cookie Optin extension. Please purchase a key from %s and enter it.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiredError.message" approved="yes">
 				<source><![CDATA[Your Sg Cookie Optin license has expired. Please renew it from %s.]]></source>

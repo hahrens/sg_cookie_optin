@@ -27,7 +27,20 @@ define(["jquery", 'TYPO3/CMS/Backend/Notification'], function ($, Notification) 
 		"use strict";
 		var LicenseCheck = {
 			init: function() {
-				eval(SgCookieOptinLicenseCheck.licenseWarning.evalScript);
+				$.ajax({
+					url: TYPO3.settings.ajaxUrls['sg_cookie_optin::checkLicense'],
+					dataType: 'text',
+					success: function(result) {
+						var data = JSON.parse(result);
+						switch (data.error) {
+							case 1:
+								Notification.error(data.title, data.message);
+								break;
+							case 2:
+								Notification.warning(data.title, data.message);
+						}
+					}
+				});
 			}
 		};
 
