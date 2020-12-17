@@ -28,8 +28,8 @@ namespace SGalinski\SgCookieOptin\Service;
 
 use SGalinski\SgCookieOptin\Exception\JsonImportException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class SGalinski\SgCookieOptin\Service\JsonImportService
@@ -168,6 +168,8 @@ class JsonImportService {
 	}
 
 	/**
+	 * Adds a group entry in the database
+	 *
 	 * @param array $group
 	 * @param int $groupIndex
 	 * @param int $optInId
@@ -201,6 +203,8 @@ class JsonImportService {
 	}
 
 	/**
+	 * Adds a cookie entry in the database
+	 *
 	 * @param array $cookie
 	 * @param int $cookieIndex
 	 * @param string $groupName
@@ -248,6 +252,8 @@ class JsonImportService {
 	}
 
 	/**
+	 * Adds a script entry in the database
+	 *
 	 * @param array $script
 	 * @param int $scriptIndex
 	 * @param int $optInId
@@ -271,13 +277,10 @@ class JsonImportService {
 			'crdate' => time(),
 			'tstamp' => time(),
 		];
-		switch ($groupName) {
-			case 'essential':
-				$scriptData['parent_optin'] = $optInId;
-				break;
-			default:
-				$scriptData['parent_group'] = $groupId;
-				break;
+		if ($groupName === 'essential') {
+			$scriptData['parent_optin'] = $optInId;
+		} else {
+			$scriptData['parent_group'] = $groupId;
 		}
 		if ($defaultLanguageOptinId !== NULL) {
 			$scriptData['sys_language_uid'] = $sysLanguageUid;
@@ -301,15 +304,22 @@ class JsonImportService {
 		if ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'] !== 'application/json'
 			|| $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'] !== 0) {
 			// TODO: what to do in case of an error
-			throw new \RuntimeException('The file could not be uploaded');
+			throw new JsonImportException(
+				LocalizationUtility::translate('frontend.error.theFileCouldNotBeUploaded', 'sg_cookie_optin'),
+				102
+			);
 		}
 
 		$languagesJson = json_decode(
-			file_get_contents($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file']),TRUE
+			file_get_contents($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file']), TRUE
 		);
 
 		if (!$languagesJson) {
-			throw new JsonImportException('The imported file does not contain properly formatted JSON configuration');
+			throw new JsonImportException(
+				LocalizationUtility::translate(
+					'frontend.error.theImportedFileDoesNotContainProperlyFormattedJson', 'sg_cookie_optin'
+				), 103
+			);
 		}
 
 		foreach ($languagesJson as $locale => $jsonData) {

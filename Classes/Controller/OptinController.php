@@ -26,17 +26,21 @@ namespace SGalinski\SgCookieOptin\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use DirectoryIterator;
+use Exception;
 use SGalinski\SgCookieOptin\Exception\JsonImportException;
 use SGalinski\SgCookieOptin\Service\BackendService;
+use SGalinski\SgCookieOptin\Service\DemoModeService;
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
-use SGalinski\SgCookieOptin\Service\DemoModeService;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -111,13 +115,20 @@ class OptinController extends ActionController {
 
 	/**
 	 * Imports JSON configuration
+	 *
+	 * @throws StopActionException
 	 */
 	public function importJsonAction() {
 		session_start();
 		$pid = (int) GeneralUtility::_GP('id');
 		try {
 			if (!isset($_SESSION['tx_sgcookieoptin']['importJsonData']['defaultLanguageId'])) {
-				throw new \Exception('The stored imported data is corrupt');
+				throw new JsonImportException(
+					LocalizationUtility::translate(
+						'jsonImport.error.theStoredImportedDataIsCorrupt',
+						'sg_cookie_optin'
+					), 101
+				);
 			}
 
 			$defaultLanguageId = $_SESSION['tx_sgcookieoptin']['importJsonData']['defaultLanguageId'];
@@ -136,10 +147,14 @@ class OptinController extends ActionController {
 			}
 
 			unset($_SESSION['tx_sgcookieoptin']['importJsonData']);
-			$this->redirectToEditAction($defaultLanguageOptinId);
-		} catch (\Exception $exception) {
-			//TODO: show error message?
-			throw $exception;
+			$this->redirectToTCAEdit($defaultLanguageOptinId);
+		} catch (Exception $exception) {
+			$this->addFlashMessage(
+				$exception->getMessage(),
+				'',
+				AbstractMessage::ERROR
+			);
+			$this->redirect('previewImport', 'Optin', 'sg_cookie_optin');
 		}
 	}
 
@@ -149,7 +164,7 @@ class OptinController extends ActionController {
 	 * @param int $optInId
 	 * @throws RouteNotFoundException
 	 */
-	protected function redirectToEditAction($optInId) {
+	protected function redirectToTCAEdit($optInId) {
 		$pid = (int) GeneralUtility::_GP('id');
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 		$params = [
@@ -160,6 +175,12 @@ class OptinController extends ActionController {
 		header('Location: ' . $uri);
 	}
 
+	/**
+	 * Displays statistics about the imported data for a  preview
+	 *
+	 * @throws StopActionException
+	 * @throws \TYPO3\CMS\Extbase\Object\Exception
+	 */
 	public function previewImportAction() {
 		session_start();
 		$this->initComponents();
@@ -183,97 +204,105 @@ class OptinController extends ActionController {
 			$this->view->assign('isSiteRoot', TRUE);
 			$this->view->assign('optins', $optIns);
 		}
-		$languages = LanguageService::getLanguages($pageUid);
+		try {
+			$languages = LanguageService::getLanguages($pageUid);
+		} catch (SiteNotFoundException $e) {
+			$languages = [];
+		}
 		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 		$jsonImportService = $objectManager->get(JsonImportService::class);
-		if (isset($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin'])) {
-			try {
-				$jsonImportService->parseAndStoreImportedData($languages);
-
-				// check if all local languages are translated
-				$untranslatedLanguages = [];
-				foreach ($languages as $language) {
-					if (!isset($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'][$language['uid']])) {
-						$this->addFlashMessage(
-							LocalizationUtility::translate('backend.jsonImport.warnings.language.missing', 'sg_cookie_optin',
-							['lang' => $language['title'] . ' (' . $language['locale'] . ')']),
-							LocalizationUtility::translate('backend.jsonImport.warnings.language.header', 'sg_cookie_optin'),
-							AbstractMessage::WARNING
-						);
-					}
-				}
-
-
-				// check groups, cookies and scripts count
-				$groupsCounts = [];
-				$cookiesCounts = [];
-				$scriptsCounts = [];
-				$warningCookies = FALSE;
-				$warningGroups = FALSE;
-				$warningScripts = FALSE;
-				$dataSummary = [];
-				foreach ($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'] as $languageId => $languageData) {
-					$groupsCounts[$languageId] = count($languageData['cookieGroups']);
-					foreach ($languageData['cookieGroups'] as $group) {
-						$cookiesCounts[$languageId] += (isset($group['cookieData'])) ? count($group['cookieData']) : 0;
-						$scriptsCounts[$languageId] += (isset($group['scriptData'])) ? count($group['scriptData']) : 0;
-					}
-				}
-
-				if (count(array_unique($groupsCounts)) > 1) {
-					$this->addFlashMessage(
-						LocalizationUtility::translate('backend.jsonImport.warnings.groupsCount', 'sg_cookie_optin'),
-						LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
-						AbstractMessage::WARNING
-					);
-					$warningGroups = TRUE;
-				}
-
-				if (count(array_unique($cookiesCounts)) > 1) {
-					$this->addFlashMessage(
-						LocalizationUtility::translate('backend.jsonImport.warnings.cookiesCount', 'sg_cookie_optin'),
-						LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
-						AbstractMessage::WARNING
-					);
-					$warningCookies = TRUE;
-				}
-
-				if (count(array_unique($scriptsCounts)) > 1) {
-					$this->addFlashMessage(
-						LocalizationUtility::translate('backend.jsonImport.warnings.scriptsCount', 'sg_cookie_optin'),
-						LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
-						AbstractMessage::WARNING
-					);
-					$warningScripts = TRUE;
-				}
-
-				foreach ($languages as $language) {
-					$dataSummary[$language['uid']] = [
-						'translated' => array_key_exists($language['uid'], $groupsCounts),
-						'groups' => $groupsCounts[$language['uid']],
-						'cookies' => $cookiesCounts[$language['uid']],
-						'scripts' => $scriptsCounts[$language['uid']],
-						'title' => $language['title'],
-						'locale' => $language['locale'],
-						'flagIdentifier' => $language['flagIdentifier']
-					];
-				}
-				$this->view->assign('dataSummary', $dataSummary);
-				$this->view->assign('warningGroups', $warningGroups);
-				$this->view->assign('warningScripts', $warningScripts);
-				$this->view->assign('warningCookies', $warningCookies);
-
-			} catch (JsonImportException $exception) {
-				$this->addFlashMessage(
-					$exception->getMessage(),
-					'',
-					AbstractMessage::ERROR
+		try {
+			if (!isset($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin'])) {
+				throw new JsonImportException(
+					LocalizationUtility::translate('frontend.error.noFileUploaded', 'sg_cookie_optin'), 104
 				);
-				$this->redirect('uploadJson', 'Optin', 'sg_cookie_optin');
-			} catch (\Exception $exception) {
-				// show error message
-				throw $exception;
 			}
+
+			$jsonImportService->parseAndStoreImportedData($languages);
+
+			// check if all local languages are translated
+			$untranslatedLanguages = [];
+			foreach ($languages as $language) {
+				if (!isset($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'][$language['uid']])) {
+					$this->addFlashMessage(
+						LocalizationUtility::translate(
+							'backend.jsonImport.warnings.language.missing', 'sg_cookie_optin',
+							['lang' => $language['title'] . ' (' . $language['locale'] . ')']
+						),
+						LocalizationUtility::translate(
+							'backend.jsonImport.warnings.language.header', 'sg_cookie_optin'
+						),
+						AbstractMessage::WARNING
+					);
+				}
+			}
+
+			// check groups, cookies and scripts count
+			$groupsCounts = [];
+			$cookiesCounts = [];
+			$scriptsCounts = [];
+			$warningCookies = FALSE;
+			$warningGroups = FALSE;
+			$warningScripts = FALSE;
+			$dataSummary = [];
+			foreach ($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'] as $languageId => $languageData) {
+				$groupsCounts[$languageId] = count($languageData['cookieGroups']);
+				foreach ($languageData['cookieGroups'] as $group) {
+					$cookiesCounts[$languageId] += (isset($group['cookieData'])) ? count($group['cookieData']) : 0;
+					$scriptsCounts[$languageId] += (isset($group['scriptData'])) ? count($group['scriptData']) : 0;
+				}
+			}
+
+			if (count(array_unique($groupsCounts)) > 1) {
+				$this->addFlashMessage(
+					LocalizationUtility::translate('backend.jsonImport.warnings.groupsCount', 'sg_cookie_optin'),
+					LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
+					AbstractMessage::WARNING
+				);
+				$warningGroups = TRUE;
+			}
+
+			if (count(array_unique($cookiesCounts)) > 1) {
+				$this->addFlashMessage(
+					LocalizationUtility::translate('backend.jsonImport.warnings.cookiesCount', 'sg_cookie_optin'),
+					LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
+					AbstractMessage::WARNING
+				);
+				$warningCookies = TRUE;
+			}
+
+			if (count(array_unique($scriptsCounts)) > 1) {
+				$this->addFlashMessage(
+					LocalizationUtility::translate('backend.jsonImport.warnings.scriptsCount', 'sg_cookie_optin'),
+					LocalizationUtility::translate('backend.jsonImport.warnings.header', 'sg_cookie_optin'),
+					AbstractMessage::WARNING
+				);
+				$warningScripts = TRUE;
+			}
+
+			foreach ($languages as $language) {
+				$dataSummary[$language['uid']] = [
+					'translated' => array_key_exists($language['uid'], $groupsCounts),
+					'groups' => $groupsCounts[$language['uid']],
+					'cookies' => $cookiesCounts[$language['uid']],
+					'scripts' => $scriptsCounts[$language['uid']],
+					'title' => $language['title'],
+					'locale' => $language['locale'],
+					'flagIdentifier' => $language['flagIdentifier']
+				];
+			}
+			$this->view->assign('dataSummary', $dataSummary);
+			$this->view->assign('warningGroups', $warningGroups);
+			$this->view->assign('warningScripts', $warningScripts);
+			$this->view->assign('warningCookies', $warningCookies);
+
+		} catch (Exception $exception) {
+			$this->addFlashMessage(
+				$exception->getMessage(),
+				'',
+				AbstractMessage::ERROR
+			);
+			$this->redirect('uploadJson', 'Optin', 'sg_cookie_optin');
 		}
 	}
 
@@ -289,28 +318,29 @@ class OptinController extends ActionController {
 			$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . DIRECTORY_SEPARATOR;
 			$filesPath = $sitePath . $folder . 'siteroot-' . $pid . DIRECTORY_SEPARATOR;
 			$jsonData = [];
-			foreach (new \DirectoryIterator($filesPath) as $file) {
+			foreach (new DirectoryIterator($filesPath) as $file) {
 				if (strpos($file->getFilename(), 'cookieOptinData') !== 0) {
 					continue;
 				}
 
 				$contents = file_get_contents($filesPath . $file->getFilename());
-				list($languageId, $locale) = LanguageService::getLocaleByFileName(str_replace('.json', '', $file->getFilename()));
+				$locale = LanguageService::getLocaleByFileName(
+					str_replace('.json', '', $file->getFilename())
+				);
 				$jsonData[$locale] = json_decode($contents, TRUE);
 			}
-
 
 			header('Content-disposition: attachment; filename=sg_cookie_optin.json');
 			header('Content-type: application/json');
 			echo json_encode($jsonData, TRUE);
 			die();
-		} catch (\Exception $exception) {
+		} catch (Exception $exception) {
 			return 'Could not export the configuration because of the following error: ' . $exception->getMessage();
 		}
 	}
 
 	/**
-	 * Initialize the licence check and the doc header components
+	 * Initialize the demo mode check and the doc header components
 	 */
 	protected function initComponents() {
 		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
@@ -400,7 +430,7 @@ class OptinController extends ActionController {
 	 * Create an optin entry in the database and redirect to edit action
 	 *
 	 * @throws RouteNotFoundException
-	 * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
+	 * @throws SiteNotFoundException
 	 */
 	public function createAction() {
 		$pid = (int) GeneralUtility::_GP('id');
@@ -434,7 +464,7 @@ class OptinController extends ActionController {
 		];
 
 		$dataHandler = GeneralUtility::makeInstance(
-			\TYPO3\CMS\Core\DataHandling\DataHandler::class
+			DataHandler::class
 		);
 		$dataHandler->start($data, []);
 		$dataHandler->process_datamap();
@@ -461,11 +491,11 @@ class OptinController extends ActionController {
 
 		// Replace the $dataHandler object with a fresh one and add the cookies
 		$dataHandler = GeneralUtility::makeInstance(
-			\TYPO3\CMS\Core\DataHandling\DataHandler::class
+			DataHandler::class
 		);
 		$dataHandler->start($translatedCookiesData, []);
 		$dataHandler->process_datamap();
 
-		$this->redirectToEditAction($newOptinId);
+		$this->redirectToTCAEdit($newOptinId);
 	}
 }

@@ -84,9 +84,7 @@ class LanguageService {
 	public static function getLocaleByFileName($fileName) {
 		$parts = explode(JsonImportService::LOCALE_SEPARATOR, $fileName);
 		$parts = array_reverse($parts);
-		$languageId = (int) $parts[0];
-		$locale = $parts[1];
-		return [$languageId, $locale];
+		return $parts[1];
 	}
 
 	/**

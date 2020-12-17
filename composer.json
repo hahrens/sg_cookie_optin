@@ -12,8 +12,7 @@
 	},
 	"require": {
 		"typo3/cms-core": "^6.2 || ^7.6 || ^8.7 || ^9.5 || ^10.4",
-		"php": "^5.5 || ^7.0",
-        "ext-curl": "*"
+		"php": "^5.5 || ^7.0"
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-master"

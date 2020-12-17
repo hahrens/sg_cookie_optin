@@ -28,6 +28,7 @@ namespace SGalinski\SgCookieOptin\Hook;
 
 use SGalinski\SgCookieOptin\Service\BaseUrlService;
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
+use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
 use SGalinski\SgCookieOptin\Service\DemoModeService;
 use SGalinski\SgCookieOptin\Service\MinificationService;
@@ -523,6 +524,8 @@ class GenerateFilesAfterTcaSave {
 		}
 
 		GeneralUtility::fixPermissions($groupFile);
+		// $this->siteRoot cannot be null here, because this always gets called after the DataHandler logic where
+		// it is being set
 		return BaseUrlService::getSiteBaseUrl($this->siteRoot) . $file;
 	}
 
@@ -874,7 +877,7 @@ class GenerateFilesAfterTcaSave {
 
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace(
-				'#LANG#', (($locale !== '') ? $locale . '--' : '') . $translatedData['sys_language_uid'],
+				'#LANG#', (($locale !== '') ? $locale . JsonImportService::LOCALE_SEPARATOR : '') . $translatedData['sys_language_uid'],
 				self::TEMPLATE_JSON_NAME
 			);
 		file_put_contents($file, json_encode($jsonDataArray, JSON_PRETTY_PRINT));
