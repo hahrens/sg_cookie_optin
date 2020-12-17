@@ -955,6 +955,10 @@ var SgCookieOptin = {
 			return false;
 		}
 
+		if (SgCookieOptin.isUrlLocal(externalContent.getAttribute(attribute))) {
+			return true;
+		}
+
 		for (var regExIndex in regularExpressions) {
 			if (typeof externalContent.getAttribute === 'function' && regularExpressions[regExIndex].test(externalContent.getAttribute(attribute))) {
 				return true;
@@ -976,14 +980,23 @@ var SgCookieOptin = {
 		}
 
 		var sources = externalContent.querySelectorAll('source');
+		var foundNonWhitelisted = false;
 		for (var sourceIndex in sources) {
+			if (!sources.hasOwnProperty(sourceIndex)) {
+				continue;
+			}
+
+			if (!sources[sourceIndex].getAttribute('src')) {
+				continue;
+			}
+
 			// noinspection JSUnfilteredForInLoop
-			if (SgCookieOptin.isElementWhitelisted(sources[sourceIndex], 'src', regularExpressions)) {
-				return true;
+			if (!SgCookieOptin.isElementWhitelisted(sources[sourceIndex], 'src', regularExpressions)) {
+				foundNonWhitelisted = true;
 			}
 		}
 
-		return false;
+		return !foundNonWhitelisted;
 	},
 
 	/**
@@ -999,6 +1012,16 @@ var SgCookieOptin = {
 			}
 		}
 		return false;
+	},
+
+	/**
+	 * Checks if the given URL is a local or relative path
+	 * @param {string} url
+	 */
+	isUrlLocal: function(url) {
+		var tempA = document.createElement('a');
+		tempA.setAttribute('href', url);
+		return window.location.protocol === tempA.protocol && window.location.host === tempA.host;
 	},
 
 	/**
@@ -1496,6 +1519,9 @@ var SgCookieOptin = {
 		}
 	},
 
+	/**
+	 * Polyfill for the Element.matches and Element.closest
+	 */
 	closestPolyfill: function() {
 		const ElementPrototype = window.Element.prototype;
 
