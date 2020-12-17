@@ -237,6 +237,34 @@
 				<source><![CDATA[Tracking / Cookies]]></source>
 				<target><![CDATA[Tracking / Cookies]]></target>
 			</trans-unit>
+			<trans-unit id="backend.jsonImport.headline" approved="yes">
+				<source><![CDATA[Import Configuration]]></source>
+				<target><![CDATA[Konfiguration Importieren]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.step1" approved="yes">
+				<source><![CDATA[Step 1/2 - Upload]]></source>
+				<target><![CDATA[Schritt 1/2 - Hochladen]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.step2" approved="yes">
+				<source><![CDATA[Step 2/2 - Preview]]></source>
+				<target><![CDATA[Schritt 1/2 - Vorschau]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.description" approved="yes">
+				<source><![CDATA[Your import contains the following languages:]]></source>
+				<target><![CDATA[Ihr Import enthält folgende Sprachen:]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.buttonDescription" approved="yes">
+				<source><![CDATA[Click 'Proceed' to create a configuration and add the listed languages.]]></source>
+				<target><![CDATA[Klicken Sie auf 'Weiter', um eine Konfiguration zu erstellen und die aufgeführten Sprachen hinzuzufügen.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.buttonBack" approved="yes">
+				<source><![CDATA[Back]]></source>
+				<target><![CDATA[Zurück]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.buttonProceed" approved="yes">
+				<source><![CDATA[Proceed]]></source>
+				<target><![CDATA[Weiter]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

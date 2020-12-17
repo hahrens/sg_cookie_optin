@@ -1,8 +1,11 @@
 <f:layout name="Default" />
 
 <f:section name="content">
+	<h1>{f:translate(key:'backend.jsonImport.headline')}</h1>
+	<h2>{f:translate(key:'backend.jsonImport.step2')}</h2>
 	<f:flashMessages />
 
+	<p>{f:translate(key:'backend.jsonImport.preview.description')}</p>
 	<f:for each="{warnings}" as="warning">
 		<div class="alert alert-warning" role="alert">
 			<i class="fa fa-exclamation-triangle"></i>
@@ -50,12 +53,13 @@
 	</div>
 
 	<form>
+		<p>{f:translate(key:'backend.jsonImport.preview.buttonDescription')}</p>
 		<f:link.action action="uploadJson" class="btn btn-default form-group ">
-			Back
+			{f:translate(key:'backend.jsonImport.preview.buttonBack')}
 		</f:link.action>
 
 		<f:link.action action="importJson" class="btn btn-default form-group ">
-			Proceed
+			{f:translate(key:'backend.jsonImport.preview.buttonProceed')}
 		</f:link.action>
 	</form>
 </f:section>

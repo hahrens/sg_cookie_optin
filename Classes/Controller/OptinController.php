@@ -28,12 +28,15 @@ namespace SGalinski\SgCookieOptin\Controller;
 
 use SGalinski\SgCookieOptin\Exception\JsonImportException;
 use SGalinski\SgCookieOptin\Service\BackendService;
+use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
 use SGalinski\SgCookieOptin\Service\DemoModeService;
+use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -143,10 +146,11 @@ class OptinController extends ActionController {
 	/**
 	 * Redirects to the edit action
 	 *
-	 * @param $optinId
-	 * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+	 * @param int $optInId
+	 * @throws RouteNotFoundException
 	 */
 	protected function redirectToEditAction($optInId) {
+		$pid = (int) GeneralUtility::_GP('id');
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 		$params = [
 			'edit' => ['tx_sgcookieoptin_domain_model_optin' => [$optInId => 'edit']],
@@ -274,9 +278,39 @@ class OptinController extends ActionController {
 	}
 
 	/**
-	 * Initialize the licence check and the doc header components
+	 * Downloads a JSON file containing all the configuration for each language
 	 *
-	 * @param false $checkOptinsCount
+	 * @return string
+	 */
+	public function exportJsonAction() {
+		try {
+			$pid = (int) GeneralUtility::_GP('id');
+			$folder = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_FOLDER);
+			$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . DIRECTORY_SEPARATOR;
+			$filesPath = $sitePath . $folder . 'siteroot-' . $pid . DIRECTORY_SEPARATOR;
+			$jsonData = [];
+			foreach (new \DirectoryIterator($filesPath) as $file) {
+				if (strpos($file->getFilename(), 'cookieOptinData') !== 0) {
+					continue;
+				}
+
+				$contents = file_get_contents($filesPath . $file->getFilename());
+				list($languageId, $locale) = LanguageService::getLocaleByFileName(str_replace('.json', '', $file->getFilename()));
+				$jsonData[$locale] = json_decode($contents, TRUE);
+			}
+
+
+			header('Content-disposition: attachment; filename=sg_cookie_optin.json');
+			header('Content-type: application/json');
+			echo json_encode($jsonData, TRUE);
+			die();
+		} catch (\Exception $exception) {
+			return 'Could not export the configuration because of the following error: ' . $exception->getMessage();
+		}
+	}
+
+	/**
+	 * Initialize the licence check and the doc header components
 	 */
 	protected function initComponents() {
 		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
@@ -365,11 +399,11 @@ class OptinController extends ActionController {
 	/**
 	 * Create an optin entry in the database and redirect to edit action
 	 *
-	 * @throws \TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException
+	 * @throws RouteNotFoundException
 	 * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
 	 */
 	public function createAction() {
-		$pid = (int) \TYPO3\CMS\Core\Utility\GeneralUtility::_GP('id');
+		$pid = (int) GeneralUtility::_GP('id');
 		// create with DataHandler
 		$dataMapArray = [
 			'description' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
@@ -399,7 +433,7 @@ class OptinController extends ActionController {
 			'parent_optin' => 'NEW9823be87'
 		];
 
-		$dataHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+		$dataHandler = GeneralUtility::makeInstance(
 			\TYPO3\CMS\Core\DataHandling\DataHandler::class
 		);
 		$dataHandler->start($data, []);
@@ -426,7 +460,7 @@ class OptinController extends ActionController {
 		}
 
 		// Replace the $dataHandler object with a fresh one and add the cookies
-		$dataHandler = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+		$dataHandler = GeneralUtility::makeInstance(
 			\TYPO3\CMS\Core\DataHandling\DataHandler::class
 		);
 		$dataHandler->start($translatedCookiesData, []);

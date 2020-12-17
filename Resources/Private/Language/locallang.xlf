@@ -180,6 +180,27 @@
 			<trans-unit id="mlang_tabs_tab">
 				<source><![CDATA[Tracking / Cookies]]></source>
 			</trans-unit>
+			<trans-unit id="backend.jsonImport.headline" approved="yes">
+				<source><![CDATA[Import Configuration]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.step1" approved="yes">
+				<source><![CDATA[Step 1/2 - Upload]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.step2" approved="yes">
+				<source><![CDATA[Step 2/2 - Preview]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.description" approved="yes">
+				<source><![CDATA[Your import contains the following languages:]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.buttonDescription" approved="yes">
+				<source><![CDATA[Click 'Proceed' to create a configuration and add the listed languages.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.buttonBack" approved="yes">
+				<source><![CDATA[Back]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.buttonProceed" approved="yes">
+				<source><![CDATA[Proceed]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

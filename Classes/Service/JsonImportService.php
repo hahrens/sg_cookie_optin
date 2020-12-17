@@ -28,12 +28,17 @@ namespace SGalinski\SgCookieOptin\Service;
 
 use SGalinski\SgCookieOptin\Exception\JsonImportException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class SGalinski\SgCookieOptin\Service\JsonImportService
  */
 class JsonImportService {
+	/**
+	 * Separates the locale in the filename
+	 */
+	const LOCALE_SEPARATOR = '--';
 
 	/**
 	 * Stores the mapping data for the default language so that the next imported languages can have it's entities
@@ -77,7 +82,7 @@ class JsonImportService {
 		$flatJsonData['tstamp'] = time();
 		$flatJsonData['cruser_id'] = $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column];
 		$flatJsonData['navigation'] = $this->buildNavigationFromFooterLinks($footerLinks);
-		// essential_description TODO: is essential always 0
+		// essential_description
 		$flatJsonData['essential_description'] = $cookieGroups[0]['description'];
 		$flatJsonData['iframe_description'] = $iframeGroup['description'];
 		if ($sysLanguageUid !== NULL) {
@@ -97,7 +102,9 @@ class JsonImportService {
 		foreach ($cookieGroups as $groupIndex => $group) {
 			$groupIdentifier = $groupIndex;
 			if ($group['groupName'] !== 'essential' && $group['groupName'] !== 'iframes') {
-				$groupId = $this->addGroup($group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool);
+				$groupId = $this->addGroup(
+					$group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+				);
 			} else {
 				// we use this only for the internal language mapping lookup array
 				$groupIdentifier = $group['groupName'];
@@ -118,8 +125,10 @@ class JsonImportService {
 					if ($cookie['pseudo'] === TRUE) {
 						continue;
 					}
-					$cookieId = $this->addCookie($cookie, $cookieIndex, $group['groupName'], $optInId, $groupId,
-						$sysLanguageUid, $groupIdentifier, $defaultLanguageOptinId, $connectionPool);
+					$cookieId = $this->addCookie(
+						$cookie, $cookieIndex, $group['groupName'], $optInId, $groupId,
+						$sysLanguageUid, $groupIdentifier, $defaultLanguageOptinId, $connectionPool
+					);
 					if ($defaultLanguageOptinId === NULL) {
 						$this->defaultLanguageIdMappingLookup[$groupIdentifier]['cookies'][$cookieIndex] = $cookieId;
 					}
@@ -128,8 +137,10 @@ class JsonImportService {
 			// Add Scripts
 			if (isset($group['scriptData'])) {
 				foreach ($group['scriptData'] as $scriptIndex => $script) {
-					$scriptId = $this->addScript($script, $scriptIndex, $group['groupName'], $optInId, $groupId, $sysLanguageUid,
-						$defaultLanguageOptinId, $groupIdentifier, $connectionPool);
+					$scriptId = $this->addScript(
+						$script, $scriptIndex, $group['groupName'], $optInId, $groupId, $sysLanguageUid,
+						$defaultLanguageOptinId, $groupIdentifier, $connectionPool
+					);
 					if ($defaultLanguageOptinId === NULL) {
 						$this->defaultLanguageIdMappingLookup[$groupIdentifier]['scripts'][$scriptIndex] = $scriptId;
 					}
@@ -147,7 +158,7 @@ class JsonImportService {
 	 * @return string
 	 */
 	protected function buildNavigationFromFooterLinks($footerLinks) {
-		$navigationIds = array();
+		$navigationIds = [];
 		foreach ($footerLinks as $footerLink) {
 			if (isset($footerLink['uid'])) {
 				$navigationIds[] = $footerLink['uid'];
@@ -165,8 +176,9 @@ class JsonImportService {
 	 * @param ConnectionPool $connectionPool
 	 * @return mixed
 	 */
-	protected function addGroup($group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool) {
-		$groupData = array(
+	protected function addGroup($group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+	) {
+		$groupData = [
 			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
 			'group_name' => $group['groupName'],
 			'title' => $group['label'],
@@ -175,7 +187,7 @@ class JsonImportService {
 			'parent_optin' => $optInId,
 			'crdate' => time(),
 			'tstamp' => time(),
-		);
+		];
 		if ($defaultLanguageOptinId !== NULL) {
 			$groupData['l10n_parent'] = $this->defaultLanguageIdMappingLookup[$groupIndex]['id'];
 			$groupData['sys_language_uid'] = $sysLanguageUid;
@@ -199,9 +211,11 @@ class JsonImportService {
 	 * @param int $defaultLanguageOptinId
 	 * @param ConnectionPool $connectionPool
 	 */
-	protected function addCookie($cookie, $cookieIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $groupIdentifier,
-		$defaultLanguageOptinId, $connectionPool) {
-		$cookieData = array(
+	protected function addCookie(
+		$cookie, $cookieIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $groupIdentifier,
+		$defaultLanguageOptinId, $connectionPool
+	) {
+		$cookieData = [
 			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
 			'name' => $cookie['Name'],
 			'provider' => $cookie['Provider'],
@@ -210,7 +224,7 @@ class JsonImportService {
 			'sorting' => $cookieIndex + 1,
 			'crdate' => time(),
 			'tstamp' => time(),
-		);
+		];
 		switch ($groupName) {
 			case 'essential':
 				$cookieData['parent_optin'] = $optInId;
@@ -244,8 +258,10 @@ class JsonImportService {
 	 * @param ConnectionPool $connectionPool
 	 * @return mixed
 	 */
-	protected function addScript($script, $scriptIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $defaultLanguageOptinId,
-		$groupIdentifier, $connectionPool) {
+	protected function addScript(
+		$script, $scriptIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $defaultLanguageOptinId,
+		$groupIdentifier, $connectionPool
+	) {
 		$scriptData = [
 			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
 			'title' => $script['title'],
@@ -279,25 +295,29 @@ class JsonImportService {
 	 * @throws JsonImportException
 	 */
 	public function parseAndStoreImportedData($languages) {
-		$dataStorage = array();
+		$dataStorage = [];
 		unset($_SESSION['tx_sgcookieoptin']['importJsonData']);
 		// get and import the default language
-		foreach ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['name']['file'] as $key => $fileName) {
-			if ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'][$key] !== 'application/json'
-				|| $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'][$key] !== 0) {
-				// TODO: what to do in case of an error
-				continue;
-			}
-			$fileName = str_replace('.json', '', $fileName);
-			$parts = explode('--', $fileName);
-			$parts = array_reverse($parts);
-			$languageId = (int) $parts[0];
-			$locale = $parts[1];
+		if ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'] !== 'application/json'
+			|| $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'] !== 0) {
+			// TODO: what to do in case of an error
+			throw new \RuntimeException('The file could not be uploaded');
+		}
 
+		$languagesJson = json_decode(
+			file_get_contents($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file']),TRUE
+		);
+
+		if (!$languagesJson) {
+			throw new JsonImportException('The imported file does not contain properly formatted JSON configuration');
+		}
+
+		foreach ($languagesJson as $locale => $jsonData) {
 			$defaultFound = FALSE;
 			foreach ($languages as $language) {
 				if ($language['uid'] === 0 && strpos($language['locale'], $locale) !== FALSE) {
-					$defaultLanguageId = $languageId;
+					$defaultLanguageId = $language['uid'];
+					$defaultLanguageLocale = $locale;
 					$defaultFound = TRUE;
 					break;
 				}
@@ -307,10 +327,7 @@ class JsonImportService {
 				continue;
 			}
 
-			$defaultLanguageJsonData = json_decode(
-				file_get_contents($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file'][$key]),
-				TRUE
-			);
+			$defaultLanguageJsonData = $jsonData;
 			$dataStorage['defaultLanguageId'] = $defaultLanguageId;
 			$dataStorage['languageData'][$defaultLanguageId] = $defaultLanguageJsonData;
 			break;
@@ -321,28 +338,17 @@ class JsonImportService {
 		}
 
 		// import the other languages
-		foreach ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['name']['file'] as $key => $fileName) {
-			if ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'][$key] !== 'application/json'
-				|| $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'][$key] !== 0) {
-				// TODO: what to do in case of an error
-				continue;
-			}
-
-			$fileName = str_replace('.json', '', $fileName);
-			$parts = explode('--', $fileName);
-			$parts = array_reverse($parts);
-			$languageId = (int) $parts[0];
+		foreach ($languagesJson as $locale => $jsonData) {
 
 			// we already stored that
-			if ($languageId === $defaultLanguageId) {
+			if ($locale === $defaultLanguageLocale) {
 				continue;
 			}
 
-			$jsonData = json_decode(
-				file_get_contents($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file'][$key]),
-				TRUE
-			);
-			$dataStorage['languageData'][$languageId] = $jsonData;
+			$languageId = LanguageService::getLanguageIdByLocale($locale, $languages);
+			if ($languageId !== NULL) {
+				$dataStorage['languageData'][$languageId] = $jsonData;
+			}
 		}
 
 		// Save into session

@@ -26,6 +26,7 @@ namespace SGalinski\SgCookieOptin\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -38,8 +39,9 @@ class LanguageService {
 	/**
 	 * Returns all system languages.
 	 *
+	 * @param int $siteRootUid
 	 * @return array
-	 * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
+	 * @throws SiteNotFoundException
 	 */
 	public static function getLanguages($siteRootUid) {
 		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) {
@@ -71,5 +73,35 @@ class LanguageService {
 		}
 
 		return $rows;
+	}
+
+	/**
+	 * Returns the languageUid and Locale by fileName
+	 *
+	 * @param string $fileName
+	 * @return array
+	 */
+	public static function getLocaleByFileName($fileName) {
+		$parts = explode(JsonImportService::LOCALE_SEPARATOR, $fileName);
+		$parts = array_reverse($parts);
+		$languageId = (int) $parts[0];
+		$locale = $parts[1];
+		return [$languageId, $locale];
+	}
+
+	/**
+	 * Returns the language UID by the locale string or NULL if it was not found
+	 *
+	 * @param string $locale
+	 * @param array $languages
+	 * @return int|null
+	 */
+	public static function getLanguageIdByLocale($locale, array $languages) {
+		foreach ($languages as $language) {
+			if (strpos($language['locale'], $locale) !== FALSE) {
+				return (int) $language['uid'];
+			}
+		}
+		return NULL;
 	}
 }
