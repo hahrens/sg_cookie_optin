@@ -50,11 +50,6 @@ class LicenceCheckService {
 	const REGISTRY_NAMESPACE = 'tx_sgcookieoptin';
 
 	/**
-	 * Class Namespace
-	 */
-	const EXTENSION_NAMESPACE = "SgCookieOptin";
-
-	/**
 	 * Keys for the sys registry
 	 */
 	const IS_KEY_VALID_KEY = 'isKeyValid';
@@ -516,8 +511,8 @@ class LicenceCheckService {
 				'title' => LocalizationUtility::translate('backend.licenceCheck.error.title', 'sg_cookie_optin'),
 				'message' => LocalizationUtility::translate(
 					'backend.licenceCheck.noLicenseKey', 'sg_cookie_optin', [
-					LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')
-				]
+						LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')
+					]
 				),
 			];
 		}
