@@ -601,7 +601,7 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domain, wo sie hint
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.group" approved="yes">
 				<source><![CDATA[Other Scripts & Cookies]]></source>
-				<target><![CDATA[Weitere Skript- und Cookies]]></target>
+				<target><![CDATA[Weitere Skripte und Cookies]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframes" approved="yes">
 				<source><![CDATA[External content]]></source>
