@@ -414,6 +414,16 @@ var SgCookieOptin = {
 	 * @param {string} cookieValue
 	 */
 	saveLastPreferences: function(cookieValue) {
+		var lastPreferences = window.localStorage.getItem('SgCookieOptin.lastPreferences');
+
+		try {
+			lastPreferences = JSON.parse(lastPreferences);
+		} catch (e) {
+			lastPreferences = {};
+		}
+
+		var uuid = (typeof lastPreferences.uuid !== 'undefined') ? lastPreferences.uuid : SgCookieOptin.generateUUID();
+
 		var isAll = true;
 		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
 			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
@@ -424,13 +434,50 @@ var SgCookieOptin = {
 			}
 		}
 
-		var lastPreferences = {
+		lastPreferences = {
 			timestamp: Math.floor(new Date().getTime() / 1000),
 			cookieValue: cookieValue,
 			isAll: isAll,
-			version: SgCookieOptin.jsonData.settings.version
+			version: SgCookieOptin.jsonData.settings.version,
+			uuid: uuid
 		};
 		window.localStorage.setItem('SgCookieOptin.lastPreferences', JSON.stringify(lastPreferences));
+		SgCookieOptin.saveLastPreferencesForStats(lastPreferences);
+	},
+
+	/**
+	 * Saves the preferences for statistics via AJAX
+	 *
+	 * @param lastPreferences
+	 */
+	saveLastPreferencesForStats: function(lastPreferences) {
+		var request = new XMLHttpRequest();
+		var formData = new FormData();
+		formData.append('lastPreferences', JSON.stringify(lastPreferences));
+
+		request.open("POST", "test.php");
+		request.send(formData);
+	},
+
+	/**
+	 * Generates a RFC4122 v4 compliant UUID
+	 *
+	 * @returns {string}
+	 */
+	generateUUID: function() { // Public Domain/MIT
+	    var d = new Date().getTime();//Timestamp
+	    var d2 = (performance && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+	    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	        var r = Math.random() * 16;//random number between 0 and 16
+	        if(d > 0){//Use timestamp until depleted
+	            r = (d + r)%16 | 0;
+	            d = Math.floor(d/16);
+	        } else {//Use microseconds since page-load if supported
+	            r = (d2 + r)%16 | 0;
+	            d2 = Math.floor(d2/16);
+	        }
+	        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+	    });
 	},
 
 	/**
@@ -446,8 +493,14 @@ var SgCookieOptin = {
 				for (var cookieIndex in SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData) {
 					for (var documentCookieIndex in documentCookies) {
 						var cookieName = documentCookies[documentCookieIndex].split('=')[0];
-						var regEx = new RegExp(SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex]
-							.Name.trim())
+						var regExString = SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex]
+							.Name.trim();
+
+						if (!regExString) {
+							continue;
+						}
+
+						var regEx = new RegExp(regExString);
 						if (regEx.test(cookieName)) {
 							// delete the cookie
 							document.cookie = cookieName + "=; path=/; Max-Age=-99999999;";
