@@ -430,10 +430,8 @@ var SgCookieOptin = {
 
 	/**
 	 * Delete all cookies that match the regex of the cookie name if a given group has been unselected by the user
-	 *
-	 * @param {string} cookieValue
 	 */
-	deleteCookiesForUnsetGroups: function(cookieValue) {
+	deleteCookiesForUnsetGroups: function() {
 		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
 			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
 				continue;
@@ -1405,7 +1403,7 @@ var SgCookieOptin = {
 		}
 
 		SgCookieOptin.saveLastPreferences(cookieValue);
-		SgCookieOptin.deleteCookiesForUnsetGroups(cookieValue);
+		SgCookieOptin.deleteCookiesForUnsetGroups();
 	},
 
 	/**
