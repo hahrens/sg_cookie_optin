@@ -502,6 +502,15 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title">
 				<source><![CDATA[Script Name]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.version">
+				<source><![CDATA[Version number]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.update_version">
+				<source><![CDATA[Update the version number and force the visitors to confirm their preferences]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.update_version">
+				<source><![CDATA[Version control]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

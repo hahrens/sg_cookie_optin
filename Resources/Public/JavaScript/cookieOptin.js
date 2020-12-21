@@ -357,6 +357,7 @@ var SgCookieOptin = {
 		if (!lastPreferences) {
 			return true;
 		}
+
 		try {
 			lastPreferences = JSON.parse(lastPreferences);
 		} catch (e) { // we don't want to break the rest of the code if the JSON is malformed for some reason
@@ -364,6 +365,10 @@ var SgCookieOptin = {
 		}
 
 		if (typeof lastPreferences.timestamp === 'undefined') {
+			return true;
+		}
+
+		if (lastPreferences.version !== SgCookieOptin.jsonData.settings.version) {
 			return true;
 		}
 
@@ -419,21 +424,19 @@ var SgCookieOptin = {
 			}
 		}
 
-		//TODO: should we add timezone support?
 		var lastPreferences = {
 			timestamp: Math.floor(new Date().getTime() / 1000),
 			cookieValue: cookieValue,
-			isAll: isAll
+			isAll: isAll,
+			version: SgCookieOptin.jsonData.settings.version
 		};
 		window.localStorage.setItem('SgCookieOptin.lastPreferences', JSON.stringify(lastPreferences));
 	},
 
 	/**
 	 * Delete all cookies that match the regex of the cookie name if a given group has been unselected by the user
-	 *
-	 * @param {string} cookieValue
 	 */
-	deleteCookiesForUnsetGroups: function(cookieValue) {
+	deleteCookiesForUnsetGroups: function() {
 		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
 			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
 				continue;
@@ -1405,7 +1408,7 @@ var SgCookieOptin = {
 		}
 
 		SgCookieOptin.saveLastPreferences(cookieValue);
-		SgCookieOptin.deleteCookiesForUnsetGroups(cookieValue);
+		SgCookieOptin.deleteCookiesForUnsetGroups();
 	},
 
 	/**

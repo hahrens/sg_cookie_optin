@@ -133,6 +133,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	disable_for_this_language tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	set_cookie_for_domain varchar(255) DEFAULT '' NOT NULL,
 	cookiebanner_whitelist_regex TEXT NOT NULL,
+	version int(11) unsigned DEFAULT '1' NOT NULL,
+	update_version_checkbox tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	# TYPO3 related columns
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -242,4 +244,34 @@ CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
 	KEY parent (pid),
 	KEY parent_group (parent_group),
 	KEY language (l10n_parent,sys_language_uid)
+);
+
+#
+# Table structure for table 'tx_sgcookieoptin_domain_model_user_preference'
+#
+CREATE TABLE tx_sgcookieoptin_domain_model_user_preference (
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) unsigned DEFAULT '0' NOT NULL,
+
+	user_uid VARCHAR(255) NOT NULL,
+	version int(11) unsigned NOT NULL,
+	item_identifier varchar(255) NOT NULL,
+	item_type int(11) unsigned NOT NULL,
+	is_accepted tinyint(4) unsigned  NOT NULL,
+	is_all tinyint(4) unsigned NOT NULL,
+
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	PRIMARY KEY (uid),
+	KEY user_uid (user_uid),
+	KEY version (version),
+	KEY crdate (crdate),
+	KEY is_accepted (is_accepted),
+	KEY item_type (item_type),
+	KEY item_identifier (item_identifier),
+	KEY is_all (is_all)
 );

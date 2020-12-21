@@ -667,6 +667,18 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domain, wo sie hint
 				<source><![CDATA[Script Name]]></source>
 				<target><![CDATA[Skript-Name]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.version">
+				<source><![CDATA[Version number]]></source>
+				<source><![CDATA[Versionsnummer]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.update_version">
+				<source><![CDATA[Update the version number and force the visitors to confirm their preferences]]></source>
+				<target><![CDATA[Die Versionsnummer aktualisieren und die Besucher zwingen, ihre Angaben zu bestätigen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.update_version">
+				<source><![CDATA[Version control]]></source>
+				<target><![CDATA[Versionskontrolle]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
