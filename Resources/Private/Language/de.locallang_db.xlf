@@ -596,12 +596,12 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domain, wo sie hint
 				<target><![CDATA[Template]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.essential" approved="yes">
-				<source><![CDATA[Group of essential Scripts & Cookies]]></source>
-				<target><![CDATA[Gruppe essentieller Skripte & Cookies]]></target>
+				<source><![CDATA[Essential Scripts & Cookies]]></source>
+				<target><![CDATA[Essentielle Skripte & Cookies]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.group" approved="yes">
-				<source><![CDATA[Other Groups of Scripts & Cookies]]></source>
-				<target><![CDATA[Weitere Skript- und Cookiegruppen]]></target>
+				<source><![CDATA[Other Scripts & Cookies]]></source>
+				<target><![CDATA[Weitere Skript- und Cookies]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframes" approved="yes">
 				<source><![CDATA[External content]]></source>

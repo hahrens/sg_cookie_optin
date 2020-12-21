@@ -449,10 +449,10 @@ Without this setting, this configuration only applies to the domain where it is 
 				<source><![CDATA[Template]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.essential">
-				<source><![CDATA[Group of essential Scripts & Cookies]]></source>
+				<source><![CDATA[Essential Scripts & Cookies]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.group">
-				<source><![CDATA[Other Groups of Scripts & Cookies]]></source>
+				<source><![CDATA[Other Scripts & Cookies]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframes">
 				<source><![CDATA[External content]]></source>
