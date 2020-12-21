@@ -441,8 +441,14 @@ var SgCookieOptin = {
 				for (var cookieIndex in SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData) {
 					for (var documentCookieIndex in documentCookies) {
 						var cookieName = documentCookies[documentCookieIndex].split('=')[0];
-						var regEx = new RegExp(SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex]
-							.Name.trim())
+						var regExString = SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex]
+							.Name.trim();
+
+						if (!regExString) {
+							continue;
+						}
+
+						var regEx = new RegExp(regExString);
 						if (regEx.test(cookieName)) {
 							// delete the cookie
 							document.cookie = cookieName + "=; path=/; Max-Age=-99999999;";
