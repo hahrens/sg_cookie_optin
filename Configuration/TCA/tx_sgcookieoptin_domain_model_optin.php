@@ -1104,7 +1104,7 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_show_again_interval',
 			'config' => [
 				'type' => 'input',
-				'default' => '',
+				'default' => '14',
 				'eval' => 'trim, int'
 			],
 		],

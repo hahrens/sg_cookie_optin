@@ -36,13 +36,11 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * Class BackendControllerHook
  *
  * @package SGalinski\ProjectBase\Hook
- * @author Kevin Ditscheid <kevin.ditscheid@sgalinski.de>
+ * @author Georgi Mateev <georgi.mateev@sgalinski.de>
  */
 class LicenceCheckHook {
 	/**
 	 * Add JavaScript to display the expiring license warning
-	 *
-	 * @param string $date
 	 */
 	protected function addAjaxLicenseCheck() {
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);

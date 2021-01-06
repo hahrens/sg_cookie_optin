@@ -42,7 +42,7 @@ class LicenceCheckService {
 	/**
 	 * The product key from ShopWare
 	 */
-	const PRODUCT_KEY = "sg_cookie_optin";
+	const PRODUCT_KEY = 'sg_cookie_optin';
 
 	/**
 	 * Namespace for the sys registry
@@ -86,7 +86,7 @@ class LicenceCheckService {
 	 *
 	 * @var string
 	 */
-	protected static $lastException = "";
+	protected static $lastException = '';
 
 	/**
 	 * The validUntil timestamp
@@ -108,32 +108,32 @@ class LicenceCheckService {
 	/**
 	 * License server credentials
 	 */
-	const API_USER = "license_check";
-	const API_PASSWORD = "lGKLiHc5We6gBqsggVlwdLNoWv9CEKnWiy7cgMUO";
-	const API_URL = "https://shop.sgalinski.de/api/license";
+	const API_USER = 'license_check';
+	const API_PASSWORD = 'lGKLiHc5We6gBqsggVlwdLNoWv9CEKnWiy7cgMUO';
+	const API_URL = 'https://shop.sgalinski.de/api/license';
 
 	/**
 	 * The current extension version
 	 */
-	const CURRENT_VERSION = "3.3";
+	const CURRENT_VERSION = '3.3';
 
 	/**
 	 * @var array
 	 */
 	private static $versionToReleaseTimestamp = [
-		'1.0' => 1571350984,
-		'1.1' => 1571695928,
-		'1.2' => 1571701161,
-		'1.3' => 1571703014,
-		'1.4' => 1571705101,
-		'1.5' => 1571711597,
-		'1.6' => 1571770960,
-		'1.7' => 1571788178,
-		'1.8' => 1572302073,
-		'2.0' => 1575661906,
-		'3.0' => 1583361764,
-		'3.1' => 1588958065,
-		'3.2' => 1600032423,
+		'1.0' => 1571350984, // 2019-10-17T22:23:04Z
+		'1.1' => 1571695928, // 2019-10-21T22:12:08Z
+		'1.2' => 1571701161, // 2019-10-21T23:39:21Z
+		'1.3' => 1571703014, // 2019-10-22T00:10:14Z
+		'1.4' => 1571705101, // 2019-10-22T00:45:01Z
+		'1.5' => 1571711597, // 2019-10-22T02:33:17Z
+		'1.6' => 1571770960, // 2019-10-22T19:02:40Z
+		'1.7' => 1571788178, // 2019-10-22T23:49:38Z
+		'1.8' => 1572302073, // 2019-10-28T22:34:33Z
+		'2.0' => 1575661906, // 2019-12-06T19:51:46Z
+		'3.0' => 1583361764, // 2020-03-04T22:42:44Z
+		'3.1' => 1588958065, // 2020-05-08T17:14:25Z
+		'3.2' => 1600032423, // 2020-09-13T21:27:03Z
 	];
 
 	/**
@@ -179,14 +179,16 @@ class LicenceCheckService {
 	/**
 	 * Returns the license key that has been set
 	 *
-	 * @return false|mixed|string
+	 * @return string
 	 */
 	public static function getLicenseKey() {
-		return ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_LICENSE);
+		return (string) ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_LICENSE);
 	}
 
 	/**
-	 * @return bool|string
+	 * Checks whether the system has a valid license
+	 *
+	 * @return bool
 	 */
 	public static function hasValidLicense() {
 		$licenseKey = self::getLicenseKey();
@@ -217,7 +219,7 @@ class LicenceCheckService {
 	/**
 	 * Sets the last key checked for from the registry
 	 *
-	 * @param $licenseKey
+	 * @param string $licenseKey
 	 */
 	protected static function setLastKey($licenseKey) {
 		$registry = GeneralUtility::makeInstance(Registry::class);
@@ -237,7 +239,7 @@ class LicenceCheckService {
 	/**
 	 * Sets if the license is valid in the registry
 	 *
-	 * @param $isValid
+	 * @param bool $isValid
 	 */
 	protected static function setValidLicense($isValid) {
 		$registry = GeneralUtility::makeInstance(Registry::class);
@@ -257,7 +259,7 @@ class LicenceCheckService {
 	/**
 	 * Stores the last warning timestamp
 	 *
-	 * @param $timestamp
+	 * @param int $timestamp
 	 */
 	protected static function setLastWarningTimestamp($timestamp) {
 		$registry = GeneralUtility::makeInstance(Registry::class);
@@ -277,7 +279,7 @@ class LicenceCheckService {
 	/**
 	 * Stores the valid until timestamp in the registry
 	 *
-	 * @param $validUntil
+	 * @param mixed $validUntil
 	 */
 	protected static function setValidLicenseUntilTimestamp($validUntil) {
 		$registry = GeneralUtility::makeInstance(Registry::class);
@@ -297,7 +299,7 @@ class LicenceCheckService {
 	/**
 	 * Sets the version that the license was last valid for
 	 *
-	 * @param $version
+	 * @param string $version
 	 */
 	protected static function setLicenseCheckedInVersion($version) {
 		$registry = GeneralUtility::makeInstance(Registry::class);
@@ -380,7 +382,7 @@ class LicenceCheckService {
 	 */
 	public static function checkLicenseKeyStructure($licenseKey) {
 		// Structure: XXXXXX-XXXXXX-XXXXXX-XXXXXX | All upper case
-		if (substr_count($licenseKey, "-") !== 3) {
+		if (substr_count($licenseKey, '-') !== 3) {
 			return FALSE;
 		}
 
@@ -424,7 +426,7 @@ class LicenceCheckService {
 	 */
 	private static function getValidUntilTimestampByLicenseKey($licenseKey) {
 		try {
-			$url = self::API_URL . "/" . urldecode($licenseKey) . "?product="
+			$url = self::API_URL . '/' . urldecode($licenseKey) . '?product='
 				. self::PRODUCT_KEY;
 			$requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
 			$response = $requestFactory->request(
@@ -450,7 +452,7 @@ class LicenceCheckService {
 				return self::ERROR_INVALID_LICENSE_KEY;
 			}
 
-			return (int) $jsonData['serial']["validUntil"];
+			return (int) $jsonData['serial']['validUntil'];
 		} catch (\Exception $exception) {
 			self::$lastException = $exception->getMessage();
 		}

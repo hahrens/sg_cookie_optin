@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2020-02-27T21:12:35Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-01-06T05:24:58Z">
 		<header>
 			<type>module</type>
 			<description>General language labels used in frontend and backend.</description>
@@ -51,7 +51,7 @@
 			</trans-unit>
 			<trans-unit id="backend.fileUploadLabel" approved="yes">
 				<source><![CDATA[JSON Configuration File]]></source>
-				<target><![CDATA[JSON Konfigurationsdatei]]></target>
+				<target><![CDATA[JSON-Konfigurationsdatei]]></target>
 			</trans-unit>
 			<trans-unit id="backend.importConfig" approved="yes">
 				<source><![CDATA[Import Configuration]]></source>
@@ -67,7 +67,7 @@
 			</trans-unit>
 			<trans-unit id="backend.jsonImport.headline" approved="yes">
 				<source><![CDATA[Import Configuration]]></source>
-				<target><![CDATA[Konfiguration Importieren]]></target>
+				<target><![CDATA[Konfiguration importieren]]></target>
 			</trans-unit>
 			<trans-unit id="backend.jsonImport.info" approved="yes">
 				<source><![CDATA[Please upload the exported configuration file that you would like to import.]]></source>
@@ -142,16 +142,16 @@
 				<target><![CDATA[Lizenzprüfung: Fehler!]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiredError.message" approved="yes">
-				<source><![CDATA[Your Sg Cookie Optin license has expired. Please renew it from %s.]]></source>
-				<target><![CDATA[Ihre Sg-Cookie-Optin-Lizenz ist abgelaufen. Bitte erneuern Sie diesie von %s.]]></target>
+				<source><![CDATA[Your Cookie Optin Extension license has expired. Please renew it from %s.]]></source>
+				<target><![CDATA[Ihre Cookie-Optin-Erweiterung-Lizenz ist abgelaufen. Bitte erneuern Sie diesie von %s.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiringWarning.message" approved="yes">
-				<source><![CDATA[Your Sg Cookie Optin license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
-				<target><![CDATA[Ihre Sg Cookie Optin-Lizenz ist am %s abgelaufen, aber Ihre Version wird noch mit dieser Lizenz unterstützt. Bitte erneuern Sie sie ab %s, damit Sie von unseren neusten Versionen profitieren können.]]></target>
+				<source><![CDATA[Your Cookie Optin Extension license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
+				<target><![CDATA[Ihre Cookie-Optin-Erweiterung-Lizenz ist am %s abgelaufen, aber Ihre Version wird noch mit dieser Lizenz unterstützt. Bitte erneuern Sie sie ab %s, damit Sie von unseren neusten Versionen profitieren können.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.noLicenseKey" approved="yes">
-				<source><![CDATA[You have not entered a license key for the Sg Cookie Optin extension. Please purchase a key from %s and enter it.]]></source>
-				<target><![CDATA[Sie haben keinen Lizenzschlüssel für die Sg Cookie Optin Erweiterung eingegeben. Bitte erwerben Sie einen Schlüssel aus %s und geben Sie ihn ein.]]></target>
+				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it.]]></source>
+				<target><![CDATA[Sie haben keinen Lizenzschlüssel für die Cookie-Optin-Erweiterung eingegeben. Bitte erwerben Sie einen Schlüssel aus %s und geben Sie ihn ein.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.shopLink" approved="yes">
 				<source><![CDATA[our shop]]></source>
@@ -206,8 +206,8 @@
 				<target><![CDATA[Bitte wählen Sie eine der folgenden Webseiten:]]></target>
 			</trans-unit>
 			<trans-unit id="backend.no_site_root_found" approved="yes">
-				<source><![CDATA[No site root found. Please create a site root and configure it.]]></source>
-				<target><![CDATA[Kein Site-Root gefunden. Bitte erstellen Sie einen Site-Root und konfigurieren Sie es.]]></target>
+				<source><![CDATA[No site root found. Please create a site root.]]></source>
+				<target><![CDATA[Kein Site-Root gefunden. Bitte erstellen Sie einen Site-Root.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.productInformation" approved="yes">
 				<source><![CDATA[Product Information]]></source>
@@ -264,6 +264,10 @@
 			<trans-unit id="frontend.error.theImportedFileDoesNotContainProperlyFormattedJson" approved="yes">
 				<source><![CDATA[The imported file does not contain properly formatted JSON configuration.]]></source>
 				<target><![CDATA[Die importierte Datei enthält keine korrekt formatierte JSON-Konfiguration.]]></target>
+			</trans-unit>
+			<trans-unit id="frontend.jsonImport.error.pleaseUploadTheDefaultLanguageConfigurationFile" approved="yes">
+				<source><![CDATA[Please upload the default language configuration file]]></source>
+				<target><![CDATA[Bitte laden Sie die Standard-Sprache Konfigurationsdatei hoch]]></target>
 			</trans-unit>
 			<trans-unit id="jsonImport.error.theStoredImportedDataIsCorrupt" approved="yes">
 				<source><![CDATA[The stored imported data is corrupt]]></source>

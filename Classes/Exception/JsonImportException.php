@@ -26,6 +26,13 @@ namespace SGalinski\SgCookieOptin\Exception;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class JsonImportException extends \RuntimeException {
+use RuntimeException;
+
+/**
+ * Class JsonImportException
+ *
+ * @package SGalinski\SgCookieOptin\Exception
+ */
+class JsonImportException extends RuntimeException {
 
 }
