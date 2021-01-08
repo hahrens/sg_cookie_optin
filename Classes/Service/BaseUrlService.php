@@ -43,13 +43,15 @@ class BaseUrlService {
 	/**
 	 * Gets the base Url for this site root
 	 *
-	 * @param $rootPid
+	 * @param int $rootPid
 	 * @return string
 	 */
 	public static function getSiteBaseUrl($rootPid) {
 		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
 			return '/';
 		}
+
+		$rootPid = (int) $rootPid;
 
 		try {
 			$siteFinder = GeneralUtility::makeInstance(SiteFinder::class);

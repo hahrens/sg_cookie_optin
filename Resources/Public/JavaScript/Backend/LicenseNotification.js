@@ -23,8 +23,8 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-define(["jquery", 'TYPO3/CMS/Backend/Notification'], function ($, Notification) {
-		"use strict";
+define(['jquery', 'TYPO3/CMS/Backend/Notification'], function ($, Notification) {
+		'use strict';
 		var LicenseCheck = {
 			init: function() {
 				$.ajax({

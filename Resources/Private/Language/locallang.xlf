@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2020-02-27T21:12:35Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-01-06T05:24:58Z">
 		<header>
 			<type>module</type>
 			<description>General language labels used in frontend and backend.</description>
@@ -109,16 +109,16 @@
 				<source><![CDATA[License Check: Error!]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiredError.message">
-				<source><![CDATA[Your Sg Cookie Optin license has expired. Please renew it from %s.]]></source>
+				<source><![CDATA[Your Cookie Optin Extension license has expired. Please renew it from %s.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiringWarning.message">
-				<source><![CDATA[Your Sg Cookie Optin license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
+				<source><![CDATA[Your Cookie Optin Extension license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.noLicenseKey">
-				<source><![CDATA[You have not entered a license key for the Sg Cookie Optin extension. Please purchase a key from %s and enter it.]]></source>
+				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.shopLink">
-				<source>our shop</source>
+				<source><![CDATA[our shop]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.warning.title">
 				<source><![CDATA[License Check: Warning!]]></source>
@@ -157,7 +157,7 @@
 				<source><![CDATA[Please select one of the following website roots:]]></source>
 			</trans-unit>
 			<trans-unit id="backend.no_site_root_found">
-				<source><![CDATA[No site root found. Please create a site root and configure it.]]></source>
+				<source><![CDATA[No site root found. Please create a site root.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.productInformation">
 				<source><![CDATA[Product Information]]></source>
@@ -200,6 +200,9 @@
 			</trans-unit>
 			<trans-unit id="frontend.error.theImportedFileDoesNotContainProperlyFormattedJson">
 				<source><![CDATA[The imported file does not contain properly formatted JSON configuration.]]></source>
+			</trans-unit>
+			<trans-unit id="frontend.jsonImport.error.pleaseUploadTheDefaultLanguageConfigurationFile">
+				<source><![CDATA[Please upload the default language configuration file]]></source>
 			</trans-unit>
 			<trans-unit id="jsonImport.error.theStoredImportedDataIsCorrupt">
 				<source><![CDATA[The stored imported data is corrupt]]></source>

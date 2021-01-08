@@ -35,6 +35,15 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * Class SGalinski\SgCookieOptin\Service\JsonImportService
  */
 class JsonImportService {
+
+	/**
+	 * Hardcoded default values that are reused on different places, including Import
+	 */
+	const TEXT_BANNER_DESCRIPTION = 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.';
+	const TEXT_ESSENTIAL_DESCRIPTION = 'Essentielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.';
+	const TEXT_IFRAME_DESCRIPTION = 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.';
+	const TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE = 'Dieses Cookie wird verwendet, um Ihre Cookie-Einstellungen für diese Website zu speichern.';
+
 	/**
 	 * Separates the locale in the filename
 	 */
@@ -63,6 +72,11 @@ class JsonImportService {
 		$cookieGroups = $jsonData['cookieGroups'];
 		$iframeGroup = $jsonData['iFrameGroup'];
 		$footerLinks = $jsonData['footerLinks'];
+
+		if (!is_array($footerLinks)) {
+			$footerLinks = [];
+		}
+
 		unset($jsonData['cookieGroups']);
 		unset($jsonData['iFrameGroup']);
 		unset($jsonData['footerLinks']);
@@ -79,8 +93,8 @@ class JsonImportService {
 		unset($flatJsonData['markup']);
 		unset($flatJsonData['identifier']);
 		$flatJsonData['pid'] = $pid;
-		$flatJsonData['crdate'] = time();
-		$flatJsonData['tstamp'] = time();
+		$flatJsonData['crdate'] = $GLOBALS['EXEC_TIME'];
+		$flatJsonData['tstamp'] = $GLOBALS['EXEC_TIME'];
 		$flatJsonData['cruser_id'] = $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column];
 		$flatJsonData['navigation'] = $this->buildNavigationFromFooterLinks($footerLinks);
 		// essential_description
@@ -155,10 +169,10 @@ class JsonImportService {
 	/**
 	 * Builds the navigation CSV string from the footerlinks
 	 *
-	 * @param $footerLinks
+	 * @param array $footerLinks
 	 * @return string
 	 */
-	protected function buildNavigationFromFooterLinks($footerLinks) {
+	protected function buildNavigationFromFooterLinks(array $footerLinks) {
 		$navigationIds = [];
 		foreach ($footerLinks as $footerLink) {
 			if (isset($footerLink['uid'])) {
@@ -188,8 +202,8 @@ class JsonImportService {
 			'description' => $group['description'],
 			'sorting' => $groupIndex + 1,
 			'parent_optin' => $optInId,
-			'crdate' => time(),
-			'tstamp' => time(),
+			'crdate' => $GLOBALS['EXEC_TIME'],
+			'tstamp' => $GLOBALS['EXEC_TIME'],
 		];
 		if ($defaultLanguageOptinId !== NULL) {
 			$groupData['l10n_parent'] = $this->defaultLanguageIdMappingLookup[$groupIndex]['id'];
@@ -227,8 +241,8 @@ class JsonImportService {
 			'purpose' => $cookie['Purpose'],
 			'lifetime' => $cookie['Lifetime'],
 			'sorting' => $cookieIndex + 1,
-			'crdate' => time(),
-			'tstamp' => time(),
+			'crdate' => $GLOBALS['EXEC_TIME'],
+			'tstamp' => $GLOBALS['EXEC_TIME'],
 		];
 		switch ($groupName) {
 			case 'essential':
@@ -275,8 +289,8 @@ class JsonImportService {
 			'script' => $script['script'],
 			'html' => $script['html'],
 			'sorting' => $scriptIndex + 1,
-			'crdate' => time(),
-			'tstamp' => time(),
+			'crdate' => $GLOBALS['EXEC_TIME'],
+			'tstamp' => $GLOBALS['EXEC_TIME'],
 		];
 		if ($groupName === 'essential') {
 			$scriptData['parent_optin'] = $optInId;
@@ -295,16 +309,17 @@ class JsonImportService {
 	}
 
 	/**
+	 * Parses the uploaded files, prepares and stores the data into the session
+	 *
 	 * @param array $languages
 	 * @throws JsonImportException
 	 */
-	public function parseAndStoreImportedData($languages) {
+	public function parseAndStoreImportedData(array $languages) {
 		$dataStorage = [];
 		unset($_SESSION['tx_sgcookieoptin']['importJsonData']);
 		// get and import the default language
 		if ($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['type']['file'] !== 'application/json'
 			|| $_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['error']['file'] !== 0) {
-			// TODO: what to do in case of an error
 			throw new JsonImportException(
 				LocalizationUtility::translate('frontend.error.theFileCouldNotBeUploaded', 'sg_cookie_optin'),
 				102
@@ -345,7 +360,7 @@ class JsonImportService {
 		}
 
 		if (!$defaultFound) {
-			throw new JsonImportException('Please upload the default language configuration file');
+			throw new JsonImportException(LocalizationUtility::translate('frontend.jsonImport.error.pleaseUploadTheDefaultLanguageConfigurationFile', 'sg_cookie_optin'));
 		}
 
 		// import the other languages

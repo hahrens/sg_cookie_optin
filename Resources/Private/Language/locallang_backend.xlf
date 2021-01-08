@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2019-01-31T16:26:21Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-01-06T05:24:38Z">
 		<header>
 			<type>module</type>
 			<description>Language labels for the backend module belonging to extension 'sg_cookie_optin'</description>
@@ -9,14 +9,14 @@
 			<authorEmail>fabian.galinski@sgalinski.de</authorEmail>
 		</header>
 		<body>
+			<trans-unit id="optInPluginDescription">
+				<source><![CDATA[Inserts the cookie opt in.]]></source>
+			</trans-unit>
 			<trans-unit id="optInPluginLabel">
 				<source><![CDATA[Cookie Opt In]]></source>
 			</trans-unit>
 			<trans-unit id="optInPluginTitle">
 				<source><![CDATA[Cookie Opt In]]></source>
-			</trans-unit>
-			<trans-unit id="optInPluginDescription">
-				<source><![CDATA[Inserts the cookie opt in.]]></source>
 			</trans-unit>
 		</body>
 	</file>

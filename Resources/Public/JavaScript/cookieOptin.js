@@ -504,7 +504,7 @@ var SgCookieOptin = {
 						var regEx = new RegExp(regExString);
 						if (regEx.test(cookieName)) {
 							// delete the cookie
-							document.cookie = cookieName + "=; path=/; Max-Age=-99999999;";
+							document.cookie = cookieName + '=; path=/; Max-Age=-99999999;';
 						}
 					}
 				}

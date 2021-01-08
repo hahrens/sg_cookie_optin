@@ -24,6 +24,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use SGalinski\SgCookieOptin\Service\JsonImportService;
+
 $configuration = [
 	'ctrl' => [
 		'title' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin',
@@ -245,8 +247,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.description',
 			'config' => [
 				'type' => 'text',
-				'default' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
-				'placeholder' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
+				'default' => JsonImportService::TEXT_BANNER_DESCRIPTION,
+				'placeholder' => JsonImportService::TEXT_BANNER_DESCRIPTION,
 				'eval' => 'trim'
 			],
 		],
@@ -736,8 +738,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.essential_description',
 			'config' => [
 				'type' => 'text',
-				'default' => 'Essentielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.',
-				'placeholder' => 'Essentielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.',
+				'default' => JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
+				'placeholder' => JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
 				'eval' => 'trim'
 			],
 		],
@@ -799,8 +801,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_description',
 			'config' => [
 				'type' => 'text',
-				'default' => 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.',
-				'placeholder' => 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.',
+				'default' => JsonImportService::TEXT_IFRAME_DESCRIPTION,
+				'placeholder' => JsonImportService::TEXT_IFRAME_DESCRIPTION,
 				'eval' => 'trim'
 			],
 		],
@@ -1108,7 +1110,7 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_show_again_interval',
 			'config' => [
 				'type' => 'input',
-				'default' => '',
+				'default' => '14',
 				'eval' => 'trim, int'
 			],
 		],
@@ -1318,8 +1320,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_description',
 			'config' => [
 				'type' => 'text',
-				'default' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
-				'placeholder' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
+				'default' => JsonImportService::TEXT_BANNER_DESCRIPTION,
+				'placeholder' => JsonImportService::TEXT_BANNER_DESCRIPTION,
 				'eval' => 'trim'
 			],
 		],

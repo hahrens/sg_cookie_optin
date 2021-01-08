@@ -43,6 +43,7 @@ use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
@@ -435,41 +436,42 @@ class OptinController extends ActionController {
 	public function createAction() {
 		$pid = (int) GeneralUtility::_GP('id');
 		// create with DataHandler
+		// adding default values for the german language. The values are hardcoded because they must not change since we don't know
+		// the language keys or whatsoever in the target system
 		$dataMapArray = [
-			'description' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
+			'description' => JsonImportService::TEXT_BANNER_DESCRIPTION,
 			'template_html' => '',
 			'show_button_close' => '0',
-			'iframe_description' => 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.',
+			'iframe_description' => JsonImportService::TEXT_IFRAME_DESCRIPTION,
 			'iframe_html' => '',
 			'iframe_replacement_html' => '',
 			'iframe_whitelist_regex' => '',
-			'banner_description' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
+			'banner_description' => JsonImportService::TEXT_BANNER_DESCRIPTION,
 			'banner_html' => '',
-			'essential_description' => 'Essentielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.',
+			'essential_description' => JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
 			'groups' => '',
 			'set_cookie_for_domain' => '',
 			'pid' => $pid,
 		];
 
-		$data['tx_sgcookieoptin_domain_model_optin']['NEW9823be87'] = $dataMapArray;
+		$newOptinKey = StringUtility::getUniqueId('NewOptin');
+		$data['tx_sgcookieoptin_domain_model_optin'][$newOptinKey] = $dataMapArray;
 
-		$newCookieKey = 'NEW' . md5(microtime());
+		$newCookieKey = StringUtility::getUniqueId('NewCookie');
 		$data['tx_sgcookieoptin_domain_model_cookie'][$newCookieKey] = [
 			'pid' => $pid,
 			'name' => 'cookie_optin',
 			'provider' => '',
-			'purpose' => 'This cookie is used to store your cookie preferences for this website.',
+			'purpose' => JsonImportService::TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE,
 			'lifetime' => '1 Year',
-			'parent_optin' => 'NEW9823be87'
+			'parent_optin' => $newOptinKey
 		];
 
-		$dataHandler = GeneralUtility::makeInstance(
-			DataHandler::class
-		);
+		$dataHandler = GeneralUtility::makeInstance(DataHandler::class);
 		$dataHandler->start($data, []);
 		$dataHandler->process_datamap();
 
-		$newOptinId = $dataHandler->substNEWwithIDs['NEW9823be87'];
+		$newOptinId = $dataHandler->substNEWwithIDs[$newOptinKey];
 
 		// Add cookie translations for each non-default language that is enabled for this site root
 		$translatedCookiesData = [];
@@ -481,7 +483,7 @@ class OptinController extends ActionController {
 			}
 
 			// We are using the values from the old DataHandler call to avoid redundancy
-			$thisLanguageKey = 'NEW' . $languageUid . md5(microtime());
+			$thisLanguageKey = StringUtility::getUniqueId('New' . $languageUid);
 			$translatedCookiesData['tx_sgcookieoptin_domain_model_cookie'][$thisLanguageKey]
 				= $data['tx_sgcookieoptin_domain_model_cookie'][$newCookieKey];
 			$translatedCookiesData['tx_sgcookieoptin_domain_model_cookie'][$thisLanguageKey]['l10n_parent']
@@ -490,9 +492,7 @@ class OptinController extends ActionController {
 		}
 
 		// Replace the $dataHandler object with a fresh one and add the cookies
-		$dataHandler = GeneralUtility::makeInstance(
-			DataHandler::class
-		);
+		$dataHandler = GeneralUtility::makeInstance(DataHandler::class);
 		$dataHandler->start($translatedCookiesData, []);
 		$dataHandler->process_datamap();
 

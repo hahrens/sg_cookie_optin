@@ -1,49 +1,36 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2011-10-17T20:22:33Z" product-name="lang">
-		<header />
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-01-06T05:24:48Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
 		<body>
-			<trans-unit id="essential_cookies.description">
-				<source>There must always be at least one essential cookie, as the sg_cookie_optin extension always sets
-				the "cookie_optin" cookie to store the user preferences.</source>
-				<target>Es muss immer mindestens ein essentieles Cookie vorhanden sein, da die Erweiterung sg_cookie_optin immer
-				das "cookie_optin"-Cookie zum Speichern der Benutzereinstellungen setzt.</target>
+			<trans-unit id="cookiebanner_whitelist_regex.description">
+				<source><![CDATA[Reguläre Ausdrücke werden verwendet, um zu prüfen, ob ein gegebener Text einem bestimmten Muster entspricht. Klicken Sie darauf, um die Details für weitere Informationen zu öffnen. ]]></source>
 			</trans-unit>
-			<trans-unit id="essential_cookies.details">
-				<source>Name: cookie_optin&lt;br/&gt;
-				Provider: Your company name&lt;br/&gt;
-				Lifetime: The cookie lifetime value (default 1 year)&lt;br/&gt;
-				Purpose: Used to store your cookie preferences
-				</source>
-				<target>Name: cookie_optin&lt;br/&gt;
-				Anbieter: Ihr Firmenname&lt;br/&gt;
-				Laufzeit: Das Cookie-Laufzeit (1 Jahr Default)&lt;br/&gt;
+			<trans-unit id="cookiebanner_whitelist_regex.details" xml:space="preserve">
+				<source><![CDATA[Der Wert, den Sie in das Textfeld eingeben, ist das Muster, gegen das wir jede externe Inhaltsadresse prüfen werden. URLs, die mit diesem Muster übereinstimmen, werden in die Whitelist aufgenommen und die Inhaltselemente werden nicht als externe Inhalte markiert.
+Um zu testen, ob die Syntax funktioniert oder ob sie in Ordnung ist, können Sie  aufrufen. Nachdem Sie fertig sind und Ihre Einstellungen gespeichert haben, stellen Sie sicher, dass Sie Ihre Seite öffnen, den Browser-Cache löschen und neu laden. Gehen Sie dann auf eine der Seiten, auf denen das Cookie-Banner nicht angezeigt werden soll.
+				]]></source>
+			</trans-unit>
+			<trans-unit id="essential_cookies.description" xml:space="preserve">
+				<source><![CDATA[Es muss immer mindestens ein essentieles Cookie vorhanden sein, da die Erweiterung sg_cookie_optin immer
+				das "cookie_optin"-Cookie zum Speichern der Benutzereinstellungen setzt.]]></source>
+			</trans-unit>
+			<trans-unit id="essential_cookies.details" xml:space="preserve">
+				<source><![CDATA[Name: cookie_optin<br/>
+				Anbieter: Ihr Firmenname<br/>
+				Laufzeit: Das Cookie-Laufzeit (1 Jahr Default)<br/>
 				Zweck: Wird zum Speichern Ihrer Cookie-Einstellungen verwendet
-				</target>
+				]]></source>
 			</trans-unit>
 			<trans-unit id="iframe_whitelist_regex.description">
-				<source>Regular expressions are used to check whether a given text matches a certain pattern. Click to open the details for more information. </source>
-				<target>Reguläre Ausdrücke werden verwendet, um zu prüfen, ob ein gegebener Text einem bestimmten Muster entspricht. Klicken Sie darauf, um die Details für weitere Informationen zu öffnen. </target>
+				<source><![CDATA[Reguläre Ausdrücke werden verwendet, um zu prüfen, ob ein gegebener Text einem bestimmten Muster entspricht. Klicken Sie darauf, um die Details für weitere Informationen zu öffnen. ]]></source>
 			</trans-unit>
-			<trans-unit id="iframe_whitelist_regex.details">
-				<source>The value that you enter in the text field is the pattern and we will check each external content address against it. URLs that match this pattern will be whitelisted and the content elements will not be marked as external content.<br />
-				To test whether the syntax works or it’s ok you can refer to <a href="https://regex101.com/">https://regex101.com/</a>. After you are done and save your preferences, make sure you open your page, clear the browser cache and reload it. Then try granting and removing the consent and see if any JavaScript errors appear in your console.
-				</source>
-				<target>Der Wert, den Sie in das Textfeld eingeben, ist das Muster, gegen das wir jede externe Inhaltsadresse prüfen werden. URLs, die mit diesem Muster übereinstimmen, werden in die Whitelist aufgenommen und die Inhaltselemente werden nicht als externe Inhalte markiert.<br />
-				Um zu testen, ob die Syntax funktioniert, können Sie auf <a href="https://regex101.com/">https://regex101.com/</a> nachsehen. Nachdem Sie fertig sind und Ihre Einstellungen gespeichert haben, stellen Sie sicher, dass Sie Ihre Seite öffnen, den Browser-Cache leeren und sie neu laden. Versuchen Sie dann, die Zustimmung zu erteilen und zu entfernen, und sehen Sie, ob in Ihrer Konsole JavaScript-Fehler erscheinen.
-				</target>
-			</trans-unit>
-			<trans-unit id="cookiebanner_whitelist_regex.description">
-				<source>Regular expressions are used to check whether a given text matches a certain pattern. Click to open the details for more information. </source>
-				<target>Reguläre Ausdrücke werden verwendet, um zu prüfen, ob ein gegebener Text einem bestimmten Muster entspricht. Klicken Sie darauf, um die Details für weitere Informationen zu öffnen. </target>
-			</trans-unit>
-			<trans-unit id="cookiebanner_whitelist_regex.details">
-				<source>The value that you enter in the text field is the pattern and we will check each web page address against it. The cookie banner will not be displayed on pages whose URL address matches any of the patterns.<br />
-				To test whether the syntax works or it’s ok you can refer to <a href="https://regex101.com/">https://regex101.com/</a>. After you are done and save your preferences, make sure you open your page, clear the browser cache and reload it. Then go to one of the pages that you wanted the cookie banner not to be displayed on.
-				</source>
-				<target>Der Wert, den Sie in das Textfeld eingeben, ist das Muster, gegen das wir jede externe Inhaltsadresse prüfen werden. URLs, die mit diesem Muster übereinstimmen, werden in die Whitelist aufgenommen und die Inhaltselemente werden nicht als externe Inhalte markiert.<br />
-Um zu testen, ob die Syntax funktioniert oder ob sie in Ordnung ist, können Sie <a href="https://regex101.com/">https://regex101.com/</a> aufrufen. Nachdem Sie fertig sind und Ihre Einstellungen gespeichert haben, stellen Sie sicher, dass Sie Ihre Seite öffnen, den Browser-Cache löschen und neu laden. Gehen Sie dann auf eine der Seiten, auf denen das Cookie-Banner nicht angezeigt werden soll.
-				</target>
+			<trans-unit id="iframe_whitelist_regex.details" xml:space="preserve">
+				<source><![CDATA[Der Wert, den Sie in das Textfeld eingeben, ist das Muster, gegen das wir jede externe Inhaltsadresse prüfen werden. URLs, die mit diesem Muster übereinstimmen, werden in die Whitelist aufgenommen und die Inhaltselemente werden nicht als externe Inhalte markiert.
+				Um zu testen, ob die Syntax funktioniert, können Sie auf  nachsehen. Nachdem Sie fertig sind und Ihre Einstellungen gespeichert haben, stellen Sie sicher, dass Sie Ihre Seite öffnen, den Browser-Cache leeren und sie neu laden. Versuchen Sie dann, die Zustimmung zu erteilen und zu entfernen, und sehen Sie, ob in Ihrer Konsole JavaScript-Fehler erscheinen.
+				]]></source>
 			</trans-unit>
 		</body>
 	</file>

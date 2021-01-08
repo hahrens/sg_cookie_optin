@@ -223,14 +223,16 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			)->getAspect('language');
 			// no object check, because if the object is not set we don't know which language that is anyway
 			$languageId = $languageAspect->getId();
+			$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->getRootPageId());
+			$language = $site->getLanguageById($languageId);
+			$returnString = $language->getLocale() . JsonImportService::LOCALE_SEPARATOR . $language->getLanguageId();
 		} else {
 			/** @var TypoScriptFrontendController $typoScriptFrontendController */
 			$typoScriptFrontendController = $GLOBALS['TSFE'];
 			$languageId = $typoScriptFrontendController->sys_language_uid;
+			$returnString = JsonImportService::LOCALE_SEPARATOR . $languageId;
 		}
 
-		$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($this->getRootPageId());
-		$language = $site->getLanguageById($languageId);
-		return $language->getLocale() . JsonImportService::LOCALE_SEPARATOR . $language->getLanguageId();
+		return $returnString;
 	}
 }
