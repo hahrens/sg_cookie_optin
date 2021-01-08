@@ -791,6 +791,7 @@ class GenerateFilesAfterTcaSave {
 			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
 			'cookiebanner_whitelist_regex' => (string) $translatedData['cookiebanner_whitelist_regex'],
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
+			'identifier' => $this->siteRoot
 		];
 
 		$textEntries = [

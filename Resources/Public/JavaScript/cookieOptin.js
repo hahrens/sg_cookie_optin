@@ -439,7 +439,8 @@ var SgCookieOptin = {
 			cookieValue: cookieValue,
 			isAll: isAll,
 			version: SgCookieOptin.jsonData.settings.version,
-			uuid: uuid
+			uuid: uuid,
+			identifier: SgCookieOptin.jsonData.settings.identifier
 		};
 		window.localStorage.setItem('SgCookieOptin.lastPreferences', JSON.stringify(lastPreferences));
 		SgCookieOptin.saveLastPreferencesForStats(lastPreferences);
@@ -455,7 +456,7 @@ var SgCookieOptin = {
 		var formData = new FormData();
 		formData.append('lastPreferences', JSON.stringify(lastPreferences));
 
-		request.open("POST", "test.php");
+		request.open("POST", "/?saveOptinHistory");
 		request.send(formData);
 	},
 
