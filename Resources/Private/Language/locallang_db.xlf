@@ -266,7 +266,7 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description">
 				<source><![CDATA[Explanation at top of Opt-In Window]]></source>
-			</trans-unit
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_for_this_language">
 				<source><![CDATA[Disable OptIn for this language]]></source>
 			</trans-unit>
