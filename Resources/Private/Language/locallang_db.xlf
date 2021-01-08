@@ -266,10 +266,7 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description">
 				<source><![CDATA[Explanation at top of Opt-In Window]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description.default">
-				<source><![CDATA[Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.]]></source>
-			</trans-unit>
+			</trans-unit
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_for_this_language">
 				<source><![CDATA[Disable OptIn for this language]]></source>
 			</trans-unit>
@@ -341,9 +338,6 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_description">
 				<source><![CDATA[Description (Shown in the opt in)]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_description.default">
-				<source><![CDATA[We use external content on our website to provide you with additional information.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_enabled">
 				<source><![CDATA[Activate opt in for external content (iframe)]]></source>

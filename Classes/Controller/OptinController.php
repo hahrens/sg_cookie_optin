@@ -439,16 +439,16 @@ class OptinController extends ActionController {
 		// adding default values for the german language. The values are hardcoded because they must not change since we don't know
 		// the language keys or whatsoever in the target system
 		$dataMapArray = [
-			'description' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
+			'description' => JsonImportService::TEXT_BANNER_DESCRIPTION,
 			'template_html' => '',
 			'show_button_close' => '0',
-			'iframe_description' => 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.',
+			'iframe_description' => JsonImportService::TEXT_IFRAME_DESCRIPTION,
 			'iframe_html' => '',
 			'iframe_replacement_html' => '',
 			'iframe_whitelist_regex' => '',
-			'banner_description' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
+			'banner_description' => JsonImportService::TEXT_BANNER_DESCRIPTION,
 			'banner_html' => '',
-			'essential_description' => 'Essentielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.',
+			'essential_description' => JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
 			'groups' => '',
 			'set_cookie_for_domain' => '',
 			'pid' => $pid,
@@ -462,7 +462,7 @@ class OptinController extends ActionController {
 			'pid' => $pid,
 			'name' => 'cookie_optin',
 			'provider' => '',
-			'purpose' => 'This cookie is used to store your cookie preferences for this website.',
+			'purpose' => JsonImportService::TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE,
 			'lifetime' => '1 Year',
 			'parent_optin' => $newOptinKey
 		];

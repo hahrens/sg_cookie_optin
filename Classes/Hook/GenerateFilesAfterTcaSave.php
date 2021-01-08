@@ -750,7 +750,7 @@ class GenerateFilesAfterTcaSave {
 				$name = strlen($title) > 35 ? substr($title, 0, 35) . '...' : $title;
 			} else {
 				try {
-					$url = $this->removeCHashFromUrl(
+					$url = '/' . $this->removeCHashFromUrl(
 						$contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid)
 					);
 					$name = $contentObject->crop($pageData['title'], 35 . '|...|0');
@@ -877,7 +877,7 @@ class GenerateFilesAfterTcaSave {
 
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace(
-				'#LANG#', (($locale !== '') ? $locale . JsonImportService::LOCALE_SEPARATOR : '') . $translatedData['sys_language_uid'],
+				'#LANG#', (($locale !== '') ? $locale : '') . JsonImportService::LOCALE_SEPARATOR . $translatedData['sys_language_uid'],
 				self::TEMPLATE_JSON_NAME
 			);
 		file_put_contents($file, json_encode($jsonDataArray, JSON_PRETTY_PRINT));

@@ -353,10 +353,6 @@
 				<source><![CDATA[Explanation at top of Opt-In Window]]></source>
 				<target><![CDATA[Erklärung oben im Auswahlfenster]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description.default" approved="yes">
-				<source><![CDATA[Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.]]></source>
-				<target><![CDATA[Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.]]></target>
-			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_for_this_language" approved="yes">
 				<source><![CDATA[Disable OptIn for this language]]></source>
 				<target><![CDATA[Das OptIn für diese Sprache deaktivieren]]></target>
@@ -452,10 +448,6 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_description" approved="yes">
 				<source><![CDATA[Description (Shown in the opt in)]]></source>
 				<target><![CDATA[Beschreibung (Dargestellt im Opt-In)]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_description.default" approved="yes">
-				<source><![CDATA[We use external content on our website to provide you with additional information.]]></source>
-				<target><![CDATA[Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_enabled" approved="yes">
 				<source><![CDATA[Activate opt in for external content (iframe)]]></source>
