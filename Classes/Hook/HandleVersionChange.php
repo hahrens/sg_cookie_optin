@@ -57,7 +57,7 @@ class HandleVersionChange {
 		if ((bool) $fieldArray['update_version_checkbox']) {
 			$id = (int) $id;
 			$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-			$sqlQuery = "UPDATE $table SET version = version + 1 WHERE uid = $id";
+			$sqlQuery = "UPDATE $table SET version = version + 1 WHERE uid = $id OR l10n_parent = $id";
 
 			if ($currentVersion < 8000000) {
 				$GLOBALS['TYPO3_DB']->sql_query($sqlQuery);

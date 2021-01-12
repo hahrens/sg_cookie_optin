@@ -230,6 +230,11 @@ var SgCookieOptin = {
 	 * @returns {boolean}
 	 */
 	shouldShowOptinBanner: function() {
+		// check doNotTrack
+		if (typeof navigator.doNotTrack !== 'undefined' && navigator.doNotTrack === '1') {
+			return false;
+		}
+
 		// test if the current URL matches one of the whitelist regex
 		if (typeof SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex !== 'undefined'
 			&& SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex.trim() !== ''
@@ -416,6 +421,10 @@ var SgCookieOptin = {
 	saveLastPreferences: function(cookieValue) {
 		var lastPreferences = window.localStorage.getItem('SgCookieOptin.lastPreferences');
 
+		if (lastPreferences === null) {
+			lastPreferences = {};
+		}
+
 		try {
 			lastPreferences = JSON.parse(lastPreferences);
 		} catch (e) {
@@ -455,8 +464,13 @@ var SgCookieOptin = {
 		var request = new XMLHttpRequest();
 		var formData = new FormData();
 		formData.append('lastPreferences', JSON.stringify(lastPreferences));
+		var url = SgCookieOptin.jsonData.settings.save_history_webhook;
 
-		request.open("POST", "/?saveOptinHistory");
+		if (!url) {
+			return;
+		}
+
+		request.open('POST', url);
 		request.send(formData);
 	},
 

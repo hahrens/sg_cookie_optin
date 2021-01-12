@@ -565,9 +565,21 @@
 				<source><![CDATA[Cookie Lifetime]]></source>
 				<target><![CDATA[Cookie-Laufzeit]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.update_version" approved="yes">
+				<source><![CDATA[Version control]]></source>
+				<target><![CDATA[Versionskontrolle]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_confirmation_text" approved="yes">
 				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>
 				<target><![CDATA[Text für die Benachrichtigung, der angezeigt wird, wenn Cookie-Einstellungen gespeichert werden]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_history_webhook" approved="yes">
+				<source><![CDATA[Save preferences history webhook address]]></source>
+				<target><![CDATA[Webhook-Adresse zum speicher der Einstellungen-Historie]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_history_webhook.description" approved="yes">
+				<source><![CDATA[You can change this address if you would like to add some custom logic to the handling of the data. Should you do it, please make sure to add a call to the default webhook address, so that we can keep evalutaing the data for you in our statistics module.]]></source>
+				<target><![CDATA[Sie können diese Adresse ändern, wenn Sie eine eigene Logik für die Verarbeitung der Daten hinzufügen möchten. Sollten Sie dies tun, stellen Sie bitte sicher, dass Sie einen Aufruf an die Standard-Webhook-Adresse hinzufügen, damit wir die Daten weiterhin für Sie in unserem Statistikmodul auswerten können.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.session_only_essential_cookies" approved="yes">
 				<source><![CDATA[Set the cookie lifetime only for the current session if only essential cookies are accepted]]></source>
@@ -577,7 +589,7 @@
 				<source><![CDATA[Override what domain this cookie is set for]]></source>
 				<target><![CDATA[Domain, für die der Cookie gesetzt werden soll, überschreiben]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea" approved="yes" xml:space="preserve">
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea" approved="yes">
 				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
 Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example by writing example.com so that the configuration is used for both dev.example.com and www.example.com.]]></source>
 				<target><![CDATA[!!! Dies ist im Normalfall nicht DSVGO-konform. Setzen Sie dies auf eigenes Risiko !!!
@@ -639,6 +651,14 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domain, wo sie hint
 				<source><![CDATA[Full]]></source>
 				<target><![CDATA[Umfassend]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.update_version" approved="yes">
+				<source><![CDATA[Update the version number and force the visitors to confirm their preferences]]></source>
+				<target><![CDATA[Die Versionsnummer aktualisieren und die Besucher zwingen, ihre Angaben zu bestätigen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.version" approved="yes">
+				<source><![CDATA[Versionsnummer]]></source>
+				<target></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_script" approved="yes">
 				<source><![CDATA[Script]]></source>
 				<target><![CDATA[Skript]]></target>
@@ -666,18 +686,6 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domain, wo sie hint
 			<trans-unit id="tx_sgcookieoptin_domain_model_script.title" approved="yes">
 				<source><![CDATA[Script Name]]></source>
 				<target><![CDATA[Skript-Name]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.version">
-				<source><![CDATA[Version number]]></source>
-				<source><![CDATA[Versionsnummer]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.update_version">
-				<source><![CDATA[Update the version number and force the visitors to confirm their preferences]]></source>
-				<target><![CDATA[Die Versionsnummer aktualisieren und die Besucher zwingen, ihre Angaben zu bestätigen]]></target>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.update_version">
-				<source><![CDATA[Version control]]></source>
-				<target><![CDATA[Versionskontrolle]]></target>
 			</trans-unit>
 		</body>
 	</file>

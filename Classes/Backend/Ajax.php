@@ -59,6 +59,4 @@ class Ajax {
 		$response->getBody()->write(json_encode($responseData));
 		return $response;
 	}
-
-
 }

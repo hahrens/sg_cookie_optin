@@ -438,6 +438,7 @@ class OptinController extends ActionController {
 		// create with DataHandler
 		// adding default values for the german language. The values are hardcoded because they must not change since we don't know
 		// the language keys or whatsoever in the target system
+
 		$dataMapArray = [
 			'description' => JsonImportService::TEXT_BANNER_DESCRIPTION,
 			'template_html' => '',
@@ -451,6 +452,7 @@ class OptinController extends ActionController {
 			'essential_description' => JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
 			'groups' => '',
 			'set_cookie_for_domain' => '',
+			'save_history_webhook' => $saveHistoryWebhook,
 			'pid' => $pid,
 		];
 

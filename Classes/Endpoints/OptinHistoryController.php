@@ -26,26 +26,32 @@ namespace SGalinski\SgCookieOptin\Endpoints;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Extbase\Mvc\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
+use SGalinski\SgCookieOptin\Service\OptinHistoryService;
+use TYPO3\CMS\Core\Http\Response;
 
+/**
+ * Class OptinHistoryController
+ *
+ * @package SGalinski\SgCookieOptin\Endpoints
+ */
 class OptinHistoryController {
 
 	/**
+	 * Save the user's preferences for the statistics
+	 *
 	 * @param ResponseInterface $response
 	 * @return ResponseInterface
 	 */
-	public function saveOptinHistory(ResponseInterface $response) {
-		$responseData = json_encode(
-			[
-				'status' => 'OK',
-				'data' => [
-					'user' => 'John Doe',
-					'Message' => 'Hello world'
-				]
-			], JSON_UNESCAPED_UNICODE
-		);
+	public function saveOptinHistory(ServerRequestInterface $request, Response $response) {
+		if (!isset($request->getParsedBody()['lastPreferences'])) {
+			throw new SaveOptinHistoryException('No data passed');
+		}
 
-		$response->getBody()->write($this->createSuccessResponseObject($responseData));
+		$responseData = OptinHistoryService::saveOptinHistory($request->getParsedBody()['lastPreferences']);
+
+		$response->getBody()->write(json_encode($responseData));
 		return $response
 			->withStatus(200)
 			->withHeader('Content-Type', 'application/json');

@@ -2,9 +2,6 @@
 
 namespace SGalinski\SgCookieOptin\Service;
 
-use PDO;
-use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
-
 /***************************************************************
  *  Copyright notice
  *
@@ -28,6 +25,17 @@ use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
+use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
+use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
+/**
+ * Class OptinHistoryService
+ *
+ * @package SGalinski\SgCookieOptin\Service
+ */
 class OptinHistoryService {
 	const TYPE_GROUP = 1;
 
@@ -38,27 +46,7 @@ class OptinHistoryService {
 	 * @return array
 	 */
 	public static function saveOptinHistory($preferences) {
-		if (isset($GLOBALS['TYPO3_CONF_VARS']['DB']['Connections'])) {
-			$host = $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['host'];
-			$db = $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['dbname'];
-			$user = $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['user'];
-			$pass = $GLOBALS['TYPO3_CONF_VARS']['DB']['Connections']['Default']['password'];
-		} else {
-			$host = $GLOBALS['TYPO3_CONF_VARS']['DB']['host'];
-			$db = $GLOBALS['TYPO3_CONF_VARS']['DB']['database'];
-			$user = $GLOBALS['TYPO3_CONF_VARS']['DB']['username'];
-			$pass = $GLOBALS['TYPO3_CONF_VARS']['DB']['password'];
-		}
-
 		try {
-			$dsn = "mysql:host=$host;dbname=$db";
-			$options = [
-				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-				PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-				PDO::ATTR_EMULATE_PREPARES => FALSE,
-			];
-			$pdo = new PDO($dsn, $user, $pass, $options);
-
 			$jsonInput = json_decode($preferences, TRUE);
 
 			if (!self::validateInput($jsonInput)) {
@@ -71,21 +59,25 @@ class OptinHistoryService {
 				throw new SaveOptinHistoryException('No data to save');
 			}
 
-			$statement = $pdo->prepare(
-				'INSERT INTO `tx_sgcookieoptin_domain_model_user_preference`
-			(pid, user_uid, version, crdate, tstamp, item_identifier, item_type, is_accepted, is_all,
-			cruser_id, deleted, hidden ) VALUES (:pid, :user_uid, :version, :crdate, :tstamp, :item_identifier,
-			:item_type, :is_accepted, :is_all, 0, 0 ,0)'
-			);
-			foreach ($insertData as $data) {
-				$statement->execute($data);
+			if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
+				foreach ($insertData as $data) {
+					$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_sgcookieoptin_domain_model_user_preference', $data);
+				}
+			} else {
+				$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_user_preference');
+
+				foreach ($insertData as $data) {
+					$queryBuilder
+					   ->insert('tx_sgcookieoptin_domain_model_user_preference')
+					   ->values($data)
+					   ->execute();
+				}
 			}
 
 			return [
 				'error' => 0,
-				'message' => ''
+				'message' => 'OK'
 			];
-
 		} catch (\Exception $exception) {
 			return [
 				'error' => 1,
@@ -126,6 +118,9 @@ class OptinHistoryService {
 				'is_all' => (int) $jsonInput['isAll'],
 				'is_accepted' => (int) $value,
 				'pid' => $jsonInput['identifier'],
+				'cruser_id' => 0,
+				'hidden' => 0,
+				'deleted' => 0,
 			];
 		}
 		return $insertData;
