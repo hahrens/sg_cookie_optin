@@ -92,6 +92,7 @@ class JsonImportService {
 		// add required system data and remove junk from the JSON
 		unset($flatJsonData['markup']);
 		unset($flatJsonData['identifier']);
+		unset($flatJsonData['save_history_webhook']);
 		$flatJsonData['pid'] = $pid;
 		$flatJsonData['crdate'] = $GLOBALS['EXEC_TIME'];
 		$flatJsonData['tstamp'] = $GLOBALS['EXEC_TIME'];
