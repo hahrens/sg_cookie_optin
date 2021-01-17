@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2011-10-17T20:22:33Z" product-name="lang">
+		<header />
+		<body>
+			<trans-unit id="name.description">
+				<source>Regular expressions are used to check whether a given text matches a certain pattern. Click to open the details for more information. </source>
+				<target>Reguläre Ausdrücke werden verwendet, um zu prüfen, ob ein gegebener Text einem bestimmten Muster entspricht. Klicken Sie darauf, um die Details für weitere Informationen zu öffnen. </target>
+			</trans-unit>
+			<trans-unit id="name.details">
+				<source>The value that you enter in the text field is the pattern and we will check each cookie name against it. Cookies that match this pattern will be deleted if a user at some point removes their consent for this cookie group.<br />
+				To test whether the syntax works or it’s ok you can refer to <a href="https://regex101.com/">https://regex101.com/</a>. After you are done and save your preferences, make sure you open your page, clear the browser cache and reload it. Then try granting and removing the consent and see if any JavaScript errors appear in your console.
+				</source>
+				<target>Der Wert, den Sie in das Textfeld eingeben, ist das Muster, und wir werden jeden Cookie-Namen dagegen prüfen. Cookies, die mit diesem Muster übereinstimmen, werden gelöscht, wenn ein Benutzer irgendwann seine Zustimmung für diese Cookie-Gruppe widerruft.<br />
+				Um zu testen, ob die Syntax funktioniert, können Sie auf <a href="https://regex101.com/">https://regex101.com/</a> nachsehen. Nachdem Sie fertig sind und Ihre Einstellungen gespeichert haben, stellen Sie sicher, dass Sie Ihre Seite öffnen, den Browser-Cache leeren und sie neu laden. Versuchen Sie dann, die Zustimmung zu erteilen und zu entfernen, und sehen Sie, ob in Ihrer Konsole JavaScript-Fehler erscheinen.
+				</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

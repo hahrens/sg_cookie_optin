@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2020-02-27T21:12:35Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-01-06T05:24:58Z">
 		<header>
 			<type>module</type>
 			<description>General language labels used in frontend and backend.</description>
@@ -36,6 +36,93 @@
 			<trans-unit id="backend.documentation.url">
 				<source><![CDATA[https://www.sgalinski.de/en/typo3-products-web-development/cookie-optin-for-typo3/#c17080]]></source>
 			</trans-unit>
+			<trans-unit id="backend.exportConfig">
+				<source><![CDATA[Export Configuration]]></source>
+			</trans-unit>
+			<trans-unit id="backend.fileUploadLabel">
+				<source><![CDATA[JSON Configuration File]]></source>
+			</trans-unit>
+			<trans-unit id="backend.importConfig">
+				<source><![CDATA[Import Configuration]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.cookies">
+				<source><![CDATA[Cookies]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.groups">
+				<source><![CDATA[Groups]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.headline">
+				<source><![CDATA[Import Configuration]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.info">
+				<source><![CDATA[Please upload the exported configuration file that you would like to import.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.language">
+				<source><![CDATA[Language]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.buttonBack">
+				<source><![CDATA[Back]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.buttonDescription">
+				<source><![CDATA[Click 'Proceed' to create a configuration and add the listed languages.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.buttonProceed">
+				<source><![CDATA[Proceed]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.description">
+				<source><![CDATA[Your import contains the following languages:]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.scripts">
+				<source><![CDATA[Scripts]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.step1">
+				<source><![CDATA[Step 1/2 - Upload]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.step2">
+				<source><![CDATA[Step 2/2 - Preview]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.tooManyRecorsException.description">
+				<source><![CDATA[Your site root already contains a cookie optin configuration for this site. Please make sure to clean up and keep only one configuration after the import.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.tooManyRecorsException.header">
+				<source><![CDATA[You already have a Cookie Opt-In configuration]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.cookiesCount">
+				<source><![CDATA[The different languages do not contain the same amount of cookies. Some cookies may not have been properly translated and thus will not be rendered. Please double-check after importing.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.groupsCount">
+				<source><![CDATA[The different languages do not contain the same amount of groups. Some groups may not have been properly translated and thus will not be rendered. Please double-check after importing.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.header">
+				<source><![CDATA[Import data inconcistency]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.language.header">
+				<source><![CDATA[Translation configuration file is missing]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.language.missing">
+				<source><![CDATA[You have not uploaded a translation file for the local language %s. You must translate it manually after the import.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.scriptsCount">
+				<source><![CDATA[The different languages do not contain the same amount of scripts. Some scripts may not have been properly translated and thus will not be rendered. Please double-check after importing.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.error.title">
+				<source><![CDATA[License Check: Error!]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.expiredError.message">
+				<source><![CDATA[Your Cookie Optin Extension license has expired. Please renew it from %s.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.expiringWarning.message">
+				<source><![CDATA[Your Cookie Optin Extension license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.noLicenseKey">
+				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.shopLink">
+				<source><![CDATA[our shop]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.warning.title">
+				<source><![CDATA[License Check: Warning!]]></source>
+			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.description">
 				<source><![CDATA[The license key of this extension is invalid. Some functions like the important file generation are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
 			</trans-unit>
@@ -69,6 +156,9 @@
 			<trans-unit id="backend.no_site_root">
 				<source><![CDATA[Please select one of the following website roots:]]></source>
 			</trans-unit>
+			<trans-unit id="backend.no_site_root_found">
+				<source><![CDATA[No site root found. Please create a site root.]]></source>
+			</trans-unit>
 			<trans-unit id="backend.productInformation">
 				<source><![CDATA[Product Information]]></source>
 			</trans-unit>
@@ -84,6 +174,9 @@
 			<trans-unit id="backend.toolForCookies">
 				<source><![CDATA[The following tool delivers information about used cookies on your site. Use this information for the cookie instruction in the configuration. Beware that not all cookies might be listed. URL]]></source>
 			</trans-unit>
+			<trans-unit id="backend.upload">
+				<source><![CDATA[Upload]]></source>
+			</trans-unit>
 			<trans-unit id="backend.wizard.resetTemplateWizard">
 				<source><![CDATA[Reset Template]]></source>
 			</trans-unit>
@@ -98,6 +191,21 @@
 			</trans-unit>
 			<trans-unit id="configuration.licenseKey">
 				<source><![CDATA[License Key]]></source>
+			</trans-unit>
+			<trans-unit id="frontend.error.noFileUploaded">
+				<source><![CDATA[No file uploaded! Please upload a configuration file.]]></source>
+			</trans-unit>
+			<trans-unit id="frontend.error.theFileCouldNotBeUploaded">
+				<source><![CDATA[The file could not be uploaded.]]></source>
+			</trans-unit>
+			<trans-unit id="frontend.error.theImportedFileDoesNotContainProperlyFormattedJson">
+				<source><![CDATA[The imported file does not contain properly formatted JSON configuration.]]></source>
+			</trans-unit>
+			<trans-unit id="frontend.jsonImport.error.pleaseUploadTheDefaultLanguageConfigurationFile">
+				<source><![CDATA[Please upload the default language configuration file]]></source>
+			</trans-unit>
+			<trans-unit id="jsonImport.error.theStoredImportedDataIsCorrupt">
+				<source><![CDATA[The stored imported data is corrupt]]></source>
 			</trans-unit>
 			<trans-unit id="mlang_labels_tabdescr">
 				<source><![CDATA[Tracking / Cookies]]></source>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2020-02-27T21:12:35Z">
+	<file source-language="en" target-language="de" datatype="plaintext" original="messages" date="2021-01-06T05:24:58Z">
 		<header>
 			<type>module</type>
 			<description>General language labels used in frontend and backend.</description>
@@ -44,6 +44,122 @@
 			<trans-unit id="backend.documentation.url" approved="yes">
 				<source><![CDATA[https://www.sgalinski.de/en/typo3-products-web-development/cookie-optin-for-typo3/#c17080]]></source>
 				<target><![CDATA[https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/#c17080]]></target>
+			</trans-unit>
+			<trans-unit id="backend.exportConfig" approved="yes">
+				<source><![CDATA[Export Configuration]]></source>
+				<target><![CDATA[Konfiguration exportieren]]></target>
+			</trans-unit>
+			<trans-unit id="backend.fileUploadLabel" approved="yes">
+				<source><![CDATA[JSON Configuration File]]></source>
+				<target><![CDATA[JSON-Konfigurationsdatei]]></target>
+			</trans-unit>
+			<trans-unit id="backend.importConfig" approved="yes">
+				<source><![CDATA[Import Configuration]]></source>
+				<target><![CDATA[Konfiguration importieren]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.cookies" approved="yes">
+				<source><![CDATA[Cookies]]></source>
+				<target><![CDATA[Cookies]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.groups" approved="yes">
+				<source><![CDATA[Groups]]></source>
+				<target><![CDATA[Gruppen]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.headline" approved="yes">
+				<source><![CDATA[Import Configuration]]></source>
+				<target><![CDATA[Konfiguration importieren]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.info" approved="yes">
+				<source><![CDATA[Please upload the exported configuration file that you would like to import.]]></source>
+				<target><![CDATA[Bitte laden Sie die exportierte Konfigurationsdatei hoch, die Sie importieren möchten.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.language" approved="yes">
+				<source><![CDATA[Language]]></source>
+				<target><![CDATA[Sprache]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.buttonBack" approved="yes">
+				<source><![CDATA[Back]]></source>
+				<target><![CDATA[Zurück]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.buttonDescription" approved="yes">
+				<source><![CDATA[Click 'Proceed' to create a configuration and add the listed languages.]]></source>
+				<target><![CDATA[Klicken Sie auf 'Weiter', um eine Konfiguration zu erstellen und die aufgeführten Sprachen hinzuzufügen.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.buttonProceed" approved="yes">
+				<source><![CDATA[Proceed]]></source>
+				<target><![CDATA[Weiter]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.preview.description" approved="yes">
+				<source><![CDATA[Your import contains the following languages:]]></source>
+				<target><![CDATA[Ihr Import enthält folgende Sprachen:]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.scripts" approved="yes">
+				<source><![CDATA[Scripts]]></source>
+				<target><![CDATA[Skripte]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.step1" approved="yes">
+				<source><![CDATA[Step 1/2 - Upload]]></source>
+				<target><![CDATA[Schritt 1/2 - Hochladen]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.step2" approved="yes">
+				<source><![CDATA[Step 2/2 - Preview]]></source>
+				<target><![CDATA[Schritt 1/2 - Vorschau]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.tooManyRecorsException.description" approved="yes">
+				<source><![CDATA[Your site root already contains a cookie optin configuration for this site. Please make sure to clean up and keep only one configuration after the import.]]></source>
+				<target><![CDATA[Ihr Site-Root enthält bereits eine Cookie-Optin-Konfiguration für diese Website. Bitte stellen Sie sicher, dass Sie nach dem Import nur eine Konfiguration bereinigen und behalten.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.tooManyRecorsException.header" approved="yes">
+				<source><![CDATA[You already have a Cookie Opt-In configuration]]></source>
+				<target><![CDATA[Sie haben bereits eine Cookie-Opt-In-Konfiguration]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.cookiesCount" approved="yes">
+				<source><![CDATA[The different languages do not contain the same amount of cookies. Some cookies may not have been properly translated and thus will not be rendered. Please double-check after importing.]]></source>
+				<target><![CDATA[Die verschiedenen Sprachen enthalten nicht die gleiche Anzahl von Cookies. Einige Cookies wurden möglicherweise nicht richtig übersetzt und werden daher nicht wiedergegeben. Bitte überprüfen Sie dies nach dem Import noch einmal.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.groupsCount" approved="yes">
+				<source><![CDATA[The different languages do not contain the same amount of groups. Some groups may not have been properly translated and thus will not be rendered. Please double-check after importing.]]></source>
+				<target><![CDATA[Die verschiedenen Sprachen enthalten nicht die gleiche Anzahl von Gruppen. Einige Gruppen wurden möglicherweise nicht richtig übersetzt und werden daher nicht wiedergegeben. Bitte überprüfen Sie dies nach dem Import noch einmal.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.header" approved="yes">
+				<source><![CDATA[Import data inconcistency]]></source>
+				<target><![CDATA[Inkonsistenz der Importdaten]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.language.header" approved="yes">
+				<source><![CDATA[Translation configuration file is missing]]></source>
+				<target><![CDATA[Übersetzungs-Konfigurationsdatei fehlt]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.language.missing" approved="yes">
+				<source><![CDATA[You have not uploaded a translation file for the local language %s. You must translate it manually after the import.]]></source>
+				<target><![CDATA[Sie haben keine Übersetzungsdatei für die lokale Sprache %s hochgeladen. Sie müssen sie nach dem Import manuell übersetzen.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonImport.warnings.scriptsCount" approved="yes">
+				<source><![CDATA[The different languages do not contain the same amount of scripts. Some scripts may not have been properly translated and thus will not be rendered. Please double-check after importing.]]></source>
+				<target><![CDATA[Die verschiedenen Sprachen enthalten nicht die gleiche Anzahl von Skripten. Einige Skripte wurden möglicherweise nicht richtig übersetzt und werden daher nicht wiedergegeben. Bitte überprüfen Sie dies nach dem Import noch einmal.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.error.title" approved="yes">
+				<source><![CDATA[License Check: Error!]]></source>
+				<target><![CDATA[Lizenzprüfung: Fehler!]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.expiredError.message" approved="yes">
+				<source><![CDATA[Your Cookie Optin Extension license has expired. Please renew it from %s.]]></source>
+				<target><![CDATA[Ihre Cookie-Optin-Erweiterung-Lizenz ist abgelaufen. Bitte erneuern Sie diesie von %s.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.expiringWarning.message" approved="yes">
+				<source><![CDATA[Your Cookie Optin Extension license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
+				<target><![CDATA[Ihre Cookie-Optin-Erweiterung-Lizenz ist am %s abgelaufen, aber Ihre Version wird noch mit dieser Lizenz unterstützt. Bitte erneuern Sie sie ab %s, damit Sie von unseren neusten Versionen profitieren können.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.noLicenseKey" approved="yes">
+				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it.]]></source>
+				<target><![CDATA[Sie haben keinen Lizenzschlüssel für die Cookie-Optin-Erweiterung eingegeben. Bitte erwerben Sie einen Schlüssel aus %s und geben Sie ihn ein.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.shopLink" approved="yes">
+				<source><![CDATA[our shop]]></source>
+				<target><![CDATA[unserem Shop]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.warning.title" approved="yes">
+				<source><![CDATA[License Check: Warning!]]></source>
+				<target><![CDATA[Lizenzprüfung: Warnung!]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.description" approved="yes">
 				<source><![CDATA[The license key of this extension is invalid. Some functions like the important file generation are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
@@ -89,6 +205,10 @@
 				<source><![CDATA[Please select one of the following website roots:]]></source>
 				<target><![CDATA[Bitte wählen Sie eine der folgenden Webseiten:]]></target>
 			</trans-unit>
+			<trans-unit id="backend.no_site_root_found" approved="yes">
+				<source><![CDATA[No site root found. Please create a site root.]]></source>
+				<target><![CDATA[Kein Site-Root gefunden. Bitte erstellen Sie einen Site-Root.]]></target>
+			</trans-unit>
 			<trans-unit id="backend.productInformation" approved="yes">
 				<source><![CDATA[Product Information]]></source>
 				<target><![CDATA[Produkt-Informationen]]></target>
@@ -109,6 +229,10 @@
 				<source><![CDATA[The following tool delivers information about used cookies on your site. Use this information for the cookie instruction in the configuration. Beware that not all cookies might be listed. URL]]></source>
 				<target><![CDATA[Das nachfolgende Tool liefert Informationen zu verwendeten Cookies auf ihrer Website. Nutzen Sie diese für die Cookie-Instruktionen in der Konfiguration. Beachten Sie, dass die Liste nicht vollständig sein könnte. URL]]></target>
 			</trans-unit>
+			<trans-unit id="backend.upload" approved="yes">
+				<source><![CDATA[Upload]]></source>
+				<target><![CDATA[Hochladen]]></target>
+			</trans-unit>
 			<trans-unit id="backend.wizard.resetTemplateWizard" approved="yes">
 				<source><![CDATA[Reset Template]]></source>
 				<target><![CDATA[Template zurücksetzen]]></target>
@@ -128,6 +252,26 @@
 			<trans-unit id="configuration.licenseKey" approved="yes">
 				<source><![CDATA[License Key]]></source>
 				<target><![CDATA[Lizenzschlüssel]]></target>
+			</trans-unit>
+			<trans-unit id="frontend.error.noFileUploaded" approved="yes">
+				<source><![CDATA[No file uploaded! Please upload a configuration file.]]></source>
+				<target><![CDATA[Es wurde keine Datei hochgeladen! Bitte laden Sie eine Konfigurationsdatei hoch.]]></target>
+			</trans-unit>
+			<trans-unit id="frontend.error.theFileCouldNotBeUploaded" approved="yes">
+				<source><![CDATA[The file could not be uploaded.]]></source>
+				<target><![CDATA[Die Datei konnte nicht hochgeladen werden.]]></target>
+			</trans-unit>
+			<trans-unit id="frontend.error.theImportedFileDoesNotContainProperlyFormattedJson" approved="yes">
+				<source><![CDATA[The imported file does not contain properly formatted JSON configuration.]]></source>
+				<target><![CDATA[Die importierte Datei enthält keine korrekt formatierte JSON-Konfiguration.]]></target>
+			</trans-unit>
+			<trans-unit id="frontend.jsonImport.error.pleaseUploadTheDefaultLanguageConfigurationFile" approved="yes">
+				<source><![CDATA[Please upload the default language configuration file]]></source>
+				<target><![CDATA[Bitte laden Sie die Standard-Sprache Konfigurationsdatei hoch]]></target>
+			</trans-unit>
+			<trans-unit id="jsonImport.error.theStoredImportedDataIsCorrupt" approved="yes">
+				<source><![CDATA[The stored imported data is corrupt]]></source>
+				<target><![CDATA[Die gespeicherten importierten Daten sind beschädigt]]></target>
 			</trans-unit>
 			<trans-unit id="mlang_labels_tabdescr" approved="yes">
 				<source><![CDATA[Tracking / Cookies]]></source>

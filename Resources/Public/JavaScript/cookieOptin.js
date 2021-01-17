@@ -73,7 +73,9 @@ var SgCookieOptin = {
 		// noinspection EqualityComparisonWithCoercionJS
 		var showOptIn = SgCookieOptin.getParameterByName('showOptIn') == true;
 		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
-		if ((!cookieValue && !SgCookieOptin.jsonData.settings.activate_testing_mode) || showOptIn) {
+		if ((!cookieValue && !SgCookieOptin.jsonData.settings.activate_testing_mode) || showOptIn
+			|| SgCookieOptin.shouldShowBannerBasedOnLastPreferences()
+		) {
 			SgCookieOptin.openCookieOptin(null, {hideBanner: false});
 		}
 	},
@@ -90,10 +92,13 @@ var SgCookieOptin = {
 	 * Checks whether the given group has been accepted or not
 	 *
 	 * @param {string} groupName
+	 * @param {string} cookieValue
 	 * @returns {boolean}
 	 */
-	checkIsGroupAccepted: function(groupName) {
-		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
+	checkIsGroupAccepted: function(groupName, cookieValue) {
+		if (typeof cookieValue === 'undefined') {
+			cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
+		}
 		if (cookieValue) {
 			var splitedCookieValue = cookieValue.split('|');
 			for (var splitedCookieValueIndex in splitedCookieValue) {
@@ -191,6 +196,9 @@ var SgCookieOptin = {
 	 * @return {void}
 	 */
 	openCookieOptin: function(contentElement, options) {
+		if (!SgCookieOptin.shouldShowOptinBanner()) {
+			return;
+		}
 		var hideBanner = typeof options == 'object' && options.hideBanner === true;
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
@@ -214,6 +222,31 @@ var SgCookieOptin = {
 			SgCookieOptin.adjustDescriptionHeight(wrapper, contentElement);
 			SgCookieOptin.updateCookieList();
 		}, 10);
+	},
+
+	/**
+	 * Checks if the cookie banner should be shown
+	 *
+	 * @returns {boolean}
+	 */
+	shouldShowOptinBanner: function() {
+		// test if the current URL matches one of the whitelist regex
+		if (typeof SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex !== 'undefined'
+			&& SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex.trim() !== ''
+		) {
+			var regularExpressions = SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex.trim()
+				.split(/\r?\n/).map(function (value) {
+					return new RegExp(value);
+				});
+			if (typeof regularExpressions === 'object' && regularExpressions.length > 0) {
+				for (var regExIndex in regularExpressions) {
+					if (regularExpressions[regExIndex].test(window.location)) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	},
 
 	/**
@@ -308,6 +341,120 @@ var SgCookieOptin = {
 				}
 
 				reasons[index].style.height = maxHeightPerRow[maxHeightPerRowIndex] + 'px';
+			}
+		}
+	},
+
+	/**
+	 * Checks whether we must show the cookie banner based on the last preferences of the user.
+	 * This may be necessary if there are new groups or new cookies since the last preferences save,
+	 * or the user didn't select all preferences and the configured interval has expired
+	 *
+	 * @returns {boolean}
+	 */
+	shouldShowBannerBasedOnLastPreferences: function() {
+		var lastPreferences = window.localStorage.getItem('SgCookieOptin.lastPreferences');
+		if (!lastPreferences) {
+			return true;
+		}
+		try {
+			lastPreferences = JSON.parse(lastPreferences);
+		} catch (e) { // we don't want to break the rest of the code if the JSON is malformed for some reason
+			return true;
+		}
+
+		if (typeof lastPreferences.timestamp === 'undefined') {
+			return true;
+		}
+
+		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
+				continue;
+			}
+
+			// is the group new
+			if (typeof SgCookieOptin.jsonData.cookieGroups[groupIndex].crdate !== 'undefined' &&
+				SgCookieOptin.jsonData.cookieGroups[groupIndex].crdate > lastPreferences.timestamp) {
+				return true;
+			}
+
+			// is there a new cookie in this group
+			for (var cookieIndex in SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData) {
+				if (!SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData.hasOwnProperty(cookieIndex)) {
+					continue;
+				}
+
+				if (typeof SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex].crdate !== 'undefined'
+					&& SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex].crdate > lastPreferences.timestamp) {
+					return true;
+				}
+			}
+
+			// if the user didn't select all group last time, check if the the group was not accepted and the configured interval has expired
+			if (!lastPreferences.isAll &&
+				typeof SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName !== 'undefined' &&
+				!SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName,
+				lastPreferences.cookieValue)
+				&& (new Date().getTime() / 1000) > (lastPreferences.timestamp + 24 * 60 * 60
+					* SgCookieOptin.jsonData.settings.banner_show_again_interval)) {
+				return true;
+			}
+		}
+		return false;
+	},
+
+	/**
+	 * Stores the last saved preferences in the localstorage
+	 *
+	 * @param {string} cookieValue
+	 */
+	saveLastPreferences: function(cookieValue) {
+		var isAll = true;
+		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
+				continue;
+			}
+			if (!SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName)) {
+				isAll = false;
+			}
+		}
+
+		//TODO: should we add timezone support?
+		var lastPreferences = {
+			timestamp: Math.floor(new Date().getTime() / 1000),
+			cookieValue: cookieValue,
+			isAll: isAll
+		};
+		window.localStorage.setItem('SgCookieOptin.lastPreferences', JSON.stringify(lastPreferences));
+	},
+
+	/**
+	 * Delete all cookies that match the regex of the cookie name if a given group has been unselected by the user
+	 */
+	deleteCookiesForUnsetGroups: function() {
+		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
+			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
+				continue;
+			}
+			var documentCookies = document.cookie.split('; ');
+			if (!SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName)) {
+				for (var cookieIndex in SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData) {
+					for (var documentCookieIndex in documentCookies) {
+						var cookieName = documentCookies[documentCookieIndex].split('=')[0];
+						var regExString = SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex]
+							.Name.trim();
+
+						if (!regExString) {
+							continue;
+						}
+
+						var regEx = new RegExp(regExString);
+						if (regEx.test(cookieName)) {
+							// delete the cookie
+							document.cookie = cookieName + '=; path=/; Max-Age=-99999999;';
+						}
+					}
+				}
 			}
 		}
 	},
@@ -608,7 +755,7 @@ var SgCookieOptin = {
 			cookieData += groupName + ':' + 1;
 		}
 
-		SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieData, SgCookieOptin.jsonData.settings.cookie_lifetime);
+		SgCookieOptin.setCookieWrapper(cookieData);
 		SgCookieOptin.acceptAllExternalContents();
 	},
 
@@ -1205,7 +1352,7 @@ var SgCookieOptin = {
 		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
 			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
 		}
-		cookie += ';expires=' + d.toGMTString() + '; SameSite=Lax';
+		cookie += ';expires=' + d.toUTCString() + '; SameSite=Lax';
 		document.cookie = cookie;
 	},
 
@@ -1260,6 +1407,9 @@ var SgCookieOptin = {
 		} else {
 			SgCookieOptin.setCookie(SgCookieOptin.COOKIE_NAME, cookieValue, SgCookieOptin.jsonData.settings.cookie_lifetime);
 		}
+
+		SgCookieOptin.saveLastPreferences(cookieValue);
+		SgCookieOptin.deleteCookiesForUnsetGroups();
 	},
 
 	/**

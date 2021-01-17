@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2020-02-27T20:08:40Z">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-01-06T05:24:02Z">
 		<header>
 			<type>database</type>
 			<description>General language labels used in frontend and backend.</description>
@@ -138,6 +138,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_selection.0">
 				<source><![CDATA[Default]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_show_again_interval">
+				<source><![CDATA[Show the cookie banner again if not all groups were selected after: (in days)]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_show_settings_button">
 				<source><![CDATA[Show the Settings Button within the Banner (Should be enabled if the website uses cookies.)]]></source>
 			</trans-unit>
@@ -258,8 +261,14 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_texts">
 				<source><![CDATA[Cookie Information Texts]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookiebanner_whitelist_regex">
+				<source><![CDATA[Don't show cookie banner on the following page URIs. Every new line is interpreted as a new regular expression. Syntax errors may lead to issues on your website!]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description">
 				<source><![CDATA[Explanation at top of Opt-In Window]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_for_this_language">
+				<source><![CDATA[Disable OptIn for this language]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_powered_by">
 				<source><![CDATA[Disable "Powered by" lettering]]></source>
@@ -299,6 +308,9 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_allow_one_text">
 				<source><![CDATA[Button: "Allow once"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_description">
+				<source><![CDATA[Additional text below the "load external content" button]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_text">
 				<source><![CDATA[Button: "Load external content"]]></source>
@@ -378,6 +390,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex">
 				<source><![CDATA[Whitelist external content. Every new line is interpreted as a new regular expression]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex.description">
+				<source><![CDATA[This field is interpreted as a regular expression. Syntax errors in this expression may lead to errors on your website. Therefore please always test your website after you change this value. For more information hover over the field label.]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_selection">
 				<source><![CDATA[Select a base template for your whitelist (This form will be saved and reloaded when this setting changes.)]]></source>
 			</trans-unit>
@@ -420,7 +435,7 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain">
 				<source><![CDATA[Override what domain this cookie is set for]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea">
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea" xml:space="preserve">
 				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
 Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example by writing example.com so that the configuration is used for both dev.example.com and www.example.com.]]></source>
 			</trans-unit>

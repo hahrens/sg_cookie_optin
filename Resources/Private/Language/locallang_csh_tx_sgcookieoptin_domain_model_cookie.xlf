@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-01-06T05:24:25Z">
+		<header>
+			<generator>LFEditor</generator>
+		</header>
+		<body>
+			<trans-unit id="name.description">
+				<source><![CDATA[Regular expressions are used to check whether a given text matches a certain pattern. Click to open the details for more information. ]]></source>
+			</trans-unit>
+			<trans-unit id="name.details" xml:space="preserve">
+				<source><![CDATA[The value that you enter in the text field is the pattern and we will check each cookie name against it. Cookies that match this pattern will be deleted if a user at some point removes their consent for this cookie group.
+				To test whether the syntax works or it’s ok you can refer to . After you are done and save your preferences, make sure you open your page, clear the browser cache and reload it. Then try granting and removing the consent and see if any JavaScript errors appear in your console.
+				]]></source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

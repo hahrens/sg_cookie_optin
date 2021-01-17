@@ -14,14 +14,28 @@
 				<f:if condition="{isSiteRoot}">
 					<f:if condition="{optins -> f:count()} <= 0">
 						<div class="form-group">
-							<a href="#" class="btn btn-default form-group" onclick="{sg:backend.editOnClick(table: 'tx_sgcookieoptin_domain_model_optin', uid: pageUid, new: 1)}">
-								<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new">
-									<span class="icon-markup">
-										<img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-document-new.svg" width="16" height="16">
-									</span>
-								</span>
-								<f:translate key="backend.createRecord" />
-							</a>
+							<f:if condition="{sg:backend.isVersionHigherThan(version: '9.0.0')}">
+								<f:then>
+									<f:link.action action="create" class="btn btn-default form-group ">
+										<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new">
+											<span class="icon-markup">
+												<img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-document-new.svg" width="16" height="16">
+											</span>
+										</span>
+										<f:translate key="backend.createRecord" />
+									</f:link.action>
+								</f:then>
+								<f:else>
+									<a href="#" class="btn btn-default form-group" onclick="{sg:backend.editOnClick(table: 'tx_sgcookieoptin_domain_model_optin', uid: pageUid, new: 1)}">
+										<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new">
+											<span class="icon-markup">
+												<img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-document-new.svg" width="16" height="16">
+											</span>
+										</span>
+										<f:translate key="backend.createRecord" />
+									</a>
+								</f:else>
+							</f:if>
 						</div>
 					</f:if>
 				</f:if>
@@ -93,28 +107,37 @@
 		</f:then>
 		<f:else>
 			<f:if condition="{pages}">
-				<div class="row">
-					<h3>{f:translate(key:'backend.no_site_root')}</h3>
+				<f:then>
+					<div class="row">
+						<h3>{f:translate(key:'backend.no_site_root')}</h3>
 
-					<div class="panel panel-default recordlist">
-						<div class="table-fit">
-							<table data-table="pages" class="table table-striped table-hover">
-								<tbody>
-								<f:for each="{pages}" as="page">
-									<tr data-uid="{page.pid}">
-										<td nowrap="nowrap" class="col-title">
-											<f:link.action action="index" additionalParams="{id: page.uid}">
-												<sg:backend.icon table="pages" row="{page}" clickMenu="0" />
-												{page._thePathFull}
-											</f:link.action>
-										</td>
-									</tr>
-								</f:for>
-								</tbody>
-							</table>
+						<div class="panel panel-default recordlist">
+							<div class="table-fit">
+								<table data-table="pages" class="table table-striped table-hover">
+									<tbody>
+									<f:for each="{pages}" as="page">
+										<tr data-uid="{page.pid}">
+											<td nowrap="nowrap" class="col-title">
+												<f:link.action action="index" additionalParams="{id: page.uid}">
+													<sg:backend.icon table="pages" row="{page}" clickMenu="0" />
+													{page._thePathFull}
+												</f:link.action>
+											</td>
+										</tr>
+									</f:for>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
-				</div>
+				</f:then>
+				<f:else>
+					<div class="row">
+						<div class="alert alert-warning" role="alert">
+							{f:translate(key:'backend.no_site_root_found')}
+						</div>
+					</div>
+				</f:else>
 			</f:if>
 		</f:else>
 	</f:if>

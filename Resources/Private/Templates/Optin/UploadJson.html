@@ -1,0 +1,21 @@
+{namespace sg=SGalinski\SgCookieOptin\ViewHelpers}
+
+<f:layout name="Default" />
+
+<f:section name="content">
+	<h1>{f:translate(key:'backend.jsonImport.headline')}</h1>
+	<h2>{f:translate(key:'backend.jsonImport.step1')}</h2>
+	<f:flashMessages />
+	<div class="form-group">
+		<p>{f:translate(key:'backend.jsonImport.info')}</p>
+		<f:form action="previewImport" enctype="multipart/form-data">
+			<div class="jsonImport-buttonsContainer">
+				<f:form.upload name="file" class="btn btn-default "/>
+				<f:form.submit value="{f:translate(key:'backend.upload')}" class="btn btn-default jsonImport-submit" />
+			</div>
+			<div>
+
+			</div>
+		</f:form>
+	</div>
+</f:section>

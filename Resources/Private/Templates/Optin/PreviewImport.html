@@ -1,0 +1,65 @@
+<f:layout name="Default" />
+
+<f:section name="content">
+	<h1>{f:translate(key:'backend.jsonImport.headline')}</h1>
+	<h2>{f:translate(key:'backend.jsonImport.step2')}</h2>
+	<f:flashMessages />
+
+	<p>{f:translate(key:'backend.jsonImport.preview.description')}</p>
+	<f:for each="{warnings}" as="warning">
+		<div class="alert alert-warning" role="alert">
+			<i class="fa fa-exclamation-triangle"></i>
+			{warning}
+		</div>
+	</f:for>
+
+	<div class="table">
+		<table class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th>
+						<f:translate key="backend.jsonImport.language"/>
+					</th>
+					<th>
+						<f:translate key="backend.jsonImport.groups"/>
+					</th>
+					<th>
+						<f:translate key="backend.jsonImport.cookies"/>
+					</th>
+					<th>
+						<f:translate key="backend.jsonImport.scripts"/>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<f:for each="{dataSummary}" as="item">
+					<tr {f:if(condition: '{item.translated} == false', then: 'style="background-color:#e68c8c"')}>
+						<td>
+							<core:icon identifier="{item.flagIdentifier}" /> {item.title} ({item.locale})
+						</td>
+						<td {f:if(condition: '{warningGroups}', then: 'style="background-color:#e68c8c"')}>
+							{item.groups}
+						</td>
+						<td {f:if(condition: '{warningCookies}', then: 'style="background-color:#e68c8c"')}>
+							{item.cookies}
+						</td>
+						<td {f:if(condition: '{warningScripts}', then: 'style="background-color:#e68c8c"')}>
+							{item.scripts}
+						</td>
+					</tr>
+				</f:for>
+			</tbody>
+		</table>
+	</div>
+
+	<form>
+		<p>{f:translate(key:'backend.jsonImport.preview.buttonDescription')}</p>
+		<f:link.action action="uploadJson" class="btn btn-default form-group ">
+			{f:translate(key:'backend.jsonImport.preview.buttonBack')}
+		</f:link.action>
+
+		<f:link.action action="importJson" class="btn btn-default form-group ">
+			{f:translate(key:'backend.jsonImport.preview.buttonProceed')}
+		</f:link.action>
+	</form>
+</f:section>

@@ -30,6 +30,7 @@
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
+	padding: 0 30px;
 }
 
 .sg-cookie-optin-iframe-consent button {
@@ -59,4 +60,9 @@
 	cursor: pointer;
 	font-size: 16px;
 	text-align: center;
+}
+
+.sg-cookie-optin-iframe-consent p {
+	text-align: center;
+	margin-top: 15px;
 }

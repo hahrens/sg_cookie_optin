@@ -63,7 +63,7 @@ call_user_func(
 					'Optin',
 					'',
 					[
-						'Optin' => 'index, activateDemoMode',
+						'Optin' => 'index, activateDemoMode, create, uploadJson, importJson, previewImport, exportJson',
 					],
 					[
 						'access' => 'user,group',
@@ -72,6 +72,15 @@ call_user_func(
 					]
 				);
 			}
+
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+			        'tx_sgcookieoptin_domain_model_optin',
+			        'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_optin.xlf'
+			);
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+			        'tx_sgcookieoptin_domain_model_cookie',
+			        'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf'
+			);
 		}
 	}
 );

@@ -24,6 +24,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use SGalinski\SgCookieOptin\Service\JsonImportService;
+
 $configuration = [
 	'ctrl' => [
 		'title' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin',
@@ -36,7 +38,7 @@ $configuration = [
 			essential_title, essential_description, extend_box_link_text, extend_box_link_text_close,
 			extend_table_link_text, extend_table_link_text_close, cookie_name_text, cookie_provider_text,
 			cookie_purpose_text, cookie_lifetime_text, iframe_title, iframe_description, iframe_cookies, iframe_button_allow_all_text,
-			iframe_button_allow_one_text, iframe_button_load_one_text, iframe_open_settings_text, iframe_whitelist_regex, template_html,
+			iframe_button_allow_one_text, iframe_button_load_one_description, iframe_button_load_one_text, iframe_open_settings_text, iframe_whitelist_regex, template_html,
 			banner_html, banner_button_accept_text, banner_button_settings_text, banner_description,
 			save_confirmation_text',
 		'delete' => 'deleted',
@@ -71,7 +73,7 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group,
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
-					--palette--;;cookie_lifetime_settings, minify_generated_data, activate_testing_mode, disable_powered_by, set_cookie_for_domain',
+					--palette--;;cookie_lifetime_settings, minify_generated_data, activate_testing_mode, disable_powered_by, disable_for_this_language, set_cookie_for_domain, cookiebanner_whitelist_regex, banner_show_again_interval',
 		],
 	],
 	'palettes' => [
@@ -111,12 +113,12 @@ $configuration = [
 		],
 		'color_list' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_lists',
-			'showitem' => 'color_list, color_list_text'
+			'showitem' => 'color_list, color_list_text',
 		],
 		'color_table' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_tables',
-			'showitem' => 'color_table_header, color_table_header_text, --linebreak--,
-				color_table, color_Table_data_text'
+			'showitem' => 'color_table_header, color_table, --linebreak--,
+				color_table_header_text, color_Table_data_text'
 		],
 		'template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template',
@@ -126,7 +128,8 @@ $configuration = [
 		'iframe_texts' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_texts',
 			'showitem' => 'iframe_button_allow_all_text, iframe_button_allow_one_text, --linebreak--,
-				iframe_button_load_one_text, iframe_open_settings_text'
+				iframe_button_load_one_text, iframe_open_settings_text, --linebreak--,
+				iframe_button_load_one_description'
 		],
 		'iframe_colors' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_colors',
@@ -240,8 +243,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.description',
 			'config' => [
 				'type' => 'text',
-				'default' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
-				'placeholder' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
+				'default' => JsonImportService::TEXT_BANNER_DESCRIPTION,
+				'placeholder' => JsonImportService::TEXT_BANNER_DESCRIPTION,
 				'eval' => 'trim'
 			],
 		],
@@ -489,8 +492,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#A5A5A5',
-				'placeholder' => '#A5A5A5',
+				'default' => '#888888',
+				'placeholder' => '#888888',
 				'eval' => 'trim, required'
 			],
 		],
@@ -537,8 +540,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#A5A5A5',
-				'placeholder' => '#A5A5A5',
+				'default' => '#888888',
+				'placeholder' => '#888888',
 				'eval' => 'trim, required'
 			],
 		],
@@ -573,8 +576,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#A5A5A5',
-				'placeholder' => '#A5A5A5',
+				'default' => '#888888',
+				'placeholder' => '#888888',
 				'eval' => 'trim, required'
 			],
 		],
@@ -609,10 +612,11 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#A5A5A5',
-				'placeholder' => '#A5A5A5',
+				'default' => '#888888',
+				'placeholder' => '#888888',
 				'eval' => 'trim, required'
 			],
+			'displayCond' => 'FIELD:template_selection:=:0',
 		],
 		'color_list_text' => [
 			'exclude' => TRUE,
@@ -625,6 +629,7 @@ $configuration = [
 				'placeholder' => '#FFFFFF',
 				'eval' => 'trim, required'
 			],
+			'displayCond' => 'FIELD:template_selection:=:0',
 		],
 		'color_table' => [
 			'exclude' => TRUE,
@@ -729,8 +734,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.essential_description',
 			'config' => [
 				'type' => 'text',
-				'default' => 'Essentielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.',
-				'placeholder' => 'Essentielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.',
+				'default' => JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
+				'placeholder' => JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
 				'eval' => 'trim'
 			],
 		],
@@ -764,6 +769,7 @@ $configuration = [
 					'showAllLocalizationLink' => TRUE,
 				],
 				'maxitems' => 99999,
+				'minitems' => 1,
 			],
 		],
 		'iframe_enabled' => [
@@ -791,8 +797,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_description',
 			'config' => [
 				'type' => 'text',
-				'default' => 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.',
-				'placeholder' => 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.',
+				'default' => JsonImportService::TEXT_IFRAME_DESCRIPTION,
+				'placeholder' => JsonImportService::TEXT_IFRAME_DESCRIPTION,
 				'eval' => 'trim'
 			],
 		],
@@ -834,6 +840,18 @@ $configuration = [
 				'eval' => 'trim, required'
 			],
 		],
+		'iframe_button_load_one_description' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_description',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => '',
+				'placeholder' => '',
+				'eval' => 'trim'
+			],
+		],
+
 		'iframe_button_load_one_text' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_text',
@@ -1062,6 +1080,15 @@ $configuration = [
 				'default' => '0',
 			],
 		],
+		'disable_for_this_language' => [
+			'exclude' => FALSE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.disable_for_this_language',
+			'config' => [
+				'type' => 'check',
+				'default' => '0',
+			],
+		],
 		'set_cookie_for_domain' => [
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
@@ -1071,6 +1098,16 @@ $configuration = [
 				'type' => 'input',
 				'default' => '',
 				'eval' => 'trim,domainname'
+			],
+		],
+		'banner_show_again_interval' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_show_again_interval',
+			'config' => [
+				'type' => 'input',
+				'default' => '14',
+				'eval' => 'trim, int'
 			],
 		],
 		'banner_enable' => [
@@ -1187,8 +1224,8 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'renderType' => 'colorpicker',
-				'default' => '#A5A5A5',
-				'placeholder' => '#A5A5A5',
+				'default' => '#888888',
+				'placeholder' => '#888888',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1279,8 +1316,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_description',
 			'config' => [
 				'type' => 'text',
-				'default' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
-				'placeholder' => 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.',
+				'default' => JsonImportService::TEXT_BANNER_DESCRIPTION,
+				'placeholder' => JsonImportService::TEXT_BANNER_DESCRIPTION,
 				'eval' => 'trim'
 			],
 		],
@@ -1406,6 +1443,17 @@ $configuration = [
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex',
+			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex.description',
+			'config' => [
+				'type' => 'text',
+				'renderType' => 't3editor',
+				'eval' => 'trim',
+			],
+		],
+		'cookiebanner_whitelist_regex' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.cookiebanner_whitelist_regex',
 			'config' => [
 				'type' => 'text',
 				'renderType' => 't3editor',
@@ -1478,7 +1526,7 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'color_table_header_text, color_Table_data_text, color_button_close, color_button_close_hover,'
 		. 'color_button_close_text, cookie_name_text, cookie_provider_text, cookie_purpose_text, cookie_lifetime_text,'
 		. 'iframe_enabled, iframe_title, iframe_description, iframe_cookies, iframe_button_allow_all_text,'
-		. 'iframe_button_allow_one_text, iframe_button_load_one_text, iframe_open_settings_text,'
+		. 'iframe_button_allow_one_text, iframe_button_load_one_description, iframe_button_load_one_text, iframe_open_settings_text,'
 		. 'iframe_color_consent_box_background, iframe_color_button_load_one, iframe_color_button_load_one_hover,'
 		. 'iframe_color_button_load_one_text, iframe_color_open_settings, iframe_html, iframe_overwritten,'
 		. 'iframe_selection, iframe_replacement_html, iframe_replacement_overwritten, iframe_replacement_selection,'
@@ -1489,7 +1537,7 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,'
 		. 'activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,'
 		. 'color_full_button_close_hover, color_full_button_close_text, color_table_header, save_confirmation_text,'
-		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist, iframe_whitelist_overwritten, iframe_whitelist_selection, iframe_whitelist_regex, set_cookie_for_domain, disable_powered_by';
+		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist, iframe_whitelist_overwritten, iframe_whitelist_selection, iframe_whitelist_regex, set_cookie_for_domain, cookiebanner_whitelist_regex, disable_powered_by, disable_for_this_language, banner_show_again_interval';
 }
 
 return $configuration;
