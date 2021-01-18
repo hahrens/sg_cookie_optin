@@ -59,7 +59,7 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color,
 					--palette--;;template, --palette--;;color_general, --palette--;;color_notification,
 					--palette--;;color_checkbox, --palette--;;color_button, --palette--;;color_list,
-					--palette--;;color_table,
+					--palette--;;color_table, disable_powered_by,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.iframes,
 					iframe_enabled, iframe_title, iframe_description, iframe_cookies, --palette--;;iframe_texts,
 					--palette--;;iframe_colors, --palette--;;iframe_template, --palette--;;iframe_replacement_template,
@@ -73,7 +73,7 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group,
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
-					--palette--;;cookie_lifetime_settings, minify_generated_data, activate_testing_mode, disable_powered_by, disable_for_this_language, set_cookie_for_domain, cookiebanner_whitelist_regex, banner_show_again_interval',
+					--palette--;;cookie_lifetime_settings, minify_generated_data, activate_testing_mode, disable_for_this_language, set_cookie_for_domain, cookiebanner_whitelist_regex, banner_show_again_interval',
 		],
 	],
 	'palettes' => [
@@ -179,7 +179,8 @@ $configuration = [
 		],
 		'cookie_lifetime_settings' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.cookie_lifetime_settings',
-			'showitem' => 'cookie_lifetime, session_only_essential_cookies'
+			'showitem' => 'cookie_lifetime, session_only_essential_cookies, --linebreak--,
+				banner_show_again_interval'
 		],
 	],
 	'columns' => [
@@ -1005,6 +1006,7 @@ $configuration = [
 		'cookie_lifetime' => [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.cookie_lifetime',
+			'l10n_mode' => 'exclude',
 			'config' => [
 				'type' => 'input',
 				'default' => '365',

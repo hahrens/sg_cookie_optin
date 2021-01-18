@@ -25,13 +25,14 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	cookie_lifetime_text varchar(255) DEFAULT 'Laufzeit' NOT NULL,
 	save_confirmation_text varchar(255) DEFAULT 'Cookie-Einstellungen erfolgreich gespeichert' NOT NULL,
 
-	# template
+	-- template
 	template_html text NOT NULL,
 	template_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	template_selection int(11) DEFAULT '0' NOT NULL,
+	disable_powered_by tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 
-	# banner
+	-- banner
 	banner_enable tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	banner_html text NOT NULL,
 	banner_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
@@ -51,7 +52,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	banner_button_settings_text varchar(255) DEFAULT 'Einstellungen' NOT NULL,
 	banner_description text NOT NULL,
 
-	# template colors
+	-- template colors
 	color_box varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	color_headline varchar(10) DEFAULT '#373737' NOT NULL,
 	color_text varchar(10) DEFAULT '#373737' NOT NULL,
@@ -78,7 +79,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_button_close_hover varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	color_button_close_text varchar(10) DEFAULT '#373737' NOT NULL,
 
-	# Template Full
+	-- Template Full
 	color_full_box varchar(10) DEFAULT '#143D59' NOT NULL,
 	color_full_headline varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	color_full_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
@@ -129,7 +130,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	show_button_close tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	activate_testing_mode tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	banner_show_again_interval int(11) unsigned DEFAULT '14' NOT NULL,
-	disable_powered_by tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	disable_for_this_language tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	set_cookie_for_domain varchar(255) DEFAULT '' NOT NULL,
 	cookiebanner_whitelist_regex TEXT NOT NULL,

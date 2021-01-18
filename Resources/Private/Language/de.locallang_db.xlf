@@ -98,8 +98,8 @@
 				<target><![CDATA[Button zum Akzeptieren ausgewählter Skripte & Cookies]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode" approved="yes">
-				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
-				<target><![CDATA[Aktiviere den Test-Modus (Der Parameter "?showOptIn=1" muss an die URL angefügt werden)]]></target>
+				<source><![CDATA[Activate TEST mode (dialog not active, add "?showOptIn=1" to the URL to get the dialog.)]]></source>
+				<target><![CDATA[Aktiviere den TEST-Modus (Dialog nicht aktiv, der Parameter "?showOptIn=1" muss an die URL angefügt werden um den Dialog anzuzeigen)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_text" approved="yes">
 				<source><![CDATA[Accept Button Text]]></source>
@@ -570,8 +570,8 @@
 				<target><![CDATA[Text für die Benachrichtigung, der angezeigt wird, wenn Cookie-Einstellungen gespeichert werden]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.session_only_essential_cookies" approved="yes">
-				<source><![CDATA[Set the cookie lifetime only for the current session if only essential cookies are accepted]]></source>
-				<target><![CDATA[Die Lebensdauer des Cookies nur für die aktuelle Sitzung festlegen, wenn nur wesentliche Cookies akzeptiert werden]]></target>
+				<source><![CDATA[Show the dialog again in the next user session if only essential cookies are accepted.]]></source>
+				<target><![CDATA[Zeigen Sie den Dialog in der nächsten Benutzersitzung erneut an, wenn nur wesentliche Cookies akzeptiert werden.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain" approved="yes">
 				<source><![CDATA[Override what domain this cookie is set for]]></source>

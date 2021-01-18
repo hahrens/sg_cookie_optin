@@ -76,7 +76,7 @@
 				<source><![CDATA[Button for Accepting Selected Cookies & Scripts]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode">
-				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
+				<source><![CDATA[Activate TEST mode (dialog not active, add "?showOptIn=1" to the URL to get the dialog.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_text">
 				<source><![CDATA[Accept Button Text]]></source>
@@ -430,7 +430,7 @@
 				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.session_only_essential_cookies">
-				<source><![CDATA[Set the cookie lifetime only for the current session if only essential cookies are accepted]]></source>
+				<source><![CDATA[Show the dialog again in the next user session if only essential cookies are accepted.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain">
 				<source><![CDATA[Override what domain this cookie is set for]]></source>
