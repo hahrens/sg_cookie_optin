@@ -1082,7 +1082,6 @@ $configuration = [
 		],
 		'disable_for_this_language' => [
 			'exclude' => FALSE,
-			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.disable_for_this_language',
 			'config' => [
 				'type' => 'check',
