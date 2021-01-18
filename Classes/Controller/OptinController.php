@@ -341,6 +341,15 @@ class OptinController extends ActionController {
 	}
 
 	/**
+	 * Displays the user preference statistics
+	 *
+	 * @return string
+	 */
+	public function statisticsAction() {
+		$this->initComponents();
+	}
+
+	/**
 	 * Initialize the demo mode check and the doc header components
 	 */
 	protected function initComponents() {

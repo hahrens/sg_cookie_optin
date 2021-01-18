@@ -216,6 +216,12 @@
 			<trans-unit id="mlang_tabs_tab">
 				<source><![CDATA[Tracking / Cookies]]></source>
 			</trans-unit>
+			<trans-unit id="backend.settings_action" approved="yes">
+				<source><![CDATA[Settings]]></source>
+			</trans-unit>
+			<trans-unit id="backend.statistics_action" approved="yes">
+				<source><![CDATA[Statistics]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

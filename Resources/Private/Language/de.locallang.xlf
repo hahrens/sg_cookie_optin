@@ -285,6 +285,14 @@
 				<source><![CDATA[Tracking / Cookies]]></source>
 				<target><![CDATA[Tracking / Cookies]]></target>
 			</trans-unit>
+			<trans-unit id="backend.settings_action" approved="yes">
+				<source><![CDATA[Settings]]></source>
+				<target><![CDATA[Einstellungen]]></target>
+			</trans-unit>
+			<trans-unit id="backend.statistics_action" approved="yes">
+				<source><![CDATA[Statistics]]></source>
+				<target><![CDATA[Statistiken]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

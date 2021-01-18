@@ -53,13 +53,13 @@ class OptinHistoryService {
 				throw new SaveOptinHistoryException('Invalid input');
 			}
 
-			$insertData = self::prepareInsertData($jsonInput);
+			$insertData = self::prepareInsertData($jsonInput, self::TYPE_GROUP);
 
 			if (count($insertData) < 1) {
 				throw new SaveOptinHistoryException('No data to save');
 			}
 
-			if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) <= 9000000) {
+			if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) {
 				foreach ($insertData as $data) {
 					$GLOBALS['TYPO3_DB']->exec_INSERTquery('tx_sgcookieoptin_domain_model_user_preference', $data);
 				}
@@ -100,27 +100,25 @@ class OptinHistoryService {
 	/**
 	 * Parses the json input and prepares an array with the data to insert
 	 *
-	 * @param $jsonInput
+	 * @param array $jsonInput
+	 * @param int $itemType
 	 * @return array
 	 */
-	private static function prepareInsertData($jsonInput) {
+	private static function prepareInsertData($jsonInput, $itemType) {
 		$insertData = [];
 		$cookieValuePairs = explode('|', $jsonInput['cookieValue']);
 		foreach ($cookieValuePairs as $pair) {
 			list($groupName, $value) = explode(':', $pair);
 			$insertData[] = [
-				'user_uid' => $jsonInput['uuid'],
+				'user_hash' => $jsonInput['uuid'],
 				'version' => $jsonInput['version'],
 				'crdate' => $jsonInput['timestamp'],
 				'tstamp' => $jsonInput['timestamp'],
 				'item_identifier' => $groupName,
-				'item_type' => self::TYPE_GROUP,
+				'item_type' => $itemType,
 				'is_all' => (int) $jsonInput['isAll'],
 				'is_accepted' => (int) $value,
 				'pid' => $jsonInput['identifier'],
-				'cruser_id' => 0,
-				'hidden' => 0,
-				'deleted' => 0,
 			];
 		}
 		return $insertData;

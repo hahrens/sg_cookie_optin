@@ -253,18 +253,14 @@ CREATE TABLE tx_sgcookieoptin_domain_model_user_preference (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) unsigned DEFAULT '0' NOT NULL,
 
-	user_uid VARCHAR(255) NOT NULL,
+	user_hash VARCHAR(255) NOT NULL,
 	version int(11) unsigned NOT NULL,
 	item_identifier varchar(255) NOT NULL,
 	item_type int(11) unsigned NOT NULL,
-	is_accepted tinyint(4) unsigned  NOT NULL,
+	is_accepted tinyint(4) unsigned NOT NULL,
 	is_all tinyint(4) unsigned NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY user_uid (user_uid),
