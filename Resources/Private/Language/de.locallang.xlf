@@ -174,8 +174,12 @@
 				<target><![CDATA[Lizenzstatus]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.status.okMessage" approved="yes">
-				<source><![CDATA[Your license is valid until %s]]></source>
-				<target><![CDATA[Ihre Lizenz ist gültig bis %s]]></target>
+				<source><![CDATA[Your update period is valid until %s.]]></source>
+				<target><![CDATA[Ihre Update-Zeitraum ist gültig bis %s.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.status.backend.licenceCheck.status.lifetime" approved="yes">
+				<source><![CDATA[end of product life]]></source>
+				<target><![CDATA[Ende der Produkt-Lebenszeit]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.description" approved="yes">
 				<source><![CDATA[The license key of this extension is invalid. Some functions like the important file generation are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>

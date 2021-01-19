@@ -160,7 +160,7 @@ class LicenceCheckService {
 	 * @param string $licenseKey
 	 * @return bool
 	 */
-	private static function shouldCheckKey($licenseKey) {
+	public static function shouldCheckKey($licenseKey) {
 		if ($licenseKey !== self::getLastKey()) {
 			self::clearRegistryValues();
 			return TRUE;
@@ -202,6 +202,7 @@ class LicenceCheckService {
 		}
 
 		if (!self::isLicenseValid($licenseKey)) {
+			self::setLastKey($licenseKey);
 			self::setValidLicense(FALSE);
 			self::setValidLicenseUntilTimestamp(0);
 			self::setLastLicenseCheckTimestamp();
@@ -232,7 +233,7 @@ class LicenceCheckService {
 	 *
 	 * @return mixed|null
 	 */
-	protected static function getLastKey() {
+	public static function getLastKey() {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		return $registry->get(self::REGISTRY_NAMESPACE, self::LAST_LICENSE_KEY_CHECKED_KEY);
 	}
@@ -554,6 +555,12 @@ class LicenceCheckService {
 
 		/** @noinspection SuspiciousAssignmentsInspection */
 		$date = date('d.m.Y', self::getValidUntil());
+		// 19.01.2038 == lifetime license
+		if ($date === '19.01.2038') {
+			$date =  LocalizationUtility::translate(
+				'backend.licenceCheck.status.lifetime', 'sg_cookie_optin'
+			);
+		}
 		return [
 			'error' => 0,
 			'title' => LocalizationUtility::translate('backend.licenceCheck.status.title', 'sg_cookie_optin'),

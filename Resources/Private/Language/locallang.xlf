@@ -136,7 +136,10 @@
 				<source><![CDATA[License Status]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.status.okMessage" approved="yes">
-				<source><![CDATA[Your license is valid until %s]]></source>
+				<source><![CDATA[Your update period is valid until %s.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.status.lifetime" approved="yes">
+				<source><![CDATA[end of product life]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.warning.title">
 				<source><![CDATA[License Check: Warning!]]></source>
