@@ -34,6 +34,7 @@ use SGalinski\SgCookieOptin\Service\DemoModeService;
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
+use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
@@ -70,6 +71,7 @@ class OptinController extends ActionController {
 	 */
 	public function indexAction(array $parameters = []) {
 		$this->initComponents();
+		$licenseStatus = LicenceCheckService::getLicenseCheckResponseData();
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
@@ -88,6 +90,9 @@ class OptinController extends ActionController {
 		}
 
 		$this->view->assign('pages', BackendService::getPages());
+		$this->view->assign('licenseError', $licenseStatus['error']);
+		$this->view->assign('licenseMessage', $licenseStatus['message']);
+		$this->view->assign('licenseTitle', $licenseStatus['title']);
 	}
 
 	/**

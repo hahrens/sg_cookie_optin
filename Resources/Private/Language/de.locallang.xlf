@@ -169,6 +169,14 @@
 				<source><![CDATA[License Check: Warning!]]></source>
 				<target><![CDATA[Lizenzprüfung: Warnung!]]></target>
 			</trans-unit>
+			<trans-unit id="backend.licenceCheck.status.title" approved="yes">
+				<source><![CDATA[License Status]]></source>
+				<target><![CDATA[Lizenzstatus]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.status.okMessage" approved="yes">
+				<source><![CDATA[Your license is valid until %s]]></source>
+				<target><![CDATA[Ihre Lizenz ist gültig bis %s]]></target>
+			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.description" approved="yes">
 				<source><![CDATA[The license key of this extension is invalid. Some functions like the important file generation are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
 				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist ungültig. Einige Funktionen wie die notwendige Dateigenerierung sind deaktiviert. Bitte stelle sicher, dass die Lizenz korrekt eingefügt wurde. Diese können im Backend-Modul "Erweiterungen" unter "sg_cookie_optin" eingesehen werden.]]></target>

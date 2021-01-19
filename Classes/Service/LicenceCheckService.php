@@ -134,6 +134,7 @@ class LicenceCheckService {
 		'3.0' => 1583361764, // 2020-03-04T22:42:44Z
 		'3.1' => 1588958065, // 2020-05-08T17:14:25Z
 		'3.2' => 1600032423, // 2020-09-13T21:27:03Z
+		'3.3' => 1610914552, // 2021-01-17T20:15:52Z
 	];
 
 	/**
@@ -515,7 +516,7 @@ class LicenceCheckService {
 					'backend.licenceCheck.noLicenseKey', 'sg_cookie_optin', [
 						LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')
 					]
-				),
+				)
 			];
 		}
 
@@ -528,7 +529,7 @@ class LicenceCheckService {
 					'backend.licenceCheck.expiredError.message', 'sg_cookie_optin', [
 						LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')
 					]
-				),
+				)
 			];
 		}
 
@@ -550,8 +551,17 @@ class LicenceCheckService {
 				];
 			}
 		}
+
+		/** @noinspection SuspiciousAssignmentsInspection */
+		$date = date('d.m.Y', self::getValidUntil());
 		return [
-			'error' => 0
+			'error' => 0,
+			'title' => LocalizationUtility::translate('backend.licenceCheck.status.title', 'sg_cookie_optin'),
+			'message' => LocalizationUtility::translate(
+				'backend.licenceCheck.status.okMessage', 'sg_cookie_optin', [
+					$date
+				]
+			)
 		];
 	}
 }

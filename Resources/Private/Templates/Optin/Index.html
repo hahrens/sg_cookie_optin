@@ -69,6 +69,31 @@
 			</f:if>
 
 			<div class="typo3-messages">
+				<f:if condition="{licenseError} == '0'">
+					<f:then><div class="alert alert-info"></f:then>
+					<f:else if="{licenseError} == '1'"><div class="alert alert-danger"></f:else>
+					<f:else if="{licenseError} == '2'"><div class="alert alert-warning"></f:else>
+				</f:if>
+					<div class="media">
+						<div class="media-left">
+							<span class="fa-stack fa-lg">
+								<i class="fa fa-circle fa-stack-2x"></i>
+								<f:if condition="{licenseError} == '1'">
+									<f:then><i class="fa fa-times fa-stack-1x"></i></f:then>
+									<f:else><i class="fa fa-info fa-stack-1x"></i></f:else>
+								</f:if>
+
+							</span>
+						</div>
+						<div class="media-body">
+							<h4 class="alert-title">{licenseTitle}</h4>
+							<p class="alert-message">{licenseMessage}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="typo3-messages">
 				<div class="alert">
 					<div class="media">
 						<div class="media-left">

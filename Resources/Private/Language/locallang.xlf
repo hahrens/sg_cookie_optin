@@ -126,6 +126,12 @@
 			<trans-unit id="backend.licenceCheck.shopLink">
 				<source><![CDATA[our shop]]></source>
 			</trans-unit>
+			<trans-unit id="backend.licenceCheck.status.title" approved="yes">
+				<source><![CDATA[License Status]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.status.okMessage" approved="yes">
+				<source><![CDATA[Your license is valid until %s]]></source>
+			</trans-unit>
 			<trans-unit id="backend.licenceCheck.warning.title">
 				<source><![CDATA[License Check: Warning!]]></source>
 			</trans-unit>
