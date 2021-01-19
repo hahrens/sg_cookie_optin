@@ -45,6 +45,12 @@
 			<trans-unit id="backend.importConfig">
 				<source><![CDATA[Import Configuration]]></source>
 			</trans-unit>
+			<trans-unit id="backend.jsonExport.error">
+				<source><![CDATA[Could not export the configuration because of the following error:]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonExport.error.exactlyOneEntry">
+				<source><![CDATA[You must have exactly one configuration entry in order to use the export.]]></source>
+			</trans-unit>
 			<trans-unit id="backend.jsonImport.cookies">
 				<source><![CDATA[Cookies]]></source>
 			</trans-unit>

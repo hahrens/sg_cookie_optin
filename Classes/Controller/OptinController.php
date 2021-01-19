@@ -39,6 +39,7 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
@@ -92,7 +93,6 @@ class OptinController extends ActionController {
 	/**
 	 * Activates the demo mode for the given instance.
 	 *
-	 * @return void
 	 * @throws UnsupportedRequestTypeException
 	 * @throws StopActionException
 	 */
@@ -315,6 +315,20 @@ class OptinController extends ActionController {
 	public function exportJsonAction() {
 		try {
 			$pid = (int) GeneralUtility::_GP('id');
+
+			$connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('tx_sgcookieoptin_domain_model_optin');
+			$queryBuilder = $connection->createQueryBuilder();
+			$queryBuilder
+				->from('tx_sgcookieoptin_domain_model_optin')
+				->select('uid')
+				->where('pid = :pid')
+				->andWhere('l10n_parent = 0')
+				->setParameter('pid', $pid);
+			$data = $queryBuilder->execute();
+			if ($data->rowCount() !== 1) {
+				throw new JsonImportException(LocalizationUtility::translate('backend.jsonExport.error.exactlyOneEntry', 'sg_cookie_optin'));
+			}
+
 			$folder = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_FOLDER);
 			$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . DIRECTORY_SEPARATOR;
 			$filesPath = $sitePath . $folder . 'siteroot-' . $pid . DIRECTORY_SEPARATOR;
@@ -336,7 +350,12 @@ class OptinController extends ActionController {
 			echo json_encode($jsonData, TRUE);
 			die();
 		} catch (Exception $exception) {
-			return 'Could not export the configuration because of the following error: ' . $exception->getMessage();
+			$this->addFlashMessage(
+				LocalizationUtility::translate('backend.jsonExport.error', 'sg_cookie_optin') . $exception->getMessage(),
+				LocalizationUtility::translate('backend.exportConfig', 'sg_cookie_optin'),
+				AbstractMessage::ERROR
+			);
+			$this->redirect('index');
 		}
 	}
 

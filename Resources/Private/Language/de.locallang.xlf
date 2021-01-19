@@ -57,6 +57,14 @@
 				<source><![CDATA[Import Configuration]]></source>
 				<target><![CDATA[Konfiguration importieren]]></target>
 			</trans-unit>
+			<trans-unit id="backend.jsonExport.error" approved="yes">
+				<source><![CDATA[Could not export the configuration because of the following error:]]></source>
+				<target><![CDATA[Die Konfiguration konnte wegen des folgenden Fehlers nicht exportiert werden:]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonExport.error.exactlyOneEntry" approved="yes">
+				<source><![CDATA[You must have exactly one configuration entry in order to use the export.]]></source>
+				<target><![CDATA[Sie müssen genau einen Konfigurationseintrag haben, um den Export nutzen zu können.]]></target>
+			</trans-unit>
 			<trans-unit id="backend.jsonImport.cookies" approved="yes">
 				<source><![CDATA[Cookies]]></source>
 				<target><![CDATA[Cookies]]></target>
