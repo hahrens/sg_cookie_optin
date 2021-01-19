@@ -349,6 +349,10 @@
 				<source><![CDATA[Don't show cookie banner on the following page URIs. Every new line is interpreted as a new regular expression. Syntax errors may lead to issues on your website!]]></source>
 				<target><![CDATA[Das Cookie-Banner auf diesen Seiten/URLs nicht anzeigen. Jede neue Zeile wird als ein regulärer Ausdruck interpretiert. Syntax-Fehler können zu Problemen auf der Website führen!]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookiebanner_whitelist_regex.description" approved="yes">
+				<source><![CDATA[Please note that you have to include your translated page slugs as well. For example if you want to exclude your privacy policy page in both English and German you must add privacy-policy.html as well as datenschutz.html to the list.]]></source>
+				<target><![CDATA[Bitte beachten Sie, dass Sie auch Ihre übersetzten Seiten-Slugs mit aufnehmen müssen. Wenn Sie z. B. Ihre Datenschutzseite sowohl auf Englisch als auch auf Deutsch ausschließen möchten, müssen Sie sowohl privacy-policy.html als auch datenschutz.html in die Liste aufnehmen.]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description" approved="yes">
 				<source><![CDATA[Explanation at top of Opt-In Window]]></source>
 				<target><![CDATA[Erklärung oben im Auswahlfenster]]></target>
@@ -577,7 +581,7 @@
 				<source><![CDATA[Override what domain this cookie is set for]]></source>
 				<target><![CDATA[Domain, für die der Cookie gesetzt werden soll, überschreiben]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea" approved="yes" xml:space="preserve">
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea" approved="yes">
 				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
 Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example by writing example.com so that the configuration is used for both dev.example.com and www.example.com.]]></source>
 				<target><![CDATA[!!! Dies ist im Normalfall nicht DSVGO-konform. Setzen Sie dies auf eigenes Risiko !!!

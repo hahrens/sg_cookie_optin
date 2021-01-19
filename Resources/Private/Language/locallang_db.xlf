@@ -264,6 +264,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookiebanner_whitelist_regex">
 				<source><![CDATA[Don't show cookie banner on the following page URIs. Every new line is interpreted as a new regular expression. Syntax errors may lead to issues on your website!]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookiebanner_whitelist_regex.description">
+				<source><![CDATA[Please note that you have to include your translated page slugs as well. For example if you want to exclude your privacy policy page in both English and German you must add privacy-policy.html as well as datenschutz.html to the list.]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description">
 				<source><![CDATA[Explanation at top of Opt-In Window]]></source>
 			</trans-unit>
@@ -435,7 +438,7 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain">
 				<source><![CDATA[Override what domain this cookie is set for]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea" xml:space="preserve">
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea">
 				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
 Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example by writing example.com so that the configuration is used for both dev.example.com and www.example.com.]]></source>
 			</trans-unit>
