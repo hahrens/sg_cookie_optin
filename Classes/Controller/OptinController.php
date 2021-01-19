@@ -71,7 +71,14 @@ class OptinController extends ActionController {
 	 */
 	public function indexAction(array $parameters = []) {
 		$this->initComponents();
-		$licenseStatus = LicenceCheckService::getLicenseCheckResponseData();
+		if (LicenceCheckService::isTYPO3VersionSupported()) {
+			$licenseStatus = LicenceCheckService::getLicenseCheckResponseData();
+			$this->view->assign('licenseError', $licenseStatus['error']);
+			$this->view->assign('licenseMessage', $licenseStatus['message']);
+			$this->view->assign('licenseTitle', $licenseStatus['title']);
+		}
+
+
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
@@ -90,9 +97,6 @@ class OptinController extends ActionController {
 		}
 
 		$this->view->assign('pages', BackendService::getPages());
-		$this->view->assign('licenseError', $licenseStatus['error']);
-		$this->view->assign('licenseMessage', $licenseStatus['message']);
-		$this->view->assign('licenseTitle', $licenseStatus['title']);
 	}
 
 	/**
