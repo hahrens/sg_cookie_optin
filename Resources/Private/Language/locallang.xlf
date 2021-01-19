@@ -115,10 +115,16 @@
 				<source><![CDATA[License Check: Error!]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiredError.message">
-				<source><![CDATA[Your Cookie Optin Extension license has expired. Please renew it from %s.]]></source>
+				<source><![CDATA[Your Cookie Optin Extension license has expired. Please buy a new one from %s.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiringWarning.message">
 				<source><![CDATA[Your Cookie Optin Extension license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.hasChanges.message" approved="yes">
+				<source><![CDATA[You have changed your configuration. Please clear the frontend cache to make sure your new configuration changes effect. If you have deleted your configuration. please delete the files sg-cookie-optin files in your fileadmin directory.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.hasChanges.title" approved="yes">
+				<source><![CDATA[Your configuration has changed]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.noLicenseKey">
 				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it.]]></source>

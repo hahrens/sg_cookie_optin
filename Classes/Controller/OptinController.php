@@ -71,13 +71,25 @@ class OptinController extends ActionController {
 	 */
 	public function indexAction(array $parameters = []) {
 		$this->initComponents();
-		if (LicenceCheckService::isTYPO3VersionSupported()) {
+
+		if (LicenceCheckService::isTYPO3VersionSupported()
+			&& (LicenceCheckService::isTimeForNextCheck()
+			|| LicenceCheckService::shouldCheckKey(LicenceCheckService::getLicenseKey()))) {
 			$licenseStatus = LicenceCheckService::getLicenseCheckResponseData();
 			$this->view->assign('licenseError', $licenseStatus['error']);
 			$this->view->assign('licenseMessage', $licenseStatus['message']);
 			$this->view->assign('licenseTitle', $licenseStatus['title']);
 		}
 
+		session_start();
+		if (isset($_SESSION['tx_sgcookieoptin']['configurationChanged'])) {
+			unset($_SESSION['tx_sgcookieoptin']['configurationChanged']);
+			$this->addFlashMessage(
+				LocalizationUtility::translate('backend.hasChanges.message', 'sg_cookie_optin'),
+				LocalizationUtility::translate('backend.hasChanges.title', 'sg_cookie_optin'),
+				AbstractMessage::INFO
+			);
+		}
 
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
@@ -157,6 +169,7 @@ class OptinController extends ActionController {
 			}
 
 			unset($_SESSION['tx_sgcookieoptin']['importJsonData']);
+			$_SESSION['tx_sgcookieoptin']['configurationChanged'] = TRUE;
 			$this->redirectToTCAEdit($defaultLanguageOptinId);
 		} catch (Exception $exception) {
 			$this->addFlashMessage(

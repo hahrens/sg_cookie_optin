@@ -80,6 +80,8 @@ class GenerateFilesAfterTcaSave {
 	 * @throws \TYPO3\CMS\Core\Http\ImmediateResponseException
 	 */
 	public function processDatamap_afterAllOperations(DataHandler $dataHandler) {
+		$this->handleFlashMessage($dataHandler);
+
 		if (!isset($dataHandler->datamap[self::TABLE_NAME])) {
 			return;
 		}
@@ -254,6 +256,18 @@ class GenerateFilesAfterTcaSave {
 
 		// reset the TSFE to it's previous state to not influence remaining code
 		$GLOBALS['TSFE'] = $originalTSFE;
+	}
+
+	/**
+	 * Checks if we edited/deleted something and saves data in the session for the controller to make a flash message
+	 *
+	 * @param DataHandler $dataHandler
+	 */
+	protected function handleFlashMessage(DataHandler $dataHandler) {
+		if (isset($dataHandler->cmdmap[self::TABLE_NAME]) || isset($dataHandler->datamap[self::TABLE_NAME])) {
+			session_start();
+			$_SESSION['tx_sgcookieoptin']['configurationChanged'] = TRUE;
+		}
 	}
 
 	/**
