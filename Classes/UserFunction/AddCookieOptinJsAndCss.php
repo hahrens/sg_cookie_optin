@@ -96,7 +96,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			// for easier debugging, you can check the generated file in the fileadmin
 			// see https://gitlab.sgalinski.de/typo3/sg_cookie_optin/-/issues/118
 			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
-			if (isset($jsonData['settings']['disable_for_this_language']) && !$jsonData['settings']['disable_for_this_language']) {
+			if (!$jsonData['settings']['disable_for_this_language']) {
 				return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
 					'</script><script src="' . $siteBaseUrl . $file . '" type="text/javascript" data-ignore="1"></script>';
 			}
