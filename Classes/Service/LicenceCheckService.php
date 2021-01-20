@@ -57,6 +57,7 @@ class LicenceCheckService {
 	const HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY = 'hasValidLicenseUntilTimestamp';
 	const LICENSE_CHECKED_IN_VERSION_KEY = 'licenceCheckedInVersion';
 	const LAST_CHECKED_TIMESTAMP_KEY = 'lastCheckedTimestamp';
+	const LAST_AJAX_TIMESTAMP_KEY = 'lastAjaxTimestamp';
 	const LAST_LICENSE_KEY_CHECKED_KEY = 'lastLicenseKeyChecked';
 
 	/**
@@ -162,7 +163,6 @@ class LicenceCheckService {
 	 */
 	public static function shouldCheckKey($licenseKey) {
 		if ($licenseKey !== self::getLastKey()) {
-			self::clearRegistryValues();
 			return TRUE;
 		}
 
@@ -170,11 +170,12 @@ class LicenceCheckService {
 			return TRUE;
 		}
 
-		if (self::getValidLicenseUntilTimestamp() < $GLOBALS['EXEC_TIME']) {
-			return TRUE;
-		}
-
-		return FALSE;
+		// the license was valid last time we checked, but it has expired and we haven't done another check since it expired
+		// let's make sure we don't have the wrong state in this case
+		$licenseExpirationDate = self::getValidLicenseUntilTimestamp();
+		/** @noinspection NotOptimalIfConditionsInspection */
+		return self::getValidLicense() && $licenseExpirationDate < $GLOBALS['EXEC_TIME']
+			&& $licenseExpirationDate >= self::getLastLicenseCheckTimestamp();
 	}
 
 	/**
@@ -194,7 +195,9 @@ class LicenceCheckService {
 	public static function hasValidLicense() {
 		$licenseKey = self::getLicenseKey();
 		if (!self::shouldCheckKey($licenseKey)) {
-			return TRUE;
+			return self::getValidLicense();
+		} else {
+			self::clearRegistryValues();
 		}
 
 		if (!self::isLicenseServerReachable()) {
@@ -204,6 +207,7 @@ class LicenceCheckService {
 		if (!self::isLicenseValid($licenseKey)) {
 			self::setLastKey($licenseKey);
 			self::setValidLicense(FALSE);
+			self::setLicenseCheckedInVersion(self::CURRENT_VERSION);
 			self::setValidLicenseUntilTimestamp(0);
 			self::setLastLicenseCheckTimestamp();
 		} else {
@@ -244,6 +248,7 @@ class LicenceCheckService {
 	 * @param bool $isValid
 	 */
 	protected static function setValidLicense($isValid) {
+		$isValid = (bool) $isValid;
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		$registry->set(self::REGISTRY_NAMESPACE, self::IS_KEY_VALID_KEY, $isValid);
 	}
@@ -251,11 +256,11 @@ class LicenceCheckService {
 	/**
 	 * Gets the isValid from the registry
 	 *
-	 * @return mixed|null
+	 * @return bool
 	 */
 	protected static function getValidLicense() {
 		$registry = GeneralUtility::makeInstance(Registry::class);
-		return $registry->get(self::REGISTRY_NAMESPACE, self::IS_KEY_VALID_KEY);
+		return (bool) $registry->get(self::REGISTRY_NAMESPACE, self::IS_KEY_VALID_KEY);
 	}
 
 	/**
@@ -331,9 +336,27 @@ class LicenceCheckService {
 	 *
 	 * @return mixed|null
 	 */
-	protected static function getLastLicenseCheckTimestamp() {
+	public static function getLastLicenseCheckTimestamp() {
 		$registry = GeneralUtility::makeInstance(Registry::class);
 		return $registry->get(self::REGISTRY_NAMESPACE, self::LAST_CHECKED_TIMESTAMP_KEY);
+	}
+
+	/**
+	 * Sets the timestamp of the last AJAX Notification check in the registry
+	 */
+	public static function setLastAjaxNotificationCheckTimestamp() {
+		$registry = GeneralUtility::makeInstance(Registry::class);
+		$registry->set(self::REGISTRY_NAMESPACE, self::LAST_AJAX_TIMESTAMP_KEY, $GLOBALS['EXEC_TIME']);
+	}
+
+	/**
+	 * Gets the timestamp of the last AJAX Notification check from the registry
+	 *
+	 * @return mixed|null
+	 */
+	protected static function getLastAjaxNotificationCheckTimestamp() {
+		$registry = GeneralUtility::makeInstance(Registry::class);
+		return $registry->get(self::REGISTRY_NAMESPACE, self::LAST_AJAX_TIMESTAMP_KEY);
 	}
 
 	/**
@@ -347,6 +370,7 @@ class LicenceCheckService {
 		$registry->remove(self::REGISTRY_NAMESPACE, self::IS_KEY_VALID_KEY);
 		$registry->remove(self::REGISTRY_NAMESPACE, self::LAST_LICENSE_KEY_CHECKED_KEY);
 		$registry->remove(self::REGISTRY_NAMESPACE, self::LAST_WARNING_TIMESTAMP_KEY);
+		$registry->remove(self::REGISTRY_NAMESPACE, self::LAST_AJAX_TIMESTAMP_KEY);
 	}
 
 	/**
@@ -498,16 +522,17 @@ class LicenceCheckService {
 	 * @return bool
 	 */
 	public static function isTimeForNextCheck() {
-		return self::getLastLicenseCheckTimestamp(
-			) + self::AMOUNT_OF_DAYS_UNTIL_NEXT_CHECK * 24 * 60 * 60 < $GLOBALS['EXEC_TIME'];
+		return self::getLastAjaxNotificationCheckTimestamp()
+			+ self::AMOUNT_OF_DAYS_UNTIL_NEXT_CHECK * 24 * 60 * 60 < $GLOBALS['EXEC_TIME'];
 	}
 
 	/**
 	 * Performs the license check and returns the output data to the frontend
 	 *
-	 * @return array|int[]
+	 * @param bool $isAjaxCheck
+	 * @return array
 	 */
-	public static function getLicenseCheckResponseData() {
+	public static function getLicenseCheckResponseData($isAjaxCheck = false) {
 		// if the key is empty - error
 		if (!self::getLicenseKey()) {
 			return [
@@ -538,9 +563,17 @@ class LicenceCheckService {
 		// on the valid version
 		if (self::getValidUntil() < $GLOBALS['EXEC_TIME']) {
 			$date = date('d.m.Y', self::getValidUntil());
-			$lastWarningTimestamp = (int) self::getLastWarningTimestamp();
-			if ($lastWarningTimestamp + self::AMOUNT_OF_DAYS_UNTIL_WARNING * 24 * 60 * 60 < $GLOBALS['EXEC_TIME']) {
-				self::setLastWarningTimestamp($GLOBALS['EXEC_TIME']);
+
+			if ($isAjaxCheck) {
+				$lastWarningTimestamp = (int) self::getLastWarningTimestamp(); // relevant only for the AJAX notifications
+			}
+
+			if (!$isAjaxCheck || ($lastWarningTimestamp + self::AMOUNT_OF_DAYS_UNTIL_WARNING * 24 * 60 * 60 < $GLOBALS['EXEC_TIME'])) {
+
+				if ($isAjaxCheck) {
+					self::setLastWarningTimestamp($GLOBALS['EXEC_TIME']);
+				}
+
 				return [
 					'error' => 2,
 					'title' => LocalizationUtility::translate('backend.licenceCheck.warning.title', 'sg_cookie_optin'),

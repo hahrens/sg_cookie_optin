@@ -72,7 +72,7 @@ class OptinController extends ActionController {
 	public function indexAction(array $parameters = []) {
 		$this->initComponents();
 
-		if (LicenceCheckService::isTYPO3VersionSupported()) {
+		if (LicenceCheckService::isTYPO3VersionSupported() && !LicenceCheckService::isInDevelopmentContext()) {
 			$licenseStatus = LicenceCheckService::getLicenseCheckResponseData();
 			$this->view->assign('licenseError', $licenseStatus['error']);
 			$this->view->assign('licenseMessage', $licenseStatus['message']);

@@ -158,8 +158,8 @@
 				<target><![CDATA[Ihre Cookie-Optin-Erweiterung-Lizenz ist am %s abgelaufen, aber Ihre Version wird noch mit dieser Lizenz unterstützt. Bitte erneuern Sie sie ab %s, damit Sie von unseren neusten Versionen profitieren können.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.noLicenseKey" approved="yes">
-				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it.]]></source>
-				<target><![CDATA[Sie haben keinen Lizenzschlüssel für die Cookie-Optin-Erweiterung eingegeben. Bitte erwerben Sie einen Schlüssel aus %s und geben Sie ihn ein.]]></target>
+				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it in the extension configuration.]]></source>
+				<target><![CDATA[Sie haben keinen Lizenzschlüssel für die Cookie-Optin-Erweiterung eingegeben. Bitte erwerben Sie einen Schlüssel aus %s und geben Sie ihn in die Erweiterungs-Konfiguration ein.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.shopLink" approved="yes">
 				<source><![CDATA[our shop]]></source>

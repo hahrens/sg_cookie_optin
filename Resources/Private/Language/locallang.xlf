@@ -127,7 +127,7 @@
 				<source><![CDATA[Your configuration has changed]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.noLicenseKey">
-				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it.]]></source>
+				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it in the extension configuration.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.shopLink">
 				<source><![CDATA[our shop]]></source>
