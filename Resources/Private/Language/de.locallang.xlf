@@ -150,8 +150,8 @@
 				<target><![CDATA[Lizenzprüfung: Fehler!]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiredError.message" approved="yes">
-				<source><![CDATA[Your Cookie Optin Extension license has expired. Please buy a new one from %s.]]></source>
-				<target><![CDATA[Ihre Cookie-Optin-Erweiterung-Lizenz ist abgelaufen. Bitte kaufen Sie eine neue von %s.]]></target>
+				<source><![CDATA[Your Cookie Optin Extension update license has expired or is invalid. You can buy a new license one from %s.]]></source>
+				<target><![CDATA[Ihre Cookie-Optin-Erweiterung-Update-Lizenz ist ungültig oder abgelaufen. Erwerben Sie eine neue Lizenz von %s.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiringWarning.message" approved="yes">
 				<source><![CDATA[Your Cookie Optin Extension license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
@@ -162,8 +162,8 @@
 				<target><![CDATA[Sie haben keinen Lizenzschlüssel für die Cookie-Optin-Erweiterung eingegeben. Bitte erwerben Sie einen Schlüssel aus %s und geben Sie ihn in die Erweiterungs-Konfiguration ein.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.shopLink" approved="yes">
-				<source><![CDATA[our shop]]></source>
-				<target><![CDATA[unserem Shop]]></target>
+				<source><![CDATA[our shop (https://shop.sgalinski.de)]]></source>
+				<target><![CDATA[unserem Shop (https://shop.sgalinski.de)]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.warning.title" approved="yes">
 				<source><![CDATA[License Check: Warning!]]></source>
@@ -177,9 +177,9 @@
 				<source><![CDATA[Your update period is valid until %s.]]></source>
 				<target><![CDATA[Ihre Update-Zeitraum ist gültig bis %s.]]></target>
 			</trans-unit>
-			<trans-unit id="backend.licenceCheck.status.backend.licenceCheck.status.lifetime" approved="yes">
+			<trans-unit id="backend.licenceCheck.status.lifetime" approved="yes">
 				<source><![CDATA[end of product life]]></source>
-				<target><![CDATA[Ende der Produkt-Lebenszeit]]></target>
+				<target><![CDATA[zum Ende der Produktlebenszeit]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.description" approved="yes">
 				<source><![CDATA[The license key of this extension is invalid. Some functions like the important file generation are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
@@ -191,7 +191,7 @@
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.header" approved="yes">
 				<source><![CDATA[The license key is invalid]]></source>
-				<target><![CDATA[Der Lizenzschlüssel ist Invalide]]></target>
+				<target><![CDATA[Der Lizenzschlüssel ist ungültig.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.isInDemoMode.description" approved="yes">
 				<source><![CDATA[The Demo mode is activated. All functions are temporarily active, but the generated files will be removed after the time expires. The database remains untouched, so you can save the data again after a purchase and the cookie window is available again and active. Remaining demo time: %s]]></source>
