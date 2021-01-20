@@ -25,12 +25,11 @@ namespace SGalinski\SgCookieOptin\Backend;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use TYPO3\CMS\Core\Http\Response;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class Ajax
@@ -60,6 +59,4 @@ class Ajax {
 		$response->getBody()->write(json_encode($responseData));
 		return $response;
 	}
-
-
 }
