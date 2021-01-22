@@ -58,7 +58,6 @@ call_user_func(
 					$showModule = !$applicationContext->isProduction();
 				}
 			}
-
 			if ($showModule) {
 				\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
 					'SGalinski.sg_cookie_optin',

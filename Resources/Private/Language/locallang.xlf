@@ -208,7 +208,7 @@
 				<source><![CDATA[Directory for generated files: The folder where the generated files should be saved (e.g. fileadmin/cookie-banner or EXT:extension_key/path/to/cookies).]]></source>
 			</trans-unit>
 			<trans-unit id="configuration.hideModuleInProductionContext">
-				<source><![CDATA[Hide Backend Module if TYPO3 is in production context]]></source>
+				<source><![CDATA[Hide Backend Module in production context (TYPO3 8+)]]></source>
 			</trans-unit>
 			<trans-unit id="configuration.licenseKey">
 				<source><![CDATA[License Key]]></source>
