@@ -86,8 +86,16 @@
 				<div class="typo3-messages">
 					<f:if condition="{licenseError} == '0'">
 						<f:then><div class="alert alert-info"></f:then>
-						<f:else if="{licenseError} == '1'"><div class="alert alert-danger"></f:else>
-						<f:else if="{licenseError} == '2'"><div class="alert alert-warning"></f:else>
+						<f:else>
+							<f:if condition="{licenseError} == '1'">
+								<f:then>
+									<div class="alert alert-danger">
+								</f:then>
+								<f:else>
+									<f:if condition="{licenseError} == '2'"><div class="alert alert-warning"></f:if>
+								</f:else>
+							</f:if>
+						</f:else>
 					</f:if>
 						<div class="media">
 							<div class="media-left">

@@ -46,7 +46,9 @@ call_user_func(
 
 			$showModule = TRUE;
 			if ($hideModuleInProductionContext) {
-				if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.2.0', '<')) {
+				if (version_compare(
+					\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.2.0', '<'
+				)) {
 					$applicationContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
 				} else {
 					$applicationContext = \TYPO3\CMS\Core\Core\Environment::getContext();
@@ -56,6 +58,7 @@ call_user_func(
 					$showModule = !$applicationContext->isProduction();
 				}
 			}
+
 			if ($showModule) {
 				\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
 					'SGalinski.sg_cookie_optin',
@@ -74,12 +77,12 @@ call_user_func(
 			}
 
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
-			        'tx_sgcookieoptin_domain_model_optin',
-			        'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_optin.xlf'
+				'tx_sgcookieoptin_domain_model_optin',
+				'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_optin.xlf'
 			);
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
-			        'tx_sgcookieoptin_domain_model_cookie',
-			        'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf'
+				'tx_sgcookieoptin_domain_model_cookie',
+				'EXT:sg_cookie_optin/Resources/Private/Language/locallang_csh_tx_sgcookieoptin_domain_model_cookie.xlf'
 			);
 		}
 	}
