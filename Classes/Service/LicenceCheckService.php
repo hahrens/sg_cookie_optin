@@ -196,9 +196,8 @@ class LicenceCheckService {
 		$licenseKey = self::getLicenseKey();
 		if (!self::shouldCheckKey($licenseKey)) {
 			return self::getValidLicense();
-		} else {
-			self::clearRegistryValues();
 		}
+		self::clearRegistryValues();
 
 		if (!self::isLicenseServerReachable()) {
 			return TRUE;

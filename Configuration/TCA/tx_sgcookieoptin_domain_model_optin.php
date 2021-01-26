@@ -24,8 +24,6 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use SGalinski\SgCookieOptin\Service\JsonImportService;
-
 $configuration = [
 	'ctrl' => [
 		'title' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin',
@@ -248,8 +246,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.description',
 			'config' => [
 				'type' => 'text',
-				'default' => JsonImportService::TEXT_BANNER_DESCRIPTION,
-				'placeholder' => JsonImportService::TEXT_BANNER_DESCRIPTION,
+				'default' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_BANNER_DESCRIPTION,
+				'placeholder' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_BANNER_DESCRIPTION,
 				'eval' => 'trim'
 			],
 		],
@@ -739,8 +737,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.essential_description',
 			'config' => [
 				'type' => 'text',
-				'default' => JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
-				'placeholder' => JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
+				'default' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
+				'placeholder' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_ESSENTIAL_DESCRIPTION,
 				'eval' => 'trim'
 			],
 		],
@@ -802,8 +800,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_description',
 			'config' => [
 				'type' => 'text',
-				'default' => JsonImportService::TEXT_IFRAME_DESCRIPTION,
-				'placeholder' => JsonImportService::TEXT_IFRAME_DESCRIPTION,
+				'default' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_IFRAME_DESCRIPTION,
+				'placeholder' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_IFRAME_DESCRIPTION,
 				'eval' => 'trim'
 			],
 		],
@@ -1321,8 +1319,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_description',
 			'config' => [
 				'type' => 'text',
-				'default' => JsonImportService::TEXT_BANNER_DESCRIPTION,
-				'placeholder' => JsonImportService::TEXT_BANNER_DESCRIPTION,
+				'default' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_BANNER_DESCRIPTION,
+				'placeholder' => \SGalinski\SgCookieOptin\Service\JsonImportService::TEXT_BANNER_DESCRIPTION,
 				'eval' => 'trim'
 			],
 		],

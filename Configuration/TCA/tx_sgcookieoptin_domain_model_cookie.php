@@ -177,6 +177,7 @@ $configuration = [
 		],
 	],
 ];
+
 if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.3.0', '<')) {
 	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, name, provider, purpose, lifetime, parent_group, parent_optin';
 }
