@@ -493,10 +493,10 @@ class OptinController extends ActionController {
 			'pid' => $pid,
 		];
 
-		$newOptinKey = StringUtility::getUniqueId('NewOptin');
+		$newOptinKey = StringUtility::getUniqueId('NEW');
 		$data['tx_sgcookieoptin_domain_model_optin'][$newOptinKey] = $dataMapArray;
 
-		$newCookieKey = StringUtility::getUniqueId('NewCookie');
+		$newCookieKey = StringUtility::getUniqueId('NEW');
 		$data['tx_sgcookieoptin_domain_model_cookie'][$newCookieKey] = [
 			'pid' => $pid,
 			'name' => 'cookie_optin',
