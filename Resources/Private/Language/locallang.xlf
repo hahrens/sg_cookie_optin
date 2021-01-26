@@ -45,6 +45,12 @@
 			<trans-unit id="backend.importConfig">
 				<source><![CDATA[Import Configuration]]></source>
 			</trans-unit>
+			<trans-unit id="backend.jsonExport.error">
+				<source><![CDATA[Could not export the configuration because of the following error:]]></source>
+			</trans-unit>
+			<trans-unit id="backend.jsonExport.error.exactlyOneEntry">
+				<source><![CDATA[You must have exactly one configuration entry in order to use the export.]]></source>
+			</trans-unit>
 			<trans-unit id="backend.jsonImport.cookies">
 				<source><![CDATA[Cookies]]></source>
 			</trans-unit>
@@ -109,16 +115,31 @@
 				<source><![CDATA[License Check: Error!]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiredError.message">
-				<source><![CDATA[Your Cookie Optin Extension license has expired. Please renew it from %s.]]></source>
+				<source><![CDATA[Your Cookie Optin Extension license has expired. Please buy a new one from %s.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiringWarning.message">
 				<source><![CDATA[Your Cookie Optin Extension license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
 			</trans-unit>
+			<trans-unit id="backend.hasChanges.message" approved="yes">
+				<source><![CDATA[You have changed your configuration. Please clear the frontend cache to make sure your new configuration changes effect. If you have deleted your configuration. please delete the files sg-cookie-optin files in your fileadmin directory.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.hasChanges.title" approved="yes">
+				<source><![CDATA[Your configuration has changed]]></source>
+			</trans-unit>
 			<trans-unit id="backend.licenceCheck.noLicenseKey">
-				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it.]]></source>
+				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it in the extension configuration.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.shopLink">
 				<source><![CDATA[our shop]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.status.title" approved="yes">
+				<source><![CDATA[License Status]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.status.okMessage" approved="yes">
+				<source><![CDATA[Your update period is valid until %s.]]></source>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.status.lifetime" approved="yes">
+				<source><![CDATA[end of product life]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.warning.title">
 				<source><![CDATA[License Check: Warning!]]></source>

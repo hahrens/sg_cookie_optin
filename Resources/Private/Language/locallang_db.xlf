@@ -76,7 +76,7 @@
 				<source><![CDATA[Button for Accepting Selected Cookies & Scripts]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.activate_testing_mode">
-				<source><![CDATA[Activate the testing mode (The parameter "?showOptIn=1" must be added to the url)]]></source>
+				<source><![CDATA[Activate TEST mode (dialog not active, add "?showOptIn=1" to the URL to get the dialog.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_button_accept_text">
 				<source><![CDATA[Accept Button Text]]></source>
@@ -264,6 +264,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookiebanner_whitelist_regex">
 				<source><![CDATA[Don't show cookie banner on the following page URIs. Every new line is interpreted as a new regular expression. Syntax errors may lead to issues on your website!]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookiebanner_whitelist_regex.description">
+				<source><![CDATA[Please note that you have to include your translated page slugs as well. For example if you want to exclude your privacy policy page in both English and German you must add privacy-policy.html as well as datenschutz.html to the list.]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.description">
 				<source><![CDATA[Explanation at top of Opt-In Window]]></source>
 			</trans-unit>
@@ -439,7 +442,7 @@
 				<source><![CDATA[You can change this address if you would like to add some custom logic to the handling of the data. Should you do it, please make sure to add a call to the default webhook address, so that we can keep evalutaing the data for you in our statistics module.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.session_only_essential_cookies">
-				<source><![CDATA[Set the cookie lifetime only for the current session if only essential cookies are accepted]]></source>
+				<source><![CDATA[Show the dialog again in the next user session if only essential cookies are accepted.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain">
 				<source><![CDATA[Override what domain this cookie is set for]]></source>

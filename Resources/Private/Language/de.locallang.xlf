@@ -57,6 +57,14 @@
 				<source><![CDATA[Import Configuration]]></source>
 				<target><![CDATA[Konfiguration importieren]]></target>
 			</trans-unit>
+			<trans-unit id="backend.jsonExport.error" approved="yes">
+				<source><![CDATA[Could not export the configuration because of the following error:]]></source>
+				<target><![CDATA[Die Konfiguration konnte wegen des folgenden Fehlers nicht exportiert werden:]]></target>
+			</trans-unit>
+			<trans-unit id="backend.jsonExport.error.exactlyOneEntry" approved="yes">
+				<source><![CDATA[You must have exactly one configuration entry in order to use the export.]]></source>
+				<target><![CDATA[Sie müssen genau einen Konfigurationseintrag haben, um den Export nutzen zu können.]]></target>
+			</trans-unit>
 			<trans-unit id="backend.jsonImport.cookies" approved="yes">
 				<source><![CDATA[Cookies]]></source>
 				<target><![CDATA[Cookies]]></target>
@@ -142,16 +150,16 @@
 				<target><![CDATA[Lizenzprüfung: Fehler!]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiredError.message" approved="yes">
-				<source><![CDATA[Your Cookie Optin Extension license has expired. Please renew it from %s.]]></source>
-				<target><![CDATA[Ihre Cookie-Optin-Erweiterung-Lizenz ist abgelaufen. Bitte erneuern Sie diesie von %s.]]></target>
+				<source><![CDATA[Your Cookie Optin Extension license has expired. Please buy a new one from %s.]]></source>
+				<target><![CDATA[Ihre Cookie-Optin-Erweiterung-Lizenz ist abgelaufen. Bitte kaufen Sie eine neue von %s.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.expiringWarning.message" approved="yes">
 				<source><![CDATA[Your Cookie Optin Extension license has expired on %s but your version is still supported with this license. Please renew it from %s so that you can benefit from our newest versions.]]></source>
 				<target><![CDATA[Ihre Cookie-Optin-Erweiterung-Lizenz ist am %s abgelaufen, aber Ihre Version wird noch mit dieser Lizenz unterstützt. Bitte erneuern Sie sie ab %s, damit Sie von unseren neusten Versionen profitieren können.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.noLicenseKey" approved="yes">
-				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it.]]></source>
-				<target><![CDATA[Sie haben keinen Lizenzschlüssel für die Cookie-Optin-Erweiterung eingegeben. Bitte erwerben Sie einen Schlüssel aus %s und geben Sie ihn ein.]]></target>
+				<source><![CDATA[You have not entered a license key for the Cookie Optin Extension. Please purchase a key from %s and enter it in the extension configuration.]]></source>
+				<target><![CDATA[Sie haben keinen Lizenzschlüssel für die Cookie-Optin-Erweiterung eingegeben. Bitte erwerben Sie einen Schlüssel aus %s und geben Sie ihn in die Erweiterungs-Konfiguration ein.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenceCheck.shopLink" approved="yes">
 				<source><![CDATA[our shop]]></source>
@@ -160,6 +168,18 @@
 			<trans-unit id="backend.licenceCheck.warning.title" approved="yes">
 				<source><![CDATA[License Check: Warning!]]></source>
 				<target><![CDATA[Lizenzprüfung: Warnung!]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.status.title" approved="yes">
+				<source><![CDATA[License Status]]></source>
+				<target><![CDATA[Lizenzstatus]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.status.okMessage" approved="yes">
+				<source><![CDATA[Your update period is valid until %s.]]></source>
+				<target><![CDATA[Ihre Update-Zeitraum ist gültig bis %s.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.licenceCheck.status.backend.licenceCheck.status.lifetime" approved="yes">
+				<source><![CDATA[end of product life]]></source>
+				<target><![CDATA[Ende der Produkt-Lebenszeit]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.description" approved="yes">
 				<source><![CDATA[The license key of this extension is invalid. Some functions like the important file generation are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
@@ -192,6 +212,14 @@
 			<trans-unit id="backend.licenseKey.notSet.header" approved="yes">
 				<source><![CDATA[Missing license key]]></source>
 				<target><![CDATA[Fehlender Lizenzschlüssel]]></target>
+			</trans-unit>
+			<trans-unit id="backend.hasChanges.message" approved="yes">
+				<source><![CDATA[You have changed your configuration. Please clear the frontend cache to make sure your new configuration changes effect. If you have deleted your configuration. please delete the files sg-cookie-optin files in your fileadmin directory.]]></source>
+				<target><![CDATA[Sie haben Ihre Konfiguration geändert. Bitte löschen Sie den Frontend-Cache, um sicherzustellen, dass Ihre neue Konfiguration wirksam wird. Wenn Sie Ihre Konfiguration gelöscht haben. löschen Sie bitte die Dateien sg-cookie-optin in Ihrem fileadmin-Verzeichnis.]]></target>
+			</trans-unit>
+			<trans-unit id="backend.hasChanges.title" approved="yes">
+				<source><![CDATA[Your configuration has changed]]></source>
+				<target><![CDATA[Ihre Konfiguration wurde geändert]]></target>
 			</trans-unit>
 			<trans-unit id="backend.moduleDescription" approved="yes">
 				<source><![CDATA[This module serves for the management of cookies. There can be a maximum of one entry per site root, if nothing exists, add one with the help of the button below.]]></source>

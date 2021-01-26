@@ -9,9 +9,9 @@
 	<div class="form-group">
 		<p>{f:translate(key:'backend.jsonImport.info')}</p>
 		<f:form action="previewImport" enctype="multipart/form-data">
-			<div class="jsonImport-buttonsContainer">
+			<div class="jsonImport-buttonsContainer" style="display: flex;">
 				<f:form.upload name="file" class="btn btn-default "/>
-				<f:form.submit value="{f:translate(key:'backend.upload')}" class="btn btn-default jsonImport-submit" />
+				<f:form.submit value="{f:translate(key:'backend.upload')}" class="btn btn-default jsonImport-submit" style="margin-left: 50px;" />
 			</div>
 			<div>
 

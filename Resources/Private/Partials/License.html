@@ -23,11 +23,13 @@
 	<f:translate key="backend.documentation" />
 </a>
 
-<f:if condition="{sg:backend.isVersionHigherThan(version: '9.0.0')} && {pageUid}">
-	<f:link.action class="btn btn-default btn-sm" action="uploadJson">
-		<f:translate key="backend.importConfig" />
-	</f:link.action>
-	<f:link.action class="btn btn-default btn-sm" action="exportJson">
-		<f:translate key="backend.exportConfig" />
-	</f:link.action>
+<f:if condition="{sg:backend.isVersionHigherThan(version: '9.0.0')}">
+	<f:if condition="{pageUid}">
+		<f:link.action class="btn btn-default btn-sm" action="uploadJson">
+			<f:translate key="backend.importConfig" />
+		</f:link.action>
+		<f:link.action class="btn btn-default btn-sm" action="exportJson">
+			<f:translate key="backend.exportConfig" />
+		</f:link.action>
+	</f:if>
 </f:if>

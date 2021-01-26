@@ -3,37 +3,50 @@
 <f:layout name="Default" />
 
 <f:section name="content">
-	<f:flashMessages />
-
 	<f:if condition="{isSiteRoot}">
 		<f:then>
 			<h1><f:translate key="backend.moduleHeader" /></h1>
 			<p><f:translate key="backend.moduleDescription" /></p>
+			<f:flashMessages />
 
 			<f:if condition="{pageUid}">
 				<f:if condition="{isSiteRoot}">
 					<f:if condition="{optins -> f:count()} <= 0">
 						<div class="form-group">
-							<f:if condition="{sg:backend.isVersionHigherThan(version: '9.0.0')}">
+							<f:if condition="{sg:backend.isVersionHigherThan(version: '10.0.0')}">
 								<f:then>
 									<f:link.action action="create" class="btn btn-default form-group ">
-										<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new">
+										<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new" data-identifier="actions-document-new">
 											<span class="icon-markup">
-												<img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-document-new.svg" width="16" height="16">
+												<svg class="icon-color" role="img"><use xlink:href="/typo3/sysext/core/Resources/Public/Icons/T3Icons/sprites/actions.svg#actions-document-add"></use></svg>
 											</span>
 										</span>
 										<f:translate key="backend.createRecord" />
 									</f:link.action>
 								</f:then>
 								<f:else>
-									<a href="#" class="btn btn-default form-group" onclick="{sg:backend.editOnClick(table: 'tx_sgcookieoptin_domain_model_optin', uid: pageUid, new: 1)}">
-										<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new">
-											<span class="icon-markup">
-												<img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-document-new.svg" width="16" height="16">
-											</span>
-										</span>
-										<f:translate key="backend.createRecord" />
-									</a>
+									<f:if condition="{sg:backend.isVersionHigherThan(version: '9.0.0')}">
+										<f:then>
+											<f:link.action action="create" class="btn btn-default form-group ">
+												<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new">
+													<span class="icon-markup">
+														<img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-document-new.svg" width="16" height="16">
+													</span>
+												</span>
+												<f:translate key="backend.createRecord" />
+											</f:link.action>
+										</f:then>
+										<f:else>
+											<a href="#" class="btn btn-default form-group" onclick="{sg:backend.editOnClick(table: 'tx_sgcookieoptin_domain_model_optin', uid: pageUid, new: 1)}">
+												<span class="t3js-icon icon icon-size-small icon-state-default icon-actions-document-new">
+													<span class="icon-markup">
+														<img src="/typo3/sysext/core/Resources/Public/Icons/T3Icons/actions/actions-document-new.svg" width="16" height="16">
+													</span>
+												</span>
+												<f:translate key="backend.createRecord" />
+											</a>
+										</f:else>
+									</f:if>
 								</f:else>
 							</f:if>
 						</div>
@@ -65,6 +78,33 @@
 							</f:for>
 							</tbody>
 						</table>
+					</div>
+				</div>
+			</f:if>
+
+			<f:if condition="{licenseTitle}">
+				<div class="typo3-messages">
+					<f:if condition="{licenseError} == '0'">
+						<f:then><div class="alert alert-info"></f:then>
+						<f:else if="{licenseError} == '1'"><div class="alert alert-danger"></f:else>
+						<f:else if="{licenseError} == '2'"><div class="alert alert-warning"></f:else>
+					</f:if>
+						<div class="media">
+							<div class="media-left">
+								<span class="fa-stack fa-lg">
+									<i class="fa fa-circle fa-stack-2x"></i>
+									<f:if condition="{licenseError} == '1'">
+										<f:then><i class="fa fa-times fa-stack-1x"></i></f:then>
+										<f:else><i class="fa fa-info fa-stack-1x"></i></f:else>
+									</f:if>
+
+								</span>
+							</div>
+							<div class="media-body">
+								<h4 class="alert-title">{licenseTitle}</h4>
+								<p class="alert-message">{licenseMessage}</p>
+							</div>
+						</div>
 					</div>
 				</div>
 			</f:if>
@@ -106,6 +146,7 @@
 			<iframe src="https://www.cookieserve.com/" width="100%" height="500px" style="height: 500px;"></iframe>
 		</f:then>
 		<f:else>
+			<f:flashMessages />
 			<f:if condition="{pages}">
 				<f:then>
 					<div class="row">

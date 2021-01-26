@@ -34,10 +34,10 @@ define(['jquery', 'TYPO3/CMS/Backend/Notification'], function ($, Notification) 
 						var data = JSON.parse(result);
 						switch (data.error) {
 							case 1:
-								Notification.error(data.title, data.message);
+								Notification.error(data.title, data.message, 0);
 								break;
 							case 2:
-								Notification.warning(data.title, data.message);
+								Notification.warning(data.title, data.message, 0);
 						}
 					}
 				});

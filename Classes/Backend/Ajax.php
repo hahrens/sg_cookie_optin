@@ -55,7 +55,8 @@ class Ajax {
 			$response = new Response();
 		}
 
-		$responseData = LicenceCheckService::getLicenseCheckResponseData();
+		LicenceCheckService::setLastAjaxNotificationCheckTimestamp();
+		$responseData = LicenceCheckService::getLicenseCheckResponseData(TRUE);
 		$response->getBody()->write(json_encode($responseData));
 		return $response;
 	}
