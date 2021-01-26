@@ -1,17 +1,17 @@
-#
-# Table structure for table 'tx_sgcookieoptin_domain_model_optin'
-#
+--
+-- Table structure for table 'tx_sgcookieoptin_domain_model_optin'
+--
 CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) unsigned DEFAULT '0' NOT NULL,
 
-	# general columns
+	-- general columns
 	header varchar(255) DEFAULT 'Datenschutzeinstellungen' NOT NULL,
 	description text NOT NULL,
 	navigation varchar(255) DEFAULT '' NOT NULL,
 	groups int(11) DEFAULT '0' NOT NULL,
 
-	# general texts
+	-- general texts
 	accept_all_text varchar(255) DEFAULT 'Alle akzeptieren' NOT NULL,
 	accept_specific_text varchar(255) DEFAULT 'Speichern & schließen' NOT NULL,
 	accept_essential_text varchar(255) DEFAULT 'Nur essentielle Cookies akzeptieren' NOT NULL,
@@ -87,13 +87,13 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_full_button_close_hover varchar(10) DEFAULT '#143D59' NOT NULL,
 	color_full_button_close_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 
-	# Essential group specific columns
+	-- Essential group specific columns
 	essential_title varchar(255) DEFAULT 'Essentiell' NOT NULL,
 	essential_description text NOT NULL,
 	essential_scripts int(11) DEFAULT '0' NOT NULL,
 	essential_cookies int(11) DEFAULT '0' NOT NULL,
 
-	# IFrame group specific columns
+	-- IFrame group specific columns
 	iframe_enabled tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	iframe_title varchar(255) DEFAULT 'Externe Inhalte' NOT NULL,
 	iframe_description text NOT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_color_button_load_one_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	iframe_color_open_settings varchar(10) DEFAULT '#373737' NOT NULL,
 
-	# Settings
+	-- Settings
 	cookie_lifetime int(11) DEFAULT '365' NOT NULL,
 	session_only_essential_cookies tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	minify_generated_data tinyint(4) unsigned DEFAULT '1' NOT NULL,
@@ -136,7 +136,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	version int(11) unsigned DEFAULT '1' NOT NULL,
 	update_version_checkbox tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
-	# TYPO3 related columns
+	-- TYPO3 related columns
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
@@ -151,9 +151,9 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	KEY language (l10n_parent,sys_language_uid)
 );
 
-#
-# Table structure for table 'tx_sgcookieoptin_domain_model_group'
-#
+--
+-- Table structure for table 'tx_sgcookieoptin_domain_model_group'
+--
 CREATE TABLE tx_sgcookieoptin_domain_model_group (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) unsigned DEFAULT '0' NOT NULL,
@@ -182,9 +182,9 @@ CREATE TABLE tx_sgcookieoptin_domain_model_group (
 	KEY language (l10n_parent,sys_language_uid)
 );
 
-#
-# Table structure for table 'tx_sgcookieoptin_domain_model_script'
-#
+--
+-- Table structure for table 'tx_sgcookieoptin_domain_model_script'
+--
 CREATE TABLE tx_sgcookieoptin_domain_model_script (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) unsigned DEFAULT '0' NOT NULL,
@@ -213,9 +213,9 @@ CREATE TABLE tx_sgcookieoptin_domain_model_script (
 	KEY language (l10n_parent,sys_language_uid)
 );
 
-#
-# Table structure for table 'tx_sgcookieoptin_domain_model_cookie'
-#
+--
+-- Table structure for table 'tx_sgcookieoptin_domain_model_cookie'
+--
 CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) unsigned DEFAULT '0' NOT NULL,
@@ -246,9 +246,9 @@ CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
 	KEY language (l10n_parent,sys_language_uid)
 );
 
-#
-# Table structure for table 'tx_sgcookieoptin_domain_model_user_preference'
-#
+--
+-- Table structure for table 'tx_sgcookieoptin_domain_model_user_preference'
+--
 CREATE TABLE tx_sgcookieoptin_domain_model_user_preference (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) unsigned DEFAULT '0' NOT NULL,
