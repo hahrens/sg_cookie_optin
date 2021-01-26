@@ -263,9 +263,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_user_preference (
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY user_uid (user_uid),
+	KEY user_hash (user_hash),
 	KEY version (version),
-	KEY crdate (crdate),
 	KEY is_accepted (is_accepted),
 	KEY item_type (item_type),
 	KEY item_identifier (item_identifier),
