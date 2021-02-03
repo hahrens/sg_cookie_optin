@@ -1,0 +1,13 @@
+.consent-statistics-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.consent-statistics-controls {
+	display: flex;
+	justify-content: space-between;
+}
+
+.consent-statistics-controls-hash {
+	width: 33%;
+}

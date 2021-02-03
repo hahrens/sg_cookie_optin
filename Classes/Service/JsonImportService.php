@@ -85,8 +85,8 @@ class JsonImportService {
 		$flatJsonData = [];
 		array_walk_recursive(
 			$jsonData, function ($value, $key) use (&$flatJsonData) {
-			$flatJsonData[$key] = $value;
-		}
+				$flatJsonData[$key] = $value;
+			}
 		);
 
 		// add required system data and remove junk from the JSON

@@ -243,6 +243,21 @@
 			<trans-unit id="backend.statistics_action" approved="yes">
 				<source><![CDATA[Statistics]]></source>
 			</trans-unit>
+			<trans-unit id="backend.consent_action" approved="yes">
+				<source><![CDATA[Consent management]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consent.grid.time" approved="yes">
+				<source><![CDATA[Time]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consent.grid.user_hash" approved="yes">
+				<source><![CDATA[User hash]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consent.grid.item_name" approved="yes">
+				<source><![CDATA[Group]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consent.grid.value" approved="yes">
+				<source><![CDATA[Yes/No]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

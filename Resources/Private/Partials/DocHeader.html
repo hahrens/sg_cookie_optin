@@ -35,7 +35,11 @@
 			<f:render
 				partial="DocHeader"
 				section="actionMenuItem"
-				arguments="{controller:'Optin', action: 'statistics', label: '{f:translate(key:\'backend.statistics_action\')}', simpleActionItem: 1}" />
+				arguments="{controller:'Statistics', action: 'index', label: '{f:translate(key:\'backend.statistics_action\')}', simpleActionItem: 1}" />
+			<f:render
+							partial="DocHeader"
+							section="actionMenuItem"
+							arguments="{controller:'Consent', action: 'index', label: '{f:translate(key:\'backend.consent_action\')}', simpleActionItem: 1}" />
 		</f:be.menus.actionMenu>
 	</div>
 </f:section>

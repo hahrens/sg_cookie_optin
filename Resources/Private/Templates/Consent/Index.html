@@ -1,0 +1,40 @@
+{namespace sg=SGalinski\SgCookieOptin\ViewHelpers}
+
+<f:layout name="Default"/>
+
+<f:section name="content">
+	<f:flashMessages/>
+	<form>
+		<div class="consent-statistics-container">
+
+			<div class="consent-statistics-controls">
+				<div class="consent-statistics-controls-date">
+					<input type="date" id="from_date" name="from_date"/>
+					<input type="date" id="to_date" name="to_date"/>
+				</div>
+				<input type="text" id="user_hash" name="user_hash" class="consent-statistics-controls-hash"/>
+				<button type="button" id="consent-statistics-submit" class="btn btn-primary">Refresh</button>
+			</div>
+			<div class="consent-statistics-chart-container">
+				<canvas id="myChart" width="400" height="100"></canvas>
+			</div>
+
+			<div class="table-responsive" class="consent-statistics-grid" id="consent-statistics-grid">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th><f:translate key="backend.consent.grid.time"/></th>
+							<th><f:translate key="backend.consent.grid.user_hash"/></th>
+							<th><f:translate key="backend.consent.grid.time"/></th>
+							<th><f:translate key="backend.consent.grid.value"/></th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</form>
+
+</f:section>
