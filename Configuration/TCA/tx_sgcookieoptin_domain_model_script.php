@@ -146,6 +146,7 @@ $configuration = [
 				'minitems' => 0,
 				'maxitems' => 1,
 				'autoSizeMax' => 1,
+				'default' => 0,
 			],
 		],
 		'parent_optin' => [
@@ -160,6 +161,7 @@ $configuration = [
 				'minitems' => 0,
 				'maxitems' => 1,
 				'autoSizeMax' => 1,
+				'default' => 0,
 			],
 		],
 	],
