@@ -131,9 +131,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	l10n_parent int(11) DEFAULT '0' NOT NULL,
 	l10n_diffsource mediumblob,
 
-	PRIMARY KEY (uid),
-	KEY parent(pid),
-	KEY language(l10n_parent,sys_language_uid)
+	PRIMARY KEY (uid)
 );
 
 CREATE TABLE tx_sgcookieoptin_domain_model_group (
@@ -158,10 +156,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_group (
 	l10n_parent int(11) DEFAULT '0' NOT NULL,
 	l10n_diffsource mediumblob,
 
-	PRIMARY KEY (uid),
-	KEY parent(pid),
-	KEY parent_optin(parent_optin),
-	KEY language(l10n_parent,sys_language_uid)
+	PRIMARY KEY (uid)
 );
 
 CREATE TABLE tx_sgcookieoptin_domain_model_script (
@@ -186,10 +181,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_script (
 	l10n_parent int(11) DEFAULT '0' NOT NULL,
 	l10n_diffsource mediumblob,
 
-	PRIMARY KEY (uid),
-	KEY parent(pid),
-	KEY parent_group(parent_group),
-	KEY language(l10n_parent,sys_language_uid)
+	PRIMARY KEY (uid)
 );
 
 CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
@@ -216,8 +208,5 @@ CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
 	l10n_parent int(11) DEFAULT '0' NOT NULL,
 	l10n_diffsource mediumblob,
 
-	PRIMARY KEY (uid),
-	KEY parent(pid),
-	KEY parent_group(parent_group),
-	KEY language(l10n_parent,sys_language_uid)
+	PRIMARY KEY (uid)
 );
