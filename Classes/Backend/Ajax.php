@@ -29,6 +29,7 @@ namespace SGalinski\SgCookieOptin\Backend;
 use http\Exception\RuntimeException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use SGalinski\SgCookieOptin\Exception\SearchOptinHistoryException;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use TYPO3\CMS\Core\Exception;
@@ -81,25 +82,32 @@ class Ajax {
 		try {
 			if (!isset($request->getParsedBody()['params'])) {
 				//TODO: error
-				throw new RuntimeException('No parameters sent to the server.');
+				throw new SearchOptinHistoryException('No parameters sent to the server.');
 			}
 
 			$params = json_decode($request->getParsedBody()['params'], TRUE);
 
-			$data = OptinHistoryService::searchUserHistory($params);
-			$count = OptinHistoryService::searchUserHistory($params, TRUE);
+			$data = OptinHistoryService::searchUserHistory($params)->execute()->fetchAllAssociative();
+			$count = OptinHistoryService::searchUserHistory($params, TRUE)->execute()->fetchAllAssociative();
 			$result = [
 				'data' => $data,
 				'count' => end($count[0])
 			];
 			$response->getBody()->write(json_encode($result));
-		} catch (RuntimeException $exception) {
+		} catch (SearchOptinHistoryException $exception) {
 			$response->withStatus(500, $exception->getMessage());
 		}
 
 		return $response;
 	}
 
+	/**
+	 * Generates the chart data objects of the user preference search
+	 *
+	 * @param ServerRequestInterface $request
+	 * @param ResponseInterface|null $response
+	 * @return ResponseInterface|Response|null
+	 */
 	public function searchUserPreferenceHistoryChart(
 		ServerRequestInterface $request,
 		ResponseInterface $response = NULL
@@ -108,16 +116,43 @@ class Ajax {
 			$response = new Response();
 		}
 
-		if (!isset($request->getParsedBody()['params'])) {
-			//TODO: error
-			throw new RuntimeException('Bad');
-		}
-
-		$params = json_decode($request->getParsedBody()['params'], TRUE);
 		try {
-			$result = OptinHistoryService::searchUserHistory($params);
-			$response->getBody()->write(json_encode($result));
-		} catch (RuntimeException $exception) {
+			if (!isset($request->getParsedBody()['params'])) {
+				//TODO: error
+				throw new SearchOptinHistoryException('No parameters sent to the server.');
+			}
+
+			$params = json_decode($request->getParsedBody()['params'], TRUE);
+
+			$data = [];
+			$identifiers = OptinHistoryService::getItemIdentifiers(['pid' => $params['pid']]);
+			$params['groupBy'] = ['item_type', 'item_identifier', 'is_accepted'];
+
+			foreach ($identifiers as $identifier) {
+				if ($identifier === 'essential') {
+					continue;
+				}
+
+				$params['item_type'] = OptinHistoryService::TYPE_GROUP;
+				$params['item_identifier'] = $identifier;
+				$params['countField'] = 'item_identifier';
+
+				$data[$identifier]['accepted'] = 0;
+				$data[$identifier]['rejected'] = 0;
+
+				$identifierData = OptinHistoryService::searchUserHistory($params, TRUE)->execute()->fetchAllAssociative();
+
+				foreach ($identifierData as $values) {
+					if ($values['is_accepted']) {
+						$data[$identifier]['accepted'] = $values['count_' . $params['countField']];
+					} else {
+						$data[$identifier]['rejected'] = $values['count_' . $params['countField']];
+					}
+				}
+			}
+
+			$response->getBody()->write(json_encode($data));
+		} catch (SearchOptinHistoryException $exception) {
 			$response->withStatus(500, $exception->getMessage());
 		}
 

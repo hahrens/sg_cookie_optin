@@ -30,6 +30,7 @@ use Exception;
 use PDO;
 use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -139,16 +140,20 @@ class OptinHistoryService {
 	 *
 	 * @param array $parameters
 	 * @param false $isCount
-	 * @return mixed
+	 * @return QueryBuilder
 	 */
-	public static function searchUserHistory(array $parameters, $isCount = FALSE) {
+	public static function searchUserHistory(array $parameters, $isCount = FALSE): QueryBuilder {
 		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
 			->getQueryBuilderForTable(self::TABLE_NAME);
-		if ($isCount) {
+
+		if (!empty($parameters['countField'])) {
+			$queryBuilder->addSelectLiteral($queryBuilder->expr()->count($parameters['countField'], 'count_' . $parameters['countField']));
+		} else if ($isCount) {
 			$queryBuilder->count('*');
 		} else {
 			$queryBuilder->select('*');
 		}
+
 		$queryBuilder->from(self::TABLE_NAME)
 			->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)))
 			->andWhere($queryBuilder->expr()->gte('date', $queryBuilder->createNamedParameter($parameters['from_date'])))
@@ -158,9 +163,20 @@ class OptinHistoryService {
 			$queryBuilder->andWhere($queryBuilder->expr()->eq('user_hash', $queryBuilder->createNamedParameter($parameters['user_hash'])));
 		}
 
+		if (!empty($parameters['version'])) {
+			$queryBuilder->andWhere($queryBuilder->expr()->eq('version', $queryBuilder->createNamedParameter($parameters['version'])));
+		}
+
 		if (!empty($parameters['item_identifier'])) {
 			$queryBuilder->andWhere($queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter(self::TYPE_GROUP, PDO::PARAM_INT)))
 				->andWhere($queryBuilder->expr()->eq('item_identifier', $queryBuilder->createNamedParameter($parameters['item_identifier'], PDO::PARAM_STR)));
+		}
+
+		if (!empty($parameters['groupBy'])) {
+			foreach ($parameters['groupBy'] as $groupBy) {
+				$queryBuilder->addGroupBy($groupBy);
+				$queryBuilder->addSelect($groupBy);
+			}
 		}
 
 		if (!$isCount && $parameters['page'] && $parameters['per_page']) {
@@ -173,7 +189,7 @@ class OptinHistoryService {
 			}
 		}
 
-		return $queryBuilder->execute()->fetchAllAssociative();
+		return $queryBuilder;
 	}
 
 	/**
@@ -215,7 +231,8 @@ class OptinHistoryService {
 		$queryBuilder->select('version')
 			->from(self::TABLE_NAME)
 			->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)))
-			->addGroupBy('version');
+			->addGroupBy('version')
+			->orderBy('version', 'asc');
 
 		return array_column($queryBuilder->execute()->fetchAllAssociative(), 'version');
 	}

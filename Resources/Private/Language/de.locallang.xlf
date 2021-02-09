@@ -349,6 +349,10 @@
 				<source><![CDATA[All]]></source>
 				<target><![CDATA[Alle]]></target>
 			</trans-unit>
+			<trans-unit id="backend.statistics.version" approved="yes">
+				<source><![CDATA[Version]]></source>
+				<target><![CDATA[Version]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

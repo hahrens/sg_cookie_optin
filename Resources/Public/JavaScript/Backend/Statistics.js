@@ -122,47 +122,79 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 			},
 
 			/**
-			 * Initialize chart
+			 * Removes the old charts and draws new ones
+			 *
+			 * @param {Object} data
 			 */
-			initChart: function() {
-				const ctx = document.getElementById('myChart');
-				const myChart = new Chart(ctx, {
-					type: 'bar',
-					data: {
-						labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-						datasets: [{
-							label: '# of Votes',
-							data: [12, 19, 3, 5, 2, 3],
-							backgroundColor: [
-								'rgba(255, 99, 132, 0.2)',
-								'rgba(54, 162, 235, 0.2)',
-								'rgba(255, 206, 86, 0.2)',
-								'rgba(75, 192, 192, 0.2)',
-								'rgba(153, 102, 255, 0.2)',
-								'rgba(255, 159, 64, 0.2)'
-							],
-							borderColor: [
-								'rgba(255, 99, 132, 1)',
-								'rgba(54, 162, 235, 1)',
-								'rgba(255, 206, 86, 1)',
-								'rgba(75, 192, 192, 1)',
-								'rgba(153, 102, 255, 1)',
-								'rgba(255, 159, 64, 1)'
-							],
-							borderWidth: 1
-						}]
-					},
+			updateCharts: function(data) {
+				this.removeCharts();
+				var chartsContainer = document.getElementById('consent-statistics-charts-container');
+				for (var identifier in data) {
+					if (!data.hasOwnProperty(identifier)) {
+						continue;
+					}
+					this.addChart(chartsContainer, data[identifier], identifier);
+				}
+			},
+
+			/**
+			 * Renders a chart in the container
+			 *
+			 * @param {HTMLElement} container
+			 * @param {Object} dataEntry
+			 * @param {String} identifier
+			 */
+			addChart: function(container, dataEntry, identifier) {
+				const chartDivContainer = document.createElement('DIV');
+				chartDivContainer.className = 'consent-statistics-chart-div-container';
+				const chartContainer = document.createElement('CANVAS');
+				chartDivContainer.append(chartContainer);
+				container.append(chartDivContainer);
+				chartContainer.setAttribute('width', 200);
+				chartContainer.setAttribute('height', 100);
+
+				var labels = [];
+				var datasets = [];
+				for (var label in dataEntry) {
+					if (label !== 'length' && dataEntry.hasOwnProperty(label)) {
+						labels.push(label);
+						datasets.push(dataEntry[label]);
+					}
+				}
+				var chartData = {
+					datasets: [
+						{
+							data: datasets,
+							backgroundColor: ['#009146', '#c41700'],
+						}
+					],
+					labels: labels,
+
+				}
+
+				var myChart = new Chart(chartContainer, {
+					type: 'pie',
+					data: chartData,
 					options: {
-						scales: {
-							yAxes: [{
-								ticks: {
-									beginAtZero: true
-								}
-							}]
+						title: {
+							text: identifier,
+							display: true,
+							position: 'top'
 						},
-						responsive: true
+						responsive: true,
+
 					}
 				});
+			},
+
+			/**
+			 * Removes all the currently rendered charts
+			 */
+			removeCharts: function() {
+				var chartsContainer = document.getElementById('consent-statistics-charts-container');
+				while (chartsContainer.firstChild) {
+					chartsContainer.firstChild.remove();
+				}
 			},
 
 			/**
@@ -181,7 +213,7 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 					if (this.status >= 200 && this.status < 400) {
 						// Success!
 						const data = JSON.parse(this.response);
-						this.that.updateTable(data);
+						this.that.updateCharts(data);
 					} else {
 						// We reached our target server, but it returned an error
 						this.onSearchError();
@@ -201,160 +233,7 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 				console.log(error);
 			},
 
-			/**
-			 * Updates the results grid
-			 *
-			 * @param data
-			 */
-			updateTable: function(data) {
-				var tableBody = document.querySelector('#consent-statistics-grid tbody');
-				while (tableBody.firstChild) {
-					tableBody.firstChild.remove();
-				}
 
-				for (var index = 0; index < data.data.length; ++index) {
-					this.addTableRow(tableBody, data.data[index]);
-				}
-				this.addPagination(tableBody, data.count);
-			},
-
-			/**
-			 * Adds a row to the results grid
-			 *
-			 * @param tableBody
-			 * @param dataRow
-			 */
-			addTableRow: function(tableBody, dataRow) {
-				var tr = document.createElement('TR');
-				var td = document.createElement('TD');
-				td.innerText = dataRow.tstamp;
-				tr.append(td);
-
-				td = document.createElement('TD');
-				td.innerText = dataRow.user_hash;
-				tr.append(td);
-
-				td = document.createElement('TD');
-				td.innerText = dataRow.item_identifier;
-				tr.append(td);
-
-				td = document.createElement('TD');
-				var i = document.createElement('I');
-
-				if (dataRow.is_accepted) {
-					i.className = 'fa fa-check-circle consent-green';
-				} else {
-					i.className = 'fa fa-times-circle consent-red';
-				}
-
-				td.append(i);
-				tr.append(td);
-
-				tableBody.append(tr);
-			},
-
-			/**
-			 * Creates a pagination item
-			 *
-			 * @param number
-			 * @param isActive
-			 * @returns {HTMLElement}
-			 */
-			createPaginationItem: function(number, isActive) {
-				var li = document.createElement('LI');
-				li.className = 'page-item' + (isActive ? ' active' : '');
-				var a = document.createElement('A');
-				a.className = 'page-link';
-				a.href = '#';
-				a.innerText = number;
-				li.append(a);
-				return li;
-			},
-
-			/**
-			 * Adds the pagination to the grid
-			 *
-			 * @param tableBody
-			 * @param count
-			 */
-			addPagination: function(tableBody, count) {
-				var params = this.getParams();
-				var pageCount = Math.ceil(count / this.getParams().per_page);
-				var paginationDiv = document.getElementById('consent-statistics-grid-page-select');
-				while (paginationDiv.firstChild) {
-					paginationDiv.firstChild.remove();
-				}
-
-				var lowerLimit, upperLimit;
-				lowerLimit = upperLimit = Math.min(params.page, pageCount);
-
-				for (var buttonIndex = 1; buttonIndex < this.maxPages && buttonIndex < pageCount;) {
-					if (lowerLimit > 1) {
-						lowerLimit--;
-						buttonIndex++;
-					}
-					if (buttonIndex < this.maxPages && upperLimit < pageCount) {
-						upperLimit++;
-						buttonIndex++;
-					}
-				}
-
-				if (lowerLimit > 1) { // always show the first page
-					paginationDiv.append(this.createPaginationItem(1, false));
-					paginationDiv.append(this.createPaginationSpacer(true));
-				}
-
-				for (var i = lowerLimit; i <= upperLimit; i++) {
-					//creating the page items
-					paginationDiv.append(this.createPaginationItem(i, (i === params.page)));
-				}
-
-				if (upperLimit < pageCount) { // always show the last page
-					paginationDiv.append(this.createPaginationSpacer());
-					paginationDiv.append(this.createPaginationItem(pageCount, false));
-				}
-
-				$('.page-link').click({data: this}, function() {
-					$("#consent-statistics-grid-page-select li").removeClass("active");
-					$(event.target.parentElement).addClass('active');
-					this.showPage(parseInt($(event.target).text())).bind(this);
-				}.bind(this));
-			},
-
-			/**
-			 * Creates a pagination spacer
-			 *
-			 * @param isLeft
-			 * @returns {HTMLElement}
-			 */
-			createPaginationSpacer: function(isLeft = false) {
-				var li = document.createElement('LI');
-				li.className = 'page-item';
-				var a = document.createElement('A');
-				a.href = '#';
-
-				if (isLeft) {
-					a.innerHTML = '&laquo;';
-				} else {
-					a.innerHTML = '&raquo;';
-				}
-
-				a.className = 'page-link disabled';
-				li.append(a);
-				return li;
-			},
-
-			/**
-			 * Makes a new search request for the given page number
-			 *
-			 * @param num
-			 */
-			showPage: function(num) {
-				var params = this.getParams();
-				params.page = num;
-				this.setParams(params);
-				this.performSearch(params);
-			},
 		};
 
 		Statistics.init();

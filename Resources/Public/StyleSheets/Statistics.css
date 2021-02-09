@@ -55,3 +55,16 @@
 #consent-statistics-submit{
 	width: max-content;
 }
+
+.consent-statistics-chart-div-container {
+	width: 50%;
+}
+
+#consent-statistics-charts-container {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#consent-statistics-charts-container canvas {
+	margin-bottom: 25px;
+}

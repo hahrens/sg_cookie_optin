@@ -78,7 +78,7 @@ class StatisticsController extends ActionController {
 		$this->initPageUidSelection();
 
 		$pageUid = (int) GeneralUtility::_GP('id');
-				$this->view->assign('identifiers', OptinHistoryService::getVersions([
+				$this->view->assign('versions', OptinHistoryService::getVersions([
 					'pid' => $pageUid
 				]));
 

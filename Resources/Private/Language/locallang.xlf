@@ -264,6 +264,9 @@
 			<trans-unit id="backend.consent.form.item_name.all" approved="yes">
 				<source><![CDATA[All]]></source>
 			</trans-unit>
+			<trans-unit id="backend.statistics.version" approved="yes">
+				<source><![CDATA[Version]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
