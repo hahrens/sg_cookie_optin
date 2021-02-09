@@ -63,7 +63,14 @@ class Ajax {
 		return $response;
 	}
 
-	public function searchUserHistory(
+	/**
+	 * Searches the user preferences history
+	 *
+	 * @param ServerRequestInterface $request
+	 * @param ResponseInterface|null $response
+	 * @return ResponseInterface|Response|null
+	 */
+	public function searchUserPreferenceHistory(
 		ServerRequestInterface $request,
 		ResponseInterface $response = NULL
 	) {
@@ -71,16 +78,20 @@ class Ajax {
 			$response = new Response();
 		}
 
-		$params = [
-			'from_date' => '2021-01-31',
-			'to_date' => '2021-01-01',
-			'user_hash' => '',
-			'page' => 1,
-			'per_page' => 10
-		];
-
 		try {
-			$result = OptinHistoryService::searchUserHistory($params);
+			if (!isset($request->getParsedBody()['params'])) {
+				//TODO: error
+				throw new RuntimeException('No parameters sent to the server.');
+			}
+
+			$params = json_decode($request->getParsedBody()['params'], TRUE);
+
+			$data = OptinHistoryService::searchUserHistory($params);
+			$count = OptinHistoryService::searchUserHistory($params, TRUE);
+			$result = [
+				'data' => $data,
+				'count' => end($count[0])
+			];
 			$response->getBody()->write(json_encode($result));
 		} catch (RuntimeException $exception) {
 			$response->withStatus(500, $exception->getMessage());
@@ -89,7 +100,7 @@ class Ajax {
 		return $response;
 	}
 
-	public function searchUserHistoryChart(
+	public function searchUserPreferenceHistoryChart(
 		ServerRequestInterface $request,
 		ResponseInterface $response = NULL
 	) {

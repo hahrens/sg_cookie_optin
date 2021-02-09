@@ -8,6 +8,50 @@
 	justify-content: space-between;
 }
 
-.consent-statistics-controls-hash {
-	width: 33%;
+.consent-statistics-controls-date {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 200px;
+	line-height: 240%;
+}
+
+.consent-statistics-controls-date-container {
+	display: flex;
+	align-items: baseline;
+}
+
+.consent-statistics-controls-date-container label {
+	width: 80px;
+}
+
+.consent-statistics-controls-filters-container {
+	display: flex;
+	align-items: baseline;
+}
+
+.consent-statistics-controls-filters-container label {
+	width: 100px;
+}
+
+
+.consent-statistics-controls-filters {
+	display: flex;
+	width: 50%;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.consent-green {
+	color: #038203;
+	font-size: 20px;
+}
+
+.consent-red {
+	color: #8E0909;
+	font-size: 20px;
+}
+
+#consent-statistics-submit{
+	width: max-content;
 }

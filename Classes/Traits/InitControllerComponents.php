@@ -29,6 +29,7 @@ namespace SGalinski\SgCookieOptin\Traits;
 use SGalinski\SgCookieOptin\Service\BackendService;
 use SGalinski\SgCookieOptin\Service\DemoModeService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
+use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
@@ -118,5 +119,15 @@ trait InitControllerComponents {
 		$this->view->assign('pageUid', $pageUid);
 		$this->view->assign('invalidKey', $keyState !== DemoModeService::STATE_LICENSE_VALID);
 		$this->view->assign('showDemoButton', !$isInDemoMode && DemoModeService::isDemoModeAcceptable());
+	}
+
+	protected function initPageUidSelection() {
+		$pageUid = (int) GeneralUtility::_GP('id');
+		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
+		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
+			$this->view->assign('isSiteRoot', TRUE);
+		} else {
+			$this->view->assign('pages', BackendService::getPages());
+		}
 	}
 }

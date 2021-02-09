@@ -41,7 +41,6 @@ use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
@@ -49,7 +48,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
-use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -107,7 +105,6 @@ class OptinController extends ActionController {
 	/**
 	 * Activates the demo mode for the given instance.
 	 *
-	 * @throws UnsupportedRequestTypeException
 	 * @throws StopActionException
 	 */
 	public function activateDemoModeAction() {
@@ -155,7 +152,7 @@ class OptinController extends ActionController {
 
 			foreach ($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'] as $languageId => $jsonData) {
 				if ($languageId !== $defaultLanguageId) {
-					$optInId = $jsonImportService->importJsonData(
+					$jsonImportService->importJsonData(
 						$jsonData, $pid, $languageId, $defaultLanguageOptinId
 					);
 				}
@@ -163,7 +160,7 @@ class OptinController extends ActionController {
 
 			unset($_SESSION['tx_sgcookieoptin']['importJsonData']);
 			$_SESSION['tx_sgcookieoptin']['configurationChanged'] = TRUE;
-			$this->redirectToTCAEdit($defaultLanguageOptinId);
+			$this->redirectToTCAEdit((int) $defaultLanguageOptinId);
 		} catch (Exception $exception) {
 			$this->addFlashMessage(
 				$exception->getMessage(),
@@ -180,7 +177,7 @@ class OptinController extends ActionController {
 	 * @param int $optInId
 	 * @throws RouteNotFoundException
 	 */
-	protected function redirectToTCAEdit($optInId) {
+	protected function redirectToTCAEdit(int $optInId) {
 		$pid = (int) GeneralUtility::_GP('id');
 		$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 		$params = [
@@ -237,7 +234,6 @@ class OptinController extends ActionController {
 			$jsonImportService->parseAndStoreImportedData($languages);
 
 			// check if all local languages are translated
-			$untranslatedLanguages = [];
 			foreach ($languages as $language) {
 				if (!isset($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'][$language['uid']])) {
 					$this->addFlashMessage(
@@ -325,21 +321,13 @@ class OptinController extends ActionController {
 	/**
 	 * Downloads a JSON file containing all the configuration for each language
 	 *
-	 * @return string
+	 * @throws StopActionException
 	 */
 	public function exportJsonAction() {
 		try {
 			$pid = (int) GeneralUtility::_GP('id');
 
-			$connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('tx_sgcookieoptin_domain_model_optin');
-			$queryBuilder = $connection->createQueryBuilder();
-			$queryBuilder
-				->from('tx_sgcookieoptin_domain_model_optin')
-				->select('uid')
-				->where('pid = :pid')
-				->andWhere('l10n_parent = 0')
-				->setParameter('pid', $pid);
-			$data = $queryBuilder->execute();
+			$data = JsonImportService::getDataForExport($pid);
 			if ($data->rowCount() !== 1) {
 				throw new JsonImportException(LocalizationUtility::translate('backend.jsonExport.error.exactlyOneEntry', 'sg_cookie_optin'));
 			}
@@ -357,6 +345,7 @@ class OptinController extends ActionController {
 				$locale = LanguageService::getLocaleByFileName(
 					str_replace('.json', '', $file->getFilename())
 				);
+				/** @noinspection PhpIllegalArrayKeyTypeInspection */
 				$jsonData[$locale] = json_decode($contents, TRUE);
 			}
 
@@ -377,7 +366,6 @@ class OptinController extends ActionController {
 	/**
 	 * Displays the user preference statistics
 	 *
-	 * @return string
 	 */
 	public function statisticsAction() {
 		$this->initComponents();
@@ -390,7 +378,6 @@ class OptinController extends ActionController {
 		$this->initComponents();
 
 		$this->view->assign('pages', BackendService::getPages());
-
 	}
 
 	/**
@@ -464,7 +451,7 @@ class OptinController extends ActionController {
 		$dataHandler->start($translatedCookiesData, []);
 		$dataHandler->process_datamap();
 
-		$this->redirectToTCAEdit($newOptinId);
+		$this->redirectToTCAEdit((int) $newOptinId);
 	}
 
 	/**

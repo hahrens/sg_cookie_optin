@@ -26,11 +26,10 @@ namespace SGalinski\SgCookieOptin\Service;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Doctrine\DBAL\Connection;
+use Exception;
 use PDO;
 use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -51,7 +50,7 @@ class OptinHistoryService {
 	 * @param $preferences
 	 * @return array
 	 */
-	public static function saveOptinHistory($preferences) {
+	public static function saveOptinHistory($preferences): array {
 		try {
 			$jsonInput = json_decode($preferences, TRUE);
 
@@ -84,7 +83,7 @@ class OptinHistoryService {
 				'error' => 0,
 				'message' => 'OK'
 			];
-		} catch (\Exception $exception) {
+		} catch (Exception $exception) {
 			return [
 				'error' => 1,
 				'message' => $exception->getMessage()
@@ -98,7 +97,7 @@ class OptinHistoryService {
 	 * @param $input
 	 * @return bool
 	 */
-	protected static function validateInput($input) {
+	protected static function validateInput($input): bool {
 		return !(!isset($input['uuid'], $input['version'], $input['cookieValue'], $input['isAll'], $input['identifier'])
 			|| ((int) $input['version']) < 1);
 	}
@@ -110,7 +109,7 @@ class OptinHistoryService {
 	 * @param int $itemType
 	 * @return array
 	 */
-	private static function prepareInsertData($jsonInput, $itemType) {
+	private static function prepareInsertData(array $jsonInput, int $itemType): array {
 		$insertData = [];
 		$cookieValuePairs = explode('|', $jsonInput['cookieValue']);
 		// we want the next 3 values to be identical for all items of this preference
@@ -135,35 +134,89 @@ class OptinHistoryService {
 		return $insertData;
 	}
 
-	public static function searchUserHistory($parameters) {
-		$connection = GeneralUtility::makeInstance(ConnectionPool::class)
-			->getConnectionForTable(self::TABLE_NAME);
-
-		//TODO: pid
-		$parameters['pid'] = 1;
-
-		$queryParams = [':pid' => $parameters['pid'],
-			':from_date' => $parameters['from_date'],
-			':to_date' => $parameters['to_date']];
-		$paramTypes = [PDO::PARAM_INT, PDO::PARAM_STR, PDO::PARAM_STR];
-		$query = 'SELECT * FROM ' . self::TABLE_NAME .
-			" WHERE pid = :pid AND DATE(tstamp) >= :from_date AND DATE(tstamp) <= :to_date ";
+	/**
+	 * Searches the user preferences by the given parameters and returns the data or the count
+	 *
+	 * @param array $parameters
+	 * @param false $isCount
+	 * @return mixed
+	 */
+	public static function searchUserHistory(array $parameters, $isCount = FALSE) {
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+			->getQueryBuilderForTable(self::TABLE_NAME);
+		if ($isCount) {
+			$queryBuilder->count('*');
+		} else {
+			$queryBuilder->select('*');
+		}
+		$queryBuilder->from(self::TABLE_NAME)
+			->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)))
+			->andWhere($queryBuilder->expr()->gte('date', $queryBuilder->createNamedParameter($parameters['from_date'])))
+			->andWhere($queryBuilder->expr()->lte('date', $queryBuilder->createNamedParameter($parameters['to_date'])));
 
 		if (!empty($parameters['user_hash'])) {
-			$queryParams['user_hash'] = $parameters['user_hash'];
-			$query .= " AND user_hash = :user_hash ";
+			$queryBuilder->andWhere($queryBuilder->expr()->eq('user_hash', $queryBuilder->createNamedParameter($parameters['user_hash'])));
 		}
 
-		if ($parameters['page'] && $parameters['per_page']) {
+		if (!empty($parameters['item_identifier'])) {
+			$queryBuilder->andWhere($queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter(self::TYPE_GROUP, PDO::PARAM_INT)))
+				->andWhere($queryBuilder->expr()->eq('item_identifier', $queryBuilder->createNamedParameter($parameters['item_identifier'], PDO::PARAM_STR)));
+		}
+
+		if (!$isCount && $parameters['page'] && $parameters['per_page']) {
 			$page = (int) $parameters['page'];
 			$perPage = (int) $parameters['per_page'];
 			if ($page > 0 && $perPage > 0) {
 				$offset = $perPage * ($page - 1);
-				$query .= " LIMIT $offset, $perPage";
+				$queryBuilder->setMaxResults($perPage)
+					->setFirstResult($offset);
 			}
 		}
 
-		$result = $connection->executeQuery($query, $queryParams);
-		return $result->fetchAllAssociative();
+		return $queryBuilder->execute()->fetchAllAssociative();
+	}
+
+	/**
+	 * Creates a list of the available item identifiers filtered by the given parameters
+	 *
+	 * @param array $parameters
+	 * @param int $type
+	 * @return array
+	 */
+	public static function getItemIdentifiers($parameters = [], $type = self::TYPE_GROUP): array {
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+			->getQueryBuilderForTable(self::TABLE_NAME);
+		$queryBuilder->select('item_identifier');
+
+		$queryBuilder->from(self::TABLE_NAME)
+			->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)));
+
+		if (isset($parameters['from_date']) && isset($parameters['to_date'])) {
+			$queryBuilder->andWhere($queryBuilder->expr()->gte('date', $queryBuilder->createNamedParameter($parameters['from_date'])))
+			->andWhere($queryBuilder->expr()->lte('date', $queryBuilder->createNamedParameter($parameters['to_date'])));
+		}
+
+		$queryBuilder->andWhere($queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter($type, PDO::PARAM_INT)));
+		$queryBuilder->addGroupBy('item_type');
+		$queryBuilder->addGroupBy('item_identifier');
+
+		return array_column($queryBuilder->execute()->fetchAllAssociative(), 'item_identifier');
+	}
+
+	/**
+	 * Gets the available versions
+	 *
+	 * @param array $parameters
+	 * @return array
+	 */
+	public static function getVersions(array $parameters): array {
+		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+			->getQueryBuilderForTable(self::TABLE_NAME);
+		$queryBuilder->select('version')
+			->from(self::TABLE_NAME)
+			->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)))
+			->addGroupBy('version');
+
+		return array_column($queryBuilder->execute()->fetchAllAssociative(), 'version');
 	}
 }

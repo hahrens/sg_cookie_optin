@@ -1316,7 +1316,9 @@ var SgCookieOptin = {
 			newCookieValue += '|' + SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT + ':' + 1;
 		}
 
-		SgCookieOptin.setCookieWrapper(newCookieValue);
+		if (cookieValue != newCookieValue) {
+			SgCookieOptin.setCookieWrapper(newCookieValue);
+		}
 	},
 
 	/**

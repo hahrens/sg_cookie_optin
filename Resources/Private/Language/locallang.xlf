@@ -258,6 +258,12 @@
 			<trans-unit id="backend.consent.grid.value" approved="yes">
 				<source><![CDATA[Yes/No]]></source>
 			</trans-unit>
+			<trans-unit id="backend.consent.form.filter" approved="yes">
+				<source><![CDATA[Filter]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consent.form.item_name.all" approved="yes">
+				<source><![CDATA[All]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

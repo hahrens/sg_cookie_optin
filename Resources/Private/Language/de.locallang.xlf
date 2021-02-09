@@ -341,6 +341,14 @@
 				<source><![CDATA[Yes/No]]></source>
 				<target><![CDATA[Ja/Nein]]></target>
 			</trans-unit>
+			<trans-unit id="backend.consent.form.filter" approved="yes">
+				<source><![CDATA[Filter]]></source>
+				<target><![CDATA[Filtern]]></target>
+			</trans-unit>
+			<trans-unit id="backend.consent.form.item_name.all" approved="yes">
+				<source><![CDATA[All]]></source>
+				<target><![CDATA[Alle]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

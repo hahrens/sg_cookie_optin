@@ -33,8 +33,11 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 			params: {
 				from_date: document.getElementById('from_date').value,
 				to_date: document.getElementById('to_date').value,
-				version: document.getElementById('version').value,
+				user_hash: document.getElementById('user_hash').value.trim(),
+				item_identifier: document.getElementById('item_identifier').value,
+				page: 1,
 				pid: 0,
+				per_page: 100
 			},
 
 			/**
@@ -65,18 +68,25 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 
 			/**
 			 * Reads the current filter form values
+			 *
+			 * @returns {{per_page: number, from_date, to_date, user_hash, pid: number, page: number, item_identifier}}
 			 */
 			getParameterValuesFromForm: function() {
 				return {
 					from_date: document.getElementById('from_date').value,
 					to_date: document.getElementById('to_date').value,
-					version: document.getElementById('version').value.trim(),
+					user_hash: document.getElementById('user_hash').value.trim(),
+					item_identifier: document.getElementById('item_identifier').value,
+					page: 1,
+					per_page: this.params.per_page,
 					pid: this.params.pid
 				};
 			},
 
 			/**
 			 * Returns the current parameters state
+			 *
+			 * @returns {{per_page: number, from_date: *, to_date: *, user_hash: *, pid: number, page: number, item_identifier: *}}
 			 */
 			getParams: function() {
 				return this.params;
@@ -172,7 +182,7 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 			 */
 			performSearch: function(params) {
 				var request = new XMLHttpRequest();
-				request.open('POST', TYPO3.settings.ajaxUrls['sg_cookie_optin::searchUserPreferenceHistoryChart'], true);
+				request.open('POST', TYPO3.settings.ajaxUrls['sg_cookie_optin::searchUserPreferenceHistory'], true);
 				var formData = new FormData();
 				formData.append('params', JSON.stringify(params));
 				request.that = this;

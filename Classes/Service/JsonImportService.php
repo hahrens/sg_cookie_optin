@@ -58,6 +58,26 @@ class JsonImportService {
 	private $defaultLanguageIdMappingLookup = NULL;
 
 	/**
+	 * Gets the optin data for export
+	 *
+	 * @param int $pid
+	 * @return \Doctrine\DBAL\Driver\Statement|int
+	 */
+	public static function getDataForExport(int $pid) {
+		$connection = GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable(
+			'tx_sgcookieoptin_domain_model_optin'
+		);
+		$queryBuilder = $connection->createQueryBuilder();
+		$queryBuilder
+			->select('uid')
+			->from('tx_sgcookieoptin_domain_model_optin')
+			->where('pid = :pid')
+			->andWhere('l10n_parent = 0')
+			->setParameter('pid', $pid);
+		return $queryBuilder->execute();
+	}
+
+	/**
 	 * Imports the cookie OptIn data
 	 *
 	 * @param array $jsonData
@@ -85,8 +105,8 @@ class JsonImportService {
 		$flatJsonData = [];
 		array_walk_recursive(
 			$jsonData, function ($value, $key) use (&$flatJsonData) {
-				$flatJsonData[$key] = $value;
-			}
+			$flatJsonData[$key] = $value;
+		}
 		);
 
 		// add required system data and remove junk from the JSON
@@ -361,7 +381,11 @@ class JsonImportService {
 		}
 
 		if (!$defaultFound) {
-			throw new JsonImportException(LocalizationUtility::translate('frontend.jsonImport.error.pleaseUploadTheDefaultLanguageConfigurationFile', 'sg_cookie_optin'));
+			throw new JsonImportException(
+				LocalizationUtility::translate(
+					'frontend.jsonImport.error.pleaseUploadTheDefaultLanguageConfigurationFile', 'sg_cookie_optin'
+				)
+			);
 		}
 
 		// import the other languages
