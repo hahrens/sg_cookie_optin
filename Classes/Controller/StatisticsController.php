@@ -26,35 +26,12 @@ namespace SGalinski\SgCookieOptin\Controller;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use DirectoryIterator;
-use Exception;
-use SGalinski\SgCookieOptin\Exception\JsonImportException;
-use SGalinski\SgCookieOptin\Service\BackendService;
-use SGalinski\SgCookieOptin\Service\DemoModeService;
-use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
-use SGalinski\SgCookieOptin\Service\JsonImportService;
-use SGalinski\SgCookieOptin\Service\LanguageService;
-use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use SGalinski\SgCookieOptin\Traits\InitControllerComponents;
-use TYPO3\CMS\Backend\Routing\Exception\RouteNotFoundException;
-use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
-use TYPO3\CMS\Backend\Utility\BackendUtility;
-use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\DataHandling\DataHandler;
-use TYPO3\CMS\Core\Exception\SiteNotFoundException;
-use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\StringUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
-use TYPO3\CMS\Extbase\Mvc\Exception\StopActionException;
-use TYPO3\CMS\Extbase\Mvc\Exception\UnsupportedRequestTypeException;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Consent Controller
@@ -78,9 +55,13 @@ class StatisticsController extends ActionController {
 		$this->initPageUidSelection();
 
 		$pageUid = (int) GeneralUtility::_GP('id');
-				$this->view->assign('versions', OptinHistoryService::getVersions([
-					'pid' => $pageUid
-				]));
+		$this->view->assign(
+			'versions', OptinHistoryService::getVersions(
+			[
+				'pid' => $pageUid
+			]
+		)
+		);
 
 		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 		$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Statistics');

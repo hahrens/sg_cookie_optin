@@ -121,6 +121,9 @@ trait InitControllerComponents {
 		$this->view->assign('showDemoButton', !$isInDemoMode && DemoModeService::isDemoModeAcceptable());
 	}
 
+	/**
+	 * Initializes the root page selection
+	 */
 	protected function initPageUidSelection() {
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));

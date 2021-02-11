@@ -26,13 +26,11 @@ namespace SGalinski\SgCookieOptin\Backend;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use http\Exception\RuntimeException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SGalinski\SgCookieOptin\Exception\SearchOptinHistoryException;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
-use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Http\Response;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
@@ -82,7 +80,6 @@ class Ajax {
 
 		try {
 			if (!isset($request->getParsedBody()['params'])) {
-				//TODO: error
 				throw new SearchOptinHistoryException('No parameters sent to the server.');
 			}
 

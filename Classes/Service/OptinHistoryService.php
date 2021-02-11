@@ -70,13 +70,15 @@ class OptinHistoryService {
 					$GLOBALS['TYPO3_DB']->exec_INSERTquery(self::TABLE_NAME, $data);
 				}
 			} else {
-				$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_user_preference');
+				$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable(
+					'tx_sgcookieoptin_domain_model_user_preference'
+				);
 
 				foreach ($insertData as $data) {
 					$queryBuilder
-					   ->insert(self::TABLE_NAME)
-					   ->values($data)
-					   ->execute();
+						->insert(self::TABLE_NAME)
+						->values($data)
+						->execute();
 				}
 			}
 
@@ -122,7 +124,7 @@ class OptinHistoryService {
 			$insertData[] = [
 				'user_hash' => $jsonInput['uuid'],
 				'version' => $jsonInput['version'],
-				'tstamp' =>  $tstamp,
+				'tstamp' => $tstamp,
 				'date' => $date,
 				'preference_hash' => $preferenceHash,
 				'item_identifier' => $groupName,
@@ -147,29 +149,52 @@ class OptinHistoryService {
 			->getQueryBuilderForTable(self::TABLE_NAME);
 
 		if (!empty($parameters['countField'])) {
-			$queryBuilder->addSelectLiteral($queryBuilder->expr()->count($parameters['countField'], 'count_' . $parameters['countField']));
-		} else if ($isCount) {
-			$queryBuilder->count('*');
+			$queryBuilder->addSelectLiteral(
+				$queryBuilder->expr()->count($parameters['countField'], 'count_' . $parameters['countField'])
+			);
 		} else {
-			$queryBuilder->select('*');
+			if ($isCount) {
+				$queryBuilder->count('*');
+			} else {
+				$queryBuilder->select('*');
+			}
 		}
 
 		$queryBuilder->from(self::TABLE_NAME)
-			->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)))
-			->andWhere($queryBuilder->expr()->gte('date', $queryBuilder->createNamedParameter($parameters['from_date'])))
+			->where(
+				$queryBuilder->expr()->eq(
+					'pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)
+				)
+			)
+			->andWhere(
+				$queryBuilder->expr()->gte('date', $queryBuilder->createNamedParameter($parameters['from_date']))
+			)
 			->andWhere($queryBuilder->expr()->lte('date', $queryBuilder->createNamedParameter($parameters['to_date'])));
 
 		if (!empty($parameters['user_hash'])) {
-			$queryBuilder->andWhere($queryBuilder->expr()->eq('user_hash', $queryBuilder->createNamedParameter($parameters['user_hash'])));
+			$queryBuilder->andWhere(
+				$queryBuilder->expr()->eq('user_hash', $queryBuilder->createNamedParameter($parameters['user_hash']))
+			);
 		}
 
 		if (!empty($parameters['version'])) {
-			$queryBuilder->andWhere($queryBuilder->expr()->eq('version', $queryBuilder->createNamedParameter($parameters['version'])));
+			$queryBuilder->andWhere(
+				$queryBuilder->expr()->eq('version', $queryBuilder->createNamedParameter($parameters['version']))
+			);
 		}
 
 		if (!empty($parameters['item_identifier'])) {
-			$queryBuilder->andWhere($queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter(self::TYPE_GROUP, PDO::PARAM_INT)))
-				->andWhere($queryBuilder->expr()->eq('item_identifier', $queryBuilder->createNamedParameter($parameters['item_identifier'], PDO::PARAM_STR)));
+			$queryBuilder->andWhere(
+				$queryBuilder->expr()->eq(
+					'item_type', $queryBuilder->createNamedParameter(self::TYPE_GROUP, PDO::PARAM_INT)
+				)
+			)
+				->andWhere(
+					$queryBuilder->expr()->eq(
+						'item_identifier',
+						$queryBuilder->createNamedParameter($parameters['item_identifier'], PDO::PARAM_STR)
+					)
+				);
 		}
 
 		if (!empty($parameters['groupBy'])) {
@@ -205,14 +230,24 @@ class OptinHistoryService {
 		$queryBuilder->select('item_identifier');
 
 		$queryBuilder->from(self::TABLE_NAME)
-			->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)));
+			->where(
+				$queryBuilder->expr()->eq(
+					'pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)
+				)
+			);
 
-		if (isset($parameters['from_date']) && isset($parameters['to_date'])) {
-			$queryBuilder->andWhere($queryBuilder->expr()->gte('date', $queryBuilder->createNamedParameter($parameters['from_date'])))
-			->andWhere($queryBuilder->expr()->lte('date', $queryBuilder->createNamedParameter($parameters['to_date'])));
+		if (isset($parameters['from_date'], $parameters['to_date'])) {
+			$queryBuilder->andWhere(
+				$queryBuilder->expr()->gte('date', $queryBuilder->createNamedParameter($parameters['from_date']))
+			)
+				->andWhere(
+					$queryBuilder->expr()->lte('date', $queryBuilder->createNamedParameter($parameters['to_date']))
+				);
 		}
 
-		$queryBuilder->andWhere($queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter($type, PDO::PARAM_INT)));
+		$queryBuilder->andWhere(
+			$queryBuilder->expr()->eq('item_type', $queryBuilder->createNamedParameter($type, PDO::PARAM_INT))
+		);
 		$queryBuilder->addGroupBy('item_type');
 		$queryBuilder->addGroupBy('item_identifier');
 
@@ -230,7 +265,11 @@ class OptinHistoryService {
 			->getQueryBuilderForTable(self::TABLE_NAME);
 		$queryBuilder->select('version')
 			->from(self::TABLE_NAME)
-			->where($queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)))
+			->where(
+				$queryBuilder->expr()->eq(
+					'pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)
+				)
+			)
 			->addGroupBy('version')
 			->orderBy('version', 'asc');
 
