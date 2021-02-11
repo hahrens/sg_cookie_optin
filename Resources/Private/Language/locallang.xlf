@@ -267,6 +267,12 @@
 			<trans-unit id="backend.statistics.version" approved="yes">
 				<source><![CDATA[Version]]></source>
 			</trans-unit>
+			<trans-unit id="backend.statistics.accepted" approved="yes">
+				<source><![CDATA[Accepted]]></source>
+			</trans-unit>
+			<trans-unit id="backend.statistics.rejected" approved="yes">
+				<source><![CDATA[Rejected]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

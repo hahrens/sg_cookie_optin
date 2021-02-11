@@ -34,6 +34,7 @@ use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use TYPO3\CMS\Core\Exception;
 use TYPO3\CMS\Core\Http\Response;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Class Ajax
@@ -118,7 +119,6 @@ class Ajax {
 
 		try {
 			if (!isset($request->getParsedBody()['params'])) {
-				//TODO: error
 				throw new SearchOptinHistoryException('No parameters sent to the server.');
 			}
 
@@ -137,16 +137,24 @@ class Ajax {
 				$params['item_identifier'] = $identifier;
 				$params['countField'] = 'item_identifier';
 
-				$data[$identifier]['accepted'] = 0;
-				$data[$identifier]['rejected'] = 0;
+				$acceptedKey = LocalizationUtility::translate('backend.statistics.accepted', 'sg_cookie_optin');
+				$rejectedKey = LocalizationUtility::translate('backend.statistics.rejected', 'sg_cookie_optin');
+
+				$data[$identifier][$acceptedKey] = [
+					'value' => 0,
+					'color' => '#009146'
+				];
+				$data[$identifier][$rejectedKey] = [
+					'value' => 0,
+					'color' => '#C41700'
+				];
 
 				$identifierData = OptinHistoryService::searchUserHistory($params, TRUE)->execute()->fetchAllAssociative();
-
 				foreach ($identifierData as $values) {
 					if ($values['is_accepted']) {
-						$data[$identifier]['accepted'] = $values['count_' . $params['countField']];
+						$data[$identifier][$acceptedKey]['value'] = $values['count_' . $params['countField']];
 					} else {
-						$data[$identifier]['rejected'] = $values['count_' . $params['countField']];
+						$data[$identifier][$rejectedKey]['value'] = $values['count_' . $params['countField']];
 					}
 				}
 			}

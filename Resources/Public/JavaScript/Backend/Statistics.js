@@ -155,21 +155,23 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 
 				var labels = [];
 				var datasets = [];
+				var colors = [];
 				for (var label in dataEntry) {
 					if (label !== 'length' && dataEntry.hasOwnProperty(label)) {
 						labels.push(label);
-						datasets.push(dataEntry[label]);
+						datasets.push(dataEntry[label].value);
+						colors.push(dataEntry[label].color);
 					}
 				}
+
 				var chartData = {
 					datasets: [
 						{
 							data: datasets,
-							backgroundColor: ['#009146', '#c41700'],
+							backgroundColor: colors,
 						}
 					],
 					labels: labels,
-
 				}
 
 				var myChart = new Chart(chartContainer, {
@@ -232,7 +234,6 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 			onSearchError: function(error) {
 				console.log(error);
 			},
-
 
 		};
 

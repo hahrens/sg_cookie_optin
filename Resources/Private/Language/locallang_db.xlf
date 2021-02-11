@@ -9,6 +9,9 @@
 			<authorEmail>fabian@sgalinski.de</authorEmail>
 		</header>
 		<body>
+			<trans-unit id="backend.searchError.noParametersSentToTheServer">
+				<source><![CDATA[No parameters sent to the server.]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie">
 				<source><![CDATA[Cookie]]></source>
 			</trans-unit>

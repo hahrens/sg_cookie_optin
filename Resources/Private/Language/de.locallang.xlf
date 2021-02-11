@@ -353,6 +353,14 @@
 				<source><![CDATA[Version]]></source>
 				<target><![CDATA[Version]]></target>
 			</trans-unit>
+			<trans-unit id="backend.statistics.accepted" approved="yes">
+				<source><![CDATA[Accepted]]></source>
+				<target><![CDATA[Akzeptiert]]></target>
+			</trans-unit>
+			<trans-unit id="backend.statistics.rejected" approved="yes">
+				<source><![CDATA[Rejected]]></source>
+				<target><![CDATA[Verweigert]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
