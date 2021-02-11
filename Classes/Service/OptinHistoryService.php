@@ -152,12 +152,10 @@ class OptinHistoryService {
 			$queryBuilder->addSelectLiteral(
 				$queryBuilder->expr()->count($parameters['countField'], 'count_' . $parameters['countField'])
 			);
+		} else if ($isCount) {
+			$queryBuilder->count('*');
 		} else {
-			if ($isCount) {
-				$queryBuilder->count('*');
-			} else {
-				$queryBuilder->select('*');
-			}
+			$queryBuilder->select('*');
 		}
 
 		$queryBuilder->from(self::TABLE_NAME)
