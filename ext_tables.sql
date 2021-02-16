@@ -266,11 +266,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_user_preference (
 
 
 	PRIMARY KEY (uid),
-	KEY user_hash (user_hash),
-	KEY date (date),
-	KEY version (version),
-	KEY is_accepted (is_accepted),
-	KEY item_type (item_type),
-	KEY item_identifier (item_identifier),
-	KEY is_all (is_all)
+	KEY consent (pid, date, user_hash),
+    KEY statistics (item_type, item_identifier, is_accepted, pid, date, version),
 );

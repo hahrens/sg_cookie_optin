@@ -175,12 +175,6 @@ class OptinHistoryService {
 			);
 		}
 
-		if (!empty($parameters['version'])) {
-			$queryBuilder->andWhere(
-				$queryBuilder->expr()->eq('version', $queryBuilder->createNamedParameter($parameters['version']))
-			);
-		}
-
 		if (!empty($parameters['item_identifier'])) {
 			$queryBuilder->andWhere(
 				$queryBuilder->expr()->eq(
@@ -193,6 +187,12 @@ class OptinHistoryService {
 						$queryBuilder->createNamedParameter($parameters['item_identifier'], PDO::PARAM_STR)
 					)
 				);
+		}
+
+		if (!empty($parameters['version'])) {
+			$queryBuilder->andWhere(
+				$queryBuilder->expr()->eq('version', $queryBuilder->createNamedParameter($parameters['version']))
+			);
 		}
 
 		if (!empty($parameters['groupBy'])) {
