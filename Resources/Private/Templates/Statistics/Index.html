@@ -6,48 +6,50 @@
 		<f:then>
 			<f:flashMessages/>
 			<form id="consent-statistics-form">
-				<div class="consent-statistics-container">
-					<div class="form-group">
-						<div class="border consent-statistics-controls">
-							<div class="consent-statistics-controls-date">
-								<div class="consent-statistics-controls-date-container">
-									<label for="from_date">From: </label><input class="form-control" type="date"
-																				id="from_date"
-																				name="from_date"/>
-								</div>
-								<div class="consent-statistics-controls-date-container">
-									<label for="to_date">To: </label><input class="form-control" type="date"
-																			id="to_date"
-																			name="to_date"/>
-								</div>
-							</div>
-							<div class="consent-statistics-controls-filters">
-								<div class="consent-statistics-controls-filters-container">
-									<label for="version">
-										<f:translate key='backend.statistics.version'/>
-										:
-									</label>
-									<select id="version" class="form-control">
-										<option value="">
-											<f:translate key='backend.consent.form.item_name.all'/>
-										</option>
-										<f:for each="{versions}" as="version">
-											<option value="{version}">{version}</option>
-										</f:for>
-									</select>
-								</div>
-							</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-4">
+						<div class="form-group">
+							<label for="from_date">From: </label><input class="form-control" type="date"
+																		id="from_date"
+																		name="from_date"/>
 						</div>
-						<button type="button" id="consent-statistics-submit" class="btn btn-primary">
-							<f:translate key="backend.consent.form.filter"/>
-						</button>
+					</div>
+					<div class="col-xs-12 col-md-4">
+						<div class="form-group">
+							<label for="to_date">To: </label><input class="form-control" type="date"
+																	id="to_date"
+																	name="to_date"/>
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-md-4">
+						<div class="form-group">
+							<label for="version">
+								<f:translate key='backend.statistics.version'/>
+								:
+							</label>
+							<select id="version" class="form-control">
+								<option value="">
+									<f:translate key='backend.consent.form.item_name.all'/>
+								</option>
+								<f:for each="{versions}" as="version">
+									<option value="{version}">{version}</option>
+								</f:for>
+							</select>
+						</div>
+					</div>
+
+					<div class="col-md-12">
+						<div class="form-group">
+							<button type="button" id="consent-statistics-submit" class="filter-btn btn btn-success">
+								<f:translate key="backend.consent.form.filter"/>
+							</button>
+						</div>
 					</div>
 
 					<div class="table" id="consent-statistics-charts-container">
 
 					</div>
-
-
 				</div>
 			</form>
 		</f:then>

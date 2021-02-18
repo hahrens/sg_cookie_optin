@@ -6,83 +6,88 @@
 		<f:then>
 			<f:flashMessages/>
 			<form id="consent-statistics-form">
-				<div class="consent-statistics-container">
-					<div class="form-group">
-						<div class="border consent-statistics-controls">
-							<div class="consent-statistics-controls-date">
-								<div class="consent-statistics-controls-date-container">
-									<label for="from_date">From: </label><input class="form-control" type="date"
-																				id="from_date"
-																				name="from_date"/>
-								</div>
-								<div class="consent-statistics-controls-date-container">
-									<label for="to_date">To: </label><input class="form-control" type="date"
-																			id="to_date"
-																			name="to_date"/>
-								</div>
-							</div>
-							<div class="consent-statistics-controls-filters">
-								<div class="consent-statistics-controls-filters-container">
-									<label for="user_hash">
-										<f:translate key='backend.consent.grid.user_hash'/>
-										:
-									</label><input type="text" id="user_hash" name="user_hash"
-												   class="form-control consent-statistics-controls-hash"
-												   placeholder="<f:translate key='backend.consent.grid.user_hash'/>"/>
-								</div>
-								<div class="consent-statistics-controls-filters-container">
-									<label for="item_identifier">
-										<f:translate key='backend.consent.grid.item_name'/>
-										:
-									</label>
-									<select id="item_identifier" class="form-control">
-										<option value="">
-											<f:translate key='backend.consent.form.item_name.all'/>
-										</option>
-										<f:for each="{identifiers}" as="identifier">
-											<option value="{identifier}">{identifier}</option>
-										</f:for>
-									</select>
-								</div>
-							</div>
+				<div class="row">
+					<div class="col-xs-12 col-md-3">
+						<div class="form-group">
+							<label for="from_date">From: </label><input class="form-control" type="date"
+																		id="from_date"
+																		name="from_date"/>
 						</div>
-						<button type="button" id="consent-statistics-submit" class="btn btn-primary">
-							<f:translate key="backend.consent.form.filter"/>
-						</button>
+					</div>
+					<div class="col-xs-12 col-md-3">
+						<div class="form-group">
+							<label for="to_date">To: </label><input class="form-control" type="date"
+																	id="to_date"
+																	name="to_date"/>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-3">
+						<div class="form-group">
+							<label for="user_hash">
+								<f:translate key="backend.consent.grid.user_hash"/>
+								:
+							</label>
+							<f:form.textfield class="reset-me form-control" property="user_hash" id="user_hash"/>
+						</div>
+					</div>
+					<div class="col-xs-12 col-md-3">
+						<div class="form-group">
+							<label for="item_identifier">
+								<f:translate key='backend.consent.grid.item_name'/>
+								:
+							</label>
+							<select id="item_identifier" class="form-control">
+								<option value="">
+									<f:translate key='backend.consent.form.item_name.all'/>
+								</option>
+								<f:for each="{identifiers}" as="identifier">
+									<option value="{identifier}">{identifier}</option>
+								</f:for>
+							</select>
+						</div>
 					</div>
 
-					<div class="table-responsive" class="consent-statistics-grid" id="consent-statistics-grid">
-						<table class="table table-hover">
-							<thead>
-							<tr>
-								<th>
-									<f:translate key="backend.consent.grid.time"/>
-								</th>
-								<th>
-									<f:translate key="backend.consent.grid.user_hash"/>
-								</th>
-								<th>
-									<f:translate key="backend.consent.grid.item_name"/>
-								</th>
-								<th>
-									<f:translate key="backend.consent.grid.value"/>
-								</th>
-							</tr>
-							</thead>
-							<tbody>
-
-							</tbody>
-							<tbody>
-							<tr>
-								<td colspan="4" align="center">
-									<ul class="pagination" id="consent-statistics-grid-page-select">
-									</ul>
-								</td>
-							</tr>
-							</tbody>
-						</table>
-
+					<div class="col-md-12">
+						<div class="form-group">
+							<button type="button" id="consent-statistics-submit" class="filter-btn btn btn-success">
+								<f:translate key="backend.consent.form.filter"/>
+							</button>
+						</div>
 					</div>
+				</div>
+
+				<div class="table-responsive" class="consent-statistics-grid" id="consent-statistics-grid">
+					<table class="table table-hover">
+						<thead>
+						<tr>
+							<th>
+								<f:translate key="backend.consent.grid.time"/>
+							</th>
+							<th>
+								<f:translate key="backend.consent.grid.user_hash"/>
+							</th>
+							<th>
+								<f:translate key="backend.consent.grid.item_name"/>
+							</th>
+							<th>
+								<f:translate key="backend.consent.grid.value"/>
+							</th>
+						</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+						<tbody>
+						<tr>
+							<td colspan="4" align="center">
+								<ul class="pagination" id="consent-statistics-grid-page-select">
+								</ul>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+
+				</div>
 
 
 				</div>
