@@ -120,6 +120,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_enable">
 				<source><![CDATA[Show a Less Obtrusive Banner Instead of the Cookie Settings Window]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.user_hash_text" approved="yes">
+				<source><![CDATA[Text for the user hash label]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_html">
 				<source><![CDATA[Banner Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html) ]]></source>
 			</trans-unit>

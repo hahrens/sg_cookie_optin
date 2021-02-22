@@ -210,6 +210,8 @@ var SgCookieOptin = {
 			wrapper.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.template.markup);
 		}
 
+		SgCookieOptin.insertUserUuid(wrapper);
+
 		SgCookieOptin.addListeners(wrapper, contentElement);
 
 		if (!contentElement) {
@@ -414,6 +416,34 @@ var SgCookieOptin = {
 	},
 
 	/**
+	 * Gets the current user uuid
+	 *
+	 * @returns {string}
+	 */
+	getUserUuid: function () {
+		var userUuid = window.localStorage.getItem('SgCookieOptin.userUuid');
+		if (!userUuid) {
+			userUuid = SgCookieOptin.generateUUID();
+			window.localStorage.setItem('SgCookieOptin.userUuid', userUuid);
+		}
+		return userUuid;
+	},
+
+	/**
+	 * Shows the UserUiid in the cookie banner
+	 *
+	 * @param {HTMLElement} wrapper
+	 */
+	insertUserUuid: function(wrapper) {
+		var hashContainers = wrapper.querySelectorAll('.sg-cookie-optin-box-footer-user-hash');
+		for (var bannerIndex in hashContainers) {
+			if (typeof hashContainers[bannerIndex].innerText === 'string') {
+				hashContainers[bannerIndex].innerText = SgCookieOptin.getUserUuid();
+			}
+		}
+	},
+
+	/**
 	 * Stores the last saved preferences in the localstorage
 	 *
 	 * @param {string} cookieValue
@@ -431,8 +461,7 @@ var SgCookieOptin = {
 			lastPreferences = {};
 		}
 
-		var uuid = (typeof lastPreferences.uuid !== 'undefined') ? lastPreferences.uuid : SgCookieOptin.generateUUID();
-
+		var uuid = SgCookieOptin.getUserUuid();
 		var isAll = true;
 		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
 			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {

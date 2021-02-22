@@ -158,16 +158,12 @@ class OptinHistoryService {
 			$queryBuilder->select('*');
 		}
 
-		$queryBuilder->from(self::TABLE_NAME)
-			->where(
+		$queryBuilder->from(self::TABLE_NAME)->where(
 				$queryBuilder->expr()->eq(
 					'pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)
 				)
-			)
-			->andWhere(
-				$queryBuilder->expr()->gte('date', $queryBuilder->createNamedParameter($parameters['from_date']))
-			)
-			->andWhere($queryBuilder->expr()->lte('date', $queryBuilder->createNamedParameter($parameters['to_date'])));
+			);
+
 
 		if (!empty($parameters['user_hash'])) {
 			$queryBuilder->andWhere(
@@ -194,6 +190,12 @@ class OptinHistoryService {
 				$queryBuilder->expr()->eq('version', $queryBuilder->createNamedParameter($parameters['version']))
 			);
 		}
+
+		// Date comes last, because range filters must be at the end of the index
+		$queryBuilder->andWhere(
+			$queryBuilder->expr()->gte('date', $queryBuilder->createNamedParameter($parameters['from_date']))
+		)
+		->andWhere($queryBuilder->expr()->lte('date', $queryBuilder->createNamedParameter($parameters['to_date'])));
 
 		if (!empty($parameters['groupBy'])) {
 			foreach ($parameters['groupBy'] as $groupBy) {

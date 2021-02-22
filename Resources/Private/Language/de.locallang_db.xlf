@@ -581,6 +581,10 @@
 				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>
 				<target><![CDATA[Text für die Benachrichtigung, der angezeigt wird, wenn Cookie-Einstellungen gespeichert werden]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.user_hash_text" approved="yes">
+				<source><![CDATA[Text for the user hash label]]></source>
+				<target><![CDATA[Text für die User-Hash Beschriftung]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_history_webhook" approved="yes">
 				<source><![CDATA[Save preferences history webhook address]]></source>
 				<target><![CDATA[Webhook-Adresse zum speicher der Einstellungen-Historie]]></target>

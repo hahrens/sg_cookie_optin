@@ -24,6 +24,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	cookie_purpose_text varchar(255) DEFAULT 'Zweck' NOT NULL,
 	cookie_lifetime_text varchar(255) DEFAULT 'Laufzeit' NOT NULL,
 	save_confirmation_text varchar(255) DEFAULT 'Cookie-Einstellungen erfolgreich gespeichert' NOT NULL,
+	user_hash_text varchar(255) DEFAULT 'User-Hash' NOT NULL,
 
 	-- template
 	template_html text NOT NULL,
@@ -266,6 +267,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_user_preference (
 
 
 	PRIMARY KEY (uid),
-	KEY consent (pid, date, user_hash),
-    KEY statistics (item_type, item_identifier, is_accepted, pid, date, version),
+	KEY consent (pid, user_hash, item_type, item_identifier, date),
+    KEY statistics (pid, item_type, item_identifier, is_accepted, version, date),
 );

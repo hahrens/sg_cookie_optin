@@ -832,6 +832,7 @@ class GenerateFilesAfterTcaSave {
 			'banner_button_settings_text' => $translatedData['banner_button_settings_text'],
 			'banner_description' => $translatedData['banner_description'],
 			'save_confirmation_text' => $translatedData['save_confirmation_text'],
+			'user_hash_text' => $translatedData['user_hash_text'],
 		];
 
 		$jsonDataArray = [

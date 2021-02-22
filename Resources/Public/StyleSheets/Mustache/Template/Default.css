@@ -347,6 +347,10 @@
 	color: ###color_text###60;
 }
 
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer .sg-cookie-optin-box-footer-user-hash-container {
+	color: ###color_text###60;
+}
+
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-footer .sg-cookie-optin-box-footer-links {
 	float: right;
 }

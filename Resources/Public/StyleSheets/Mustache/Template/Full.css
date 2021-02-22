@@ -71,6 +71,10 @@
 	text-align: right;
 }
 
+#SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-new-lower .sg-cookie-optin-box-footer .sg-cookie-optin-box-footer-user-hash-container {
+	text-align: right;
+}
+
 #SgCookieOptin .sg-cookie-optin-box.sg-cookie-optin-box-new .sg-cookie-optin-box-cookie-list {
 	padding: 0 0 15px;
 	margin: 0 0 15px;
