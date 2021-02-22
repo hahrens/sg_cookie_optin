@@ -215,7 +215,12 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 					if (this.status >= 200 && this.status < 400) {
 						// Success!
 						const data = JSON.parse(this.response);
-						this.that.updateCharts(data);
+						if (Object.keys(data).length > 0) {
+							document.getElementById('statistics-no-data-found').style.display = 'none';
+							setTimeout(function() {this.that.updateCharts(data)}.bind(this), 100);
+						} else {
+							document.getElementById('statistics-no-data-found').style.display = 'block';
+						}
 					} else {
 						// We reached our target server, but it returned an error
 						this.onSearchError();

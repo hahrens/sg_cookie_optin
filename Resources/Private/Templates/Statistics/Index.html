@@ -9,24 +9,23 @@
 				<div class="row">
 					<div class="col-xs-12 col-md-4">
 						<div class="form-group">
-							<label for="from_date">From: </label><input class="form-control" type="date"
-																		id="from_date"
-																		name="from_date"/>
+							<label for="from_date"><f:translate key="backend.statistics.filter.from"/>: </label><input class="form-control" type="date"
+								id="from_date"
+								name="from_date"/>
 						</div>
 					</div>
 					<div class="col-xs-12 col-md-4">
 						<div class="form-group">
-							<label for="to_date">To: </label><input class="form-control" type="date"
-																	id="to_date"
-																	name="to_date"/>
+							<label for="to_date"><f:translate key="backend.statistics.filter.to"/>: </label><input class="form-control" type="date"
+								id="to_date"
+								name="to_date"/>
 						</div>
 					</div>
 
 					<div class="col-xs-12 col-md-4">
 						<div class="form-group">
 							<label for="version">
-								<f:translate key='backend.statistics.version'/>
-								:
+								<f:translate key='backend.statistics.version'/>:
 							</label>
 							<select id="version" class="form-control">
 								<option value="">
@@ -45,6 +44,10 @@
 								<f:translate key="backend.consent.form.filter"/>
 							</button>
 						</div>
+					</div>
+
+					<div class="alert alert-warning" id="statistics-no-data-found">
+						<f:translate key="backend.statistics.noDataFound"/>
 					</div>
 
 					<div class="table" id="consent-statistics-charts-container">

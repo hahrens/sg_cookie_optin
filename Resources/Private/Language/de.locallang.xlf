@@ -361,6 +361,18 @@
 				<source><![CDATA[Rejected]]></source>
 				<target><![CDATA[Verweigert]]></target>
 			</trans-unit>
+			<trans-unit id="backend.statistics.filter.from" approved="yes">
+				<source><![CDATA[From]]></source>
+				<target><![CDATA[Von]]></target>
+			</trans-unit>
+			<trans-unit id="backend.statistics.filter.to" approved="yes">
+				<source><![CDATA[To]]></source>
+				<target><![CDATA[Bis]]></target>
+			</trans-unit>
+			<trans-unit id="backend.statistics.noDataFound" approved="yes">
+				<source><![CDATA[We couldn't find any data for your search. Please change your filters and try again.]]></source>
+				<target><![CDATA[Wir konnten keine Daten für Ihre Suche finden. Bitte ändern Sie Ihre Filter und versuchen Sie es erneut.]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

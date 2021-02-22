@@ -273,6 +273,15 @@
 			<trans-unit id="backend.statistics.rejected" approved="yes">
 				<source><![CDATA[Rejected]]></source>
 			</trans-unit>
+			<trans-unit id="backend.statistics.filter.from" approved="yes">
+				<source><![CDATA[From]]></source>
+			</trans-unit>
+			<trans-unit id="backend.statistics.filter.to" approved="yes">
+				<source><![CDATA[To]]></source>
+			</trans-unit>
+			<trans-unit id="backend.statistics.noDataFound" approved="yes">
+				<source><![CDATA[We couldn't find any data for your search. Please change your filters and try again.]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
