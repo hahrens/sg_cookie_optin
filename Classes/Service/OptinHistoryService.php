@@ -142,66 +142,74 @@ class OptinHistoryService {
 	 *
 	 * @param array $parameters
 	 * @param false $isCount
-	 * @return QueryBuilder
+	 * @return array
+	 * @throws \Doctrine\DBAL\Exception
 	 */
-	public static function searchUserHistory(array $parameters, $isCount = FALSE): QueryBuilder {
-		$queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
-			->getQueryBuilderForTable(self::TABLE_NAME);
+	public static function searchUserHistory(array $parameters, $isCount = FALSE): array {
+		$connection = GeneralUtility::makeInstance(ConnectionPool::class)
+			->getConnectionForTable(self::TABLE_NAME);
+
+		$query = 'SELECT ';
+		$select = [];
 
 		if (!empty($parameters['countField'])) {
-			$queryBuilder->addSelectLiteral(
-				$queryBuilder->expr()->count($parameters['countField'], 'count_' . $parameters['countField'])
-			);
+			$select[] = 'COUNT(`' . $parameters['countField'] . '`) AS `count_' . $parameters['countField'] . '` ';
 		} else if ($isCount) {
-			$queryBuilder->count('*');
+			$select[] = 'COUNT(*) ';
 		} else {
-			$queryBuilder->select('*');
+			$select[] = '* ';
 		}
 
-		$queryBuilder->from(self::TABLE_NAME)->where(
-				$queryBuilder->expr()->eq(
-					'pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)
-				)
-			);
-
+		$queryParamTypes = [PDO::PARAM_INT];
+		$queryParameters = [(int) $parameters['pid']];
+		$where = ['`pid` =  ?'];
 
 		if (!empty($parameters['user_hash'])) {
-			$queryBuilder->andWhere(
-				$queryBuilder->expr()->eq('user_hash', $queryBuilder->createNamedParameter($parameters['user_hash']))
-			);
+			$where[] = '`user_hash` = ?';
+			$queryParameters[] = $parameters['user_hash'];
+			$queryParamTypes[] = PDO::PARAM_STR;
 		}
 
 		if (!empty($parameters['item_identifier'])) {
-			$queryBuilder->andWhere(
-				$queryBuilder->expr()->eq(
-					'item_type', $queryBuilder->createNamedParameter(self::TYPE_GROUP, PDO::PARAM_INT)
-				)
-			)
-				->andWhere(
-					$queryBuilder->expr()->eq(
-						'item_identifier',
-						$queryBuilder->createNamedParameter($parameters['item_identifier'], PDO::PARAM_STR)
-					)
-				);
+			$where[] = '`item_type` = ? AND `item_identifier` = ?';
+			$queryParameters[] = self::TYPE_GROUP;
+			$queryParamTypes[] = PDO::PARAM_INT;
+			$queryParameters[] = $parameters['item_identifier'];
+			$queryParamTypes[] = PDO::PARAM_STR;
 		}
 
 		if (!empty($parameters['version'])) {
-			$queryBuilder->andWhere(
-				$queryBuilder->expr()->eq('version', $queryBuilder->createNamedParameter($parameters['version']))
-			);
+			$where[] = '`version` = ?';
+			$queryParameters[] = $parameters['version'];
+			$queryParamTypes[] = PDO::PARAM_STR;
 		}
 
 		// Date comes last, because range filters must be at the end of the index
-		$queryBuilder->andWhere(
-			$queryBuilder->expr()->gte('date', $queryBuilder->createNamedParameter($parameters['from_date']))
-		)
-		->andWhere($queryBuilder->expr()->lte('date', $queryBuilder->createNamedParameter($parameters['to_date'])));
+		$where[] = '`date` BETWEEN ? AND ?';
+		$queryParameters[] = $parameters['from_date'];
+		$queryParameters[] = $parameters['to_date'];
+		$queryParamTypes[] = PDO::PARAM_STR;
+		$queryParamTypes[] = PDO::PARAM_STR;
 
+		$groupBy = [];
 		if (!empty($parameters['groupBy'])) {
-			foreach ($parameters['groupBy'] as $groupBy) {
-				$queryBuilder->addGroupBy($groupBy);
-				$queryBuilder->addSelect($groupBy);
+			foreach ($parameters['groupBy'] as $groupByField) {
+				$groupBy[] = $groupByField;
+				$select[] = $groupByField;
 			}
+		}
+
+		$query .= implode(', ', $select);
+		$query .= ' FROM ' . self::TABLE_NAME;
+
+		if (isset($parameters['useIndex'])) {
+			$query .= ' USE INDEX (' . $parameters['useIndex'] . ') ';
+		}
+
+		$query .= ' WHERE ' . implode(' AND ', $where);
+
+		if (count($groupBy) > 0) {
+			$query .= ' GROUP BY ' . implode(',', $groupBy);
 		}
 
 		if (!$isCount && $parameters['page'] && $parameters['per_page']) {
@@ -209,12 +217,12 @@ class OptinHistoryService {
 			$perPage = (int) $parameters['per_page'];
 			if ($page > 0 && $perPage > 0) {
 				$offset = $perPage * ($page - 1);
-				$queryBuilder->setMaxResults($perPage)
-					->setFirstResult($offset);
+				$query .= " LIMIT $offset, $perPage";
 			}
 		}
 
-		return $queryBuilder;
+		$return = $connection->fetchAllAssociative($query, $queryParameters, $queryParamTypes);
+		return $return;
 	}
 
 	/**

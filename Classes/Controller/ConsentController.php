@@ -61,10 +61,11 @@ class ConsentController extends ActionController {
 			[
 				'pid' => $pageUid
 			]
-		)
-		);
+		));
 
-		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-		$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/ConsentManagement');
+		if ($pageUid) {
+			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/ConsentManagement');
+		}
 	}
 }

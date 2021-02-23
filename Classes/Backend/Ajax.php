@@ -84,9 +84,10 @@ class Ajax {
 			}
 
 			$params = json_decode($request->getParsedBody()['params'], TRUE);
+			$params['useIndex'] = 'consent';
 
-			$data = OptinHistoryService::searchUserHistory($params)->execute()->fetchAllAssociative();
-			$count = OptinHistoryService::searchUserHistory($params, TRUE)->execute()->fetchAllAssociative();
+			$data = OptinHistoryService::searchUserHistory($params);
+			$count = OptinHistoryService::searchUserHistory($params, TRUE);
 			$result = [
 				'data' => $data,
 				'count' => end($count[0])
@@ -124,6 +125,7 @@ class Ajax {
 			$data = [];
 			$identifiers = OptinHistoryService::getItemIdentifiers(['pid' => $params['pid']]);
 			$params['groupBy'] = ['item_type', 'item_identifier', 'is_accepted'];
+			$params['useIndex'] = 'statistics';
 
 			foreach ($identifiers as $identifier) {
 				if ($identifier === 'essential') {
@@ -146,7 +148,7 @@ class Ajax {
 					'color' => '#C41700'
 				];
 
-				$identifierData = OptinHistoryService::searchUserHistory($params, TRUE)->execute()->fetchAllAssociative();
+				$identifierData = OptinHistoryService::searchUserHistory($params, TRUE);
 				foreach ($identifierData as $values) {
 					if ($values['is_accepted']) {
 						$data[$identifier][$acceptedKey]['value'] = $values['count_' . $params['countField']];

@@ -60,10 +60,11 @@ class StatisticsController extends ActionController {
 			[
 				'pid' => $pageUid
 			]
-		)
-		);
+		));
 
-		$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-		$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Statistics');
+		if ($pageUid) {
+			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+			$pageRenderer->loadRequireJsModule('TYPO3/CMS/SgCookieOptin/Backend/Statistics');
+		}
 	}
 }
