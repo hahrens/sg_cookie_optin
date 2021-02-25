@@ -121,6 +121,7 @@ $configuration = [
 			'config' => [
 				'type' => 'input',
 				'size' => 30,
+				'max' => 30,
 				'eval' => 'trim, required, alphanum_x, lower'
 			],
 		],

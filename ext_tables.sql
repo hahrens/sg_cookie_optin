@@ -160,7 +160,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_group (
 	pid int(11) unsigned DEFAULT '0' NOT NULL,
 
 	title varchar(255) DEFAULT '' NOT NULL,
-	group_name varchar(255) DEFAULT '' NOT NULL,
+	group_name varchar(30) DEFAULT '' NOT NULL,
 	description text NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
 	scripts int(11) DEFAULT '0' NOT NULL,
@@ -259,7 +259,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_user_preference (
 	user_hash VARCHAR(255) NOT NULL,
 	preference_hash CHAR(22) NOT NULL,
 	version int(11) unsigned NOT NULL,
-	item_identifier varchar(255) NOT NULL,
+	item_identifier varchar(30) NOT NULL,
 	item_type int(11) unsigned NOT NULL,
 	is_accepted tinyint(4) unsigned NOT NULL,
 	is_all tinyint(4) unsigned NOT NULL,
