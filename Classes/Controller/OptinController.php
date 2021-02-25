@@ -57,6 +57,7 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 class OptinController extends ActionController {
 
 	use InitControllerComponents;
+
 	/**
 	 * DocHeaderComponent
 	 *
@@ -329,7 +330,9 @@ class OptinController extends ActionController {
 
 			$data = JsonImportService::getDataForExport($pid);
 			if ($data->rowCount() !== 1) {
-				throw new JsonImportException(LocalizationUtility::translate('backend.jsonExport.error.exactlyOneEntry', 'sg_cookie_optin'));
+				throw new JsonImportException(
+					LocalizationUtility::translate('backend.jsonExport.error.exactlyOneEntry', 'sg_cookie_optin')
+				);
 			}
 
 			$folder = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_FOLDER);
@@ -355,7 +358,8 @@ class OptinController extends ActionController {
 			die();
 		} catch (Exception $exception) {
 			$this->addFlashMessage(
-				LocalizationUtility::translate('backend.jsonExport.error', 'sg_cookie_optin') . $exception->getMessage(),
+				LocalizationUtility::translate('backend.jsonExport.error', 'sg_cookie_optin') . $exception->getMessage(
+				),
 				LocalizationUtility::translate('backend.exportConfig', 'sg_cookie_optin'),
 				AbstractMessage::ERROR
 			);

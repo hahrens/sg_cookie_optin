@@ -103,10 +103,10 @@ class JsonImportService {
 
 		// flatten the data into one array to prepare it for SQL
 		$flatJsonData = [];
-			array_walk_recursive(
-				$jsonData, function ($value, $key) use (&$flatJsonData) {
-				$flatJsonData[$key] = $value;
-			}
+		array_walk_recursive(
+			$jsonData, function ($value, $key) use (&$flatJsonData) {
+			$flatJsonData[$key] = $value;
+		}
 		);
 
 		// add required system data and remove junk from the JSON
@@ -128,7 +128,8 @@ class JsonImportService {
 
 		// store the optin object
 		$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-		$optInId = $this->flexInsert($connectionPool, 'tx_sgcookieoptin_domain_model_optin', [
+		$optInId = $this->flexInsert(
+			$connectionPool, 'tx_sgcookieoptin_domain_model_optin', [
 			'pid',
 			'description',
 			'template_html',
@@ -141,7 +142,8 @@ class JsonImportService {
 			'iframe_whitelist_regex',
 			'iframe_button_load_one_description',
 			'cookiebanner_whitelist_regex',
-		], $flatJsonData);
+		], $flatJsonData
+		);
 
 		// Add Groups
 		foreach ($cookieGroups as $groupIndex => $group) {
@@ -170,7 +172,8 @@ class JsonImportService {
 					if ($cookie['pseudo'] === TRUE) {
 						continue;
 					}
-					$cookieId = $this->addCookie($pid,
+					$cookieId = $this->addCookie(
+						$pid,
 						$cookie, $cookieIndex, $group['groupName'], $optInId, $groupId,
 						$sysLanguageUid, $groupIdentifier, $defaultLanguageOptinId, $connectionPool
 					);
@@ -224,7 +227,8 @@ class JsonImportService {
 	 * @param ConnectionPool $connectionPool
 	 * @return mixed
 	 */
-	protected function addGroup($pid, $group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+	protected function addGroup(
+		$pid, $group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
 	) {
 		$groupData = [
 			'pid' => $pid,
@@ -242,9 +246,11 @@ class JsonImportService {
 			$groupData['sys_language_uid'] = $sysLanguageUid;
 		}
 
-		return $this->flexInsert($connectionPool, 'tx_sgcookieoptin_domain_model_group', [
+		return $this->flexInsert(
+			$connectionPool, 'tx_sgcookieoptin_domain_model_group', [
 			'pid', 'description'
-		], $groupData);
+		], $groupData
+		);
 	}
 
 	/**
@@ -293,9 +299,11 @@ class JsonImportService {
 			$cookieData['l10n_parent'] = $this->defaultLanguageIdMappingLookup[$groupIdentifier]['cookies'][$cookieIndex];
 		}
 
-		return $this->flexInsert($connectionPool, 'tx_sgcookieoptin_domain_model_cookie', [
+		return $this->flexInsert(
+			$connectionPool, 'tx_sgcookieoptin_domain_model_cookie', [
 			'pid', 'purpose'
-		], $cookieData);
+		], $cookieData
+		);
 	}
 
 	/**
@@ -308,7 +316,8 @@ class JsonImportService {
 	 * @param array $data
 	 * @return string
 	 */
-	protected function flexInsert(ConnectionPool $connectionPool, string $table, array $initialDataKeys, array $data): string {
+	protected function flexInsert(ConnectionPool $connectionPool, string $table, array $initialDataKeys, array $data
+	): string {
 		$initialData = [];
 		foreach ($initialDataKeys as $initialDataKey) {
 			$initialData[$initialDataKey] = $data[$initialDataKey];
@@ -364,18 +373,23 @@ class JsonImportService {
 			'crdate' => $GLOBALS['EXEC_TIME'],
 			'tstamp' => $GLOBALS['EXEC_TIME'],
 		];
+
 		if ($groupName === 'essential') {
 			$scriptData['parent_optin'] = $optInId;
 		} else {
 			$scriptData['parent_group'] = $groupId;
 		}
+
 		if ($defaultLanguageOptinId !== NULL) {
 			$scriptData['sys_language_uid'] = $sysLanguageUid;
 			$scriptData['l10n_parent'] = $this->defaultLanguageIdMappingLookup[$groupIdentifier]['scripts'][$scriptIndex];
 		}
-		return $this->flexInsert($connectionPool, 'tx_sgcookieoptin_domain_model_script', [
+
+		return $this->flexInsert(
+			$connectionPool, 'tx_sgcookieoptin_domain_model_script', [
 			'pid', 'html', 'script'
-		], $scriptData);
+		], $scriptData
+		);
 	}
 
 	/**
