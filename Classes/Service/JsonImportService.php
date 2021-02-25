@@ -103,10 +103,10 @@ class JsonImportService {
 
 		// flatten the data into one array to prepare it for SQL
 		$flatJsonData = [];
-		array_walk_recursive(
-			$jsonData, function ($value, $key) use (&$flatJsonData) {
-			$flatJsonData[$key] = $value;
-		}
+			array_walk_recursive(
+				$jsonData, function ($value, $key) use (&$flatJsonData) {
+				$flatJsonData[$key] = $value;
+			}
 		);
 
 		// add required system data and remove junk from the JSON
@@ -128,18 +128,27 @@ class JsonImportService {
 
 		// store the optin object
 		$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-		$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_optin');
-		$queryBuilder->insert('tx_sgcookieoptin_domain_model_optin')->values($flatJsonData);
-		$queryBuilder->execute();
-
-		$optInId = $queryBuilder->getConnection()->lastInsertId();
+		$optInId = $this->flexInsert($connectionPool, 'tx_sgcookieoptin_domain_model_optin', [
+			'pid',
+			'description',
+			'template_html',
+			'banner_html',
+			'banner_description',
+			'essential_description',
+			'iframe_description',
+			'iframe_html',
+			'iframe_replacement_html',
+			'iframe_whitelist_regex',
+			'iframe_button_load_one_description',
+			'cookiebanner_whitelist_regex',
+		], $flatJsonData);
 
 		// Add Groups
 		foreach ($cookieGroups as $groupIndex => $group) {
 			$groupIdentifier = $groupIndex;
 			if ($group['groupName'] !== 'essential' && $group['groupName'] !== 'iframes') {
 				$groupId = $this->addGroup(
-					$group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+					$pid, $group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
 				);
 			} else {
 				// we use this only for the internal language mapping lookup array
@@ -161,7 +170,7 @@ class JsonImportService {
 					if ($cookie['pseudo'] === TRUE) {
 						continue;
 					}
-					$cookieId = $this->addCookie(
+					$cookieId = $this->addCookie($pid,
 						$cookie, $cookieIndex, $group['groupName'], $optInId, $groupId,
 						$sysLanguageUid, $groupIdentifier, $defaultLanguageOptinId, $connectionPool
 					);
@@ -174,7 +183,7 @@ class JsonImportService {
 			if (isset($group['scriptData'])) {
 				foreach ($group['scriptData'] as $scriptIndex => $script) {
 					$scriptId = $this->addScript(
-						$script, $scriptIndex, $group['groupName'], $optInId, $groupId, $sysLanguageUid,
+						$pid, $script, $scriptIndex, $group['groupName'], $optInId, $groupId, $sysLanguageUid,
 						$defaultLanguageOptinId, $groupIdentifier, $connectionPool
 					);
 					if ($defaultLanguageOptinId === NULL) {
@@ -206,6 +215,7 @@ class JsonImportService {
 	/**
 	 * Adds a group entry in the database
 	 *
+	 * @param int $pid
 	 * @param array $group
 	 * @param int $groupIndex
 	 * @param int $optInId
@@ -214,9 +224,10 @@ class JsonImportService {
 	 * @param ConnectionPool $connectionPool
 	 * @return mixed
 	 */
-	protected function addGroup($group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+	protected function addGroup($pid, $group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
 	) {
 		$groupData = [
+			'pid' => $pid,
 			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
 			'group_name' => $group['groupName'],
 			'title' => $group['label'],
@@ -231,16 +242,15 @@ class JsonImportService {
 			$groupData['sys_language_uid'] = $sysLanguageUid;
 		}
 
-		$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_group');
-		$queryBuilder->insert('tx_sgcookieoptin_domain_model_group')->values($groupData);
-		$queryBuilder->execute();
-
-		return $queryBuilder->getConnection()->lastInsertId();
+		return $this->flexInsert($connectionPool, 'tx_sgcookieoptin_domain_model_group', [
+			'pid', 'description'
+		], $groupData);
 	}
 
 	/**
 	 * Adds a cookie entry in the database
 	 *
+	 * @param int $pid
 	 * @param array $cookie
 	 * @param int $cookieIndex
 	 * @param string $groupName
@@ -250,12 +260,14 @@ class JsonImportService {
 	 * @param string $groupIdentifier
 	 * @param int $defaultLanguageOptinId
 	 * @param ConnectionPool $connectionPool
+	 * @return string
 	 */
 	protected function addCookie(
-		$cookie, $cookieIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $groupIdentifier,
+		$pid, $cookie, $cookieIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $groupIdentifier,
 		$defaultLanguageOptinId, $connectionPool
-	) {
+	): string {
 		$cookieData = [
+			'pid' => $pid,
 			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
 			'name' => $cookie['Name'],
 			'provider' => $cookie['Provider'],
@@ -280,18 +292,56 @@ class JsonImportService {
 			$cookieData['sys_language_uid'] = $sysLanguageUid;
 			$cookieData['l10n_parent'] = $this->defaultLanguageIdMappingLookup[$groupIdentifier]['cookies'][$cookieIndex];
 		}
-		$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgcookieoptin_domain_model_cookie');
-		$queryBuilder->insert('tx_sgcookieoptin_domain_model_cookie')->values($cookieData);
-		$queryBuilder->execute();
 
-		return $queryBuilder->getConnection()->lastInsertId();
+		return $this->flexInsert($connectionPool, 'tx_sgcookieoptin_domain_model_cookie', [
+			'pid', 'purpose'
+		], $cookieData);
+	}
+
+	/**
+	 * Inserts a data set in the table with it's initial values (that don't have default) and then updates all the rest
+	 * one by one to, ignoring Exceptions if a JSON field is missing in the database
+	 *
+	 * @param ConnectionPool $connectionPool
+	 * @param string $table
+	 * @param array $initialDataKeys
+	 * @param array $data
+	 * @return string
+	 */
+	protected function flexInsert(ConnectionPool $connectionPool, string $table, array $initialDataKeys, array $data): string {
+		$initialData = [];
+		foreach ($initialDataKeys as $initialDataKey) {
+			$initialData[$initialDataKey] = $data[$initialDataKey];
+			unset($data[$initialDataKey]);
+		}
+
+		$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
+		$queryBuilder->insert($table)->values($initialData)->execute();
+		$objectId = $queryBuilder->getConnection()->lastInsertId();
+
+		foreach ($data as $field => $value) {
+			$queryBuilder = $connectionPool->getQueryBuilderForTable($table);
+			$queryBuilder->update($table);
+			$queryBuilder->set($field, $value);
+			try {
+				$queryBuilder->where(
+					$queryBuilder->expr()->eq('uid', $objectId)
+				)->execute();
+			} catch (\Exception $exception) {
+				// ignore missing fields
+			}
+		}
+
+		return $objectId;
 	}
 
 	/**
 	 * Adds a script entry in the database
 	 *
+	 * @param int $pid
 	 * @param array $script
 	 * @param int $scriptIndex
+	 * @param string $groupName
 	 * @param int $optInId
 	 * @param int $groupId
 	 * @param int|null $sysLanguageUid
@@ -301,10 +351,11 @@ class JsonImportService {
 	 * @return mixed
 	 */
 	protected function addScript(
-		$script, $scriptIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $defaultLanguageOptinId,
+		$pid, $script, $scriptIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $defaultLanguageOptinId,
 		$groupIdentifier, $connectionPool
-	) {
+	): string {
 		$scriptData = [
+			'pid' => $pid,
 			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
 			'title' => $script['title'],
 			'script' => $script['script'],
@@ -322,11 +373,9 @@ class JsonImportService {
 			$scriptData['sys_language_uid'] = $sysLanguageUid;
 			$scriptData['l10n_parent'] = $this->defaultLanguageIdMappingLookup[$groupIdentifier]['scripts'][$scriptIndex];
 		}
-		$queryBuilder = $connectionPool->getQueryBuilderForTable('tx_sgscriptoptin_domain_model_script');
-		$queryBuilder->insert('tx_sgcookieoptin_domain_model_script')->values($scriptData);
-		$queryBuilder->execute();
-
-		return $queryBuilder->getConnection()->lastInsertId();
+		return $this->flexInsert($connectionPool, 'tx_sgcookieoptin_domain_model_script', [
+			'pid', 'html', 'script'
+		], $scriptData);
 	}
 
 	/**
