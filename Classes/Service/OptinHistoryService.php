@@ -48,10 +48,10 @@ class OptinHistoryService {
 	/**
 	 * Saves the optin history
 	 *
-	 * @param array $preferences
+	 * @param string $preferences
 	 * @return array
 	 */
-	public static function saveOptinHistory(array $preferences): array {
+	public static function saveOptinHistory(string $preferences): array {
 		try {
 			$jsonInput = json_decode($preferences, TRUE);
 
