@@ -212,6 +212,10 @@ class OptinHistoryService {
 			$query .= ' GROUP BY ' . implode(',', $groupBy);
 		}
 
+		if (isset($parameters['orderBy'])) {
+			$query .= ' ORDER BY ' . $parameters['orderBy'];
+		}
+
 		if (!$isCount && $parameters['page'] && $parameters['per_page']) {
 			$page = (int) $parameters['page'];
 			$perPage = (int) $parameters['per_page'];

@@ -26,6 +26,7 @@ namespace SGalinski\SgCookieOptin\Backend;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SGalinski\SgCookieOptin\Exception\SearchOptinHistoryException;
@@ -47,7 +48,7 @@ class Ajax {
 	 * @param ResponseInterface $response
 	 * @return ResponseInterface
 	 * @throws \InvalidArgumentException
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	public function checkLicense(
 		ServerRequestInterface $request,
@@ -85,6 +86,7 @@ class Ajax {
 
 			$params = json_decode($request->getParsedBody()['params'], TRUE);
 			$params['useIndex'] = 'consent';
+			$params['orderBy'] = 'tstamp ASC';
 
 			$data = OptinHistoryService::searchUserHistory($params);
 			$count = OptinHistoryService::searchUserHistory($params, TRUE);
@@ -93,7 +95,7 @@ class Ajax {
 				'count' => end($count[0])
 			];
 			$response->getBody()->write(json_encode($result));
-		} catch (SearchOptinHistoryException $exception) {
+		} catch (Exception $exception) {
 			$response->withStatus(500, $exception->getMessage());
 		}
 
