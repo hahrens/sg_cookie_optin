@@ -442,7 +442,7 @@
 				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_history_webhook">
-				<source><![CDATA[Save preferences history webhook address]]></source>
+				<source><![CDATA[Webhook URL for statistics]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_history_webhook.description">
 				<source><![CDATA[You can change this address if you would like to add some custom logic to the handling of the data. Should you do it, please make sure to add a call to the default webhook address, so that we can keep evalutaing the data for you in our statistics module.]]></source>
