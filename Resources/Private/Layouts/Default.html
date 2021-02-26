@@ -1,9 +1,20 @@
-<f:be.container>
+<f:be.container
+	includeCssFiles="{
+		0: '{f:uri.resource(path:\'JavaScript/Backend/Chart.js/Chart.min.css\')}',
+		1: '{f:uri.resource(path:\'StyleSheets/Statistics.css\')}'
+	}"
+>
 	<f:if condition="{docHeader}">
 		<f:then>
 			<div class="module" data-module-id="" data-module-name="">
 				<div class="module-docheader t3js-module-docheader">
 					<div class="module-docheader-bar module-docheader-bar-navigation t3js-module-docheader-bar t3js-module-docheader-bar-navigation">
+						<div class="module-docheader-bar-column-left">
+							<f:render
+								partial="DocHeader"
+								section="actionMenu"
+								arguments="" />
+						</div>
 						<div class="module-docheader-bar-column-right">
 							<span class="typo3-docheader-pagePath">
 								<f:if condition="{typo3Version} < 9000000">

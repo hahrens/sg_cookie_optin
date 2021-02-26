@@ -1,0 +1,41 @@
+.consent-green {
+	color: #038203;
+	font-size: 20px;
+}
+
+.consent-red {
+	color: #8E0909;
+	font-size: 20px;
+}
+
+
+.consent-statistics-chart-div-container {
+	width: 50%;
+}
+
+#consent-statistics-charts-container {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#consent-statistics-charts-container canvas {
+	margin-bottom: 25px;
+}
+
+.filter-btn {
+	width: auto;
+	min-width: 100px;
+}
+
+.page-item.active a.page-link {
+	background-color: rgb(121, 165, 72);
+ 	border-color: rgb(108, 147, 64);
+}
+
+.pagination-table-cell {
+	text-align: center;
+}
+
+#statistics-no-data-found, #consent-statistics-grid {
+	display: none;
+}

@@ -35,6 +35,7 @@ use SGalinski\SgCookieOptin\Service\MinificationService;
 use SGalinski\SgCookieOptin\Service\TemplateService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\DatabaseConnection;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
@@ -790,6 +791,7 @@ class GenerateFilesAfterTcaSave {
 
 		$settings = [
 			'banner_enable' => (boolean) $translatedData['banner_enable'],
+			'version' => (int) $translatedData['version'],
 			'banner_position' => (int) $translatedData['banner_position'],
 			'banner_show_settings_button' => (boolean) $translatedData['banner_show_settings_button'],
 			'cookie_lifetime' => (int) $translatedData['cookie_lifetime'],
@@ -801,8 +803,10 @@ class GenerateFilesAfterTcaSave {
 			'disable_powered_by' => (boolean) $translatedData['disable_powered_by'],
 			'disable_for_this_language' => (boolean) $translatedData['disable_for_this_language'],
 			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
+			'save_history_webhook' => (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) ? '/?eID=sg_cookie_optin_saveOptinHistory' : '/?saveOptinHistory',
 			'cookiebanner_whitelist_regex' => (string) $translatedData['cookiebanner_whitelist_regex'],
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
+			'identifier' => $this->siteRoot
 		];
 
 		$textEntries = [
@@ -828,6 +832,7 @@ class GenerateFilesAfterTcaSave {
 			'banner_button_settings_text' => $translatedData['banner_button_settings_text'],
 			'banner_description' => $translatedData['banner_description'],
 			'save_confirmation_text' => $translatedData['save_confirmation_text'],
+			'user_hash_text' => $translatedData['user_hash_text'],
 		];
 
 		$jsonDataArray = [

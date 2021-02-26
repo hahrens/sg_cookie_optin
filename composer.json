@@ -11,8 +11,8 @@
 		"issues": "https://gitlab.sgalinski.de/typo3/sg_cookie_optin"
 	},
 	"require": {
-		"typo3/cms-core": "^6.2 || ^7.6 || ^8.7 || ^9.5 || ^10.4",
-		"php": "^5.5 || ^7.0"
+		"typo3/cms-core": "^8.7 || ^9.5 || ^10.4",
+		"php": "^7.0"
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-master"

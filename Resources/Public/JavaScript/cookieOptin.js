@@ -210,6 +210,8 @@ var SgCookieOptin = {
 			wrapper.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.template.markup);
 		}
 
+		SgCookieOptin.insertUserUuid(wrapper);
+
 		SgCookieOptin.addListeners(wrapper, contentElement);
 
 		if (!contentElement) {
@@ -230,6 +232,11 @@ var SgCookieOptin = {
 	 * @returns {boolean}
 	 */
 	shouldShowOptinBanner: function() {
+		// check doNotTrack
+		if (typeof navigator.doNotTrack !== 'undefined' && navigator.doNotTrack === '1') {
+			return false;
+		}
+
 		// test if the current URL matches one of the whitelist regex
 		if (typeof SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex !== 'undefined'
 			&& SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex.trim() !== ''
@@ -357,6 +364,7 @@ var SgCookieOptin = {
 		if (!lastPreferences) {
 			return true;
 		}
+
 		try {
 			lastPreferences = JSON.parse(lastPreferences);
 		} catch (e) { // we don't want to break the rest of the code if the JSON is malformed for some reason
@@ -364,6 +372,10 @@ var SgCookieOptin = {
 		}
 
 		if (typeof lastPreferences.timestamp === 'undefined') {
+			return true;
+		}
+
+		if (lastPreferences.version !== SgCookieOptin.jsonData.settings.version) {
 			return true;
 		}
 
@@ -404,11 +416,52 @@ var SgCookieOptin = {
 	},
 
 	/**
+	 * Gets the current user uuid
+	 *
+	 * @returns {string}
+	 */
+	getUserUuid: function () {
+		var userUuid = window.localStorage.getItem('SgCookieOptin.userUuid');
+		if (!userUuid) {
+			userUuid = SgCookieOptin.generateUUID();
+			window.localStorage.setItem('SgCookieOptin.userUuid', userUuid);
+		}
+		return userUuid;
+	},
+
+	/**
+	 * Shows the UserUiid in the cookie banner
+	 *
+	 * @param {HTMLElement} wrapper
+	 */
+	insertUserUuid: function(wrapper) {
+		var hashContainers = wrapper.querySelectorAll('.sg-cookie-optin-box-footer-user-hash');
+		for (var bannerIndex in hashContainers) {
+			if (typeof hashContainers[bannerIndex].innerText === 'string') {
+				hashContainers[bannerIndex].innerText = SgCookieOptin.getUserUuid();
+			}
+		}
+	},
+
+	/**
 	 * Stores the last saved preferences in the localstorage
 	 *
 	 * @param {string} cookieValue
 	 */
 	saveLastPreferences: function(cookieValue) {
+		var lastPreferences = window.localStorage.getItem('SgCookieOptin.lastPreferences');
+
+		if (lastPreferences === null) {
+			lastPreferences = {};
+		}
+
+		try {
+			lastPreferences = JSON.parse(lastPreferences);
+		} catch (e) {
+			lastPreferences = {};
+		}
+
+		var uuid = SgCookieOptin.getUserUuid();
 		var isAll = true;
 		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
 			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
@@ -419,13 +472,56 @@ var SgCookieOptin = {
 			}
 		}
 
-		//TODO: should we add timezone support?
-		var lastPreferences = {
+		lastPreferences = {
 			timestamp: Math.floor(new Date().getTime() / 1000),
 			cookieValue: cookieValue,
-			isAll: isAll
+			isAll: isAll,
+			version: SgCookieOptin.jsonData.settings.version,
+			uuid: uuid,
+			identifier: SgCookieOptin.jsonData.settings.identifier
 		};
 		window.localStorage.setItem('SgCookieOptin.lastPreferences', JSON.stringify(lastPreferences));
+		SgCookieOptin.saveLastPreferencesForStats(lastPreferences);
+	},
+
+	/**
+	 * Saves the preferences for statistics via AJAX
+	 *
+	 * @param lastPreferences
+	 */
+	saveLastPreferencesForStats: function(lastPreferences) {
+		var request = new XMLHttpRequest();
+		var formData = new FormData();
+		formData.append('lastPreferences', JSON.stringify(lastPreferences));
+		var url = SgCookieOptin.jsonData.settings.save_history_webhook;
+
+		if (!url) {
+			return;
+		}
+
+		request.open('POST', url);
+		request.send(formData);
+	},
+
+	/**
+	 * Generates a RFC4122 v4 compliant UUID
+	 *
+	 * @returns {string}
+	 */
+	generateUUID: function() { // Public Domain/MIT
+	    var d = new Date().getTime();//Timestamp
+	    var d2 = (performance && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+	    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	        var r = Math.random() * 16;//random number between 0 and 16
+	        if(d > 0){//Use timestamp until depleted
+	            r = (d + r)%16 | 0;
+	            d = Math.floor(d/16);
+	        } else {//Use microseconds since page-load if supported
+	            r = (d2 + r)%16 | 0;
+	            d2 = Math.floor(d2/16);
+	        }
+	        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+	    });
 	},
 
 	/**
@@ -1249,7 +1345,9 @@ var SgCookieOptin = {
 			newCookieValue += '|' + SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT + ':' + 1;
 		}
 
-		SgCookieOptin.setCookieWrapper(newCookieValue);
+		if (cookieValue != newCookieValue) {
+			SgCookieOptin.setCookieWrapper(newCookieValue);
+		}
 	},
 
 	/**

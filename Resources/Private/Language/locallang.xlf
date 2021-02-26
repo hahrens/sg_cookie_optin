@@ -237,6 +237,51 @@
 			<trans-unit id="mlang_tabs_tab">
 				<source><![CDATA[Tracking / Cookies]]></source>
 			</trans-unit>
+			<trans-unit id="backend.settings_action" approved="yes">
+				<source><![CDATA[Settings]]></source>
+			</trans-unit>
+			<trans-unit id="backend.statistics_action" approved="yes">
+				<source><![CDATA[Statistics]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consent_action" approved="yes">
+				<source><![CDATA[Consent management]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consent.grid.time" approved="yes">
+				<source><![CDATA[Time]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consent.grid.user_hash" approved="yes">
+				<source><![CDATA[User hash]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consent.grid.item_name" approved="yes">
+				<source><![CDATA[Group]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consent.grid.value" approved="yes">
+				<source><![CDATA[Yes/No]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consent.form.filter" approved="yes">
+				<source><![CDATA[Filter]]></source>
+			</trans-unit>
+			<trans-unit id="backend.consent.form.item_name.all" approved="yes">
+				<source><![CDATA[All]]></source>
+			</trans-unit>
+			<trans-unit id="backend.statistics.version" approved="yes">
+				<source><![CDATA[Version]]></source>
+			</trans-unit>
+			<trans-unit id="backend.statistics.accepted" approved="yes">
+				<source><![CDATA[Accepted]]></source>
+			</trans-unit>
+			<trans-unit id="backend.statistics.rejected" approved="yes">
+				<source><![CDATA[Rejected]]></source>
+			</trans-unit>
+			<trans-unit id="backend.statistics.filter.from" approved="yes">
+				<source><![CDATA[From]]></source>
+			</trans-unit>
+			<trans-unit id="backend.statistics.filter.to" approved="yes">
+				<source><![CDATA[To]]></source>
+			</trans-unit>
+			<trans-unit id="backend.statistics.noDataFound" approved="yes">
+				<source><![CDATA[We couldn't find any data for your search. Please change your filters and try again.]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

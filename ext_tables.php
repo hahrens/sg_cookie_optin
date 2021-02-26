@@ -66,6 +66,8 @@ call_user_func(
 					'',
 					[
 						'Optin' => 'index, activateDemoMode, create, uploadJson, importJson, previewImport, exportJson',
+						'Statistics' => 'index',
+						'Consent' => 'index',
 					],
 					[
 						'access' => 'user,group',

@@ -313,6 +313,66 @@
 				<source><![CDATA[Tracking / Cookies]]></source>
 				<target><![CDATA[Tracking / Cookies]]></target>
 			</trans-unit>
+			<trans-unit id="backend.settings_action" approved="yes">
+				<source><![CDATA[Settings]]></source>
+				<target><![CDATA[Einstellungen]]></target>
+			</trans-unit>
+			<trans-unit id="backend.statistics_action" approved="yes">
+				<source><![CDATA[Statistics]]></source>
+				<target><![CDATA[Statistiken]]></target>
+			</trans-unit>
+			<trans-unit id="backend.consent_action" approved="yes">
+				<source><![CDATA[Consent management]]></source>
+				<target><![CDATA[Consent-Verwaltung]]></target>
+			</trans-unit>
+			<trans-unit id="backend.consent.grid.time" approved="yes">
+				<source><![CDATA[Time]]></source>
+				<target><![CDATA[Zeit]]></target>
+			</trans-unit>
+			<trans-unit id="backend.consent.grid.user_hash" approved="yes">
+				<source><![CDATA[User hash]]></source>
+				<target><![CDATA[User-Hash]]></target>
+			</trans-unit>
+			<trans-unit id="backend.consent.grid.item_name" approved="yes">
+				<source><![CDATA[Group]]></source>
+				<target><![CDATA[Gruppe]]></target>
+			</trans-unit>
+			<trans-unit id="backend.consent.grid.value" approved="yes">
+				<source><![CDATA[Yes/No]]></source>
+				<target><![CDATA[Ja/Nein]]></target>
+			</trans-unit>
+			<trans-unit id="backend.consent.form.filter" approved="yes">
+				<source><![CDATA[Filter]]></source>
+				<target><![CDATA[Filtern]]></target>
+			</trans-unit>
+			<trans-unit id="backend.consent.form.item_name.all" approved="yes">
+				<source><![CDATA[All]]></source>
+				<target><![CDATA[Alle]]></target>
+			</trans-unit>
+			<trans-unit id="backend.statistics.version" approved="yes">
+				<source><![CDATA[Version]]></source>
+				<target><![CDATA[Version]]></target>
+			</trans-unit>
+			<trans-unit id="backend.statistics.accepted" approved="yes">
+				<source><![CDATA[Accepted]]></source>
+				<target><![CDATA[Akzeptiert]]></target>
+			</trans-unit>
+			<trans-unit id="backend.statistics.rejected" approved="yes">
+				<source><![CDATA[Rejected]]></source>
+				<target><![CDATA[Verweigert]]></target>
+			</trans-unit>
+			<trans-unit id="backend.statistics.filter.from" approved="yes">
+				<source><![CDATA[From]]></source>
+				<target><![CDATA[Von]]></target>
+			</trans-unit>
+			<trans-unit id="backend.statistics.filter.to" approved="yes">
+				<source><![CDATA[To]]></source>
+				<target><![CDATA[Bis]]></target>
+			</trans-unit>
+			<trans-unit id="backend.statistics.noDataFound" approved="yes">
+				<source><![CDATA[We couldn't find any data for your search. Please change your filters and try again.]]></source>
+				<target><![CDATA[Wir konnten keine Daten für Ihre Suche finden. Bitte ändern Sie Ihre Filter und versuchen Sie es erneut.]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

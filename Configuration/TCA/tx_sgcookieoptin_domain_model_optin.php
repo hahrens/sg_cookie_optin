@@ -32,7 +32,7 @@ $configuration = [
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'dividers2tabs' => TRUE,
-		'searchFields' => 'header, description, accept_all_text, accept_specific_text, accept_essential_text,
+		'searchFields' => 'header, description, accept_all_text, user_hash_text, accept_specific_text, accept_essential_text,
 			essential_title, essential_description, extend_box_link_text, extend_box_link_text_close,
 			extend_table_link_text, extend_table_link_text_close, cookie_name_text, cookie_provider_text,
 			cookie_purpose_text, cookie_lifetime_text, iframe_title, iframe_description, iframe_cookies, iframe_button_allow_all_text,
@@ -52,7 +52,7 @@ $configuration = [
 		'1' => [
 			'showitem' => '
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.textAndMenu,
-					header, description, save_confirmation_text, --palette--;;accept_buttons_texts,
+					--palette--;;update_version, header, description, save_confirmation_text, user_hash_text, --palette--;;accept_buttons_texts,
 					--palette--;;link_texts, --palette--;;cookie_texts, navigation,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color,
 					--palette--;;template, --palette--;;color_general, --palette--;;color_notification,
@@ -180,6 +180,10 @@ $configuration = [
 			'showitem' => 'cookie_lifetime, session_only_essential_cookies, --linebreak--,
 				banner_show_again_interval'
 		],
+		'update_version' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.update_version',
+			'showitem' => 'update_version_checkbox, version'
+		],
 	],
 	'columns' => [
 		'pid' => [
@@ -255,6 +259,17 @@ $configuration = [
 				'size' => 30,
 				'default' => 'Cookie-Einstellungen erfolgreich gespeichert',
 				'placeholder' => 'Cookie-Einstellungen erfolgreich gespeichert',
+				'eval' => 'trim, required'
+			],
+		],
+		'user_hash_text' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.user_hash_text',
+			'config' => [
+				'type' => 'input',
+				'size' => 30,
+				'default' => 'User-Hash',
+				'placeholder' => 'User-Hash',
 				'eval' => 'trim, required'
 			],
 		],
@@ -1460,6 +1475,24 @@ $configuration = [
 				'eval' => 'trim',
 			],
 		],
+		'version' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.version',
+			'config' => [
+				'type' => 'input',
+				'default' => '1',
+				'readOnly' => '1',
+				'eval' => 'trim, int, required'
+			],
+		],
+		'update_version_checkbox' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.update_version',
+			'config' => [
+				'type' => 'check',
+				'default' => '0',
+			],
+		],
 	],
 ];
 
@@ -1516,7 +1549,7 @@ if (TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(T
 
 if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.3.0', '<')) {
 	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, header,'
-		. 'description, cookie_lifetime, minify_generated_data, navigation, accept_all_text, accept_specific_text,'
+		. 'description, cookie_lifetime, minify_generated_data, navigation, accept_all_text, user_hash_text, accept_specific_text,'
 		. 'accept_essential_text, groups, template_html, template_overwritten, template_selection, color_text,'
 		. 'color_box, color_headline, color_checkbox, color_checkbox_required, color_button_all, color_button_all_text,'
 		. 'color_button_specific, color_button_specific_text, color_button_essential, color_button_essential_text,'
@@ -1537,7 +1570,7 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,'
 		. 'activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,'
 		. 'color_full_button_close_hover, color_full_button_close_text, color_table_header, save_confirmation_text,'
-		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist, iframe_whitelist_overwritten, iframe_whitelist_selection, iframe_whitelist_regex, set_cookie_for_domain, cookiebanner_whitelist_regex, disable_powered_by, disable_for_this_language, banner_show_again_interval';
+		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist, iframe_whitelist_overwritten, iframe_whitelist_selection, iframe_whitelist_regex, set_cookie_for_domain, cookiebanner_whitelist_regex, disable_powered_by, disable_for_this_language, banner_show_again_interval, version';
 }
 
 return $configuration;
