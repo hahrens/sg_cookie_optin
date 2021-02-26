@@ -48,10 +48,10 @@ class OptinHistoryService {
 	/**
 	 * Saves the optin history
 	 *
-	 * @param $preferences
+	 * @param array $preferences
 	 * @return array
 	 */
-	public static function saveOptinHistory($preferences): array {
+	public static function saveOptinHistory(array $preferences): array {
 		try {
 			$jsonInput = json_decode($preferences, TRUE);
 
@@ -97,10 +97,10 @@ class OptinHistoryService {
 	/**
 	 * Validates the optin history input data
 	 *
-	 * @param $input
+	 * @param array $input
 	 * @return bool
 	 */
-	protected static function validateInput($input): bool {
+	protected static function validateInput(array $input): bool {
 		return !(!isset($input['uuid'], $input['version'], $input['cookieValue'], $input['isAll'], $input['identifier'])
 			|| ((int) $input['version']) < 1);
 	}

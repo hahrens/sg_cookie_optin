@@ -583,11 +583,11 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.user_hash_text" approved="yes">
 				<source><![CDATA[Text for the user hash label]]></source>
-				<target><![CDATA[Text für die User-Hash Beschriftung]]></target>
+				<target><![CDATA[Text für die User-Hash-Beschriftung]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_history_webhook" approved="yes">
-				<source><![CDATA[Save preferences history webhook address]]></source>
-				<target><![CDATA[Webhook-Adresse zum speicher der Einstellungen-Historie]]></target>
+				<source><![CDATA[Save preferences history webhook URL]]></source>
+				<target><![CDATA[Webhook-URL zum speicher der Einstellungen-Historie]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_history_webhook.description" approved="yes">
 				<source><![CDATA[You can change this address if you would like to add some custom logic to the handling of the data. Should you do it, please make sure to add a call to the default webhook address, so that we can keep evalutaing the data for you in our statistics module.]]></source>

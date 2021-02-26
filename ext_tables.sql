@@ -196,7 +196,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_script (
 	parent_group int(11) DEFAULT '0' NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
 
-
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -228,7 +227,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
 	parent_group int(11) DEFAULT '0' NOT NULL,
 	parent_optin int(11) DEFAULT '0' NOT NULL,
 	parent_iframe int(11) DEFAULT '0' NOT NULL,
-
 
 	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
@@ -263,8 +261,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_user_preference (
 	item_type int(11) unsigned NOT NULL,
 	is_accepted tinyint(4) unsigned NOT NULL,
 	is_all tinyint(4) unsigned NOT NULL,
-
-
 
 	PRIMARY KEY (uid),
 	KEY consent (pid, user_hash, item_type, item_identifier, date),
