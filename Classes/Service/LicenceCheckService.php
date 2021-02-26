@@ -116,7 +116,7 @@ class LicenceCheckService {
 	/**
 	 * The current extension version
 	 */
-	const CURRENT_VERSION = '3.3';
+	const CURRENT_VERSION = '4.0';
 
 	/**
 	 * @var array
@@ -136,6 +136,7 @@ class LicenceCheckService {
 		'3.1' => 1588958065, // 2020-05-08T17:14:25Z
 		'3.2' => 1600032423, // 2020-09-13T21:27:03Z
 		'3.3' => 1610914552, // 2021-01-17T20:15:52Z
+		'4.0' => 1614345302, // 2021-02-26T13:15:02Z
 	];
 
 	/**
