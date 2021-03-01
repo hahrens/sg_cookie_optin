@@ -225,7 +225,7 @@ class OptinHistoryService {
 			}
 		}
 
-		$return = $connection->fetchAllAssociative($query, $queryParameters, $queryParamTypes);
+		$return = $connection->fetchAll($query, $queryParameters, $queryParamTypes);
 		return $return;
 	}
 
@@ -263,7 +263,7 @@ class OptinHistoryService {
 		$queryBuilder->addGroupBy('item_type');
 		$queryBuilder->addGroupBy('item_identifier');
 
-		return array_column($queryBuilder->execute()->fetchAllAssociative(), 'item_identifier');
+		return array_column($queryBuilder->execute()->fetchAll(), 'item_identifier');
 	}
 
 	/**
@@ -285,6 +285,6 @@ class OptinHistoryService {
 			->addGroupBy('version')
 			->orderBy('version', 'asc');
 
-		return array_column($queryBuilder->execute()->fetchAllAssociative(), 'version');
+		return array_column($queryBuilder->execute()->fetchAll(), 'version');
 	}
 }
