@@ -86,7 +86,6 @@ class Ajax {
 
 			$params = json_decode($request->getParsedBody()['params'], TRUE);
 			$params['useIndex'] = 'consent';
-			$params['orderBy'] = 'tstamp ASC';
 
 			$data = OptinHistoryService::searchUserHistory($params);
 			$count = OptinHistoryService::searchUserHistory($params, TRUE);
