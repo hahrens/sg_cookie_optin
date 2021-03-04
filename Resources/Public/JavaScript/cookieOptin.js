@@ -849,10 +849,12 @@ var SgCookieOptin = {
 				cookieData += '|';
 			}
 			cookieData += groupName + ':' + 1;
-		}
 
+			if (groupName === SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT) {
+				SgCookieOptin.acceptAllExternalContents();
+			}
+		}
 		SgCookieOptin.setCookieWrapper(cookieData);
-		SgCookieOptin.acceptAllExternalContents();
 	},
 
 	/**
@@ -1274,6 +1276,7 @@ var SgCookieOptin = {
 		var acceptAllButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-all');
 		SgCookieOptin.addEventListenerToList(acceptAllButtons, 'click', function() {
 			SgCookieOptin.acceptAllExternalContents();
+			SgCookieOptin.acceptExternalConentGroup();
 			SgCookieOptin.updateCookieList();
 			SgCookieOptin.handleScriptActivations();
 			SgCookieOptin.hideCookieOptIn();
@@ -1306,13 +1309,15 @@ var SgCookieOptin = {
 
 			SgCookieOptin.acceptExternalContent(index)
 		}
+	},
 
+	/**
+	 * Accepts the external content group and updates the cookie value if needed
+	 *
+	 * @return {void}
+	 */
+	acceptExternalConentGroup: function() {
 		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
-		if (!cookieValue) {
-			SgCookieOptin.acceptAllCookies();
-			SgCookieOptin.hideCookieOptIn();
-			return;
-		}
 
 		var groupFound = false;
 		var newCookieValue = '';
@@ -1345,7 +1350,7 @@ var SgCookieOptin = {
 			newCookieValue += '|' + SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT + ':' + 1;
 		}
 
-		if (cookieValue != newCookieValue) {
+		if (cookieValue !== newCookieValue) {
 			SgCookieOptin.setCookieWrapper(newCookieValue);
 		}
 	},
