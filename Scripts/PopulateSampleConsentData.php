@@ -28,7 +28,6 @@
  */
 
 define('PATH_site', dirname(__FILE__, 5) . '/');
-//echo PATH_site; die();
 //require_once PATH_site . 'typo3conf/LocalConfiguration.php';
 require_once PATH_site . 'typo3conf/SiteConfiguration.php';
 
@@ -84,7 +83,7 @@ try {
 
 	$pdo->query('CREATE TEMPORARY TABLE TEMP_' . TABLE_NAME . ' AS SELECT * FROM ' . TABLE_NAME);
 	$pdo->query('TRUNCATE TABLE ' . TABLE_NAME);
-	$pdo->query('INSERT INTO ' . TABLE_NAME . 'SELECT * FROM TEMP_' . TABLE_NAME . 'ORDER BY tstamp ASC');
+	$pdo->query('INSERT INTO ' . TABLE_NAME . ' SELECT * FROM TEMP_' . TABLE_NAME . ' ORDER BY tstamp ASC');
 
 } catch (Exception $exception) {
 	echo $exception->getMessage();
