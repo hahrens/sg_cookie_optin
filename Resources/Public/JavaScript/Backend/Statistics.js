@@ -27,6 +27,8 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 		'use strict';
 		var Statistics = {
 
+			chart: null,
+
 			/**
 			 * @var Contains the state of the current search
 			 */
@@ -174,7 +176,7 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 					labels: labels,
 				}
 
-				var myChart = new Chart(chartContainer, {
+				this.chart = new Chart(chartContainer, {
 					type: 'pie',
 					data: chartData,
 					options: {
@@ -193,6 +195,10 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 			 * Removes all the currently rendered charts
 			 */
 			removeCharts: function() {
+				if (this.chart) {
+					this.chart.destroy();
+				}
+
 				var chartsContainer = document.getElementById('consent-statistics-charts-container');
 				while (chartsContainer.firstChild) {
 					chartsContainer.firstChild.remove();
@@ -219,6 +225,7 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 							document.getElementById('statistics-no-data-found').style.display = 'none';
 							setTimeout(function() {this.that.updateCharts(data)}.bind(this), 100);
 						} else {
+							this.that.removeCharts();
 							document.getElementById('statistics-no-data-found').style.display = 'block';
 						}
 					} else {

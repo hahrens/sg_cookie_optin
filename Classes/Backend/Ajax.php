@@ -124,7 +124,7 @@ class Ajax {
 			$params = json_decode($request->getParsedBody()['params'], TRUE);
 
 			$data = [];
-			$identifiers = OptinHistoryService::getItemIdentifiers(['pid' => $params['pid']]);
+			$identifiers = OptinHistoryService::getItemIdentifiers($params);
 			$params['groupBy'] = ['item_type', 'item_identifier', 'is_accepted'];
 			$params['useIndex'] = 'statistics';
 
