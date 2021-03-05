@@ -23,7 +23,7 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], function($, Chart) {
+define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], function($, Chart, Formatter) {
 		'use strict';
 		var Statistics = {
 
@@ -185,8 +185,26 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 							display: true,
 							position: 'top'
 						},
-						responsive: true,
+						tooltips: {
+							enabled: true,
+							callbacks: {
+								label: function(tooltipItem, data) {
+									var label = data.labels[tooltipItem.index] || '';
 
+									if (label) {
+										label += ': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+									}
+
+									var total = data.datasets[tooltipItem.datasetIndex].data[0] + data.datasets[tooltipItem.datasetIndex].data[1];
+
+									if (total > 0) {
+										label += ' (' + Math.round(data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] / total * 100) + '%)';
+									}
+									return label;
+								}
+							}
+						},
+						responsive: true
 					}
 				});
 			},
