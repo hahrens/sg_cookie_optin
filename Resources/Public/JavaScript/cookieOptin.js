@@ -1455,7 +1455,7 @@ var SgCookieOptin = {
 		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
 			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
 		}
-		cookie += ';expires=' + d.toUTCString() + '; SameSite=Lax';
+		cookie += ';expires=' + d.toUTCString() + '; SameSite=None; Secure';
 		document.cookie = cookie;
 	},
 
@@ -1470,7 +1470,7 @@ var SgCookieOptin = {
 		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
 			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
 		}
-		cookie += ';SameSite=Lax';
+		cookie += ';SameSite=None; Secure';
 		document.cookie = cookie;
 	},
 
