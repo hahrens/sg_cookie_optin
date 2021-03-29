@@ -34,7 +34,7 @@ call_user_func(
 			],
 			// non-cacheable actions
 			[
-				'Optin' => 'show',
+				'Optin' => '',
 			]
 		);
 
