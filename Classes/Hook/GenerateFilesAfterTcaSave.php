@@ -779,6 +779,10 @@ class GenerateFilesAfterTcaSave {
 				$url = '/' . $url;
 			}
 
+			if (strpos($url, '//') === 0) {
+				$url = substr($url, 1);
+			}
+
 			$footerLinks[$index] = [
 				'url' => $url,
 				'name' => $name,
