@@ -13,6 +13,10 @@
 				<source><![CDATA[No parameters sent to the server.]]></source>
 				<target><![CDATA[Es werden keine Parameter an den Server gesendet.]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.render_assets_inline" approved="yes">
+				<source><![CDATA[Render CSS and JavaScript contents inline]]></source>
+				<target><![CDATA[CSS- und JavaScript-Inhalte inline rendern]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie" approved="yes">
 				<source><![CDATA[Cookie]]></source>
 				<target><![CDATA[Cookie]]></target>
@@ -95,7 +99,7 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_essential_text" approved="yes">
 				<source><![CDATA[Button for Accepting Only Essential Cookies & Scripts]]></source>
-				<target><![CDATA[Button zum Akzeptieren ausschließlich essentieller Skripte & Cookies]]></target>
+				<target><![CDATA[Button zum Akzeptieren ausschließlich essenzieller Skripte & Cookies]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.accept_specific_text" approved="yes">
 				<source><![CDATA[Button for Accepting Selected Cookies & Scripts]]></source>
@@ -227,15 +231,15 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential" approved="yes">
 				<source><![CDATA[Button-Background: "Accept Essential"]]></source>
-				<target><![CDATA[Button-Hintergrund: "Akzeptiere Essentielle"]]></target>
+				<target><![CDATA[Button-Hintergrund: "Akzeptiere Essenzielle"]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential_hover" approved="yes">
 				<source><![CDATA[Button-Hover "Accept Essential"]]></source>
-				<target><![CDATA[Button-Hover: "Akzeptiere Essentielle"]]></target>
+				<target><![CDATA[Button-Hover: "Akzeptiere Essenzielle"]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_essential_text" approved="yes">
 				<source><![CDATA[Button-Text "Accept Essential"]]></source>
-				<target><![CDATA[Button-Text: "Akzeptiere Essentielle"]]></target>
+				<target><![CDATA[Button-Text: "Akzeptiere Essenzielle"]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_button_specific" approved="yes">
 				<source><![CDATA[Button-Background: "Accept Selected"]]></source>
@@ -255,7 +259,7 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_checkbox_required" approved="yes">
 				<source><![CDATA[Essential Cookies & Scripts (always ticked off)]]></source>
-				<target><![CDATA[Essentielle Cookies & Skripte (immer abgehakt)]]></target>
+				<target><![CDATA[Essenzielle Cookies & Skripte (immer abgehakt)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_confirmation_background" approved="yes">
 				<source><![CDATA[Confirmation Background]]></source>
@@ -383,7 +387,7 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.essential_title" approved="yes">
 				<source><![CDATA[Group Title for Essential Cookies & Scripts the User has to Accept]]></source>
-				<target><![CDATA[Gruppentitel für essentielle Cookies & Skripte, die der Benutzer akzeptieren muss.]]></target>
+				<target><![CDATA[Gruppentitel für essenzielle Cookies & Skripte, die der Benutzer akzeptieren muss.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.extend_box_link_text" approved="yes">
 				<source><![CDATA[Link for Displaying Information About the Groups (closed)]]></source>
@@ -581,10 +585,6 @@
 				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>
 				<target><![CDATA[Text für die Benachrichtigung, der angezeigt wird, wenn Cookie-Einstellungen gespeichert werden]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.user_hash_text" approved="yes">
-				<source><![CDATA[Text for the user hash label]]></source>
-				<target><![CDATA[Text für die User-Hash-Beschriftung]]></target>
-			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_history_webhook" approved="yes">
 				<source><![CDATA[Webhook URL for statistics]]></source>
 				<target><![CDATA[Webhook-URL für Statistiken]]></target>
@@ -621,7 +621,7 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domain, wo sie hint
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.essential" approved="yes">
 				<source><![CDATA[Essential Scripts & Cookies]]></source>
-				<target><![CDATA[Essentielle Skripte & Cookies]]></target>
+				<target><![CDATA[Essenzielle Skripte & Cookies]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.group" approved="yes">
 				<source><![CDATA[Other Scripts & Cookies]]></source>
@@ -666,6 +666,10 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domain, wo sie hint
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.update_version" approved="yes">
 				<source><![CDATA[Update the version number and force the visitors to confirm their preferences]]></source>
 				<target><![CDATA[Die Versionsnummer aktualisieren und die Besucher zwingen, ihre Angaben zu bestätigen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.user_hash_text" approved="yes">
+				<source><![CDATA[Text for the user hash label]]></source>
+				<target><![CDATA[Text für die User-Hash-Beschriftung]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.version" approved="yes">
 				<source><![CDATA[Versionsnummer]]></source>

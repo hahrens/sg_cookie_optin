@@ -810,7 +810,8 @@ class GenerateFilesAfterTcaSave {
 			'save_history_webhook' => (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) ? '/?eID=sg_cookie_optin_saveOptinHistory' : '/?saveOptinHistory',
 			'cookiebanner_whitelist_regex' => (string) $translatedData['cookiebanner_whitelist_regex'],
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
-			'identifier' => $this->siteRoot
+			'identifier' => $this->siteRoot,
+			'render_assets_inline' => (int) $translatedData['render_assets_inline'],
 		];
 
 		$textEntries = [

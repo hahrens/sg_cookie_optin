@@ -223,6 +223,7 @@ var SgCookieOptin = {
 		setTimeout(function() {
 			SgCookieOptin.adjustDescriptionHeight(wrapper, contentElement);
 			SgCookieOptin.updateCookieList();
+			wrapper.focus();
 		}, 10);
 	},
 

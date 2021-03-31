@@ -14,7 +14,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	-- general texts
 	accept_all_text varchar(255) DEFAULT 'Alle akzeptieren' NOT NULL,
 	accept_specific_text varchar(255) DEFAULT 'Speichern & schließen' NOT NULL,
-	accept_essential_text varchar(255) DEFAULT 'Nur essentielle Cookies akzeptieren' NOT NULL,
+	accept_essential_text varchar(255) DEFAULT 'Nur essenzielle Cookies akzeptieren' NOT NULL,
 	extend_box_link_text varchar(255) DEFAULT 'Weitere Informationen anzeigen' NOT NULL,
 	extend_box_link_text_close varchar(255) DEFAULT 'Weitere Informationen verstecken' NOT NULL,
 	extend_table_link_text varchar(255) DEFAULT 'Cookie-Informationen anzeigen' NOT NULL,
@@ -89,7 +89,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_full_button_close_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 
 	-- Essential group specific columns
-	essential_title varchar(255) DEFAULT 'Essentiell' NOT NULL,
+	essential_title varchar(255) DEFAULT 'Essenziell' NOT NULL,
 	essential_description text NOT NULL,
 	essential_scripts int(11) DEFAULT '0' NOT NULL,
 	essential_cookies int(11) DEFAULT '0' NOT NULL,
@@ -136,6 +136,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	cookiebanner_whitelist_regex TEXT NOT NULL,
 	version int(11) unsigned DEFAULT '1' NOT NULL,
 	update_version_checkbox tinyint(4) unsigned DEFAULT '0' NOT NULL,
+    render_assets_inline tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
 	-- TYPO3 related columns
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
