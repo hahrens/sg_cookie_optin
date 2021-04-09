@@ -96,7 +96,16 @@
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox {
-	display: none;
+	position: absolute;
+	width: 0;
+}
+
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:focus + .sg-cookie-optin-checkbox-label::before {
+	background-color: #E2E2E5;
+}
+
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:focus .sg-cookie-optin-checkbox:checked + .sg-cookie-optin-checkbox-label {
+	border: none;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox + .sg-cookie-optin-checkbox-label::before {

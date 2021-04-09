@@ -282,7 +282,12 @@ var SgCookieOptin = {
 				detail: {}
 			});
 			document.body.dispatchEvent(cookieOptinShownEvent);
-			wrapper.focus();
+
+			var checkboxes = document.getElementsByClassName('sg-cookie-optin-checkbox');
+			if (checkboxes.length > 0) {
+				checkboxes[1].focus();
+			}
+
 		}, 10);
 	},
 
