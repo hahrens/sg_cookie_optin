@@ -17,6 +17,10 @@
 				<source><![CDATA[Render CSS and JavaScript contents inline]]></source>
 				<target><![CDATA[CSS- und JavaScript-Inhalte inline rendern]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.consider_do_not_track">
+				<source><![CDATA[Take DoNotTrack into account]]></source>
+				<target><![CDATA[DoNotTrack berücksichtigen]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie" approved="yes">
 				<source><![CDATA[Cookie]]></source>
 				<target><![CDATA[Cookie]]></target>
