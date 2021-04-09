@@ -126,6 +126,42 @@ var SgCookieOptin = {
 	},
 
 	/**
+	 * Checks whether the given group has been accepted or not
+	 *
+	 * @param {string} groupName
+	 * @param {string} cookieValue
+	 * @returns {boolean}
+	 */
+	readCookieValues: function(cookieValue) {
+		if (typeof cookieValue === 'undefined') {
+			cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
+		}
+
+		var cookieValues = [];
+
+		if (cookieValue) {
+			var splitedCookieValue = cookieValue.split('|');
+			for (var splitedCookieValueIndex in splitedCookieValue) {
+				if (!splitedCookieValue.hasOwnProperty(splitedCookieValueIndex)) {
+					continue;
+				}
+
+				var splitedCookieValueEntry = splitedCookieValue[splitedCookieValueIndex];
+				var groupAndStatus = splitedCookieValueEntry.split(':');
+				if (!groupAndStatus.hasOwnProperty(0) || !groupAndStatus.hasOwnProperty(1)) {
+					continue;
+				}
+
+				var group = groupAndStatus[0];
+				var status = parseInt(groupAndStatus[1]);
+				cookieValues[group] = status;
+			}
+		}
+
+		return cookieValues;
+	},
+
+	/**
 	 * Handles the scripts of the allowed cookie groups.
 	 *
 	 * @return {void}
@@ -168,6 +204,14 @@ var SgCookieOptin = {
 						var range = document.createRange();
 						range.selectNode(head);
 						head.appendChild(range.createContextualFragment(SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML']));
+						// Emit event
+						var addedLoadingHTMLEvent = new CustomEvent('addedLoadingHTML', {
+							bubbles: true,
+							detail: {
+								src: SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingHTML']
+							}
+						});
+						head.dispatchEvent(addedLoadingHTMLEvent);
 					}
 				}
 
@@ -179,6 +223,15 @@ var SgCookieOptin = {
 					script.setAttribute('src', SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript']);
 					script.setAttribute('type', 'text/javascript');
 					document.body.appendChild(script);
+
+					// Emit event
+					var addedLoadingScriptEvent = new CustomEvent('addedLoadingScript', {
+						bubbles: true,
+						detail: {
+							src: SgCookieOptin.jsonData.cookieGroups[groupIndex]['loadingJavaScript']
+						}
+					});
+					script.dispatchEvent(addedLoadingScriptEvent);
 				}
 			}
 		}
@@ -223,6 +276,12 @@ var SgCookieOptin = {
 		setTimeout(function() {
 			SgCookieOptin.adjustDescriptionHeight(wrapper, contentElement);
 			SgCookieOptin.updateCookieList();
+			// Emit event
+			var cookieOptinShownEvent = new CustomEvent('cookieOptinShown', {
+				bubbles: true,
+				detail: {}
+			});
+			document.body.dispatchEvent(cookieOptinShownEvent);
 			wrapper.focus();
 		}, 10);
 	},
@@ -234,7 +293,10 @@ var SgCookieOptin = {
 	 */
 	shouldShowOptinBanner: function() {
 		// check doNotTrack
-		if (typeof navigator.doNotTrack !== 'undefined' && navigator.doNotTrack === '1') {
+		if (typeof SgCookieOptin.jsonData.settings.consider_do_not_track !== 'undefined'
+				&& SgCookieOptin.jsonData.settings.consider_do_not_track
+				&& typeof navigator.doNotTrack !== 'undefined' && navigator.doNotTrack === '1') {
+			console.log('Cookie Consent: DoNotTrack detected - Auto-OptOut');
 			return false;
 		}
 
@@ -669,6 +731,13 @@ var SgCookieOptin = {
 			}
 
 			parentNode.removeChild(optin);
+
+			// Emit event
+			var cookieOptinHiddenEvent = new CustomEvent('cookieOptinHidden', {
+				bubbles: true,
+				detail: {}
+			});
+			parentNode.dispatchEvent(cookieOptinHiddenEvent);
 		}
 	},
 
@@ -1261,6 +1330,13 @@ var SgCookieOptin = {
 		SgCookieOptin.addExternalContentListeners(wrapper);
 
 		document.body.insertAdjacentElement('beforeend', wrapper);
+
+		// Emit event
+		var externalContentConsentDisplayedEvent = new CustomEvent('externalContentConsentDisplayed', {
+			bubbles: true,
+			detail: {}
+		});
+		wrapper.dispatchEvent(externalContentConsentDisplayedEvent);
 	},
 
 	/**
@@ -1514,6 +1590,15 @@ var SgCookieOptin = {
 
 		SgCookieOptin.saveLastPreferences(cookieValue);
 		SgCookieOptin.deleteCookiesForUnsetGroups();
+
+		// Emit event
+		var consentCookieSetEvent = new CustomEvent('consentCookieSet', {
+			bubbles: true,
+			detail: {
+				cookieValue: cookieValue
+			}
+		});
+		document.body.dispatchEvent(consentCookieSetEvent);
 	},
 
 	/**

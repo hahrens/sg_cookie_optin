@@ -812,6 +812,7 @@ class GenerateFilesAfterTcaSave {
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
 			'identifier' => $this->siteRoot,
 			'render_assets_inline' => (int) $translatedData['render_assets_inline'],
+			'consider_do_not_track' => (int) $translatedData['consider_do_not_track'],
 		];
 
 		$textEntries = [
