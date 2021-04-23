@@ -1,0 +1,14 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  SGalinski\SgCookieOptin\:
+    resource: '../Classes/*'
+
+  SGalinski\SgCookieOptin\Command\GenerateStaticFilesCommand:
+    tags:
+      - name: 'console.command'
+        command: 'sg_cookie_optin:generate_static_files'
+        description: 'Generates the necessary JavaScript, JSON and CSS files.'

@@ -12,6 +12,12 @@
 			<trans-unit id="backend.searchError.noParametersSentToTheServer">
 				<source><![CDATA[No parameters sent to the server.]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.render_assets_inline">
+				<source><![CDATA[Render CSS and JavaScript contents inline]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.consider_do_not_track">
+				<source><![CDATA[Take DoNotTrack into account]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie">
 				<source><![CDATA[Cookie]]></source>
 			</trans-unit>
@@ -119,9 +125,6 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_enable">
 				<source><![CDATA[Show a Less Obtrusive Banner Instead of the Cookie Settings Window]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.user_hash_text" approved="yes">
-				<source><![CDATA[Text for the user hash label]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_html">
 				<source><![CDATA[Banner Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html) ]]></source>
@@ -501,6 +504,9 @@ Without this setting, this configuration only applies to the domain where it is 
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.update_version">
 				<source><![CDATA[Update the version number and force the visitors to confirm their preferences]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.user_hash_text">
+				<source><![CDATA[Text for the user hash label]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.version">
 				<source><![CDATA[Version number]]></source>

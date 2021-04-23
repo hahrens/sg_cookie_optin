@@ -80,23 +80,21 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		if (file_exists($sitePath . $file)) {
-			$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData' . JsonImportService::LOCALE_SEPARATOR .
-				$this->getLanguageWithLocale() . '.json';
-			if (!file_exists($sitePath . $jsonFile)) {
-				$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_' .
-					$this->getLanguage() . '.json';
-				if (!file_exists($sitePath . $jsonFile)) {
-					$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_0.json';
-					if (!file_exists($sitePath . $jsonFile)) {
-						return '';
-					}
-				}
+			$jsonFile = $this->getJsonFilePath($folder, $rootPageId, $sitePath);
+			if ($jsonFile === NULL) {
+				return '';
 			}
+
 			// we decode and encode again to remove the PRETTY_PRINT when rendering for better performance on the frontend
 			// for easier debugging, you can check the generated file in the fileadmin
 			// see https://gitlab.sgalinski.de/typo3/sg_cookie_optin/-/issues/118
 			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
 			if (!$jsonData['settings']['disable_for_this_language']) {
+				if ($jsonData['settings']['render_assets_inline']) {
+					return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
+						'</script><script type="text/javascript" data-ignore="1">' . file_get_contents($sitePath . $file) . '</script>';
+				}
+
 				return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
 					'</script><script src="' . $siteBaseUrl . $file . '" type="text/javascript" data-ignore="1"></script>';
 			}
@@ -151,8 +149,15 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			$cacheBuster = '';
 		}
 
-		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage);
+		$jsonFile = $this->getJsonFilePath($folder, $rootPageId, $sitePath);
+		if ($jsonFile) {
+			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
+			if (!$jsonData['settings']['disable_for_this_language']) {
+				return '<style>' . file_get_contents($sitePath . $file) .  '</style>';
+			}
+		}
 
+		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage);
 		return '<link rel="stylesheet" type="text/css" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all">';
 	}
 
@@ -185,6 +190,33 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		return $this->rootpage;
+	}
+
+	/**
+	 * Get the path to the json file
+	 *
+	 * @param string $folder
+	 * @param int $rootPageId
+	 * @param string $sitePath
+	 * @return string|null
+	 * @throws AspectNotFoundException
+	 * @throws SiteNotFoundException
+	 */
+	protected function getJsonFilePath(string $folder, int $rootPageId, string $sitePath) {
+		$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData' . JsonImportService::LOCALE_SEPARATOR .
+			$this->getLanguageWithLocale() . '.json';
+		if (!file_exists($sitePath . $jsonFile)) {
+			$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_' .
+				$this->getLanguage() . '.json';
+			if (!file_exists($sitePath . $jsonFile)) {
+				$jsonFile = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptinData_0.json';
+				if (!file_exists($sitePath . $jsonFile)) {
+					return NULL;
+				}
+			}
+		}
+
+		return $jsonFile;
 	}
 
 	/**
