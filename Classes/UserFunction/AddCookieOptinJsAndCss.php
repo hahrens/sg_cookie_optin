@@ -152,7 +152,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		$jsonFile = $this->getJsonFilePath($folder, $rootPageId, $sitePath);
 		if ($jsonFile) {
 			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
-			if (!$jsonData['settings']['disable_for_this_language']) {
+			if ($jsonData['settings']['render_assets_inline']) {
 				return '<style>' . file_get_contents($sitePath . $file) .  '</style>';
 			}
 		}

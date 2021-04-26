@@ -14,7 +14,7 @@
 			{{#cookieGroups}}
 				<li class="sg-cookie-optin-box-cookie-list-item">
 					<label >
-						<input class="sg-cookie-optin-checkbox"
+						<input tabindex="1" class="sg-cookie-optin-checkbox"
 						   type="checkbox"
 						   name="cookies[]"
 						   value="{{groupName}}"
@@ -57,18 +57,18 @@
 			{{/cookieGroups}}
 		</ul>
 
-		<a class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}</a>
+		<a tabindex="1" class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}</a>
 
 		<div class="sg-cookie-optin-box-button">
-			<button class="sg-cookie-optin-box-button-accept-essential">{{{textEntries.accept_essential_text}}}</button>
-			<button class="sg-cookie-optin-box-button-accept-specific">{{{textEntries.accept_specific_text}}}</button>
-			<button class="sg-cookie-optin-box-button-accept-all">{{{textEntries.accept_all_text}}}</button>
+			<button tabindex="1" class="sg-cookie-optin-box-button-accept-essential">{{{textEntries.accept_essential_text}}}</button>
+			<button tabindex="1" class="sg-cookie-optin-box-button-accept-specific">{{{textEntries.accept_specific_text}}}</button>
+			<button tabindex="1" class="sg-cookie-optin-box-button-accept-all">{{{textEntries.accept_all_text}}}</button>
 		</div>
 
 		<div class="sg-cookie-optin-box-footer">
 			<div class="sg-cookie-optin-box-footer-links">
 				<div class="sg-cookie-optin-box-copyright{{#settings.disable_powered_by}} sg-cookie-optin-box-copyright-link-hidden{{/settings.disable_powered_by}}">
-					<a class="sg-cookie-optin-box-copyright-link"
+					<a tabindex="1" class="sg-cookie-optin-box-copyright-link"
 					   href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/"
 					   target="_blank">
 						Powered by sgalinski Cookie Opt In
@@ -81,7 +81,7 @@
 						<span class="sg-cookie-optin-box-footer-divider"> | </span>
 					{{/index}}
 
-					<a class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{name}}</a>
+					<a tabindex="1" class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{name}}</a>
 				{{/footerLinks}}
 			</div>
 

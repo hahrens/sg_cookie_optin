@@ -24,9 +24,9 @@
 	</ul>
 
 	<div class="sg-cookie-optin-box-button">
-		<button class="sg-cookie-optin-box-button-accept-all">{{{textEntries.accept_all_text}}}</button>
-		<button class="sg-cookie-optin-box-button-accept-specific">{{{textEntries.accept_specific_text}}}</button>
-		<button class="sg-cookie-optin-box-button-accept-essential">{{{textEntries.accept_essential_text}}}</button>
+		<button tabindex="1" class="sg-cookie-optin-box-button-accept-all">{{{textEntries.accept_all_text}}}</button>
+		<button tabindex="1" class="sg-cookie-optin-box-button-accept-specific">{{{textEntries.accept_specific_text}}}</button>
+		<button tabindex="1" class="sg-cookie-optin-box-button-accept-essential">{{{textEntries.accept_essential_text}}}</button>
 	</div>
 
 	<ul class="sg-cookie-optin-box-cookie-detail-list">
@@ -64,7 +64,7 @@
 				</div>
 
 				{{#cookieData}}
-					{{^index}}<a class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}</a>{{/index}}
+					{{^index}}<a tabindex="1" class="sg-cookie-optin-box-sublist-open-more-link" href="#">{{{textEntries.extend_table_link_text}}}</a>{{/index}}
 				{{/cookieData}}
 			</li>
 		{{/cookieGroups}}
@@ -76,7 +76,7 @@
 
 	<div class="sg-cookie-optin-box-footer">
 		<div class="sg-cookie-optin-box-copyright">
-			<a class="sg-cookie-optin-box-copyright-link{{#settings.disable_powered_by}} sg-cookie-optin-box-copyright-link-hidden{{/settings.disable_powered_by}}"
+			<a tabindex="1" class="sg-cookie-optin-box-copyright-link{{#settings.disable_powered_by}} sg-cookie-optin-box-copyright-link-hidden{{/settings.disable_powered_by}}"
 			   href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/"
 			   target="_blank">
 				Powered by<br>sgalinski Cookie Opt In
@@ -89,7 +89,7 @@
 					<span class="sg-cookie-optin-box-footer-divider"> | </span>
 				{{/index}}
 
-				<a class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{{name}}}</a>
+				<a tabindex="1" class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{{name}}}</a>
 			{{/footerLinks}}
 		</div>
 
