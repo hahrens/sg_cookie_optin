@@ -13,7 +13,7 @@
 				<source><![CDATA[No parameters sent to the server.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.render_assets_inline">
-				<source><![CDATA[Render CSS and JavaScript contents inline]]></source>
+				<source><![CDATA[Render CSS and JavaScript contents inline (may impact the performance negatively)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.consider_do_not_track">
 				<source><![CDATA[Take DoNotTrack into account]]></source>

@@ -14,8 +14,8 @@
 				<target><![CDATA[Es werden keine Parameter an den Server gesendet.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.render_assets_inline" approved="yes">
-				<source><![CDATA[Render CSS and JavaScript contents inline]]></source>
-				<target><![CDATA[CSS- und JavaScript-Inhalte inline rendern]]></target>
+				<source><![CDATA[Render CSS and JavaScript contents inline (may impact the performance negatively)]]></source>
+				<target><![CDATA[CSS- und JavaScript-Inhalte inline rendern (kann sich negativ auf die Performance auswirken)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.consider_do_not_track">
 				<source><![CDATA[Take DoNotTrack into account]]></source>

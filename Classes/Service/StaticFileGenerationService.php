@@ -727,8 +727,8 @@ class StaticFileGenerationService implements SingletonInterface {
 			} else {
 				try {
 					$url = '/' . $this->removeCHashFromUrl(
-						$contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid)
-					);
+							$contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid)
+						);
 					$name = $contentObject->crop($pageData['title'], 35 . '|...|0');
 				} catch (\Exception $exception) {
 					// Occurs on the first creation of the translation.
@@ -768,7 +768,9 @@ class StaticFileGenerationService implements SingletonInterface {
 			'disable_powered_by' => (boolean) $translatedData['disable_powered_by'],
 			'disable_for_this_language' => (boolean) $translatedData['disable_for_this_language'],
 			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
-			'save_history_webhook' => (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) ? '/?eID=sg_cookie_optin_saveOptinHistory' : '/?saveOptinHistory',
+			'save_history_webhook' => (VersionNumberUtility::convertVersionNumberToInteger(
+					TYPO3_version
+				) < 9000000) ? '/?eID=sg_cookie_optin_saveOptinHistory' : '/?saveOptinHistory',
 			'cookiebanner_whitelist_regex' => (string) $translatedData['cookiebanner_whitelist_regex'],
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
 			'identifier' => $this->siteRoot,
@@ -863,7 +865,8 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace(
-				'#LANG#', (($locale !== '') ? $locale : '') . JsonImportService::LOCALE_SEPARATOR . $translatedData['sys_language_uid'],
+				'#LANG#',
+				(($locale !== '') ? $locale : '') . JsonImportService::LOCALE_SEPARATOR . $translatedData['sys_language_uid'],
 				self::TEMPLATE_JSON_NAME
 			);
 		file_put_contents($file, json_encode($jsonDataArray, JSON_PRETTY_PRINT));

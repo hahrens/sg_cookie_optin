@@ -92,7 +92,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			if (!$jsonData['settings']['disable_for_this_language']) {
 				if ($jsonData['settings']['render_assets_inline']) {
 					return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
-						'</script><script type="text/javascript" data-ignore="1">' . file_get_contents($sitePath . $file) . '</script>';
+						"</script>\n".'<script type="text/javascript" data-ignore="1">' . file_get_contents($sitePath . $file) . "</script>\n";
 				}
 
 				return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
@@ -153,7 +153,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		if ($jsonFile) {
 			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
 			if ($jsonData['settings']['render_assets_inline']) {
-				return '<style>' . file_get_contents($sitePath . $file) .  '</style>';
+				return '<style>' . file_get_contents($sitePath . $file) .  "</style>\n";
 			}
 		}
 

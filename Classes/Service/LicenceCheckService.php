@@ -116,7 +116,7 @@ class LicenceCheckService {
 	/**
 	 * The current extension version
 	 */
-	const CURRENT_VERSION = '4.0';
+	const CURRENT_VERSION = '4.1';
 
 	/**
 	 * @var array
