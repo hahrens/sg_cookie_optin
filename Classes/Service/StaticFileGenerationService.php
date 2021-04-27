@@ -754,6 +754,8 @@ class StaticFileGenerationService implements SingletonInterface {
 			++$index;
 		}
 
+		$baseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
+
 		$settings = [
 			'banner_enable' => (boolean) $translatedData['banner_enable'],
 			'version' => (int) $translatedData['version'],
@@ -768,9 +770,9 @@ class StaticFileGenerationService implements SingletonInterface {
 			'disable_powered_by' => (boolean) $translatedData['disable_powered_by'],
 			'disable_for_this_language' => (boolean) $translatedData['disable_for_this_language'],
 			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
-			'save_history_webhook' => (VersionNumberUtility::convertVersionNumberToInteger(
+			'save_history_webhook' => $baseUrl . ((VersionNumberUtility::convertVersionNumberToInteger(
 					TYPO3_version
-				) < 9000000) ? '/?eID=sg_cookie_optin_saveOptinHistory' : '/?saveOptinHistory',
+				) < 9000000) ? '?eID=sg_cookie_optin_saveOptinHistory' : '?saveOptinHistory'),
 			'cookiebanner_whitelist_regex' => (string) $translatedData['cookiebanner_whitelist_regex'],
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
 			'identifier' => $this->siteRoot,
