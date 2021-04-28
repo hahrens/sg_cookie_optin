@@ -32,6 +32,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Routing\PageRouter;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -755,6 +756,16 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		$baseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
+		if ((VersionNumberUtility::convertVersionNumberToInteger(
+			TYPO3_version
+		) < 9000000)) {
+			$baseUri = $baseUrl;
+		} else {
+			$siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
+			$site = $siteFinder->getSiteByPageId($this->siteRoot);
+			$pageRouter = GeneralUtility::makeInstance(PageRouter::class, $site);
+			$baseUri = $pageRouter->generateUri($this->siteRoot, ['_language' => $languageUid]);
+		}
 
 		$settings = [
 			'banner_enable' => (boolean) $translatedData['banner_enable'],
@@ -770,7 +781,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'disable_powered_by' => (boolean) $translatedData['disable_powered_by'],
 			'disable_for_this_language' => (boolean) $translatedData['disable_for_this_language'],
 			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
-			'save_history_webhook' => $baseUrl . ((VersionNumberUtility::convertVersionNumberToInteger(
+			'save_history_webhook' => $baseUri . ((VersionNumberUtility::convertVersionNumberToInteger(
 					TYPO3_version
 				) < 9000000) ? '?eID=sg_cookie_optin_saveOptinHistory' : '?saveOptinHistory'),
 			'cookiebanner_whitelist_regex' => (string) $translatedData['cookiebanner_whitelist_regex'],
