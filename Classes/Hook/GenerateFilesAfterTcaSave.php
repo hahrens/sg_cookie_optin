@@ -26,36 +26,19 @@ namespace SGalinski\SgCookieOptin\Hook;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use SGalinski\SgCookieOptin\Service\BaseUrlService;
-use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
-use SGalinski\SgCookieOptin\Service\JsonImportService;
-use SGalinski\SgCookieOptin\Service\LanguageService;
 use SGalinski\SgCookieOptin\Service\DemoModeService;
-use SGalinski\SgCookieOptin\Service\MinificationService;
 use SGalinski\SgCookieOptin\Service\StaticFileGenerationService;
-use SGalinski\SgCookieOptin\Service\TemplateService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Database\Connection;
-use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\DatabaseConnection;
-use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
-use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Site\SiteFinder;
-use TYPO3\CMS\Core\TimeTracker\NullTimeTracker;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-use TYPO3\CMS\Frontend\Page\PageGenerator;
-use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * Adds the Cookie Optin JavaScript if it's generated for the current page.
  */
-class GenerateFilesAfterTcaSave {
+class GenerateFilesAfterTcaSave
+{
 
 
 	/**
@@ -69,7 +52,8 @@ class GenerateFilesAfterTcaSave {
 	 * @throws \TYPO3\CMS\Core\Http\ImmediateResponseException
 	 * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
 	 */
-	public function processDatamap_afterAllOperations(DataHandler $dataHandler) {
+	public function processDatamap_afterAllOperations(DataHandler $dataHandler)
+	{
 		$this->handleFlashMessage($dataHandler);
 
 		if (!isset($dataHandler->datamap[StaticFileGenerationService::TABLE_NAME])) {
@@ -93,21 +77,21 @@ class GenerateFilesAfterTcaSave {
 					continue;
 				}
 
-				$uid = (int) $dataHandler->substNEWwithIDs[$uid];
+				$uid = (int)$dataHandler->substNEWwithIDs[$uid];
 			}
 
-			$uid = (isset($data['l10n_parent']) ? (int) $data['l10n_parent'] : $uid);
+			$uid = (isset($data['l10n_parent']) ? (int)$data['l10n_parent'] : $uid);
 			if ($uid <= 0) {
 				continue;
 			}
 
 			$originalRecord = BackendUtility::getRecord(StaticFileGenerationService::TABLE_NAME, $uid);
-			if (isset($originalRecord['l10n_parent']) && (int) $originalRecord['l10n_parent'] > 0) {
-				$originalRecord = BackendUtility::getRecord(StaticFileGenerationService::TABLE_NAME, (int) $originalRecord['l10n_parent']);
+			if (isset($originalRecord['l10n_parent']) && (int)$originalRecord['l10n_parent'] > 0) {
+				$originalRecord = BackendUtility::getRecord(StaticFileGenerationService::TABLE_NAME, (int)$originalRecord['l10n_parent']);
 			}
 		}
 
-		$this->siteRoot = (int) $dataHandler->getPID(StaticFileGenerationService::TABLE_NAME, $originalRecord['uid']);
+		$this->siteRoot = (int)$dataHandler->getPID(StaticFileGenerationService::TABLE_NAME, $originalRecord['uid']);
 		if ($this->siteRoot <= 0) {
 			return;
 		}
@@ -121,7 +105,8 @@ class GenerateFilesAfterTcaSave {
 	 *
 	 * @param DataHandler $dataHandler
 	 */
-	protected function handleFlashMessage(DataHandler $dataHandler) {
+	protected function handleFlashMessage(DataHandler $dataHandler)
+	{
 		if (isset($dataHandler->cmdmap[StaticFileGenerationService::TABLE_NAME]) || isset($dataHandler->datamap[StaticFileGenerationService::TABLE_NAME])) {
 			session_start();
 			$_SESSION['tx_sgcookieoptin']['configurationChanged'] = TRUE;
