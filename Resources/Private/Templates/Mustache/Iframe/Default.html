@@ -7,15 +7,16 @@
 	<p class="sg-cookie-optin-box-description">{{{iFrameGroup.description}}}</p>
 
 	<div class="sg-cookie-optin-box-button">
-		<button class="sg-cookie-optin-box-button-accept-all">{{{textEntries.iframe_button_allow_all_text}}}</button>
-		<button class="sg-cookie-optin-box-button-accept-specific">{{{textEntries.iframe_button_allow_one_text}}}</button>
+		<button tabindex="1" class="sg-cookie-optin-box-button-accept-all">{{{textEntries.iframe_button_allow_all_text}}}</button>
+		<button tabindex="1" class="sg-cookie-optin-box-button-accept-specific">{{{textEntries.iframe_button_allow_one_text}}}</button>
+		<button tabindex="1" class="sg-cookie-optin-box-button-iframe-reject">{{{textEntries.iframe_button_reject_text}}}</button>
 	</div>
 
 	<p class="sg-cookie-optin-box-flash-message"></p>
 
 	<div class="sg-cookie-optin-box-footer">
 		<div class="sg-cookie-optin-box-copyright">
-			<a class="sg-cookie-optin-box-copyright-link{{#settings.disable_powered_by}} sg-cookie-optin-box-copyright-link-hidden{{/settings.disable_powered_by}}"
+			<a tabindex="1" class="sg-cookie-optin-box-copyright-link{{#settings.disable_powered_by}} sg-cookie-optin-box-copyright-link-hidden{{/settings.disable_powered_by}}"
 			   href="https://www.sgalinski.de/typo3-produkte-webentwicklung/sgalinski-cookie-optin/"
 			   target="_blank">
 				Powered by<br>sgalinski Cookie Opt In
@@ -27,7 +28,7 @@
 			{{#index}}
 			<span class="sg-cookie-optin-box-footer-divider"> | </span>
 			{{/index}}
-			<a class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{{name}}}</a>
+			<a tabindex="1" class="sg-cookie-optin-box-footer-link" href="{{url}}" target="_blank">{{{name}}}</a>
 			{{/footerLinks}}
 		</div>
 	</div>

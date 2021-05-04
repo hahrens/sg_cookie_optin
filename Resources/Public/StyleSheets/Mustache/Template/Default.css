@@ -153,6 +153,7 @@
 /* Buttons */
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-all,
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-specific,
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-iframe-reject,
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-essential,
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-settings,
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-banner-content .sg-cookie-optin-banner-button-accept {
@@ -172,7 +173,8 @@
 	border-radius: 5px;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-specific {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-specific,
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-iframe-reject {
 	color: ###color_button_specific_text###;
 	background-color: ###color_button_specific###;
 }
@@ -196,7 +198,8 @@
 	background-color: ###color_button_all_hover###;
 }
 
-#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-specific:hover {
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-accept-specific:hover,
+#SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-button .sg-cookie-optin-box-button-iframe-reject:hover {
 	background-color: ###color_button_specific_hover###;
 }
 

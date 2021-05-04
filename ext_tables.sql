@@ -114,6 +114,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 
 	iframe_button_allow_all_text varchar(255) DEFAULT 'Alle externen Inhalte erlauben' NOT NULL,
 	iframe_button_allow_one_text varchar(255) DEFAULT 'Einmalig erlauben' NOT NULL,
+    iframe_button_reject_text varchar(255) DEFAULT 'Nicht erlauben' NOT NULL,
 	iframe_button_load_one_text varchar(255) DEFAULT 'Externen Inhalt laden' NOT NULL,
 	iframe_open_settings_text varchar(255) DEFAULT 'Einstellungen anzeigen' NOT NULL,
 	iframe_button_load_one_description text NOT NULL,

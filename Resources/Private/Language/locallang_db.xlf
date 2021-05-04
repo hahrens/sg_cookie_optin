@@ -12,12 +12,6 @@
 			<trans-unit id="backend.searchError.noParametersSentToTheServer">
 				<source><![CDATA[No parameters sent to the server.]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.render_assets_inline">
-				<source><![CDATA[Render CSS and JavaScript contents inline (may impact the performance negatively)]]></source>
-			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.consider_do_not_track">
-				<source><![CDATA[Take DoNotTrack into account]]></source>
-			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_cookie">
 				<source><![CDATA[Cookie]]></source>
 			</trans-unit>
@@ -252,6 +246,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.colors_tables">
 				<source><![CDATA[Cookie Description Tables]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.consider_do_not_track">
+				<source><![CDATA[Take DoNotTrack into account]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.cookie_lifetime">
 				<source><![CDATA[Lifetime of cookie that saves the user's choices in days]]></source>
 			</trans-unit>
@@ -326,6 +323,9 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_text">
 				<source><![CDATA[Button: "Load external content"]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_reject_text">
+				<source><![CDATA[Button: "Don't allow"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_color_button_load_one">
 				<source><![CDATA[Button: "Load external content"]]></source>
@@ -440,6 +440,9 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.update_version">
 				<source><![CDATA[Version control]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.render_assets_inline">
+				<source><![CDATA[Render CSS and JavaScript contents inline (may impact the performance negatively)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.save_confirmation_text">
 				<source><![CDATA[Text for notification shown when cookie preferences are set]]></source>

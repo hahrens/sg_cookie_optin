@@ -809,6 +809,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'cookie_lifetime_text' => $translatedData['cookie_lifetime_text'],
 			'iframe_button_allow_all_text' => $translatedData['iframe_button_allow_all_text'],
 			'iframe_button_allow_one_text' => $translatedData['iframe_button_allow_one_text'],
+			'iframe_button_reject_text' => $translatedData['iframe_button_reject_text'],
 			'iframe_button_load_one_text' => $translatedData['iframe_button_load_one_text'],
 			'iframe_open_settings_text' => $translatedData['iframe_open_settings_text'],
 			'iframe_button_load_one_description' => $translatedData['iframe_button_load_one_description'],

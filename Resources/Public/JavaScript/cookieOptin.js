@@ -1336,6 +1336,12 @@ var SgCookieOptin = {
 
 		document.body.insertAdjacentElement('beforeend', wrapper);
 
+		// focus the first button for better accessability
+		var buttons = document.getElementsByClassName('sg-cookie-optin-box-button-accept-all');
+		if (buttons.length > 0) {
+			buttons[0].focus();
+		}
+
 		// Emit event
 		var externalContentConsentDisplayedEvent = new CustomEvent('externalContentConsentDisplayed', {
 			bubbles: true,
@@ -1354,6 +1360,9 @@ var SgCookieOptin = {
 	addExternalContentListeners: function(element) {
 		var closeButtons = element.querySelectorAll('.sg-cookie-optin-box-close-button');
 		SgCookieOptin.addEventListenerToList(closeButtons, 'click', SgCookieOptin.hideCookieOptIn);
+
+		var rejectButtons = element.querySelectorAll('.sg-cookie-optin-box-button-iframe-reject');
+		SgCookieOptin.addEventListenerToList(rejectButtons, 'click', SgCookieOptin.hideCookieOptIn);
 
 		var acceptAllButtons = element.querySelectorAll('.sg-cookie-optin-box-button-accept-all');
 		SgCookieOptin.addEventListenerToList(acceptAllButtons, 'click', function() {
