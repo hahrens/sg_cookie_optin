@@ -408,7 +408,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		$content .= " \n\n" . $templateService->getCSSContent(
 				TemplateService::TYPE_TEMPLATE, $data['template_selection']
 			);
-		if ((boolean) $data['banner_enable']) {
+		if ((boolean) $data['banner_enable'] || (int) $data['banner_force_min_width'] > 0) {
 			$content .= " \n\n" . $templateService->getCSSContent(
 					TemplateService::TYPE_BANNER, $data['banner_selection']
 				);
