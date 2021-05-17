@@ -52,6 +52,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	banner_button_accept_text varchar(255) DEFAULT 'Akzeptieren' NOT NULL,
 	banner_button_settings_text varchar(255) DEFAULT 'Einstellungen' NOT NULL,
 	banner_description text NOT NULL,
+	banner_force_min_width int(11) DEFAULT '0' NOT NULL,
 
 	-- template colors
 	color_box varchar(10) DEFAULT '#FFFFFF' NOT NULL,
