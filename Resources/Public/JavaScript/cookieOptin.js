@@ -73,8 +73,8 @@ var SgCookieOptin = {
 		// noinspection EqualityComparisonWithCoercionJS
 		var showOptIn = SgCookieOptin.getParameterByName('showOptIn') == true;
 		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
-		if ((!cookieValue && !SgCookieOptin.jsonData.settings.activate_testing_mode) || showOptIn
-			|| SgCookieOptin.shouldShowBannerBasedOnLastPreferences()
+		if (showOptIn || !SgCookieOptin.jsonData.settings.activate_testing_mode &&
+			(!cookieValue || SgCookieOptin.shouldShowBannerBasedOnLastPreferences())
 		) {
 			SgCookieOptin.openCookieOptin(null, {hideBanner: false});
 		}

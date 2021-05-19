@@ -97,8 +97,8 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 
 				return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
 					'</script>
-					<link rel="preload" as="script" href="' . $siteBaseUrl . $file . '" type="text/javascript" data-ignore="1">
-					<script src="' . $siteBaseUrl . $file . '" type="text/javascript" data-ignore="1"></script>';
+					<link rel="preload" as="script" href="' . $siteBaseUrl . $file . '" data-ignore="1">
+					<script src="' . $siteBaseUrl . $file . '" data-ignore="1"></script>';
 			}
 		} else {
 			// Old including from version 2.X.X @todo remove in version 4.X.X
@@ -160,8 +160,8 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage);
-		return '<link rel="preload" as="style" type="text/css" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all">' . "\n"
-			. '<link rel="stylesheet" type="text/css" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" defer>';
+		return '<link rel="preload" as="style" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all">' . "\n"
+			. '<link rel="stylesheet" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all">';
 	}
 
 	/**
