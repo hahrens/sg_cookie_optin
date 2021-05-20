@@ -63,6 +63,15 @@ class HandleTemplateAfterTcaSave {
 			return;
 		}
 
+		// If it's a new object - get it's real ID otherwise the update will not work anyway
+		if (strpos($id, 'NEW') === 0) {
+			if (!isset($dataHandler->substNEWwithIDs[$id])) {
+				return;
+			}
+
+			$id = (int) $dataHandler->substNEWwithIDs[$id];
+		}
+
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
 		foreach ($dataHandler->datamap[self::TABLE_NAME] as $uid => $data) {
 			if ((boolean) $data['template_overwritten']) {
