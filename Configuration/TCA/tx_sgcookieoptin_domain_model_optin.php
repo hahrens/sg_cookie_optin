@@ -967,7 +967,10 @@ $configuration = [
 				'type' => 'text',
 				'renderType' => 't3editor',
 				'format' => 'html',
-				'eval' => 'trim'
+				'eval' => 'trim',
+				'behaviour' => [
+				   'allowLanguageSynchronization' => true
+				],
 			],
 		],
 		'iframe_overwritten' => [
@@ -1192,7 +1195,6 @@ $configuration = [
 		],
 		'banner_html' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_html',
 			'config' => [
 				'type' => 'text',
@@ -1204,20 +1206,24 @@ $configuration = [
 						'renderType' => 'templatePreviewLinkWizard'
 					],
 				],
+				'behaviour' => [
+				   'allowLanguageSynchronization' => true
+				],
 			],
 		],
 		'banner_overwritten' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_overwritten',
 			'config' => [
 				'type' => 'check',
 				'default' => '0',
+				'behaviour' => [
+				   'allowLanguageSynchronization' => true
+				],
 			],
 		],
 		'banner_show_settings_button' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'exclude',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_show_settings_button',
 			'config' => [
 				'type' => 'check',
