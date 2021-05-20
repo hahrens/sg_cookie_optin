@@ -118,10 +118,13 @@
 				<source><![CDATA[Explanatory Text in the Banner]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_enable">
-				<source><![CDATA[Show a Less Obtrusive Banner Instead of the Cookie Settings Window]]></source>
+				<source><![CDATA[Always Show a Less Obtrusive Banner Instead of the Cookie Settings Window]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_force_min_width" approved="yes">
+				<source><![CDATA[Force Displaying the less Obstructive Banner if the Client Window has a Maximum width of x (0 = deactivated)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_html">
-				<source><![CDATA[Banner Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html) ]]></source>
+				<source><![CDATA[Banner Template Code (HTML, variables and logic are processed with Mustache, see https://mustache.github.io/mustache.5.html) ]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_overwritten">
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
@@ -319,7 +322,7 @@
 				<source><![CDATA[Button: "Allow once"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_description">
-				<source><![CDATA[Additional text below the "load external content" button]]></source>
+				<source><![CDATA[Additional Description in the iFrame Replacement]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_text">
 				<source><![CDATA[Button: "Load external content"]]></source>
@@ -357,6 +360,17 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_html">
 				<source><![CDATA[Settings Window Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_html.description" approved="yes">
+				<source><![CDATA[The templating engine supports markers that you can move inside the code. This template supports the following markers:
+				settings.show_button_close – The setting "Activate the close button in the template" from the Template tab
+				iFrameGroup.label – The value of the Title setting in this tab
+				iFrameGroup.description – The value of the Description setting in this tab
+				textEntries.iframe_button_allow_all_text – The button text for "Allow all"
+				textEntries.iframe_button_allow_one_text – The button text for "Allow once"
+				textEntries.iframe_button_reject_text – The button text for "Don't allow"
+				placeholders.iframe_consent_description – The description, provided for this specific element, or the global additional description, set in this tab
+				footerLinks – The links in the footer from the Labels & Menu tab]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_open_settings_text">
 				<source><![CDATA[Link: "Open settings"]]></source>
 			</trans-unit>
@@ -365,6 +379,12 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html">
 				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html.description" approved="yes">
+				<source><![CDATA[The templating engine supports markers that you can move inside the code. This template supports the following markers:
+				textEntries.iframe_button_load_one_text – The value of the Button: "Load external content" field
+				placeholders.iframe_consent_description – The description, provided for this specific element, or the global additional description, set in this tab
+				textEntries.iframe_open_settings_text – The value of the Link: "Open settings" field]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_overwritten">
 				<source><![CDATA[Overwrite iFrame Replacement Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
@@ -492,6 +512,22 @@ Without this setting, this configuration only applies to the domain where it is 
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html">
 				<source><![CDATA[Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html.description" approved="yes">
+				<source><![CDATA[The templating engine supports markers that you can move inside the code. This template supports the following markers:
+				settings.show_button_close – The setting "Activate the close button in the template" from the Template tab
+				textEntries.header – The header of the Cookie Opt-In (Tab Labels & Menu)
+				textEntries.description – The description of the Cookie Opt-In (Tab Labels & Menu)
+				cookieGroups – A list of the defined cookies
+				cookieData (Name, Provider, Lifetime, Purpose) – The data for each cookie and their respective value
+				textEntries.cookie_name_text – The text for the name label
+				textEntries.cookie_provider_text – The text for the provider label
+				textEntries.cookie_lifetime_text – The text for the lifetime label
+				textEntries.cookie_purpose_text – The text for the purpose label
+				textEntries.extend_table_link_text – The value of the Link to Display Information of Cookies of a Group (closed) field (Tab Labels & Menu)
+				textEntries.extend_box_link_text – The value of the Link to Display Information of Cookies of a Group (open) field (Tab Labels & Menu)
+				textEntries.user_hash_text – The hash field label (Tab Labels & Menu)
+				footerLinks (name) – A list of the footer links with their respective name]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten">
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>

@@ -97,7 +97,7 @@
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox {
 	position: absolute;
-	width: 0;
+	opacity: 0;
 }
 
 #SgCookieOptin .sg-cookie-optin-box .sg-cookie-optin-box-cookie-list .sg-cookie-optin-box-cookie-list-item .sg-cookie-optin-checkbox:focus + .sg-cookie-optin-checkbox-label::before {

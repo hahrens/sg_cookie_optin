@@ -432,29 +432,6 @@ class OptinController extends ActionController {
 
 		$newOptinId = $dataHandler->substNEWwithIDs[$newOptinKey];
 
-		// Add cookie translations for each non-default language that is enabled for this site root
-		$translatedCookiesData = [];
-		$languages = LanguageService::getLanguages($pid);
-		foreach ($languages as $language) {
-			$languageUid = (int) $language['uid'];
-			if ($languageUid <= 0) {
-				continue;
-			}
-
-			// We are using the values from the old DataHandler call to avoid redundancy
-			$thisLanguageKey = StringUtility::getUniqueId('New' . $languageUid);
-			$translatedCookiesData['tx_sgcookieoptin_domain_model_cookie'][$thisLanguageKey]
-				= $data['tx_sgcookieoptin_domain_model_cookie'][$newCookieKey];
-			$translatedCookiesData['tx_sgcookieoptin_domain_model_cookie'][$thisLanguageKey]['l10n_parent']
-				= $dataHandler->substNEWwithIDs[$newCookieKey];
-			$translatedCookiesData['tx_sgcookieoptin_domain_model_cookie'][$thisLanguageKey]['sys_language_uid'] = $languageUid;
-		}
-
-		// Replace the $dataHandler object with a fresh one and add the cookies
-		$dataHandler = GeneralUtility::makeInstance(DataHandler::class);
-		$dataHandler->start($translatedCookiesData, []);
-		$dataHandler->process_datamap();
-
 		$this->redirectToTCAEdit((int) $newOptinId);
 	}
 

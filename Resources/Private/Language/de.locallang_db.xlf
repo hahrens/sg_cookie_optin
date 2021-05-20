@@ -154,12 +154,16 @@
 				<target><![CDATA[Erklärungstext im Banner]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_enable" approved="yes">
-				<source><![CDATA[Show a Less Obtrusive Banner Instead of the Cookie Settings Window]]></source>
-				<target><![CDATA[Ein weniger auffälliges Banner anstelle des Fensters für die Cookie-Einstellungen anzeigen]]></target>
+				<source><![CDATA[Always Show a Less Obtrusive Banner Instead of the Cookie Settings Window]]></source>
+				<target><![CDATA[Immer ein weniger auffälliges Banner anstelle des Fensters für die Cookie-Einstellungen anzeigen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_force_min_width" approved="yes">
+				<source><![CDATA[Force Displaying the less Obstructive Banner if the Client Window has a Maximum width of x (0 = deactivated)]]></source>
+				<target><![CDATA[Anzeige des weniger störenden Banners erzwingen, wenn das Client-Fenster eine Maximalbreite von x hat (0 = deaktiviert)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_html" approved="yes">
-				<source><![CDATA[Banner Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html) ]]></source>
-				<target><![CDATA[Banner-Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe http://mustache.github.io/mustache.5.html) ]]></target>
+				<source><![CDATA[Banner Template Code (HTML, variables and logic are processed with Mustache, see https://mustache.github.io/mustache.5.html) ]]></source>
+				<target><![CDATA[Banner-Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe https://mustache.github.io/mustache.5.html) ]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.banner_overwritten" approved="yes">
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
@@ -422,8 +426,8 @@
 				<target><![CDATA[Button: "Einmalig erlauben"]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_description" approved="yes">
-				<source><![CDATA[Additional text below the "load external content" button]]></source>
-				<target><![CDATA[Zusätzlicher Text unter dem "Externen Inhalt laden" Button]]></target>
+				<source><![CDATA[Additional Description in the iFrame Replacement]]></source>
+				<target><![CDATA[Zusätzliche Beschreibung in dem iFrame-Ersatz]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_button_load_one_text" approved="yes">
 				<source><![CDATA[Button: "Load external content"]]></source>
@@ -473,6 +477,26 @@
 				<source><![CDATA[Settings Window Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 				<target><![CDATA[Einstellungsfenster Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe http://mustache.github.io/mustache.5.html)]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_html.description" approved="yes">
+				<source><![CDATA[The templating engine supports markers that you can move inside the code. This template supports the following markers:
+				settings.show_button_close – The setting "Activate the close button in the template" from the Template tab
+				iFrameGroup.label – The value of the Title setting in this tab
+				iFrameGroup.description – The value of the Description setting in this tab
+				textEntries.iframe_button_allow_all_text – The button text for "Allow all"
+				textEntries.iframe_button_allow_one_text – The button text for "Allow once"
+				textEntries.iframe_button_reject_text – The button text for "Don't allow"
+				placeholders.iframe_consent_description – The description, provided for this specific element, or the global additional description, set in this tab
+				footerLinks – The links in the footer from the Labels & Menu tab]]></source>
+				<target><![CDATA[Die Templating-Engine unterstützt Marker, die Sie innerhalb des Codes verschieben können. Diese Vorlage unterstützt die folgenden Marker:
+				settings.show_button_close – Die Einstellung "Aktiviere den Schließen-Button im Template" im Tab Template
+				iFrameGroup.label – Der Wert der Einstellung "Titel" in diesem Tab
+				iFrameGroup.description – Der Wert der Einstellung "Beschreibung" in diesem Tab
+				textEntries.iframe_button_allow_all_text – Der Button-Text für "Alle erlauben".
+				textEntries.iframe_button_allow_one_text – Der Button-Text für "Einmalig erlauben".
+				textEntries.iframe_button_reject_text – Der Button-Text für "Nicht erlauben"
+				placeholders.iframe_consent_description – Die Beschreibung, die für dieses spezifische Element bereitgestellt wird, oder die globale zusätzliche Beschreibung, die in dieser Registerkarte festgelegt wird
+				footerLinks – Die Links in der Fußzeile aus der Registerkarte Texte & Menü]]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_open_settings_text" approved="yes">
 				<source><![CDATA[Link: "Open settings"]]></source>
 				<target><![CDATA[Link: "Einstellungen öffnen"]]></target>
@@ -484,6 +508,16 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html" approved="yes">
 				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 				<target><![CDATA[iFrame-Ersatz Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe http://mustache.github.io/mustache.5.html)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html.description" approved="yes">
+				<source><![CDATA[The templating engine supports markers that you can move inside the code. This template supports the following markers:
+				textEntries.iframe_button_load_one_text – The value of the Button: "Load external content" field
+				placeholders.iframe_consent_description – The description, provided for this specific element, or the global additional description, set in this tab
+				textEntries.iframe_open_settings_text – The value of the Link: "Open settings" field]]></source>
+				<target><![CDATA[Die Templating-Engine unterstützt Marker, die Sie innerhalb des Codes verschieben können. Diese Vorlage unterstützt die folgenden Marker:
+				textEntries.iframe_button_load_one_text – Der Wert des Feldes: "Externen Inhalt laden"
+				placeholders.iframe_consent_description – Die Beschreibung, die für dieses spezifische Element bereitgestellt wird, oder die globale zusätzliche Beschreibung, die in dieser Registerkarte festgelegt wird
+				textEntries.iframe_open_settings_text – Der Wert des Feldes Link: "Einstellungen öffnen"]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_overwritten" approved="yes">
 				<source><![CDATA[Overwrite iFrame Replacement Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
@@ -654,6 +688,36 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domain, wo sie hint
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html" approved="yes">
 				<source><![CDATA[Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
 				<target><![CDATA[Template-Code (HTML, Variablen und Logik werden mit Mustache verarbeitet, siehe http://mustache.github.io/mustache.5.html)]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_html.description" approved="yes">
+				<source><![CDATA[The templating engine supports markers that you can move inside the code. This template supports the following markers:
+				settings.show_button_close – The setting "Activate the close button in the template" from the Template tab
+				textEntries.header – The header of the Cookie Opt-In (Tab Labels & Menu)
+				textEntries.description – The description of the Cookie Opt-In (Tab Labels & Menu)
+				cookieGroups – A list of the defined cookies
+				cookieData (Name, Provider, Lifetime, Purpose) – The data for each cookie and their respective value
+				textEntries.cookie_name_text – The text for the name label
+				textEntries.cookie_provider_text – The text for the provider label
+				textEntries.cookie_lifetime_text – The text for the lifetime label
+				textEntries.cookie_purpose_text – The text for the purpose label
+				textEntries.extend_table_link_text – The value of the Link to Display Information of Cookies of a Group (closed) field (Tab Labels & Menu)
+				textEntries.extend_box_link_text – The value of the Link to Display Information of Cookies of a Group (open) field (Tab Labels & Menu)
+				textEntries.user_hash_text – The hash field label (Tab Labels & Menu)
+				footerLinks (name) – A list of the footer links with their respective name]]></source>
+				<target><![CDATA[Die Templating-Engine unterstützt Marker, die Sie innerhalb des Codes verschieben können. Diese Vorlage unterstützt die folgenden Marker:
+				settings.show_button_close – Die Einstellung "Aktiviere den Schließen-Button in der Vorlage" in der Registerkarte Template
+				textEntries.header – Die Titelzeile des Cookie Opt-Ins (Tab Texte & Menü)
+				textEntries.description – Die Beschreibung des Cookie Opt-Ins (Tab Texte & Menü)
+				cookieGroups – Eine Liste der definierten Cookies
+				cookieData (Name, Provider, Lifetime, Purpose) - Die Daten für jedes Cookie und deren jeweiliger Wert
+				textEntries.cookie_name_text – Der Text für die Namensbeschriftung
+				textEntries.cookie_provider_text – Der Text für die Bezeichnung des Anbieters
+				textEntries.cookie_lifetime_text – Der Text für die Beschreibung der Lebensdauer
+				textEntries.cookie_purpose_text – Der Text für die Beschreibung des Zwecks
+				textEntries.extend_table_link_text – Der Wert des Feldes "Link zur Anzeige von Informationen über Cookies einer Gruppe (geschlossen)" (Tab Labels & Menü)
+				textEntries.extend_box_link_text – Der Wert des Feldes Link zur Anzeige von Informationen über Cookies einer Gruppe (offen) (Tab Labels & Menü)
+				textEntries.user_hash_text – Die Beschriftung des Hash-Feldes (Tab Texte & Menü)
+				footerLinks (name) – Eine Liste der Footer-Links mit ihrem jeweiligen Namen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.template_overwritten" approved="yes">
 				<source><![CDATA[Overwrite Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>

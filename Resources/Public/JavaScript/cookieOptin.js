@@ -73,8 +73,8 @@ var SgCookieOptin = {
 		// noinspection EqualityComparisonWithCoercionJS
 		var showOptIn = SgCookieOptin.getParameterByName('showOptIn') == true;
 		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
-		if ((!cookieValue && !SgCookieOptin.jsonData.settings.activate_testing_mode) || showOptIn
-			|| SgCookieOptin.shouldShowBannerBasedOnLastPreferences()
+		if (showOptIn || !SgCookieOptin.jsonData.settings.activate_testing_mode &&
+			(!cookieValue || SgCookieOptin.shouldShowBannerBasedOnLastPreferences())
 		) {
 			SgCookieOptin.openCookieOptin(null, {hideBanner: false});
 		}
@@ -253,10 +253,18 @@ var SgCookieOptin = {
 			return;
 		}
 		var hideBanner = typeof options == 'object' && options.hideBanner === true;
+
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
 
-		if (!contentElement && SgCookieOptin.jsonData.settings.banner_enable && !hideBanner) {
+		var forceBanner;
+		if (SgCookieOptin.jsonData.settings.banner_force_min_width && parseInt(SgCookieOptin.jsonData.settings.banner_force_min_width) > 0) {
+			forceBanner = window.matchMedia('(max-width: ' + parseInt(SgCookieOptin.jsonData.settings.banner_force_min_width) + 'px)').matches;
+		} else {
+			forceBanner = false;
+		}
+
+		if ((!contentElement && SgCookieOptin.jsonData.settings.banner_enable && !hideBanner) || forceBanner) {
 			wrapper.classList.add('sg-cookie-optin-banner-wrapper');
 			wrapper.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.banner.markup);
 		} else {
@@ -1265,6 +1273,8 @@ var SgCookieOptin = {
 			}
 		}
 
+		SgCookieOptin.setExternalContentDescriptionText(container, externalContent);
+
 		var externalContentConsentLink = container.querySelectorAll('.sg-cookie-optin-iframe-consent-link');
 		SgCookieOptin.addEventListenerToList(externalContentConsentLink, 'click', SgCookieOptin.openExternalContentConsent);
 
@@ -1297,6 +1307,28 @@ var SgCookieOptin = {
 	},
 
 	/**
+	 * Sets external content description text bellow the button and in the settings description
+	 * @param {HTMLElement} wrapper
+	 * @param {HTMLElement} externalContent
+	 */
+	setExternalContentDescriptionText: function(wrapper, externalContent) {
+		var flashMessageContainer = wrapper.querySelector('.sg-cookie-optin-box-flash-message');
+		if (flashMessageContainer !== null) {
+			var flashMessageText = externalContent.getAttribute('data-consent-description');
+			// fallback to default if no data attribute has been set
+			if (!flashMessageText) {
+				flashMessageText = SgCookieOptin.jsonData.textEntries.iframe_button_load_one_description;
+			}
+
+			if (flashMessageText) {
+				flashMessageContainer.appendChild(document.createTextNode(flashMessageText));
+			} else {
+				flashMessageContainer.remove();
+			}
+		}
+	},
+
+	/**
 	 * Adds a consent for iFrames, which needs to be accepted.
 	 *
 	 * @return {void}
@@ -1322,16 +1354,7 @@ var SgCookieOptin = {
 		wrapper.id = 'SgCookieOptin';
 		wrapper.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.iframe.markup);
 
-		var flashMessageContainer = wrapper.querySelector('.sg-cookie-optin-box-flash-message');
-		if (flashMessageContainer !== null) {
-			var flashMessageText = externalContent.getAttribute('data-consent-description');
-			if (flashMessageText) {
-				flashMessageContainer.appendChild(document.createTextNode(flashMessageText));
-			} else {
-				flashMessageContainer.remove();
-			}
-		}
-
+		SgCookieOptin.setExternalContentDescriptionText(wrapper, externalContent);
 		SgCookieOptin.addExternalContentListeners(wrapper);
 
 		document.body.insertAdjacentElement('beforeend', wrapper);

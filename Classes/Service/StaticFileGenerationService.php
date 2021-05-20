@@ -408,7 +408,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		$content .= " \n\n" . $templateService->getCSSContent(
 				TemplateService::TYPE_TEMPLATE, $data['template_selection']
 			);
-		if ((boolean) $data['banner_enable']) {
+		if ((boolean) $data['banner_enable'] || (int) $data['banner_force_min_width'] > 0) {
 			$content .= " \n\n" . $templateService->getCSSContent(
 					TemplateService::TYPE_BANNER, $data['banner_selection']
 				);
@@ -771,6 +771,7 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$settings = [
 			'banner_enable' => (boolean) $translatedData['banner_enable'],
+			'banner_force_min_width' => (int) $translatedData['banner_force_min_width'],
 			'version' => (int) $translatedData['version'],
 			'banner_position' => (int) $translatedData['banner_position'],
 			'banner_show_settings_button' => (boolean) $translatedData['banner_show_settings_button'],
@@ -820,6 +821,10 @@ class StaticFileGenerationService implements SingletonInterface {
 			'user_hash_text' => $translatedData['user_hash_text'],
 		];
 
+		$placeholders = [
+			'iframe_consent_description' => '<p class="sg-cookie-optin-box-flash-message"></p>'
+		];
+
 		$jsonDataArray = [
 			'cookieGroups' => $cookieGroups,
 			'cssData' => $cssData,
@@ -827,6 +832,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'iFrameGroup' => $iFrameGroup,
 			'settings' => $settings,
 			'textEntries' => $textEntries,
+			'placeholders' => $placeholders
 		];
 
 		$jsonDataArray['mustacheData'] = [
