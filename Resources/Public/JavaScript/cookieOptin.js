@@ -253,6 +253,7 @@ var SgCookieOptin = {
 			return;
 		}
 		var hideBanner = typeof options == 'object' && options.hideBanner === true;
+		var fromBanner = typeof options == 'object' && options.fromBanner === true;
 
 		var wrapper = document.createElement('DIV');
 		wrapper.id = 'SgCookieOptin';
@@ -264,7 +265,7 @@ var SgCookieOptin = {
 			forceBanner = false;
 		}
 
-		if ((!contentElement && SgCookieOptin.jsonData.settings.banner_enable && !hideBanner) || forceBanner) {
+		if (!fromBanner && !hideBanner && ((!contentElement && SgCookieOptin.jsonData.settings.banner_enable && !hideBanner) || forceBanner)) {
 			wrapper.classList.add('sg-cookie-optin-banner-wrapper');
 			wrapper.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.banner.markup);
 		} else {
@@ -703,7 +704,7 @@ var SgCookieOptin = {
 		var openSettingsButtons = element.querySelectorAll('.sg-cookie-optin-banner-button-settings');
 		SgCookieOptin.addEventListenerToList(openSettingsButtons, 'click', function() {
 			SgCookieOptin.hideCookieOptIn();
-			SgCookieOptin.openCookieOptin(null, {hideBanner: true});
+			SgCookieOptin.openCookieOptin(null, {hideBanner: true, fromBanner: true});
 		});
 	},
 
