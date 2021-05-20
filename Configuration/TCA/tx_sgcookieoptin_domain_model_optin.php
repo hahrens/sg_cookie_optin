@@ -961,7 +961,6 @@ $configuration = [
 		],
 		'iframe_html' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'prefixLangTitle',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_html',
 			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_html.description',
 			'config' => [
@@ -973,7 +972,6 @@ $configuration = [
 		],
 		'iframe_overwritten' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'prefixLangTitle',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_overwritten',
 			'config' => [
 				'type' => 'check',
@@ -985,7 +983,6 @@ $configuration = [
 		],
 		'iframe_selection' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'prefixLangTitle',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_selection',
 			'onChange' => 'reload',
 			'config' => [
@@ -1002,7 +999,6 @@ $configuration = [
 		],
 		'iframe_replacement_html' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'prefixLangTitle',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_html',
 			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_html.description',
 			'config' => [
@@ -1017,7 +1013,6 @@ $configuration = [
 		],
 		'iframe_replacement_overwritten' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'prefixLangTitle',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_overwritten',
 			'config' => [
 				'type' => 'check',
@@ -1030,7 +1025,6 @@ $configuration = [
 		],
 		'iframe_replacement_selection' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'prefixLangTitle',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_selection',
 			'onChange' => 'reload',
 			'config' => [
@@ -1076,7 +1070,6 @@ $configuration = [
 		],
 		'template_html' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'prefixLangTitle',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_html',
 			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_html.description',
 			'config' => [
@@ -1096,7 +1089,6 @@ $configuration = [
 		],
 		'template_overwritten' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'prefixLangTitle',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_overwritten',
 			'config' => [
 				'type' => 'check',
@@ -1108,7 +1100,6 @@ $configuration = [
 		],
 		'template_selection' => [
 			'exclude' => TRUE,
-			'l10n_mode' => 'prefixLangTitle',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_selection',
 			'onChange' => 'reload',
 			'config' => [
