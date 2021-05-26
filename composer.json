@@ -22,6 +22,11 @@
 	"replace": {
 		"sgalinski/sg_cookie_optin": "self.version"
 	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "sg_cookie_optin"
+		}
+	},
 	"autoload": {
 		"psr-4": {
 			"SGalinski\\SgCookieOptin\\": "Classes/"
