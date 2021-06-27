@@ -717,7 +717,12 @@ class StaticFileGenerationService implements SingletonInterface {
 		$objectManager = GeneralUtility::makeInstance(ObjectManager::class);
 		$contentObject = $objectManager->get(ContentObjectRenderer::class);
 		foreach ($navigationEntries as $pageData) {
-			$uid = $pageData['uid'];
+			$uid = (int) $pageData['uid'];
+			if ($uid <= 0) {
+				// can be caused if the page is not accessible
+				continue;
+			}
+
 			if ($currentVersion >= 9000000) {
 				$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($uid);
 				$url = $this->removeCHashFromUrl(
