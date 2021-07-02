@@ -81,7 +81,7 @@ class GenerateStaticFilesCommand extends Command {
 		}
 
 		$this->io->writeln('Your files have been generated successfully');
-		return Command::SUCCESS;
+		return 0;
 	}
 
 	/**
@@ -95,14 +95,21 @@ class GenerateStaticFilesCommand extends Command {
 			StaticFileGenerationService::TABLE_NAME
 		);
 
-		$uid = $queryBuilder->select('uid')
+		$result = $queryBuilder->select('uid')
 			->from(StaticFileGenerationService::TABLE_NAME)
 			->where($queryBuilder->expr()->eq('pid', $siteRootId))
 			->andWhere($queryBuilder->expr()->eq('l10n_parent', 0))
-			->execute()
-			->fetchOne();
+			->setMaxResults(1)
+			->execute();
 
-		if ($uid === FALSE) {
+		if (is_callable([$result, 'fetchOne'])) {
+			$uid = $result->fetchOne();
+		} else {
+			$row = $result->fetch();
+			$uid = $row['uid'];
+		}
+
+		if (!$uid) {
 			throw new RuntimeException('Unable to generate files. There is no configuration for this site root. #' . $siteRootId);
 		}
 
