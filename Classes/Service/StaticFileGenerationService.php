@@ -894,10 +894,13 @@ class StaticFileGenerationService implements SingletonInterface {
 				'#LANG#', $locale . JsonImportService::LOCALE_SEPARATOR . $translatedData['sys_language_uid'],
 				self::TEMPLATE_JSON_NAME
 			);
-		file_put_contents(
-			$file,
-			json_encode($jsonDataArray, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_INVALID_UTF8_SUBSTITUTE)
-		);
+
+		$mask = JSON_PRETTY_PRINT;
+		if (defined('JSON_INVALID_UTF8_SUBSTITUTE')) {
+			$mask = constant('JSON_THROW_ON_ERROR') | JSON_PRETTY_PRINT | constant('JSON_INVALID_UTF8_SUBSTITUTE');
+		}
+		/** @noinspection JsonEncodingApiUsageInspection */
+		file_put_contents($file, json_encode($jsonDataArray, $mask));
 		GeneralUtility::fixPermissions($file);
 	}
 
