@@ -41,8 +41,8 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-use TYPO3\CMS\Frontend\Page\PageRepository;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
+use TYPO3\CMS\Frontend\Page\PageRepository;
 
 /**
  * Class SGalinski\SgCookieOptin\Service\TemplateService
@@ -542,6 +542,7 @@ class StaticFileGenerationService implements SingletonInterface {
 	 *
 	 * @return void
 	 * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException
+	 * @throws \JsonException
 	 */
 	protected function createJsonFile(
 		$folder, array $data, array $translatedData, array $cssData, $minifyFiles, $languageUid = 0, $locale = ''
@@ -763,9 +764,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		$baseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
-		if ((VersionNumberUtility::convertVersionNumberToInteger(
-			TYPO3_version
-		) < 9000000)) {
+		if ((VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000)) {
 			$baseUri = $baseUrl;
 		} else {
 			$siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
@@ -789,9 +788,9 @@ class StaticFileGenerationService implements SingletonInterface {
 			'disable_powered_by' => (boolean) $translatedData['disable_powered_by'],
 			'disable_for_this_language' => (boolean) $translatedData['disable_for_this_language'],
 			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
-			'save_history_webhook' => $baseUri . ((VersionNumberUtility::convertVersionNumberToInteger(
-					TYPO3_version
-				) < 9000000) ? '?eID=sg_cookie_optin_saveOptinHistory' : '?saveOptinHistory'),
+			'save_history_webhook' => $baseUri .
+				((VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) ?
+					'?eID=sg_cookie_optin_saveOptinHistory' : '?saveOptinHistory'),
 			'cookiebanner_whitelist_regex' => (string) $translatedData['cookiebanner_whitelist_regex'],
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
 			'identifier' => $this->siteRoot,
@@ -892,11 +891,13 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace(
-				'#LANG#',
-				(($locale !== '') ? $locale : '') . JsonImportService::LOCALE_SEPARATOR . $translatedData['sys_language_uid'],
+				'#LANG#', $locale . JsonImportService::LOCALE_SEPARATOR . $translatedData['sys_language_uid'],
 				self::TEMPLATE_JSON_NAME
 			);
-		file_put_contents($file, json_encode($jsonDataArray, JSON_PRETTY_PRINT));
+		file_put_contents(
+			$file,
+			json_encode($jsonDataArray, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_INVALID_UTF8_SUBSTITUTE)
+		);
 		GeneralUtility::fixPermissions($file);
 	}
 
