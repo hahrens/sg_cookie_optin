@@ -720,25 +720,20 @@ class StaticFileGenerationService implements SingletonInterface {
 		foreach ($navigationEntries as $pageData) {
 			$uid = (int) $pageData['uid'];
 			if ($uid <= 0) {
-				// can be caused if the page is not accessible
+				// can be happen if the page is not accessible
 				continue;
 			}
 
+			$name = $pageData['title'];
 			if ($currentVersion >= 9000000) {
 				$site = GeneralUtility::makeInstance(SiteFinder::class)->getSiteByPageId($uid);
 				$url = $this->removeCHashFromUrl(
-					(string) $site->getRouter()->generateUri(
-						$uid, ['disableOptIn' => 1, '_language' => $languageUid]
-					)
+					(string) $site->getRouter()->generateUri($uid, ['disableOptIn' => 1, '_language' => $languageUid])
 				);
-				$title = $pageData['title'];
-				$name = strlen($title) > 35 ? substr($title, 0, 35) . '...' : $title;
 			} else {
 				try {
-					$url = '/' . $this->removeCHashFromUrl(
-							$contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid)
-						);
-					$name = $contentObject->crop($pageData['title'], 35 . '|...|0');
+					$url = $contentObject->getTypoLink_URL($uid, '&disableOptIn=1&L=' . $languageUid);
+					$url = '/' . $this->removeCHashFromUrl($url);
 				} catch (\Exception $exception) {
 					// Occurs on the first creation of the translation.
 					continue;
