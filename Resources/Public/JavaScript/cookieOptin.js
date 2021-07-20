@@ -36,6 +36,7 @@ var SgCookieOptin = {
 	 */
 	run: function() {
 		SgCookieOptin.closestPolyfill();
+		SgCookieOptin.customEventPolyfill();
 
 		SgCookieOptin.jsonData = JSON.parse(document.getElementById('cookieOptinData').innerHTML);
 		if (SgCookieOptin.jsonData) {
@@ -294,7 +295,9 @@ var SgCookieOptin = {
 
 			var checkboxes = document.getElementsByClassName('sg-cookie-optin-checkbox');
 			if (checkboxes.length > 0) {
-				checkboxes[1].focus();
+				if (checkboxes[1].focus) {
+					checkboxes[1].focus();
+				}
 			}
 
 		}, 10);
@@ -1363,7 +1366,9 @@ var SgCookieOptin = {
 		// focus the first button for better accessability
 		var buttons = document.getElementsByClassName('sg-cookie-optin-box-button-accept-all');
 		if (buttons.length > 0) {
-			buttons[0].focus();
+			if (buttons[0].focus) {
+				buttons[0].focus();
+			}
 		}
 
 		// Emit event
@@ -1785,6 +1790,23 @@ var SgCookieOptin = {
 				return null;
 			};
 		}
+	},
+
+	/**
+	 * Adds the Polyfill for the Window.CustomEvent
+	 * @returns {boolean}
+	 */
+	customEventPolyfill: function () {
+	  if ( typeof window.CustomEvent === "function" ) return false;
+
+	  function CustomEvent ( event, params ) {
+	    params = params || { bubbles: false, cancelable: false, detail: null };
+	    var evt = document.createEvent( 'CustomEvent' );
+	    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+	    return evt;
+	   }
+
+	  window.CustomEvent = CustomEvent;
 	}
 };
 
