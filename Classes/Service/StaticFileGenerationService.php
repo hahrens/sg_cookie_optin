@@ -891,7 +891,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			);
 
 		$mask = JSON_PRETTY_PRINT;
-		if (defined('JSON_INVALID_UTF8_SUBSTITUTE')) {
+		if (defined('JSON_THROW_ON_ERROR')) {
 			$mask = constant('JSON_THROW_ON_ERROR') | JSON_PRETTY_PRINT | constant('JSON_INVALID_UTF8_SUBSTITUTE');
 		}
 		/** @noinspection JsonEncodingApiUsageInspection */
