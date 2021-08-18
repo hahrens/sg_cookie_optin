@@ -26,7 +26,7 @@ namespace SGalinski\SgCookieOptin\Hook;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use SGalinski\SgCookieOptin\Service\DemoModeService;
+use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use SGalinski\SgCookieOptin\Service\StaticFileGenerationService;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
@@ -55,8 +55,8 @@ class GenerateFilesAfterTcaSave {
 			return;
 		}
 
-		if (DemoModeService::checkKey() !== DemoModeService::STATE_LICENSE_VALID
-			&& !DemoModeService::isInDemoMode()
+		if (!LicenceCheckService::hasValidLicense()
+			&& !LicenceCheckService::isInDemoMode()
 		) {
 			return;
 		}

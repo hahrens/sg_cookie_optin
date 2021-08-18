@@ -27,9 +27,7 @@ namespace SGalinski\SgCookieOptin\Traits;
  ***************************************************************/
 
 use SGalinski\SgCookieOptin\Service\BackendService;
-use SGalinski\SgCookieOptin\Service\DemoModeService;
 use SGalinski\SgCookieOptin\Service\LicenceCheckService;
-use SGalinski\SgCookieOptin\Service\OptinHistoryService;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Messaging\AbstractMessage;
@@ -49,39 +47,24 @@ trait InitControllerComponents {
 	 */
 	protected function initComponents() {
 		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-		$keyState = DemoModeService::checkKey();
-		$isInDemoMode = DemoModeService::isInDemoMode();
-		if ($keyState !== DemoModeService::STATE_LICENSE_VALID && $isInDemoMode) {
+		$keyState = LicenceCheckService::checkKey();
+		$isInDemoMode = LicenceCheckService::isInDemoMode();
+		$hasValidLicense = LicenceCheckService::hasValidLicense();
+		if ($isInDemoMode && !$hasValidLicense) {
 			// - 1 because the flash message would show 00:00:00 instead of 23:59:59
 			$this->addFlashMessage(
 				LocalizationUtility::translate(
 					'backend.licenseKey.isInDemoMode.description', 'sg_cookie_optin', [
-						date('H:i:s', mktime(0, 0, DemoModeService::getRemainingTimeInDemoMode() - 1))
+						date('H:i:s', mktime(0, 0, LicenceCheckService::getRemainingTimeInDemoMode() - 1))
 					]
 				),
 				LocalizationUtility::translate('backend.licenseKey.isInDemoMode.header', 'sg_cookie_optin'),
 				AbstractMessage::INFO
 			);
-		} elseif ($keyState === DemoModeService::STATE_LICENSE_INVALID) {
-			DemoModeService::removeAllCookieOptInFiles();
-
-			if ($typo3Version < 9000000) {
-				$description = LocalizationUtility::translate(
-					'backend.licenseKey.invalid.description', 'sg_cookie_optin'
-				);
-			} else {
-				$description = LocalizationUtility::translate(
-					'backend.licenseKey.invalid.descriptionTYPO3-9', 'sg_cookie_optin'
-				);
+		} elseif ($keyState === LicenceCheckService::STATE_LICENSE_NOT_SET) {
+			if (!LicenceCheckService::isInDevelopmentContext()) {
+				LicenceCheckService::removeAllCookieOptInFiles();
 			}
-
-			$this->addFlashMessage(
-				$description,
-				LocalizationUtility::translate('backend.licenseKey.invalid.header', 'sg_cookie_optin'),
-				AbstractMessage::ERROR
-			);
-		} elseif ($keyState === DemoModeService::STATE_LICENSE_NOT_SET) {
-			DemoModeService::removeAllCookieOptInFiles();
 
 			if ($typo3Version < 9000000) {
 				$description = LocalizationUtility::translate(
@@ -93,10 +76,42 @@ trait InitControllerComponents {
 				);
 			}
 
+			if (LicenceCheckService::isInDevelopmentContext()) {
+				$description .= ' ' . LocalizationUtility::translate(
+						'backend.licenseKey.error.dev', 'sg_cookie_optin'
+					);
+			}
+
 			$this->addFlashMessage(
 				$description,
 				LocalizationUtility::translate('backend.licenseKey.notSet.header', 'sg_cookie_optin'),
 				AbstractMessage::WARNING
+			);
+		} elseif (!$hasValidLicense) {
+			if (!LicenceCheckService::isInDevelopmentContext()) {
+				LicenceCheckService::removeAllCookieOptInFiles();
+			}
+
+			if ($typo3Version < 9000000) {
+				$description = LocalizationUtility::translate(
+					'backend.licenseKey.invalid.description', 'sg_cookie_optin'
+				);
+			} else {
+				$description = LocalizationUtility::translate(
+					'backend.licenseKey.invalid.descriptionTYPO3-9', 'sg_cookie_optin'
+				);
+			}
+
+			if (LicenceCheckService::isInDevelopmentContext()) {
+				$description .= ' ' . LocalizationUtility::translate(
+						'backend.licenseKey.error.dev', 'sg_cookie_optin'
+					);
+			}
+
+			$this->addFlashMessage(
+				$description,
+				LocalizationUtility::translate('backend.licenseKey.invalid.header', 'sg_cookie_optin'),
+				AbstractMessage::ERROR
 			);
 		}
 
@@ -117,8 +132,8 @@ trait InitControllerComponents {
 
 		$this->view->assign('typo3Version', $typo3Version);
 		$this->view->assign('pageUid', $pageUid);
-		$this->view->assign('invalidKey', $keyState !== DemoModeService::STATE_LICENSE_VALID);
-		$this->view->assign('showDemoButton', !$isInDemoMode && DemoModeService::isDemoModeAcceptable());
+		$this->view->assign('invalidKey', !$hasValidLicense);
+		$this->view->assign('showDemoButton', !$isInDemoMode && LicenceCheckService::isDemoModeAcceptable());
 	}
 
 	/**

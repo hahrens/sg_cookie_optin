@@ -30,7 +30,6 @@ use DirectoryIterator;
 use Exception;
 use SGalinski\SgCookieOptin\Exception\JsonImportException;
 use SGalinski\SgCookieOptin\Service\BackendService;
-use SGalinski\SgCookieOptin\Service\DemoModeService;
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
 use SGalinski\SgCookieOptin\Service\JsonImportService;
 use SGalinski\SgCookieOptin\Service\LanguageService;
@@ -109,11 +108,11 @@ class OptinController extends ActionController {
 	 * @throws StopActionException
 	 */
 	public function activateDemoModeAction() {
-		if (DemoModeService::isInDemoMode() || !DemoModeService::isDemoModeAcceptable()) {
+		if (LicenceCheckService::isInDemoMode() || !LicenceCheckService::isDemoModeAcceptable()) {
 			$this->redirect('index');
 		}
 
-		DemoModeService::activateDemoMode();
+		LicenceCheckService::activateDemoMode();
 		$this->redirect('index');
 	}
 

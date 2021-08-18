@@ -282,6 +282,9 @@
 			<trans-unit id="backend.statistics.noDataFound" approved="yes">
 				<source><![CDATA[We couldn't find any data for your search. Please change your filters and try again.]]></source>
 			</trans-unit>
+			<trans-unit id="backend.licenseKey.error.dev" approved="yes">
+				<source><![CDATA[This does not apply for development instances.]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

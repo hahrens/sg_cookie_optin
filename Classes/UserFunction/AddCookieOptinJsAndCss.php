@@ -28,8 +28,8 @@ namespace SGalinski\SgCookieOptin\UserFunction;
 
 use SGalinski\SgCookieOptin\Service\BaseUrlService;
 use SGalinski\SgCookieOptin\Service\ExtensionSettingsService;
-use SGalinski\SgCookieOptin\Service\DemoModeService;
 use SGalinski\SgCookieOptin\Service\JsonImportService;
+use SGalinski\SgCookieOptin\Service\LicenceCheckService;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Exception\SiteNotFoundException;
@@ -58,10 +58,10 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws SiteNotFoundException
 	 */
 	public function addJavaScript($content, array $configuration) {
-		if (DemoModeService::checkKey() !== DemoModeService::STATE_LICENSE_VALID
-			&& !DemoModeService::isInDemoMode()
+		if (LicenceCheckService::checkKey() !== LicenceCheckService::STATE_LICENSE_VALID
+			&& !LicenceCheckService::isInDemoMode()
 		) {
-			DemoModeService::removeAllCookieOptInFiles();
+			LicenceCheckService::removeAllCookieOptInFiles();
 			return '';
 		}
 

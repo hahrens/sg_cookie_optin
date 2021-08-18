@@ -373,6 +373,10 @@
 				<source><![CDATA[We couldn't find any data for your search. Please change your filters and try again.]]></source>
 				<target><![CDATA[Wir konnten keine Daten für Ihre Suche finden. Bitte ändern Sie Ihre Filter und versuchen Sie es erneut.]]></target>
 			</trans-unit>
+			<trans-unit id="backend.licenseKey.error.dev" approved="yes">
+				<source><![CDATA[This does not apply for development instances.]]></source>
+				<target><![CDATA[Dies gilt nicht für Entwicklungsumgebungen.]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

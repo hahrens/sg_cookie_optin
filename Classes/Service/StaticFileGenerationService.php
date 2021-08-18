@@ -76,8 +76,8 @@ class StaticFileGenerationService implements SingletonInterface {
 	 */
 	public function generateFiles(int $siteRootId, $originalRecord) {
 
-		if (DemoModeService::checkKey() !== DemoModeService::STATE_LICENSE_VALID
-			&& !DemoModeService::isInDemoMode()
+		if (LicenceCheckService::checkKey() !== LicenceCheckService::STATE_LICENSE_VALID
+			&& !LicenceCheckService::isInDemoMode()
 		) {
 			return;
 		}
