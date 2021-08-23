@@ -27,14 +27,14 @@
 call_user_func(
 	static function () {
 		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'SGalinski.sg_cookie_optin',
+			'sg_cookie_optin',
 			'OptIn',
 			[
-				'Optin' => 'show',
+                \SGalinski\SgCookieOptin\Controller\OptinController::class => 'show',
 			],
 			// non-cacheable actions
 			[
-				'Optin' => '',
+                \SGalinski\SgCookieOptin\Controller\OptinController::class => '',
 			]
 		);
 

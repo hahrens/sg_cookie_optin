@@ -28,6 +28,8 @@ namespace SGalinski\SgCookieOptin\ViewHelpers\Backend;
 
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Type\Bitmask\Permission;
+use TYPO3\CMS\Core\Type\BitSet;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -73,7 +75,13 @@ class ControlViewHelper extends \SgCookieAbstractViewHelper {
 		/** @var DatabaseRecordList $databaseRecordList */
 		$databaseRecordList = GeneralUtility::makeInstance(DatabaseRecordList::class);
 		$pageInfo = BackendUtility::readPageAccess($row['pid'], $GLOBALS['BE_USER']->getPagePermsClause(1));
-		$databaseRecordList->calcPerms = $GLOBALS['BE_USER']->calcPerms($pageInfo);
+        if (version_compare($currentTypo3Version, '11.0.0', '<')) {
+            $databaseRecordList->calcPerms = $GLOBALS['BE_USER']->calcPerms($pageInfo);
+        } else {
+            $permission = new Permission();
+            $permission->set($GLOBALS['BE_USER']->calcPerms($pageInfo));
+            $databaseRecordList->calcPerms = $permission;
+        }
 
 		if (version_compare($currentTypo3Version, '7.0.0', '<')
 			&& ExtensionManagementUtility::isLoaded('gridelements')) {

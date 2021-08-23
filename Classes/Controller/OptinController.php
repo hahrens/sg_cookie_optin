@@ -72,6 +72,7 @@ class OptinController extends ActionController {
 		$this->initComponents();
 		$this->checkLicenseStatus();
 
+
 		session_start();
 		if (isset($_SESSION['tx_sgcookieoptin']['configurationChanged'])) {
 			unset($_SESSION['tx_sgcookieoptin']['configurationChanged']);
@@ -85,19 +86,19 @@ class OptinController extends ActionController {
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
-			$optIns = BackendService::getOptins($pageUid);
+            $optIns = BackendService::getOptins($pageUid);
 
-			if (count($optIns) > 1) {
-				$this->addFlashMessage(
-					LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
-					LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
-					AbstractMessage::ERROR
-				);
-			}
+            if (count($optIns) > 1) {
+                $this->addFlashMessage(
+                    LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
+                    LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
+                    AbstractMessage::ERROR
+                );
+            }
 
-			$this->view->assign('isSiteRoot', TRUE);
-			$this->view->assign('optins', $optIns);
-		}
+            $this->view->assign('isSiteRoot', TRUE);
+            $this->view->assign('optins', $optIns);
+        }
 
 		$this->view->assign('pages', BackendService::getPages());
 	}

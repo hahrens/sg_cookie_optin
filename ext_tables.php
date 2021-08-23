@@ -60,14 +60,14 @@ call_user_func(
 			}
 			if ($showModule) {
 				\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-					'SGalinski.sg_cookie_optin',
+					'sg_cookie_optin',
 					'web',
 					'Optin',
 					'',
 					[
-						'Optin' => 'index, activateDemoMode, create, uploadJson, importJson, previewImport, exportJson',
-						'Statistics' => 'index',
-						'Consent' => 'index',
+						\SGalinski\SgCookieOptin\Controller\OptinController::class => 'index, activateDemoMode, create, uploadJson, importJson, previewImport, exportJson',
+                        \SGalinski\SgCookieOptin\Controller\StatisticsController::class => 'index',
+						\SGalinski\SgCookieOptin\Controller\ConsentController::class => 'index',
 					],
 					[
 						'access' => 'user,group',

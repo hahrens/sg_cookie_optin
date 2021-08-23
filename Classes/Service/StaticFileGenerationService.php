@@ -32,6 +32,7 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Routing\PageRouter;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\SiteFinder;
@@ -42,7 +43,7 @@ use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
-use TYPO3\CMS\Frontend\Page\PageRepository;
+
 
 /**
  * Class SGalinski\SgCookieOptin\Service\TemplateService
@@ -76,8 +77,9 @@ class StaticFileGenerationService implements SingletonInterface {
 	 */
 	public function generateFiles(int $siteRootId, $originalRecord) {
 
-		if (LicenceCheckService::checkKey() !== LicenceCheckService::STATE_LICENSE_VALID
-			&& !LicenceCheckService::isInDemoMode()
+		if (!LicenceCheckService::isInDevelopmentContext()
+            && !LicenceCheckService::isInDemoMode()
+            && !LicenceCheckService::hasValidLicense()
 		) {
 			return;
 		}
@@ -202,7 +204,11 @@ class StaticFileGenerationService implements SingletonInterface {
 
 			$translatedRecord = $originalRecord;
 			if ($languageUid > 0) {
-				$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+			    if ($currentVersion >= 11000000) {
+                    $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+                } else {
+                    $pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
+                }
 				$translatedRecord = $pageRepository->getRecordOverlay(self::TABLE_NAME, $originalRecord, $languageUid);
 			}
 
