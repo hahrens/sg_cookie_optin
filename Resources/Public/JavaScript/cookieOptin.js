@@ -294,7 +294,7 @@ var SgCookieOptin = {
 			document.body.dispatchEvent(cookieOptinShownEvent);
 
 			var checkboxes = document.getElementsByClassName('sg-cookie-optin-checkbox');
-			if (checkboxes.length > 0) {
+			if (checkboxes.length > 1) {
 				if (checkboxes[1].focus) {
 					checkboxes[1].focus();
 				}
