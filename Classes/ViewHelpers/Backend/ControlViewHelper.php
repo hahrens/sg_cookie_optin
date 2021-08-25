@@ -78,7 +78,7 @@ class ControlViewHelper extends \SgCookieAbstractViewHelper {
         if (version_compare($currentTypo3Version, '11.0.0', '<')) {
             $databaseRecordList->calcPerms = $GLOBALS['BE_USER']->calcPerms($pageInfo);
         } else {
-            $permission = new Permission();
+            $permission = GeneralUtility::makeInstance(Permission::class);
             $permission->set($GLOBALS['BE_USER']->calcPerms($pageInfo));
             $databaseRecordList->calcPerms = $permission;
         }

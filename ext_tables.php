@@ -24,11 +24,9 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-
 call_user_func(
 	static function () {
-		$currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
+		$currentTypo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version();
 		if (TYPO3_MODE === 'BE') {
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
 				'tx_sgcookieoptin_domain_model_optin'
