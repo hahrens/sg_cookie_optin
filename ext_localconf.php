@@ -24,8 +24,6 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-
 call_user_func(
 	static function () {
         $currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
@@ -83,7 +81,7 @@ call_user_func(
 			\SGalinski\SgCookieOptin\Hook\LicenceCheckHook::class . '->performLicenseCheck';
 
 		// Register Icons
-		if ($currentTypo3Version >= 7000000) {
+		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 7000000) {
 			$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 				\TYPO3\CMS\Core\Imaging\IconRegistry::class
 			);

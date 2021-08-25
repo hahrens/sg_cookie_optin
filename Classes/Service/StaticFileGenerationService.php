@@ -367,7 +367,12 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		$translatedRows = [];
-		$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+		$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		if ($currentVersion >= 11000000) {
+			$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+		} else {
+			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
+		}
 		foreach ($rows as $row) {
 			$translatedRows[] = $pageRepository->getRecordOverlay($table, $row, $language);
 		}
@@ -949,8 +954,12 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$records = [];
 		$navigationEntries = GeneralUtility::trimExplode(',', $navigationData);
-		$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 		$versionNumber = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
+		if ($versionNumber >= 11000000) {
+			$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+		} else {
+			$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
+		}
 		foreach ($navigationEntries as $navigationEntry) {
 			if (!$navigationEntry) {
 				continue;
