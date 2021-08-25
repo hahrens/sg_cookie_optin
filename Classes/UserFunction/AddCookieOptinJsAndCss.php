@@ -58,8 +58,9 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @throws SiteNotFoundException
 	 */
 	public function addJavaScript($content, array $configuration) {
-		if (LicenceCheckService::checkKey() !== LicenceCheckService::STATE_LICENSE_VALID
-			&& !LicenceCheckService::isInDemoMode()
+		if (!LicenceCheckService::isInDevelopmentContext()
+		    && !LicenceCheckService::isInDemoMode()
+			&& !LicenceCheckService::hasValidLicense()
 		) {
 			LicenceCheckService::removeAllCookieOptInFiles();
 			return '';

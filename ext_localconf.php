@@ -24,19 +24,36 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
 call_user_func(
 	static function () {
-		\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-			'SGalinski.sg_cookie_optin',
-			'OptIn',
-			[
-				'Optin' => 'show',
-			],
-			// non-cacheable actions
-			[
-				'Optin' => '',
-			]
-		);
+        $currentTypo3Version = VersionNumberUtility::getCurrentTypo3Version();
+        if (version_compare($currentTypo3Version, '11.0.0', '>=')) {
+            \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+                'sg_cookie_optin',
+                'OptIn',
+                [
+                    \SGalinski\SgCookieOptin\Controller\OptinController::class => 'show',
+                ],
+                // non-cacheable actions
+                [
+                    \SGalinski\SgCookieOptin\Controller\OptinController::class => '',
+                ]
+            );
+        } else {
+            \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+                'SGalinski.sg_cookie_optin',
+                'OptIn',
+                [
+                    'Optin' => 'show',
+                ],
+                // non-cacheable actions
+                [
+                    'Optin' => '',
+                ]
+            );
+        }
 
 		// hook registration
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =

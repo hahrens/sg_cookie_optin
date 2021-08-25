@@ -55,7 +55,7 @@ class GenerateFilesAfterTcaSave {
 			return;
 		}
 
-		if (!LicenceCheckService::hasValidLicense()
+		if (!LicenceCheckService::isInDevelopmentContext() && !LicenceCheckService::hasValidLicense()
 			&& !LicenceCheckService::isInDemoMode()
 		) {
 			return;

@@ -2,11 +2,12 @@
 	includeCssFiles="{
 		0: '{f:uri.resource(path:\'JavaScript/Backend/Chart.js/Chart.min.css\')}',
 		1: '{f:uri.resource(path:\'StyleSheets/Statistics.css\')}'
+		2: '{f:uri.resource(path:\'StyleSheets/Backend/backend.css\')}'
 	}"
 >
 	<f:if condition="{docHeader}">
 		<f:then>
-			<div class="module" data-module-id="" data-module-name="">
+			<div class="module tx_sgcookieoptin-module" data-module-id="" data-module-name="">
 				<div class="module-docheader t3js-module-docheader">
 					<div class="module-docheader-bar module-docheader-bar-navigation t3js-module-docheader-bar t3js-module-docheader-bar-navigation">
 						<div class="module-docheader-bar-column-left">
@@ -47,7 +48,7 @@
 		</f:else>
 	</f:if>
 
-	<div id="typo3-docbody">
+	<div id="typo3-docbody" class="tx-sgcookieoptin-docbody">
 		<div id="typo3-inner-docbody">
 			<f:render section="content" />
 		</div>

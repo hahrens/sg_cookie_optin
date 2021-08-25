@@ -1536,6 +1536,7 @@ $configuration = [
 				'type' => 'text',
 				'renderType' => 't3editor',
 				'eval' => 'trim',
+                'default' => ''
 			],
 		],
 		'version' => [

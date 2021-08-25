@@ -26,6 +26,7 @@
 
 call_user_func(
 	static function () {
+		$currentTypo3Version = \TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version();
 		if (TYPO3_MODE === 'BE') {
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
 				'tx_sgcookieoptin_domain_model_optin'
@@ -59,22 +60,41 @@ call_user_func(
 				}
 			}
 			if ($showModule) {
-				\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-					'SGalinski.sg_cookie_optin',
-					'web',
-					'Optin',
-					'',
-					[
-						'Optin' => 'index, activateDemoMode, create, uploadJson, importJson, previewImport, exportJson',
-						'Statistics' => 'index',
-						'Consent' => 'index',
-					],
-					[
-						'access' => 'user,group',
-						'icon' => 'EXT:sg_cookie_optin/Resources/Public/Icons/module-sgcookieoptin.png',
-						'labels' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang.xlf',
-					]
-				);
+                if (version_compare($currentTypo3Version, '11.0.0', '>=')) {
+                    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+                        'sg_cookie_optin',
+                        'web',
+                        'Optin',
+                        '',
+                        [
+                            \SGalinski\SgCookieOptin\Controller\OptinController::class => 'index, activateDemoMode, create, uploadJson, importJson, previewImport, exportJson',
+                            \SGalinski\SgCookieOptin\Controller\StatisticsController::class => 'index',
+                            \SGalinski\SgCookieOptin\Controller\ConsentController::class => 'index',
+                        ],
+                        [
+                            'access' => 'user,group',
+                            'icon' => 'EXT:sg_cookie_optin/Resources/Public/Icons/module-sgcookieoptin.png',
+                            'labels' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang.xlf',
+                        ]
+                    );
+                } else {
+                    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+                        'SGalinski.sg_cookie_optin',
+                        'web',
+                        'Optin',
+                        '',
+                        [
+                            'Optin' => 'index, activateDemoMode, create, uploadJson, importJson, previewImport, exportJson',
+                            'Statistics' => 'index',
+                            'Consent' => 'index',
+                        ],
+                        [
+                            'access' => 'user,group',
+                            'icon' => 'EXT:sg_cookie_optin/Resources/Public/Icons/module-sgcookieoptin.png',
+                            'labels' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang.xlf',
+                        ]
+                    );
+                }
 			}
 
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(

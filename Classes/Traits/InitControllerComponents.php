@@ -41,11 +41,13 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  *
  * @package SGalinski\SgCookieOptin\Traits
  */
-trait InitControllerComponents {
+trait InitControllerComponents
+{
 	/**
 	 * Initialize the demo mode check and the doc header components
 	 */
-	protected function initComponents() {
+	protected function initComponents()
+	{
 		$typo3Version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 		$keyState = LicenceCheckService::checkKey();
 		$isInDemoMode = LicenceCheckService::isInDemoMode();
@@ -116,7 +118,7 @@ trait InitControllerComponents {
 		}
 
 		// create doc header component
-		$pageUid = (int) GeneralUtility::_GP('id');
+		$pageUid = (int)GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 
 		// the docHeaderComponent do not exist below version 7
@@ -139,10 +141,11 @@ trait InitControllerComponents {
 	/**
 	 * Initializes the root page selection
 	 */
-	protected function initPageUidSelection() {
-		$pageUid = (int) GeneralUtility::_GP('id');
+	protected function initPageUidSelection()
+	{
+		$pageUid = (int)GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
-		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
+		if ($pageInfo && (int)$pageInfo['is_siteroot'] === 1) {
 			$this->view->assign('isSiteRoot', TRUE);
 		} else {
 			$this->view->assign('pages', BackendService::getPages());
