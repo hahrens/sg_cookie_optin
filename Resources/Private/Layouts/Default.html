@@ -48,7 +48,14 @@
 		</f:else>
 	</f:if>
 
-	<div id="typo3-docbody" class="tx-sgcookieoptin-docbody">
+	<f:if condition="{typo3Version} < 10000000">
+		<f:then>
+			<div id="typo3-docbody">
+		</f:then>
+		<f:else>
+			<div class="module-body t3js-module-body">
+		</f:else>
+	</f:if>
 		<div id="typo3-inner-docbody">
 			<f:render section="content" />
 		</div>
