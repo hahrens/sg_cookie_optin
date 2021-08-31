@@ -133,6 +133,7 @@ trait InitControllerComponents {
 		$this->view->assign('typo3Version', $typo3Version);
 		$this->view->assign('pageUid', $pageUid);
 		$this->view->assign('invalidKey', !$hasValidLicense);
+		$this->view->assign('controller', $this->request->getControllerName());
 		$this->view->assign('showDemoButton', !$isInDemoMode && LicenceCheckService::isDemoModeAcceptable());
 	}
 

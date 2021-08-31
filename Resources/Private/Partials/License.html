@@ -24,7 +24,7 @@
 </a>
 
 <f:if condition="{sg:backend.isVersionHigherThan(version: '9.0.0')}">
-	<f:if condition="{pageUid}">
+	<f:if condition="{isSiteRoot} && {controller} == 'Optin'">
 		<f:link.action class="btn btn-default btn-sm" action="uploadJson">
 			<f:translate key="backend.importConfig" />
 		</f:link.action>
