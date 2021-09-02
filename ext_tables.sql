@@ -140,6 +140,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	update_version_checkbox tinyint(4) unsigned DEFAULT '0' NOT NULL,
     render_assets_inline tinyint(4) unsigned DEFAULT '0' NOT NULL,
     consider_do_not_track tinyint(4) unsigned DEFAULT '0' NOT NULL,
+    domains_to_delete_cookies_for TEXT,
 
 	-- TYPO3 related columns
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

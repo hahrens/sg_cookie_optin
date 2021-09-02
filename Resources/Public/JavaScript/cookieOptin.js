@@ -627,11 +627,32 @@ var SgCookieOptin = {
 						var regEx = new RegExp(regExString);
 						if (regEx.test(cookieName)) {
 							// delete the cookie
-							document.cookie = cookieName + '=; path=/; Max-Age=-99999999;';
+							SgCookieOptin.deleteGroupCookie(cookieName);
 						}
 					}
 				}
 			}
+		}
+	},
+
+	/**
+	 * Delete the cookie from the current domain and the additional domains
+	 *
+	 * @param cookieName
+	 */
+	deleteGroupCookie: function(cookieName) {
+		document.cookie = cookieName + '=; path=/; Max-Age=-99999999;';
+		var additionalDomains = SgCookieOptin.jsonData.settings.domains_to_delete_cookies_for.trim()
+			.split(/\r?\n/).map(function (value) {
+				return value.trim();
+			});
+
+		for (var additionalDomainIndex in additionalDomains) {
+			if (!additionalDomains.hasOwnProperty(additionalDomainIndex)) {
+				continue;
+			}
+
+			document.cookie = cookieName + '=; path=/; ' + 'domain=' + additionalDomains[additionalDomainIndex] + '; Max-Age=-99999999;';
 		}
 	},
 
