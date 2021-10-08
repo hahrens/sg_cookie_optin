@@ -615,7 +615,15 @@ var SgCookieOptin = {
 			var documentCookies = document.cookie.split('; ');
 			if (!SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName)) {
 				for (var cookieIndex in SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData) {
+					if (isNaN(parseInt(cookieIndex))) {
+						continue;
+					}
+
 					for (var documentCookieIndex in documentCookies) {
+						if (isNaN(parseInt(documentCookieIndex))) {
+							continue;
+						}
+
 						var cookieName = documentCookies[documentCookieIndex].split('=')[0];
 						var regExString = SgCookieOptin.jsonData.cookieGroups[groupIndex].cookieData[cookieIndex]
 							.Name.trim();
