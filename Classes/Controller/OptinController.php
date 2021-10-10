@@ -433,6 +433,7 @@ class OptinController extends ActionController {
 		$newOptinId = $dataHandler->substNEWwithIDs[$newOptinKey];
 
 		$this->redirectToTCAEdit((int) $newOptinId);
+		$this->redirect('index');
 	}
 
 	/**

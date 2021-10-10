@@ -73,42 +73,62 @@ class HandleTemplateAfterTcaSave {
 		}
 
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
-		foreach ($dataHandler->datamap[self::TABLE_NAME] as $uid => $data) {
-			if ((boolean) $data['template_overwritten']) {
+		foreach ($dataHandler->datamap[self::TABLE_NAME] as $data) {
+			if (isset($data['template_overwritten']) && $data['template_overwritten']) {
 				$template = $data['template_html'];
 			} else {
+				if (!isset($data['template_selection'])) {
+					$data['template_selection'] = 0;
+				}
+
 				$template = $templateService->getMustacheContent(
 					TemplateService::TYPE_TEMPLATE, (int) $data['template_selection']
 				);
 			}
 
-			if ((boolean) $data['banner_overwritten']) {
+			if (isset($data['banner_overwritten']) && $data['banner_overwritten']) {
 				$bannerTemplate = $data['banner_html'];
 			} else {
+				if (!isset($data['banner_selection'])) {
+					$data['banner_selection'] = 0;
+				}
+
 				$bannerTemplate = $templateService->getMustacheContent(
 					TemplateService::TYPE_BANNER, (int) $data['banner_selection']
 				);
 			}
 
-			if ((boolean) $data['iframe_overwritten']) {
+			if (isset($data['iframe_overwritten']) && $data['iframe_overwritten']) {
 				$iframeTemplate = $data['iframe_html'];
 			} else {
+				if (!isset($data['iframe_selection'])) {
+					$data['iframe_selection'] = 0;
+				}
+
 				$iframeTemplate = $templateService->getMustacheContent(
 					TemplateService::TYPE_IFRAME, (int) $data['iframe_selection']
 				);
 			}
 
-			if ((boolean) $data['iframe_replacement_overwritten']) {
+			if (isset($data['iframe_replacement_overwritten']) && $data['iframe_replacement_overwritten']) {
 				$iframeReplacementTemplate = $data['iframe_replacement_html'];
 			} else {
+				if (!isset($data['iframe_replacement_selection'])) {
+					$data['iframe_replacement_selection'] = 0;
+				}
+
 				$iframeReplacementTemplate = $templateService->getMustacheContent(
 					TemplateService::TYPE_IFRAME_REPLACEMENT, (int) $data['iframe_replacement_selection']
 				);
 			}
 
-			if ((boolean) $data['iframe_whitelist_overwritten']) {
+			if (isset($data['iframe_whitelist_overwritten']) && $data['iframe_whitelist_overwritten']) {
 				$iframeWhitelistTemplate = $data['iframe_whitelist_regex'];
 			} else {
+				if (!isset($data['iframe_whitelist_selection'])) {
+					$data['iframe_whitelist_selection'] = 0;
+				}
+
 				$iframeWhitelistTemplate = $templateService->getMustacheContent(
 					TemplateService::TYPE_IFRAME_WHITELIST, (int) $data['iframe_whitelist_selection']
 				);

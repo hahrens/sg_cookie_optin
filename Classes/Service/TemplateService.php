@@ -104,13 +104,10 @@ class TemplateService implements SingletonInterface {
 	 *
 	 * @param int $type
 	 * @param int $templateId
-	 *
 	 * @return string
 	 */
 	public function getMustacheContent($type, $templateId) {
-		if (
-		!isset(self::$templateIdToFolderMap[$type], self::$templateIdToNameMap[$type][$templateId])
-		) {
+		if (!isset(self::$templateIdToFolderMap[$type], self::$templateIdToNameMap[$type][$templateId])) {
 			return '';
 		}
 

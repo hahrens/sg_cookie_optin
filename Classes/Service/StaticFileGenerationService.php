@@ -44,7 +44,6 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\Page\PageGenerator;
 
-
 /**
  * Class SGalinski\SgCookieOptin\Service\TemplateService
  */
@@ -76,10 +75,9 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @throws \TYPO3\CMS\Core\Http\ImmediateResponseException
 	 */
 	public function generateFiles(int $siteRootId, $originalRecord) {
-
 		if (!LicenceCheckService::isInDevelopmentContext()
-            && !LicenceCheckService::isInDemoMode()
-            && !LicenceCheckService::hasValidLicense()
+			&& !LicenceCheckService::isInDemoMode()
+			&& !LicenceCheckService::hasValidLicense()
 		) {
 			return;
 		}
@@ -204,11 +202,11 @@ class StaticFileGenerationService implements SingletonInterface {
 
 			$translatedRecord = $originalRecord;
 			if ($languageUid > 0) {
-			    if ($currentVersion >= 11000000) {
-                    $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
-                } else {
-                    $pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
-                }
+				if ($currentVersion >= 11000000) {
+					$pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+				} else {
+					$pageRepository = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Page\PageRepository::class);
+				}
 				$translatedRecord = $pageRepository->getRecordOverlay(self::TABLE_NAME, $originalRecord, $languageUid);
 			}
 
@@ -225,8 +223,10 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		GeneralUtility::fixPermissions($sitePath . $folder, TRUE);
 
-		// reset the TSFE to it's previous state to not influence remaining code
-		$GLOBALS['TSFE'] = $originalTSFE;
+		if ($currentVersion < 9000000) {
+			// reset the TSFE to it's previous state to not influence remaining code
+			$GLOBALS['TSFE'] = $originalTSFE;
+		}
 	}
 
 	/**
@@ -298,7 +298,10 @@ class StaticFileGenerationService implements SingletonInterface {
 			return [];
 		}
 
-		$tableColumn = $tableData['columns'][$field];
+		$tableColumn = NULL;
+		if (isset($tableData['columns'][$field])) {
+			$tableColumn = $tableData['columns'][$field];
+		}
 		if (!is_array($tableColumn)) {
 			return [];
 		}

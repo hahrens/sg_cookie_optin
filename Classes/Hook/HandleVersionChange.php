@@ -54,7 +54,7 @@ class HandleVersionChange {
 		$id,
 		DataHandler $dataHandler
 	) {
-		if ((bool) $fieldArray['update_version_checkbox']) {
+		if (isset($fieldArray['update_version_checkbox']) && $fieldArray['update_version_checkbox']) {
 			$id = (int) $id;
 			$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 			$sqlQuery = "UPDATE $table SET version = version + 1 WHERE uid = $id OR l10n_parent = $id";
