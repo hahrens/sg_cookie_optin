@@ -23,7 +23,8 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/datalabels.min'], function($, Chart, Formatter) {
+define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min',
+		'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/datalabels.min'], function($, Chart, Formatter) {
 		'use strict';
 		var Statistics = {
 
@@ -207,15 +208,15 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min', 'TYPO3/C
 						plugins: {
 							datalabels: {
 								formatter: (value, ctx) => {
-									let sum = 0;
-									let dataArr = ctx.chart.data.datasets[0].data;
+									var sum = 0;
+									var dataArr = ctx.chart.data.datasets[0].data;
 									dataArr.map(data => {
 										sum += data;
 									});
-									let percentage = (value*100 / sum).toFixed(2)+"%";
+									var percentage = (value * 100 / sum).toFixed(2) + "%";
 									return percentage;
 								},
-								color: '#fff',
+								color: '#FFF',
 							}
 						},
 						responsive: true
@@ -255,7 +256,9 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min', 'TYPO3/C
 						const data = JSON.parse(this.response);
 						if (Object.keys(data).length > 0) {
 							document.getElementById('statistics-no-data-found').style.display = 'none';
-							setTimeout(function() {this.that.updateCharts(data)}.bind(this), 100);
+							setTimeout(function() {
+								this.that.updateCharts(data)
+							}.bind(this), 100);
 						} else {
 							this.that.removeCharts();
 							document.getElementById('statistics-no-data-found').style.display = 'block';
@@ -278,7 +281,6 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min', 'TYPO3/C
 			onSearchError: function(error) {
 				console.log(error);
 			},
-
 		};
 
 		Statistics.init();

@@ -1,7 +1,7 @@
 <f:be.container
 	includeCssFiles="{
 		0: '{f:uri.resource(path:\'JavaScript/Backend/Chart.js/Chart.min.css\')}',
-		1: '{f:uri.resource(path:\'StyleSheets/Statistics.css\')}'
+		1: '{f:uri.resource(path:\'StyleSheets/Statistics.css\')}',
 		2: '{f:uri.resource(path:\'StyleSheets/Backend/backend.css\')}'
 	}"
 >
@@ -48,7 +48,7 @@
 		</f:else>
 	</f:if>
 
-	<f:if condition="{typo3Version} < 10000000">
+	<f:if condition="{typo3Version} < 11000000">
 		<f:then>
 			<div id="typo3-docbody">
 		</f:then>

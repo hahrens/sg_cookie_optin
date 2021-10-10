@@ -169,7 +169,7 @@
 				<source><![CDATA[Missing license key]]></source>
 			</trans-unit>
 			<trans-unit id="backend.moduleDescription">
-				<source><![CDATA[This module serves for the management of cookies. There can be a maximum of one entry per site root, if nothing exists, add one with the help of the button below.]]></source>
+				<source><![CDATA[This module serves for the management of cookies and scripts. There can be a maximum of one configuration per site root, if nothing exists, add one with the help of the button below.]]></source>
 			</trans-unit>
 			<trans-unit id="backend.moduleHeader">
 				<source><![CDATA[Tracking / Cookies]]></source>

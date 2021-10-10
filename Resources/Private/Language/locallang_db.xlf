@@ -572,7 +572,7 @@ Without this setting, this configuration only applies to the domain where it is 
 				<source><![CDATA[Script Name]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.domains_to_delete_cookies_for" approved="yes">
-				<source><![CDATA[When a group is not accepted, also delete cookies from the following domains. Cookies from the current domain are always automatically deleted.]]></source>
+				<source><![CDATA[When a group is not accepted, also delete cookies from the following domains separated by newline. Cookies from the current domain are always automatically deleted.]]></source>
 			</trans-unit>
 		</body>
 	</file>

@@ -23,9 +23,9 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  */
 
-define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], function($, Chart) {
+define(['jquery'], function($) {
 		'use strict';
-		var Statistics = {
+		var ConsentMangement = {
 
 			/**
 			 * @var Contains the state of the current search
@@ -37,7 +37,7 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 				item_identifier: document.getElementById('item_identifier').value,
 				page: 1,
 				pid: 0,
-				per_page: 100
+				per_page: 25
 			},
 
 			/**
@@ -331,7 +331,7 @@ define(['jquery', 'TYPO3/CMS/SgCookieOptin/Backend/Chart.js/Chart.min'], functio
 			},
 		};
 
-		Statistics.init();
-		return Statistics;
+	ConsentMangement.init();
+		return ConsentMangement;
 	}
 );

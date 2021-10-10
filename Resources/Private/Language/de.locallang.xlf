@@ -222,8 +222,8 @@
 				<target><![CDATA[Ihre Konfiguration wurde geändert]]></target>
 			</trans-unit>
 			<trans-unit id="backend.moduleDescription" approved="yes">
-				<source><![CDATA[This module serves for the management of cookies. There can be a maximum of one entry per site root, if nothing exists, add one with the help of the button below.]]></source>
-				<target><![CDATA[Dieses Modul dient zu der Verwaltung von Cookies. Es kann pro Seiten-Root immer nur ein Eintrag existieren, sollte keiner existieren muss einer mit Hilfe des unteren Buttons angelegt werden.]]></target>
+				<source><![CDATA[This module serves for the management of cookies and scripts. There can be a maximum of one configuration per site root, if nothing exists, add one with the help of the button below.]]></source>
+				<target><![CDATA[Dieses Modul dient zur Verwaltung von Cookies und Scripts. Es kann pro Seiten-Root immer nur eine Konfiguration existieren, sollte keine existieren, kann dieser mit Hilfe des unteren Buttons angelegt werden.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.moduleHeader" approved="yes">
 				<source><![CDATA[Tracking / Cookies]]></source>
