@@ -482,7 +482,7 @@ var SgCookieOptin = {
 				}
 			}
 
-			// if the user didn't select all group last time, check if the the group was not accepted and the configured interval has expired
+			// if the user didn't select all group last time, check if the group was not accepted and the configured interval has expired
 			if (!lastPreferences.isAll &&
 				typeof SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName !== 'undefined' &&
 				!SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName,
