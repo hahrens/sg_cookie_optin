@@ -293,6 +293,11 @@ var SgCookieOptin = {
 			});
 			document.body.dispatchEvent(cookieOptinShownEvent);
 
+			// check if there is a cookie optin plugin on the page - then don't focus the checkboxes
+			if (document.getElementsByClassName('sg-cookie-optin-plugin-initialized').length > 0) {
+				return;
+			}
+
 			var checkboxes = document.getElementsByClassName('sg-cookie-optin-checkbox');
 			if (checkboxes.length > 1) {
 				if (checkboxes[1].focus) {
@@ -317,6 +322,11 @@ var SgCookieOptin = {
 			return false;
 		}
 
+		// check if there is a cookie optin plugin on the page
+		if (document.getElementsByClassName('sg-cookie-optin-plugin-initialized').length > 0) {
+			return false;
+		}
+
 		// test if the current URL matches one of the whitelist regex
 		if (typeof SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex !== 'undefined'
 			&& SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex.trim() !== ''
@@ -333,6 +343,7 @@ var SgCookieOptin = {
 				}
 			}
 		}
+
 		return true;
 	},
 
