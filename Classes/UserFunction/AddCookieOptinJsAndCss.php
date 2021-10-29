@@ -59,7 +59,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 */
 	public function addJavaScript($content, array $configuration) {
 		if (!LicenceCheckService::isInDevelopmentContext()
-		    && !LicenceCheckService::isInDemoMode()
+			&& !LicenceCheckService::isInDemoMode()
 			&& !LicenceCheckService::hasValidLicense()
 		) {
 			LicenceCheckService::removeAllCookieOptInFiles();
@@ -86,6 +86,11 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 				return '';
 			}
 
+			$cacheBuster = filemtime($sitePath . $file);
+			if (!$cacheBuster) {
+				$cacheBuster = '';
+			}
+
 			// we decode and encode again to remove the PRETTY_PRINT when rendering for better performance on the frontend
 			// for easier debugging, you can check the generated file in the fileadmin
 			// see https://gitlab.sgalinski.de/typo3/sg_cookie_optin/-/issues/118
@@ -93,13 +98,15 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 			if (!$jsonData['settings']['disable_for_this_language']) {
 				if ($jsonData['settings']['render_assets_inline']) {
 					return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
-						"</script>\n".'<script type="text/javascript" data-ignore="1">' . file_get_contents($sitePath . $file) . "</script>\n";
+						"</script>\n" . '<script type="text/javascript" data-ignore="1">' .
+						file_get_contents($sitePath . $file) . "</script>\n";
 				}
 
+				$fileUrl = $siteBaseUrl . $file . '?' . $cacheBuster;
 				return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
 					'</script>
-					<link rel="preload" as="script" href="' . $siteBaseUrl . $file . '" data-ignore="1">
-					<script src="' . $siteBaseUrl . $file . '" data-ignore="1"></script>';
+					<link rel="preload" as="script" href="' . $fileUrl . '" data-ignore="1">
+					<script src="' . $fileUrl . '" data-ignore="1"></script>';
 			}
 		} else {
 			// Old including from version 2.X.X @todo remove in version 4.X.X
@@ -156,7 +163,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		if ($jsonFile) {
 			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
 			if ($jsonData['settings']['render_assets_inline']) {
-				return '<style>' . file_get_contents($sitePath . $file) .  "</style>\n";
+				return '<style>' . file_get_contents($sitePath . $file) . "</style>\n";
 			}
 		}
 
