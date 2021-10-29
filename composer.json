@@ -11,7 +11,7 @@
         "issues": "https://gitlab.sgalinski.de/typo3/sg_cookie_optin"
     },
     "require": {
-        "typo3/cms-core": "^8.7 || ^9.5 || ^10.4 || ^11.3"
+        "typo3/cms-core": "^8.7 || ^9.5 || ^10.4 || ^11.5"
     },
     "suggest": {
     },
