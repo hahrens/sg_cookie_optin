@@ -74,6 +74,10 @@ class HandleTemplateAfterTcaSave {
 
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
 		foreach ($dataHandler->datamap[self::TABLE_NAME] as $data) {
+			if (!isset($data['template_html'], $data['banner_html'], $data['iframe_html'])) {
+				continue;
+			}
+
 			if (isset($data['template_overwritten']) && $data['template_overwritten']) {
 				$template = $data['template_html'];
 			} else {
