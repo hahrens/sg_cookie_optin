@@ -145,10 +145,10 @@
 				<source><![CDATA[License Check: Warning!]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.description">
-				<source><![CDATA[The license key of this extension is invalid. Some functions like the important file generation are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
+				<source><![CDATA[The license key of this extension is invalid. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.descriptionTYPO3-9">
-				<source><![CDATA[The license key of this extension is invalid. Some functions like the important file generation are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
+				<source><![CDATA[The license key of this extension is invalid. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.header">
 				<source><![CDATA[The license key is invalid]]></source>

@@ -182,12 +182,12 @@
 				<target><![CDATA[zum Ende der Produktlebenszeit]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.description" approved="yes">
-				<source><![CDATA[The license key of this extension is invalid. Some functions like the important file generation are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
-				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist ungültig. Einige Funktionen wie die notwendige Dateigenerierung sind deaktiviert. Bitte stelle sicher, dass die Lizenz korrekt eingefügt wurde. Diese können im Backend-Modul "Erweiterungen" unter "sg_cookie_optin" eingesehen werden.]]></target>
+				<source><![CDATA[The license key of this extension is invalid. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the backend module "Extensions".]]></source>
+				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist ungültig. Bitte stelle sicher, dass die Lizenz korrekt eingefügt wurde. Diese können im Backend-Modul "Erweiterungen" unter "sg_cookie_optin" eingesehen werden.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.descriptionTYPO3-9" approved="yes">
-				<source><![CDATA[The license key of this extension is invalid. Some functions like the important file generation are disabled. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
-				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist ungültig. Einige Funktionen wie die notwendige Dateigenerierung sind deaktiviert. Bitte stelle sicher, dass die Lizenz korrekt eingefügt wurde. Diese können im Backend-Modul "Einstellungen" unter "Extension Configuration" in "sg_cookie_optin" eingesehen werden.]]></target>
+				<source><![CDATA[The license key of this extension is invalid. Please make sure that the key is inserted correctly, within the settings of "sg_cookie_optin", which is found in the "Extension Configuration" of the backend module "Settings".]]></source>
+				<target><![CDATA[Der Lizenzschlüssel für diese Erweiterung ist ungültig. Bitte stelle sicher, dass die Lizenz korrekt eingefügt wurde. Diese können im Backend-Modul "Einstellungen" unter "Extension Configuration" in "sg_cookie_optin" eingesehen werden.]]></target>
 			</trans-unit>
 			<trans-unit id="backend.licenseKey.invalid.header" approved="yes">
 				<source><![CDATA[The license key is invalid]]></source>
