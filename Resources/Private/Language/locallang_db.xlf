@@ -443,6 +443,9 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_accept_button">
 				<source><![CDATA[Accept Button]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.multidomain_settings">
+				<source><![CDATA[Multidomain Settings]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general">
 				<source><![CDATA[General]]></source>
 			</trans-unit>
@@ -479,9 +482,16 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain">
 				<source><![CDATA[Override what domain this cookie is set for]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea">
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.description" approved="yes">
 				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
-Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example by writing example.com so that the configuration is used for both dev.example.com and www.example.com.]]></source>
+Here you can override the secondary domain that the cookie will be set for. The default is your website current domain, trimmed until the first dot. Example: www.example.com -> .example.com.]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.subdomain_support" approved="yes">
+				<source><![CDATA[Support subomains]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.subdomain_support.description" approved="yes">
+				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
+Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example if your domain is de.example.com so the configuration will be stored for both for both de.example.com and .example.com and thus will be valid also for en.example.com.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close">
 				<source><![CDATA[Activate the close button in the template]]></source>

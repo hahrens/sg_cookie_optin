@@ -11,6 +11,7 @@
 var SgCookieOptin = {
 
 	COOKIE_NAME: 'cookie_optin',
+	LAST_PREFERENCES_COOKIE_NAME: 'cookie_optin_last_preferences',
 	COOKIE_GROUP_EXTERNAL_CONTENT: 'iframes',
 	COOKIE_GROUP_ESSENTIAL: 'essential',
 
@@ -75,7 +76,7 @@ var SgCookieOptin = {
 		var showOptIn = SgCookieOptin.getParameterByName('showOptIn') == true;
 		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (showOptIn || !SgCookieOptin.jsonData.settings.activate_testing_mode &&
-			(!cookieValue || SgCookieOptin.shouldShowBannerBasedOnLastPreferences())
+			(SgCookieOptin.shouldShowBannerBasedOnLastPreferences(cookieValue))
 		) {
 			SgCookieOptin.openCookieOptin(null, {hideBanner: false});
 		}
@@ -448,10 +449,20 @@ var SgCookieOptin = {
 	 * This may be necessary if there are new groups or new cookies since the last preferences save,
 	 * or the user didn't select all preferences and the configured interval has expired
 	 *
+	 * @param {String} cookieValue
 	 * @returns {boolean}
 	 */
-	shouldShowBannerBasedOnLastPreferences: function() {
-		var lastPreferences = window.localStorage.getItem('SgCookieOptin.lastPreferences');
+	shouldShowBannerBasedOnLastPreferences: function(cookieValue) {
+		if (!cookieValue) {
+			return true;
+		}
+
+		if (SgCookieOptin.lastPreferencesFromCookie()) {
+			var lastPreferences = SgCookieOptin.getCookie(SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME);
+		} else {
+			var lastPreferences = window.localStorage.getItem('SgCookieOptin.lastPreferences');
+		}
+
 		if (!lastPreferences) {
 			return true;
 		}
@@ -571,8 +582,23 @@ var SgCookieOptin = {
 			uuid: uuid,
 			identifier: SgCookieOptin.jsonData.settings.identifier
 		};
-		window.localStorage.setItem('SgCookieOptin.lastPreferences', JSON.stringify(lastPreferences));
+
+		if (SgCookieOptin.lastPreferencesFromCookie()) {
+			SgCookieOptin.setCookie(SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME, JSON.stringify(lastPreferences), 365)
+		} else {
+			window.localStorage.setItem('SgCookieOptin.lastPreferences', JSON.stringify(lastPreferences));
+		}
+
 		SgCookieOptin.saveLastPreferencesForStats(lastPreferences);
+	},
+
+	/**
+	 * Decides whether to read the last preferences from cookie or from local storage
+	 *
+	 * @returns {boolean}
+	 */
+	lastPreferencesFromCookie: function() {
+		return (SgCookieOptin.jsonData.settings.subdomain_support || SgCookieOptin.jsonData.settings.set_cookie_for_domain);
 	},
 
 	/**
@@ -1612,11 +1638,23 @@ var SgCookieOptin = {
 		var d = new Date;
 		d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
 		var cookie = name + '=' + value + ';path=/';
-		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
-			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
+
+		var currentHost = window.location.hostname;
+		var cookieStringEnd = ';expires=' + d.toUTCString() + '; SameSite=None; Secure';
+		document.cookie = cookie + cookieStringEnd;
+
+		if (SgCookieOptin.jsonData.settings.subdomain_support) {
+			var domainParts = currentHost.split('.');
+			if (domainParts.length > 2) {
+				domainParts.shift();
+				var hostnameToFirstDot = '.' + domainParts.join('.');
+				document.cookie = cookie +  ';domain=' + hostnameToFirstDot + cookieStringEnd;
+			}
 		}
-		cookie += ';expires=' + d.toUTCString() + '; SameSite=None; Secure';
-		document.cookie = cookie;
+
+		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
+			document.cookie = cookie + ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain + cookieStringEnd;
+		}
 	},
 
 	/**
@@ -1627,11 +1665,23 @@ var SgCookieOptin = {
 	 */
 	setSessionCookie: function(name, value) {
 		var cookie = name + '=' + value + '; path=/';
-		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
-			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
+
+		var currentHost = window.location.hostname;
+		var cookieStringEnd = ';SameSite=None; Secure';
+		document.cookie = cookie + cookieStringEnd;
+
+		if (SgCookieOptin.jsonData.settings.subdomain_support) {
+			var domainParts = currentHost.split('.');
+			if (domainParts.length > 2) {
+				domainParts.shift();
+				var hostnameToFirstDot = '.' + domainParts.join('.');
+				document.cookie = cookie +  ';domain=' + hostnameToFirstDot + cookieStringEnd;
+			}
 		}
-		cookie += ';SameSite=None; Secure';
-		document.cookie = cookie;
+
+		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
+			document.cookie = cookie + ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain + cookieStringEnd;
+		}
 	},
 
 	/**
@@ -1639,7 +1689,7 @@ var SgCookieOptin = {
 	 *
 	 * @param {string} cookieValue
 	 */
-	setCookieWrapper: function(cookieValue) {
+	setCookieWrapper: function(cookieValue, cookieName) {
 		var setCookieForSessionOnly = false;
 		if (SgCookieOptin.jsonData.settings.session_only_essential_cookies) {
 			var hasNonEssentialGroups = false;

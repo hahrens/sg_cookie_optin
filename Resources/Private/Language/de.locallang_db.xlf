@@ -595,6 +595,10 @@
 				<source><![CDATA[Accept Button]]></source>
 				<target><![CDATA[Akzeptieren-Button]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.multidomain_settings">
+				<source><![CDATA[Multidomain Settings]]></source>
+				<target><![CDATA[Multidomain-Einstellungen]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general" approved="yes">
 				<source><![CDATA[General]]></source>
 				<target><![CDATA[Allgemein]]></target>
@@ -643,11 +647,21 @@
 				<source><![CDATA[Override what domain this cookie is set for]]></source>
 				<target><![CDATA[Domain, für die der Cookie gesetzt werden soll, überschreiben]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea" approved="yes">
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.description" approved="yes">
 				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
-Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example by writing example.com so that the configuration is used for both dev.example.com and www.example.com.]]></source>
+Here you can override the secondary domain that the cookie will be set for. The default is your website current domain, trimmed until the first dot. Example: www.example.com -> .example.com.]]></source>
 				<target><![CDATA[!!! Dies ist im Normalfall nicht DSVGO-konform. Setzen Sie dies auf eigenes Risiko !!!
-Ohne diese Einstellung gilt diese Konfiguration nur für die Domain, wo sie hinterlegt ist. Mit dieser Einstellung können Sie die Cookie-Konfiguration für mehrere Domains verwenden, bspw. indem sie example.com schreiben, sodass die Konfiguration sowohl für dev.example.com als auch www.example.com verwendet wird.]]></target>
+Hier können Sie die sekundäre Domain überschreiben, für die das Cookie gesetzt werden soll. Die Standardeinstellung ist die aktuelle Domäne Ihrer Website, die bis zum ersten Punkt gekürzt wird. Beispiel: www.example.com -> .example.com.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.subdomain_support" approved="yes">
+				<source><![CDATA[Support subomains]]></source>
+				<target><![CDATA[Subdomains unterstützen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.subdomain_support.description" approved="yes">
+				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
+Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example if your domain is de.example.com so the configuration will be stored for both for both de.example.com and .example.com and thus will be valid also for en.example.com.]]></source>
+				<target><![CDATA[!!! Dies ist im Normalfall nicht DSVGO-konform. Setzen Sie dies auf eigenes Risiko !!!
+Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie gespeichert ist. Mit dieser Einstellung können Sie die Cookie-Konfiguration für mehrere Domänen verwenden, z. B. wenn Ihre Domäne de.example.com ist, wird die Konfiguration sowohl für de.example.com als auch für .example.com gespeichert und gilt somit auch für en.example.com.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close" approved="yes">
 				<source><![CDATA[Activate the close button in the template]]></source>
