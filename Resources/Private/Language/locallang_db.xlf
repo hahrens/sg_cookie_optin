@@ -479,6 +479,12 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.session_only_essential_cookies">
 				<source><![CDATA[Show the dialog again in the next user session if only essential cookies are accepted.]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.overwrite_baseurl" approved="yes">
+				<source><![CDATA[Overwrite Base-URL]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.overwrite_baseurl.description" approved="yes">
+				<source><![CDATA[You can use this field to overwrite the URL from which the files are loaded in your website. If it is on another (sub)domain, please make sure to include it in your CORS policy headers.]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain">
 				<source><![CDATA[Override what domain this cookie is set for]]></source>
 			</trans-unit>

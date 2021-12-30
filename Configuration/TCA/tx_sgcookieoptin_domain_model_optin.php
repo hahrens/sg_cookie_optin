@@ -71,7 +71,7 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group,
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
-					--palette--;;cookie_lifetime_settings, minify_generated_data, activate_testing_mode, disable_for_this_language, render_assets_inline, consider_do_not_track, --palette--;;multidomain, cookiebanner_whitelist_regex, banner_show_again_interval',
+					--palette--;;cookie_lifetime_settings, overwrite_baseurl, minify_generated_data, activate_testing_mode, disable_for_this_language, render_assets_inline, consider_do_not_track, --palette--;;multidomain, cookiebanner_whitelist_regex, banner_show_again_interval',
 		],
 	],
 	'palettes' => [
@@ -1066,6 +1066,17 @@ $configuration = [
 				'default' => '0',
 			],
 		],
+		'overwrite_baseurl' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.overwrite_baseurl',
+			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.overwrite_baseurl.description',
+			'l10n_mode' => 'exclude',
+			'config' => [
+				'type' => 'input',
+				'default' => '',
+				'eval' => 'trim'
+			],
+		],
 		'minify_generated_data' => [
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
@@ -1638,7 +1649,7 @@ if (TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(T
 
 if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.3.0', '<')) {
 	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, header,'
-		. 'description, cookie_lifetime, minify_generated_data, navigation, accept_all_text, user_hash_text, accept_specific_text,'
+		. 'description, cookie_lifetime, overwrite_baseurl, minify_generated_data, navigation, accept_all_text, user_hash_text, accept_specific_text,'
 		. 'accept_essential_text, groups, template_html, template_overwritten, template_selection, color_text,'
 		. 'color_box, color_headline, color_checkbox, color_checkbox_required, color_button_all, color_button_all_text,'
 		. 'color_button_specific, color_button_specific_text, color_button_essential, color_button_essential_text,'

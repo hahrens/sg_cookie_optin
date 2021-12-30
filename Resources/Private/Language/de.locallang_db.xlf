@@ -643,6 +643,14 @@
 				<source><![CDATA[Show the dialog again in the next user session if only essential cookies are accepted.]]></source>
 				<target><![CDATA[Zeigen Sie den Dialog in der nächsten Benutzersitzung erneut an, wenn nur wesentliche Cookies akzeptiert werden.]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.overwrite_baseurl" approved="yes">
+				<source><![CDATA[Overwrite Base-URL]]></source>
+				<target><![CDATA[Base-URL überschreiben.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.overwrite_baseurl.description" approved="yes">
+				<source><![CDATA[You can use this field to overwrite the URL from which the files are loaded in your website. If it is on another (sub)domain, please make sure to include it in your CORS policy headers.]]></source>
+				<target><![CDATA[Sie können dieses Feld verwenden, um die URL zu überschreiben, von der die Dateien auf Ihrer Website geladen werden. Wenn sie sich auf einer anderen (Sub-)Domain befindet, stellen Sie bitte sicher, dass Sie sie in Ihre CORS-Policy-Header aufnehmen.]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain" approved="yes">
 				<source><![CDATA[Override what domain this cookie is set for]]></source>
 				<target><![CDATA[Domain, für die der Cookie gesetzt werden soll, überschreiben]]></target>

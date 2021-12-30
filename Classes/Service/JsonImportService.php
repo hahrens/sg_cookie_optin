@@ -142,7 +142,8 @@ class JsonImportService {
 			'iframe_whitelist_regex',
 			'iframe_button_load_one_description',
 			'cookiebanner_whitelist_regex',
-			'domains_to_delete_cookies_for'
+			'domains_to_delete_cookies_for',
+			'overwrite_baseurl'
 		], $flatJsonData
 		);
 

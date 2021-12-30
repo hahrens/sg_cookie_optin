@@ -142,6 +142,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
     consider_do_not_track tinyint(4) unsigned DEFAULT '0' NOT NULL,
     domains_to_delete_cookies_for TEXT,
 	subdomain_support tinyint(4) DEFAULT '0',
+	overwrite_baseurl TEXT,
 
 	-- TYPO3 related columns
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
