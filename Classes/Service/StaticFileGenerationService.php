@@ -806,6 +806,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'render_assets_inline' => (int) $translatedData['render_assets_inline'],
 			'consider_do_not_track' => (int) $translatedData['consider_do_not_track'],
 			'domains_to_delete_cookies_for' => (string) $translatedData['domains_to_delete_cookies_for'],
+			'subdomain_support' => (boolean) $translatedData['subdomain_support'],
 		];
 
 		$textEntries = [
