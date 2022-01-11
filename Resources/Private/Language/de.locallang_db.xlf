@@ -801,6 +801,14 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<source><![CDATA[When a group is not accepted, also delete cookies from the following domains separated by newline. Cookies from the current domain are always automatically deleted.]]></source>
 				<target><![CDATA[Wenn eine Gruppe nicht akzeptiert wird, Cookies auch von den nachfolgenden, per Zeilenumbruch separierten, Domains löschen. Cookies von der aktuellen Domain werden immer automatisch gelöscht.]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.unified_cookie_name" approved="yes">
+				<source><![CDATA[Unified Cookie Name]]></source>
+				<target><![CDATA[Einheitlicher Cookie-Name]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.unified_cookie_name.description" approved="yes">
+				<source><![CDATA[Unchecking this box would lead to having separate configurations for each language and site root. This would lead to visitors having to select their preferences for each different language and site root.]]></source>
+				<target><![CDATA[Das Deaktivieren dieses Häkchens würde dazu führen, dass für jede Sprache und jedes Site-Root separate Konfigurationen vorhanden sind. Dies würde dazu führen, dass die Besucher ihre Präferenzen für jede Sprache und jedes Site-Root auswählen müssten.]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

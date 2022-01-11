@@ -41,6 +41,7 @@ var SgCookieOptin = {
 
 		SgCookieOptin.jsonData = JSON.parse(document.getElementById('cookieOptinData').innerHTML);
 		if (SgCookieOptin.jsonData) {
+			SgCookieOptin.checkLanguageSettings();
 			// https://plainjs.com/javascript/events/running-code-when-the-document-is-ready-15/
 			document.addEventListener('DOMContentLoaded', function() {
 				SgCookieOptin.initialize();
@@ -79,6 +80,18 @@ var SgCookieOptin = {
 			(SgCookieOptin.shouldShowBannerBasedOnLastPreferences(cookieValue))
 		) {
 			SgCookieOptin.openCookieOptin(null, {hideBanner: false});
+		}
+	},
+
+	/**
+	 * Checks if we will have different settings per language
+	 */
+	checkLanguageSettings: function() {
+		if (!SgCookieOptin.jsonData.settings.unified_cookie_name) {
+			SgCookieOptin.COOKIE_NAME += '_' + SgCookieOptin.jsonData.settings.identifier + '_'
+				+ SgCookieOptin.jsonData.settings.language;
+			SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME += '_' + SgCookieOptin.jsonData.settings.identifier + '_'
+				+ SgCookieOptin.jsonData.settings.language;
 		}
 	},
 
@@ -686,7 +699,24 @@ var SgCookieOptin = {
 	 * @param cookieName
 	 */
 	deleteGroupCookie: function(cookieName) {
-		document.cookie = cookieName + '=; path=/; Max-Age=-99999999;';
+		var cookie = cookieName + '=; path=/; Max-Age=-99999999;';
+		document.cookie = cookie; // This is important in case the configuration that we test below has been changed
+
+		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
+					cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
+		} else if (SgCookieOptin.jsonData.settings.subdomain_support) {
+			var domainParts = currentHost.split('.');
+			if (domainParts.length > 2) {
+				domainParts.shift();
+				var hostnameToFirstDot = '.' + domainParts.join('.');
+				cookie +=  ';domain=' + hostnameToFirstDot;
+			}
+		} else {
+			cookie +=  ';domain=' + currentHost;
+		}
+
+		document.cookie = cookie;
+
 		var additionalDomains = SgCookieOptin.jsonData.settings.domains_to_delete_cookies_for.trim()
 			.split(/\r?\n/).map(function (value) {
 				return value.trim();
@@ -1641,20 +1671,21 @@ var SgCookieOptin = {
 
 		var currentHost = window.location.hostname;
 		var cookieStringEnd = ';expires=' + d.toUTCString() + '; SameSite=None; Secure';
-		document.cookie = cookie + cookieStringEnd;
 
-		if (SgCookieOptin.jsonData.settings.subdomain_support) {
+		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
+					cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
+		} else if (SgCookieOptin.jsonData.settings.subdomain_support) {
 			var domainParts = currentHost.split('.');
 			if (domainParts.length > 2) {
 				domainParts.shift();
 				var hostnameToFirstDot = '.' + domainParts.join('.');
-				document.cookie = cookie +  ';domain=' + hostnameToFirstDot + cookieStringEnd;
+				cookie +=  ';domain=' + hostnameToFirstDot;
 			}
+		} else {
+			cookie +=  ';domain=' + currentHost;
 		}
 
-		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
-			document.cookie = cookie + ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain + cookieStringEnd;
-		}
+		document.cookie = cookie + cookieStringEnd;
 	},
 
 	/**
@@ -1668,20 +1699,21 @@ var SgCookieOptin = {
 
 		var currentHost = window.location.hostname;
 		var cookieStringEnd = ';SameSite=None; Secure';
-		document.cookie = cookie + cookieStringEnd;
 
-		if (SgCookieOptin.jsonData.settings.subdomain_support) {
+		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
+			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
+		} else if (SgCookieOptin.jsonData.settings.subdomain_support) {
 			var domainParts = currentHost.split('.');
 			if (domainParts.length > 2) {
 				domainParts.shift();
 				var hostnameToFirstDot = '.' + domainParts.join('.');
-				document.cookie = cookie +  ';domain=' + hostnameToFirstDot + cookieStringEnd;
+				cookie +=  ';domain=' + hostnameToFirstDot;
 			}
+		} else {
+			cookie +=  ';domain=' + currentHost;
 		}
 
-		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
-			document.cookie = cookie + ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain + cookieStringEnd;
-		}
+		document.cookie = cookie + cookieStringEnd;
 	},
 
 	/**

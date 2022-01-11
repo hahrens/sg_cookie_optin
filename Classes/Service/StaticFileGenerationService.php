@@ -803,11 +803,13 @@ class StaticFileGenerationService implements SingletonInterface {
 			'cookiebanner_whitelist_regex' => (string) $translatedData['cookiebanner_whitelist_regex'],
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
 			'identifier' => $this->siteRoot,
+			'language' => $languageUid,
 			'render_assets_inline' => (int) $translatedData['render_assets_inline'],
 			'consider_do_not_track' => (int) $translatedData['consider_do_not_track'],
 			'domains_to_delete_cookies_for' => (string) $translatedData['domains_to_delete_cookies_for'],
 			'subdomain_support' => (boolean) $translatedData['subdomain_support'],
 			'overwrite_baseurl' => (string) $translatedData['overwrite_baseurl'],
+			'unified_cookie_name' => (boolean) $translatedData['unified_cookie_name'],
 		];
 
 		$textEntries = [

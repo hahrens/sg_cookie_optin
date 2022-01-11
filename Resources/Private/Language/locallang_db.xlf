@@ -590,6 +590,12 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.domains_to_delete_cookies_for" approved="yes">
 				<source><![CDATA[When a group is not accepted, also delete cookies from the following domains separated by newline. Cookies from the current domain are always automatically deleted.]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.unified_cookie_name" approved="yes">
+				<source><![CDATA[Unified Cookie Name]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.unified_cookie_name.description" approved="yes">
+				<source><![CDATA[Unchecking this box would lead to having separate configurations for each language and site root. This would lead to visitors having to select their preferences for each different language and site root.]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

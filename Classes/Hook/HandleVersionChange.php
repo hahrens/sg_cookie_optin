@@ -56,16 +56,14 @@ class HandleVersionChange {
 	) {
 		if (isset($fieldArray['update_version_checkbox']) && $fieldArray['update_version_checkbox']) {
 			$id = (int) $id;
-			$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-			$sqlQuery = "UPDATE $table SET version = version + 1 WHERE uid = $id OR l10n_parent = $id";
 
-			if ($currentVersion < 8000000) {
-				$GLOBALS['TYPO3_DB']->sql_query($sqlQuery);
-			} else {
-				$connection = GeneralUtility::makeInstance(ConnectionPool::class)
-					->getConnectionForTable($table);
-				$connection->executeQuery($sqlQuery);
-			}
+			$currentVersionQuery = "SELECT max(IFNULL(version, 0)), pid FROM $table
+				WHERE deleted = 0 AND pid = (SELECT pid FROM $table WHERE uid = $id)";
+			$connection = GeneralUtility::makeInstance(ConnectionPool::class)
+				->getConnectionForTable($table);
+			list($currentVersion, $pid) = array_values($connection->executeQuery($currentVersionQuery)->fetchAssociative());
+			$sqlQuery = "UPDATE $table SET version = $currentVersion + 1 WHERE pid = $pid AND deleted = 0";
+			$connection->executeQuery($sqlQuery);
 
 			$fieldArray['update_version_checkbox'] = 0;
 		}
