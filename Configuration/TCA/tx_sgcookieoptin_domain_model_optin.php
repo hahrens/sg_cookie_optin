@@ -121,6 +121,7 @@ $configuration = [
 		'template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template',
 			'showitem' => 'template_selection, template_overwritten, --linebreak--,
+				template_warning, --linebreak--,
 				template_html'
 		],
 		'iframe_texts' => [
@@ -138,16 +139,19 @@ $configuration = [
 		'iframe_template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_template',
 			'showitem' => 'iframe_selection, iframe_overwritten, --linebreak--,
+				iframe_warning, --linebreak--,
 				iframe_html'
 		],
 		'iframe_whitelist' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_whitelist',
 			'showitem' => 'iframe_whitelist_selection, iframe_whitelist_overwritten, --linebreak--,
+			iframe_whitelist_warning, --linebreak--,
 			iframe_whitelist_regex'
 		],
 		'iframe_replacement_template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_template',
 			'showitem' => 'iframe_replacement_selection, iframe_replacement_overwritten, --linebreak--,
+				iframe_replacement_warning, --linebreak--,
 				iframe_replacement_html'
 		],
 		'banner_general' => [
@@ -173,6 +177,7 @@ $configuration = [
 		'banner_template' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_template',
 			'showitem' => 'banner_selection, banner_overwritten, --linebreak--,
+				banner_warning, --linebreak--,
 				banner_html'
 		],
 		'cookie_lifetime_settings' => [
@@ -979,6 +984,7 @@ $configuration = [
 		],
 		'iframe_overwritten' => [
 			'exclude' => TRUE,
+			'onChange' => 'reload',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_overwritten',
 			'config' => [
 				'type' => 'check',
@@ -987,6 +993,15 @@ $configuration = [
 				   'allowLanguageSynchronization' => true
 				],
 			],
+		],
+		'iframe_warning' => [
+			'displayCond' => 'FIELD:iframe_overwritten:=:0',
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'config' => [
+				'type' => 'none',
+				'renderType' => 'SgCookieOptinTCAWarningField'
+			]
 		],
 		'iframe_selection' => [
 			'exclude' => TRUE,
@@ -1020,6 +1035,7 @@ $configuration = [
 		],
 		'iframe_replacement_overwritten' => [
 			'exclude' => TRUE,
+			'onChange' => 'reload',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_overwritten',
 			'config' => [
 				'type' => 'check',
@@ -1029,6 +1045,15 @@ $configuration = [
 				],
 			],
 
+		],
+		'iframe_replacement_warning' => [
+			'displayCond' => 'FIELD:iframe_replacement_overwritten:=:0',
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'config' => [
+				'type' => 'none',
+				'renderType' => 'SgCookieOptinTCAWarningField'
+			]
 		],
 		'iframe_replacement_selection' => [
 			'exclude' => TRUE,
@@ -1107,6 +1132,7 @@ $configuration = [
 		],
 		'template_overwritten' => [
 			'exclude' => TRUE,
+			'onChange' => 'reload',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_overwritten',
 			'config' => [
 				'type' => 'check',
@@ -1115,6 +1141,15 @@ $configuration = [
 				   'allowLanguageSynchronization' => true
 				],
 			],
+		],
+		'template_warning' => [
+			'displayCond' => 'FIELD:template_overwritten:=:0',
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'config' => [
+				'type' => 'none',
+				'renderType' => 'SgCookieOptinTCAWarningField'
+			]
 		],
 		'template_selection' => [
 			'exclude' => TRUE,
@@ -1238,6 +1273,7 @@ $configuration = [
 		],
 		'banner_overwritten' => [
 			'exclude' => TRUE,
+			'onChange' => 'reload',
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.banner_overwritten',
 			'config' => [
 				'type' => 'check',
@@ -1246,6 +1282,15 @@ $configuration = [
 				   'allowLanguageSynchronization' => true
 				],
 			],
+		],
+		'banner_warning' => [
+			'displayCond' => 'FIELD:banner_overwritten:=:0',
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'config' => [
+				'type' => 'none',
+				'renderType' => 'SgCookieOptinTCAWarningField'
+			]
 		],
 		'banner_show_settings_button' => [
 			'exclude' => TRUE,
@@ -1522,11 +1567,21 @@ $configuration = [
 		'iframe_whitelist_overwritten' => [
 			'exclude' => TRUE,
 			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_overwritten',
+			'onChange' => 'reload',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_whitelist_overwritten',
 			'config' => [
 				'type' => 'check',
 				'default' => '0',
 			],
+		],
+		'iframe_whitelist_warning' => [
+			'displayCond' => 'FIELD:iframe_whitelist_overwritten:=:0',
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'config' => [
+				'type' => 'none',
+				'renderType' => 'SgCookieOptinTCAWarningField'
+			]
 		],
 		'iframe_whitelist_selection' => [
 			'exclude' => TRUE,
@@ -1660,7 +1715,7 @@ if (TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(T
 if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '10.3.0', '<')) {
 	$configuration['interface']['showRecordFieldList'] = 'sys_language_uid, l10n_parent, l10n_diffsource, header,'
 		. 'description, cookie_lifetime, overwrite_baseurl, minify_generated_data, navigation, accept_all_text, user_hash_text, accept_specific_text,'
-		. 'accept_essential_text, groups, template_html, template_overwritten, template_selection, color_text,'
+		. 'accept_essential_text, groups, template_html, template_overwritten, template_warning, template_selection, color_text,'
 		. 'color_box, color_headline, color_checkbox, color_checkbox_required, color_button_all, color_button_all_text,'
 		. 'color_button_specific, color_button_specific_text, color_button_essential, color_button_essential_text,'
 		. 'color_list, color_list_text, essential_title, essential_description, essential_scripts, essential_cookies,'
@@ -1671,16 +1726,16 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'iframe_enabled, iframe_title, iframe_description, iframe_cookies, iframe_button_allow_all_text,'
 		. 'iframe_button_allow_one_text, iframe_button_reject_text, iframe_button_load_one_description, iframe_button_load_one_text, iframe_open_settings_text,'
 		. 'iframe_color_consent_box_background, iframe_color_button_load_one, iframe_color_button_load_one_hover,'
-		. 'iframe_color_button_load_one_text, iframe_color_open_settings, iframe_html, iframe_overwritten,'
-		. 'iframe_selection, iframe_replacement_html, iframe_replacement_overwritten, iframe_replacement_selection,'
-		. 'banner_enable, banner_force_min_width, banner_position, banner_overwritten, banner_html, banner_selection,'
+		. 'iframe_color_button_load_one_text, iframe_color_open_settings, iframe_html, iframe_overwritten, iframe_warning, '
+		. 'iframe_selection, iframe_replacement_html, iframe_replacement_overwritten, iframe_replacement_warning, iframe_replacement_selection,'
+		. 'banner_enable, banner_force_min_width, banner_position, banner_overwritten, banner_warning, banner_html, banner_selection,'
 		. 'banner_show_settings_button, banner_color_box, banner_color_text, banner_color_button_settings,'
 		. 'banner_color_button_settings_hover, banner_color_button_settings_text, banner_color_button_accept,'
 		. 'banner_color_button_accept_hover, banner_color_button_accept_text, banner_color_link_text,'
 		. 'banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,'
 		. 'activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,'
 		. 'color_full_button_close_hover, color_full_button_close_text, color_table_header, save_confirmation_text,'
-		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist, iframe_whitelist_overwritten, iframe_whitelist_selection, iframe_whitelist_regex, subdomain_support, set_cookie_for_domain, domains_to_delete_cookies_for, cookiebanner_whitelist_regex, disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track, banner_show_again_interval, version, unified_cookie_name';
+		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist, iframe_whitelist_overwritten, iframe_whitelist_warning, iframe_whitelist_selection, iframe_whitelist_regex, subdomain_support, set_cookie_for_domain, domains_to_delete_cookies_for, cookiebanner_whitelist_regex, disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track, banner_show_again_interval, version, unified_cookie_name';
 }
 
 return $configuration;

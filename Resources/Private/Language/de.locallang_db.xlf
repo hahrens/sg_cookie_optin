@@ -502,7 +502,7 @@
 				<target><![CDATA[Link: "Einstellungen öffnen"]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_overwritten" approved="yes">
-				<source><![CDATA[Overwrite Settings Window Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
+				<source><![CDATA[Overwrite Iframe Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 				<target><![CDATA[Template des Einstellungsfensters überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html" approved="yes">
@@ -560,7 +560,7 @@
 				<target><![CDATA[Externe Inhalte whitelisten. (Objekte, deren Quelle diese reguläre Ausdrücke entspricht, werden nicht ersetzt)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_overwritten" approved="yes">
-				<source><![CDATA[Overwrite Whitelist Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
+				<source><![CDATA[Overwrite Whitelist (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 				<target><![CDATA[Template des Einstellungsfensters überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex" approved="yes">

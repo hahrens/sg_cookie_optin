@@ -285,6 +285,9 @@
 			<trans-unit id="backend.licenseKey.error.dev" approved="yes">
 				<source><![CDATA[This does not apply for development instances.]]></source>
 			</trans-unit>
+			<trans-unit id="backend.warning.overwritten_checkbox" approved="yes">
+				<source><![CDATA[The code in the field below will be reverted back to the default unless you tick the checkbox above to enable the overwriting of this value.]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
