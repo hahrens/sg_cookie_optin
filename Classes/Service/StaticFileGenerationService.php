@@ -913,6 +913,19 @@ class StaticFileGenerationService implements SingletonInterface {
 		if (defined('JSON_THROW_ON_ERROR')) {
 			$mask = constant('JSON_THROW_ON_ERROR') | JSON_PRETTY_PRINT | constant('JSON_INVALID_UTF8_SUBSTITUTE');
 		}
+
+		// Call pre-processing function for constructor:
+		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'])) {
+		   $_params = array(
+			   'pObj' => &$this,
+			   'data' => &$jsonDataArray,
+			   'languageUid' => $languageUid
+		   );
+		   foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'] as $_funcRef) {
+			  \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($_funcRef,$_params, $this);
+		   }
+		}
+
 		/** @noinspection JsonEncodingApiUsageInspection */
 		file_put_contents($file, json_encode($jsonDataArray, $mask));
 		GeneralUtility::fixPermissions($file);
