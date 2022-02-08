@@ -620,6 +620,10 @@ var SgCookieOptin = {
 	 * @param lastPreferences
 	 */
 	saveLastPreferencesForStats: function(lastPreferences) {
+		if (SgCookieOptin.jsonData.settings.disable_usage_statistics) {
+			return;
+		}
+
 		var request = new XMLHttpRequest();
 		var formData = new FormData();
 		formData.append('lastPreferences', JSON.stringify(lastPreferences));

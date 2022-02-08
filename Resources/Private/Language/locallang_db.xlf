@@ -596,6 +596,9 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.unified_cookie_name.description" approved="yes">
 				<source><![CDATA[Unchecking this box would lead to having separate configurations for each language and site root. This would lead to visitors having to select their preferences for each different language and site root.]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_usage_statistics" approved="yes">
+				<source><![CDATA[Disable Usage Statistics and Tracability]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

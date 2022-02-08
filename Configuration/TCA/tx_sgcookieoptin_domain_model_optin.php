@@ -71,7 +71,8 @@ $configuration = [
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.group,
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
-					unified_cookie_name, --palette--;;cookie_lifetime_settings, overwrite_baseurl, minify_generated_data, activate_testing_mode, disable_for_this_language, render_assets_inline, consider_do_not_track, --palette--;;multidomain, cookiebanner_whitelist_regex, banner_show_again_interval',
+					unified_cookie_name, --palette--;;cookie_lifetime_settings, overwrite_baseurl, minify_generated_data,
+					activate_testing_mode, disable_for_this_language, render_assets_inline, consider_do_not_track, --palette--;;multidomain, cookiebanner_whitelist_regex, banner_show_again_interval, disable_usage_statistics',
 		],
 	],
 	'palettes' => [
@@ -1658,6 +1659,14 @@ $configuration = [
 				'default' => '1',
 			],
 		],
+		'disable_usage_statistics' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.disable_usage_statistics',
+			'config' => [
+				'type' => 'check',
+				'default' => '0',
+			],
+		],
 	],
 ];
 
@@ -1735,7 +1744,7 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,'
 		. 'activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,'
 		. 'color_full_button_close_hover, color_full_button_close_text, color_table_header, save_confirmation_text,'
-		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist, iframe_whitelist_overwritten, iframe_whitelist_warning, iframe_whitelist_selection, iframe_whitelist_regex, subdomain_support, set_cookie_for_domain, domains_to_delete_cookies_for, cookiebanner_whitelist_regex, disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track, banner_show_again_interval, version, unified_cookie_name';
+		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist, iframe_whitelist_overwritten, iframe_whitelist_warning, iframe_whitelist_selection, iframe_whitelist_regex, subdomain_support, set_cookie_for_domain, domains_to_delete_cookies_for, cookiebanner_whitelist_regex, disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track, banner_show_again_interval, version, unified_cookie_name, disable_usage_statistics';
 }
 
 return $configuration;

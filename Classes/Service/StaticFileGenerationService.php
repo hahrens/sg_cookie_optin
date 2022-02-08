@@ -810,6 +810,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'subdomain_support' => (boolean) $translatedData['subdomain_support'],
 			'overwrite_baseurl' => (string) $translatedData['overwrite_baseurl'],
 			'unified_cookie_name' => (boolean) $translatedData['unified_cookie_name'],
+			'disable_usage_statistics' => (boolean) $translatedData['disable_usage_statistics'],
 		];
 
 		$textEntries = [

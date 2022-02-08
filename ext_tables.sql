@@ -144,6 +144,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	subdomain_support tinyint(4) DEFAULT '0',
 	overwrite_baseurl TEXT,
 	unified_cookie_name tinyint(4) DEFAULT '1',
+	disable_usage_statistics tinyint(4) DEFAULT '0',
 
 	-- TYPO3 related columns
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

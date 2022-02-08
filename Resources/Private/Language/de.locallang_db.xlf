@@ -809,6 +809,10 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<source><![CDATA[Unchecking this box would lead to having separate configurations for each language and site root. This would lead to visitors having to select their preferences for each different language and site root.]]></source>
 				<target><![CDATA[Das Deaktivieren dieses Häkchens würde dazu führen, dass für jede Sprache und jedes Site-Root separate Konfigurationen vorhanden sind. Dies würde dazu führen, dass die Besucher ihre Präferenzen für jede Sprache und jedes Site-Root auswählen müssten.]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_usage_statistics" approved="yes">
+				<source><![CDATA[Disable Usage Statistics and Tracability]]></source>
+				<target><![CDATA[Nutzungsstatistiken und Rückverfolgbarkeit deaktivieren]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
