@@ -120,7 +120,7 @@ class OptinHistoryService {
 		$tstamp = date('Y-m-d H:i:s', $GLOBALS['EXEC_TIME']);
 		$date = substr($tstamp, 0, 10);
 		foreach ($cookieValuePairs as $pair) {
-			list($groupName, $value) = explode(':', $pair);
+			[$groupName, $value] = explode(':', $pair);
 			$insertData[] = [
 				'user_hash' => $jsonInput['uuid'],
 				'version' => $jsonInput['version'],
@@ -286,5 +286,27 @@ class OptinHistoryService {
 			->orderBy('version', 'asc');
 
 		return array_column($queryBuilder->execute()->fetchAll(), 'version');
+	}
+
+	/**
+	 * Deletes entries older than the given days from the history
+	 *
+	 * @param int $olderThan
+	 * @param int $pid
+	 * @return void
+	 * @throws \Doctrine\DBAL\Exception
+	 */
+	public static function deleteOlderThan(int $olderThan, int $pid): void {
+		$connection = GeneralUtility::makeInstance(ConnectionPool::class)
+			->getConnectionForTable(self::TABLE_NAME);
+		$query = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE tstamp < DATE_SUB(NOW(), INTERVAL ? DAY)';
+		$params = [$olderThan];
+
+		if ($pid > 0) {
+			$query .= "\n AND pid = ?";
+			$params[] = $pid;
+		}
+
+		$connection->executeQuery($query, $params);
 	}
 }
