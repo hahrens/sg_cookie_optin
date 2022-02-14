@@ -72,7 +72,7 @@ $configuration = [
 					groups,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.settings,
 					unified_cookie_name, --palette--;;cookie_lifetime_settings, overwrite_baseurl, minify_generated_data,
-					activate_testing_mode, disable_for_this_language, render_assets_inline, consider_do_not_track, --palette--;;multidomain, cookiebanner_whitelist_regex, banner_show_again_interval, disable_usage_statistics',
+					activate_testing_mode, disable_for_this_language, render_assets_inline, consider_do_not_track, --palette--;;multidomain, cookiebanner_whitelist_regex, disable_usage_statistics',
 		],
 	],
 	'palettes' => [
