@@ -32,8 +32,10 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CMS\Core\Core\Bootstrap;
 
+/**
+ * A command that can be used in the scheduler to delete the old history entries
+ */
 class DeleteUsageHistoryCommand extends Command {
 
 	/**
