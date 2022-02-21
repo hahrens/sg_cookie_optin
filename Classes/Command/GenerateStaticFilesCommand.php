@@ -77,7 +77,7 @@ class GenerateStaticFilesCommand extends Command {
 		} catch (\Exception $exception) {
 			$this->io->writeln('Error!');
 			$this->io->writeln($exception->getMessage());
-			return Command::FAILURE;
+			return 1;
 		}
 
 		$this->io->writeln('Your files have been generated successfully');
