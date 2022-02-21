@@ -330,8 +330,8 @@ var SgCookieOptin = {
 	shouldShowOptinBanner: function() {
 		// check doNotTrack
 		if (typeof SgCookieOptin.jsonData.settings.consider_do_not_track !== 'undefined'
-				&& SgCookieOptin.jsonData.settings.consider_do_not_track
-				&& typeof navigator.doNotTrack !== 'undefined' && navigator.doNotTrack === '1') {
+			&& SgCookieOptin.jsonData.settings.consider_do_not_track
+			&& typeof navigator.doNotTrack !== 'undefined' && navigator.doNotTrack === '1') {
 			console.log('Cookie Consent: DoNotTrack detected - Auto-OptOut');
 			return false;
 		}
@@ -346,7 +346,7 @@ var SgCookieOptin = {
 			&& SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex.trim() !== ''
 		) {
 			var regularExpressions = SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex.trim()
-				.split(/\r?\n/).map(function (value) {
+				.split(/\r?\n/).map(function(value) {
 					return new RegExp(value);
 				});
 			if (typeof regularExpressions === 'object' && regularExpressions.length > 0) {
@@ -521,7 +521,7 @@ var SgCookieOptin = {
 			if (!lastPreferences.isAll &&
 				typeof SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName !== 'undefined' &&
 				!SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName,
-				lastPreferences.cookieValue)
+					lastPreferences.cookieValue)
 				&& (new Date().getTime() / 1000) > (lastPreferences.timestamp + 24 * 60 * 60
 					* SgCookieOptin.jsonData.settings.banner_show_again_interval)) {
 				return true;
@@ -535,7 +535,7 @@ var SgCookieOptin = {
 	 *
 	 * @returns {string}
 	 */
-	getUserUuid: function () {
+	getUserUuid: function() {
 		var userUuid = window.localStorage.getItem('SgCookieOptin.userUuid');
 		if (!userUuid) {
 			userUuid = SgCookieOptin.generateUUID();
@@ -643,19 +643,19 @@ var SgCookieOptin = {
 	 * @returns {string}
 	 */
 	generateUUID: function() { // Public Domain/MIT
-	    var d = new Date().getTime();//Timestamp
-	    var d2 = (performance && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
-	    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-	        var r = Math.random() * 16;//random number between 0 and 16
-	        if(d > 0){//Use timestamp until depleted
-	            r = (d + r)%16 | 0;
-	            d = Math.floor(d/16);
-	        } else {//Use microseconds since page-load if supported
-	            r = (d2 + r)%16 | 0;
-	            d2 = Math.floor(d2/16);
-	        }
-	        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-	    });
+		var d = new Date().getTime();//Timestamp
+		var d2 = (performance && performance.now && (performance.now() * 1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random() * 16;//random number between 0 and 16
+			if (d > 0) {//Use timestamp until depleted
+				r = (d + r) % 16 | 0;
+				d = Math.floor(d / 16);
+			} else {//Use microseconds since page-load if supported
+				r = (d2 + r) % 16 | 0;
+				d2 = Math.floor(d2 / 16);
+			}
+			return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+		});
 	},
 
 	/**
@@ -707,22 +707,22 @@ var SgCookieOptin = {
 		document.cookie = cookie; // This is important in case the configuration that we test below has been changed
 
 		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
-					cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
+			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
 		} else if (SgCookieOptin.jsonData.settings.subdomain_support) {
 			var domainParts = currentHost.split('.');
 			if (domainParts.length > 2) {
 				domainParts.shift();
 				var hostnameToFirstDot = '.' + domainParts.join('.');
-				cookie +=  ';domain=' + hostnameToFirstDot;
+				cookie += ';domain=' + hostnameToFirstDot;
 			}
 		} else {
-			cookie +=  ';domain=' + currentHost;
+			cookie += ';domain=' + currentHost;
 		}
 
 		document.cookie = cookie;
 
 		var additionalDomains = SgCookieOptin.jsonData.settings.domains_to_delete_cookies_for.trim()
-			.split(/\r?\n/).map(function (value) {
+			.split(/\r?\n/).map(function(value) {
 				return value.trim();
 			});
 
@@ -745,7 +745,7 @@ var SgCookieOptin = {
 	 */
 	addListeners: function(element, contentElement) {
 		var closeButtons = element.querySelectorAll('.sg-cookie-optin-box-close-button');
-		SgCookieOptin.addEventListenerToList(closeButtons, 'click', function () {
+		SgCookieOptin.addEventListenerToList(closeButtons, 'click', function() {
 			SgCookieOptin.acceptEssentialCookies();
 			SgCookieOptin.updateCookieList();
 			SgCookieOptin.handleScriptActivations();
@@ -759,7 +759,7 @@ var SgCookieOptin = {
 		SgCookieOptin.addEventListenerToList(openMoreLinks, 'click', SgCookieOptin.openCookieDetails);
 
 		var openSubListLink = element.querySelectorAll('.sg-cookie-optin-box-sublist-open-more-link');
-		SgCookieOptin.addEventListenerToList(openSubListLink, 'click', function (event) {
+		SgCookieOptin.addEventListenerToList(openSubListLink, 'click', function(event) {
 			SgCookieOptin.openSubList(event, contentElement);
 		});
 
@@ -799,7 +799,7 @@ var SgCookieOptin = {
 
 			if (!contentElement) {
 				SgCookieOptin.hideCookieOptIn();
-			}  else {
+			} else {
 				SgCookieOptin.showSaveConfirmation(contentElement);
 			}
 		});
@@ -1211,7 +1211,7 @@ var SgCookieOptin = {
 	 */
 	isContentWhiteListed: function(externalContent) {
 		var regularExpressions = SgCookieOptin.jsonData.mustacheData.iframeWhitelist.markup.trim()
-			.split(/\r?\n/).map(function (value) {
+			.split(/\r?\n/).map(function(value) {
 				return new RegExp(value);
 			});
 		if (typeof regularExpressions === 'object' && regularExpressions.length < 1) {
@@ -1344,7 +1344,7 @@ var SgCookieOptin = {
 		// Get the position of the element within its parent
 		var positionIndex = 0;
 		var child = externalContent;
-		while( (child = child.previousSibling) != null ) {
+		while ((child = child.previousSibling) != null) {
 			positionIndex++;
 		}
 		externalContent.setAttribute('data-iframe-position-index', positionIndex);
@@ -1677,16 +1677,16 @@ var SgCookieOptin = {
 		var cookieStringEnd = ';expires=' + d.toUTCString() + '; SameSite=None; Secure';
 
 		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
-					cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
+			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
 		} else if (SgCookieOptin.jsonData.settings.subdomain_support) {
 			var domainParts = currentHost.split('.');
 			if (domainParts.length > 2) {
 				domainParts.shift();
 				var hostnameToFirstDot = '.' + domainParts.join('.');
-				cookie +=  ';domain=' + hostnameToFirstDot;
+				cookie += ';domain=' + hostnameToFirstDot;
 			}
 		} else {
-			cookie +=  ';domain=' + currentHost;
+			cookie += ';domain=' + '';
 		}
 
 		document.cookie = cookie + cookieStringEnd;
@@ -1711,10 +1711,10 @@ var SgCookieOptin = {
 			if (domainParts.length > 2) {
 				domainParts.shift();
 				var hostnameToFirstDot = '.' + domainParts.join('.');
-				cookie +=  ';domain=' + hostnameToFirstDot;
+				cookie += ';domain=' + hostnameToFirstDot;
 			}
 		} else {
-			cookie +=  ';domain=' + currentHost;
+			cookie += ';domain=' + currentHost;
 		}
 
 		document.cookie = cookie + cookieStringEnd;
@@ -1922,17 +1922,19 @@ var SgCookieOptin = {
 	 * Adds the Polyfill for the Window.CustomEvent
 	 * @returns {boolean}
 	 */
-	customEventPolyfill: function () {
-	  if ( typeof window.CustomEvent === "function" ) return false;
+	customEventPolyfill: function() {
+		if (typeof window.CustomEvent === "function") {
+			return false;
+		}
 
-	  function CustomEvent ( event, params ) {
-	    params = params || { bubbles: false, cancelable: false, detail: null };
-	    var evt = document.createEvent( 'CustomEvent' );
-	    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-	    return evt;
-	   }
+		function CustomEvent(event, params) {
+			params = params || {bubbles: false, cancelable: false, detail: null};
+			var evt = document.createEvent('CustomEvent');
+			evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+			return evt;
+		}
 
-	  window.CustomEvent = CustomEvent;
+		window.CustomEvent = CustomEvent;
 	}
 };
 
