@@ -61,7 +61,7 @@ class HandleVersionChange {
 				WHERE deleted = 0 AND pid = (SELECT pid FROM tx_sgcookieoptin_domain_model_optin WHERE uid = ?)";
 			$connection = GeneralUtility::makeInstance(ConnectionPool::class)
 				->getConnectionForTable($table);
-			if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '9.0.0', '<=')) {
+			if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '9.0.0', '<')) {
 				list($currentVersion, $pid) = array_values($connection->executeQuery(
 					$currentVersionQuery,
 					[$id]
