@@ -65,7 +65,7 @@ class HandleVersionChange {
 				$currentVersionQuery,
 				[$id]
 			)->fetchAssociative());
-			$sqlQuery = "UPDATE $table SET version = $currentVersion + 1 WHERE pid = $pid AND deleted = 0";
+			$sqlQuery = "UPDATE tx_sgcookieoptin_domain_model_optin SET version = $currentVersion + 1 WHERE pid = $pid AND deleted = 0";
 			$connection->executeQuery($sqlQuery);
 
 			$fieldArray['update_version_checkbox'] = 0;
