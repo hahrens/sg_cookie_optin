@@ -41,7 +41,7 @@ var SgCookieOptin = {
 
 		SgCookieOptin.jsonData = JSON.parse(document.getElementById('cookieOptinData').innerHTML);
 		if (SgCookieOptin.jsonData) {
-			SgCookieOptin.checkLanguageSettings();
+			SgCookieOptin.setCookieNameBasedOnLanguage();
 			// https://plainjs.com/javascript/events/running-code-when-the-document-is-ready-15/
 			document.addEventListener('DOMContentLoaded', function() {
 				SgCookieOptin.initialize();
@@ -84,9 +84,9 @@ var SgCookieOptin = {
 	},
 
 	/**
-	 * Checks if we will have different settings per language
+	 * Sets the sg_cookie_optin cookie name accordingly based on the current language settings
 	 */
-	checkLanguageSettings: function() {
+	setCookieNameBasedOnLanguage: function() {
 		if (!SgCookieOptin.jsonData.settings.unified_cookie_name) {
 			SgCookieOptin.COOKIE_NAME += '_' + SgCookieOptin.jsonData.settings.identifier + '_'
 				+ SgCookieOptin.jsonData.settings.language;
