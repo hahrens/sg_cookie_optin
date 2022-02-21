@@ -186,6 +186,7 @@ class OptinController extends ActionController {
 		];
 		$uri = (string) $uriBuilder->buildUriFromRoute('record_edit', $params);
 		header('Location: ' . $uri);
+		exit;
 	}
 
 	/**
