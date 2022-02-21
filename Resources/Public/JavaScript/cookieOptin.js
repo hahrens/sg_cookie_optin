@@ -1685,8 +1685,6 @@ var SgCookieOptin = {
 				var hostnameToFirstDot = '.' + domainParts.join('.');
 				cookie += ';domain=' + hostnameToFirstDot;
 			}
-		} else {
-			cookie += ';domain=' + '';
 		}
 
 		document.cookie = cookie + cookieStringEnd;
@@ -1713,8 +1711,6 @@ var SgCookieOptin = {
 				var hostnameToFirstDot = '.' + domainParts.join('.');
 				cookie += ';domain=' + hostnameToFirstDot;
 			}
-		} else {
-			cookie += ';domain=' + currentHost;
 		}
 
 		document.cookie = cookie + cookieStringEnd;
