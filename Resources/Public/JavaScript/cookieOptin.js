@@ -705,6 +705,7 @@ var SgCookieOptin = {
 	deleteGroupCookie: function(cookieName) {
 		var cookie = cookieName + '=; path=/; Max-Age=-99999999;';
 		document.cookie = cookie; // This is important in case the configuration that we test below has been changed
+		var currentHost = window.location.hostname;
 
 		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
 			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
@@ -715,8 +716,6 @@ var SgCookieOptin = {
 				var hostnameToFirstDot = '.' + domainParts.join('.');
 				cookie += ';domain=' + hostnameToFirstDot;
 			}
-		} else {
-			cookie += ';domain=' + currentHost;
 		}
 
 		document.cookie = cookie;
