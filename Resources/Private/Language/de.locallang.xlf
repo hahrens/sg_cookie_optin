@@ -377,6 +377,10 @@
 				<source><![CDATA[This does not apply for development instances.]]></source>
 				<target><![CDATA[Dies gilt nicht für Entwicklungsumgebungen.]]></target>
 			</trans-unit>
+			<trans-unit id="backend.warning.overwritten_checkbox" approved="yes">
+				<source><![CDATA[The code in the field below will be reverted back to the default unless you tick the checkbox above to enable the overwriting of this value.]]></source>
+				<target><![CDATA[Der Code im Feld darunter wird auf den Standardwert zurückgesetzt, es sei denn, Sie aktivieren das Kontrollkästchen oben, um das Überschreiben dieses Wertes zu ermöglichen.]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

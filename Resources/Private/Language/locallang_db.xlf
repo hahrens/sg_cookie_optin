@@ -375,7 +375,7 @@
 				<source><![CDATA[Link: "Open settings"]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_overwritten">
-				<source><![CDATA[Overwrite Settings Window Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
+				<source><![CDATA[Overwrite Iframe Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html">
 				<source><![CDATA[iFrame Replacement Template Code (HTML, variables and logic are processed with Mustache, see http://mustache.github.io/mustache.5.html)]]></source>
@@ -417,7 +417,7 @@
 				<source><![CDATA[External content whitelist. (Object sources matching these regular expressions will not be replaced.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_overwritten">
-				<source><![CDATA[Overwrite Whitelist Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
+				<source><![CDATA[Overwrite Whitelist (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex">
 				<source><![CDATA[Whitelist external content. Every new line is interpreted as a new regular expression]]></source>
@@ -442,6 +442,9 @@
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_accept_button">
 				<source><![CDATA[Accept Button]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.multidomain_settings">
+				<source><![CDATA[Multidomain Settings]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general">
 				<source><![CDATA[General]]></source>
@@ -476,12 +479,25 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.session_only_essential_cookies">
 				<source><![CDATA[Show the dialog again in the next user session if only essential cookies are accepted.]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.overwrite_baseurl" approved="yes">
+				<source><![CDATA[Overwrite Base-URL]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.overwrite_baseurl.description" approved="yes">
+				<source><![CDATA[You can use this field to overwrite the URL from which the files are loaded in your website. If it is on another (sub)domain, please make sure to include it in your CORS policy headers.]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain">
 				<source><![CDATA[Override what domain this cookie is set for]]></source>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea">
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.description" approved="yes">
 				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
-Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example by writing example.com so that the configuration is used for both dev.example.com and www.example.com.]]></source>
+Here you can override the secondary domain that the cookie will be set for. The default is your website current domain, trimmed until the first dot. Example: www.example.com -> .example.com.]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.subdomain_support" approved="yes">
+				<source><![CDATA[Support subomains]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.subdomain_support.description" approved="yes">
+				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
+Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example if your domain is de.example.com so the configuration will be stored for both for both de.example.com and .example.com and thus will be valid also for en.example.com.]]></source>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close">
 				<source><![CDATA[Activate the close button in the template]]></source>
@@ -573,6 +589,15 @@ Without this setting, this configuration only applies to the domain where it is 
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.domains_to_delete_cookies_for" approved="yes">
 				<source><![CDATA[When a group is not accepted, also delete cookies from the following domains separated by newline. Cookies from the current domain are always automatically deleted.]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.unified_cookie_name" approved="yes">
+				<source><![CDATA[Unified Cookie Name]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.unified_cookie_name.description" approved="yes">
+				<source><![CDATA[Unchecking this box would lead to having separate configurations for each language and site root. This would lead to visitors having to select their preferences for each different language and site root.]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_usage_statistics" approved="yes">
+				<source><![CDATA[Disable Usage Statistics and Tracability]]></source>
 			</trans-unit>
 		</body>
 	</file>

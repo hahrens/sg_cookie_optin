@@ -119,7 +119,9 @@ class JsonImportService {
 		$flatJsonData['cruser_id'] = $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column];
 		$flatJsonData['navigation'] = $this->buildNavigationFromFooterLinks($footerLinks);
 		// essential_description
+		$flatJsonData['essential_title'] = $cookieGroups[0]['label'];
 		$flatJsonData['essential_description'] = $cookieGroups[0]['description'];
+		$flatJsonData['iframe_title'] = $iframeGroup['label'];
 		$flatJsonData['iframe_description'] = $iframeGroup['description'];
 		if ($sysLanguageUid !== NULL) {
 			$flatJsonData['sys_language_uid'] = $sysLanguageUid;
@@ -142,7 +144,30 @@ class JsonImportService {
 			'iframe_whitelist_regex',
 			'iframe_button_load_one_description',
 			'cookiebanner_whitelist_regex',
-			'domains_to_delete_cookies_for'
+			'domains_to_delete_cookies_for',
+			'overwrite_baseurl',
+			'accept_all_text',
+			'accept_specific_text',
+			'accept_essential_text',
+			'extend_box_link_text',
+			'extend_box_link_text_close',
+			'extend_table_link_text',
+			'extend_table_link_text_close',
+			'cookie_name_text',
+			'cookie_provider_text',
+			'cookie_purpose_text',
+			'cookie_lifetime_text',
+			'save_confirmation_text',
+			'user_hash_text',
+			'banner_button_accept_text',
+			'banner_button_settings_text',
+			'essential_title',
+			'iframe_title',
+			'iframe_button_allow_all_text',
+			'iframe_button_allow_one_text',
+			'iframe_button_load_one_text',
+			'iframe_open_settings_text',
+
 		], $flatJsonData
 		);
 

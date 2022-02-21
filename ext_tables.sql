@@ -12,18 +12,18 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	groups int(11) DEFAULT '0' NOT NULL,
 
 	-- general texts
-	accept_all_text varchar(255) DEFAULT 'Alle akzeptieren' NOT NULL,
-	accept_specific_text varchar(255) DEFAULT 'Speichern & schließen' NOT NULL,
-	accept_essential_text varchar(255) DEFAULT 'Nur essenzielle Cookies akzeptieren' NOT NULL,
-	extend_box_link_text varchar(255) DEFAULT 'Weitere Informationen anzeigen' NOT NULL,
-	extend_box_link_text_close varchar(255) DEFAULT 'Weitere Informationen verstecken' NOT NULL,
-	extend_table_link_text varchar(255) DEFAULT 'Cookie-Informationen anzeigen' NOT NULL,
-	extend_table_link_text_close varchar(255) DEFAULT 'Cookie-Informationen verstecken' NOT NULL,
-	cookie_name_text varchar(255) DEFAULT 'Name' NOT NULL,
-	cookie_provider_text varchar(255) DEFAULT 'Anbieter' NOT NULL,
-	cookie_purpose_text varchar(255) DEFAULT 'Zweck' NOT NULL,
-	cookie_lifetime_text varchar(255) DEFAULT 'Laufzeit' NOT NULL,
-	save_confirmation_text varchar(255) DEFAULT 'Cookie-Einstellungen erfolgreich gespeichert' NOT NULL,
+	accept_all_text text NOT NULL,
+	accept_specific_text text NOT NULL,
+	accept_essential_text text NOT NULL,
+	extend_box_link_text text NOT NULL,
+	extend_box_link_text_close text NOT NULL,
+	extend_table_link_text text NOT NULL,
+	extend_table_link_text_close text NOT NULL,
+	cookie_name_text text NOT NULL,
+	cookie_provider_text text NOT NULL,
+	cookie_purpose_text text NOT NULL,
+	cookie_lifetime_text text NOT NULL,
+	save_confirmation_text text NOT NULL,
 	user_hash_text varchar(255) DEFAULT 'User-Hash' NOT NULL,
 
 	-- template
@@ -49,8 +49,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	banner_color_button_accept varchar(10) DEFAULT '#143D59' NOT NULL,
 	banner_color_button_accept_hover varchar(10) DEFAULT '#2E6B96' NOT NULL,
 	banner_color_button_accept_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
-	banner_button_accept_text varchar(255) DEFAULT 'Akzeptieren' NOT NULL,
-	banner_button_settings_text varchar(255) DEFAULT 'Einstellungen' NOT NULL,
+	banner_button_accept_text text NOT NULL,
+	banner_button_settings_text text NOT NULL,
 	banner_description text NOT NULL,
 	banner_force_min_width int(11) DEFAULT '0' NOT NULL,
 
@@ -90,14 +90,14 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_full_button_close_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 
 	-- Essential group specific columns
-	essential_title varchar(255) DEFAULT 'Essenziell' NOT NULL,
+	essential_title text NOT NULL,
 	essential_description text NOT NULL,
 	essential_scripts int(11) DEFAULT '0' NOT NULL,
 	essential_cookies int(11) DEFAULT '0' NOT NULL,
 
 	-- IFrame group specific columns
 	iframe_enabled tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	iframe_title varchar(255) DEFAULT 'Externe Inhalte' NOT NULL,
+	iframe_title text NOT NULL,
 	iframe_description text NOT NULL,
 	iframe_cookies int(11) DEFAULT '0' NOT NULL,
 
@@ -113,11 +113,11 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_whitelist_overwritten tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	iframe_whitelist_selection int(11) DEFAULT '0' NOT NULL,
 
-	iframe_button_allow_all_text varchar(255) DEFAULT 'Alle externen Inhalte erlauben' NOT NULL,
-	iframe_button_allow_one_text varchar(255) DEFAULT 'Einmalig erlauben' NOT NULL,
-    iframe_button_reject_text varchar(255) DEFAULT 'Nicht erlauben' NOT NULL,
-	iframe_button_load_one_text varchar(255) DEFAULT 'Externen Inhalt laden' NOT NULL,
-	iframe_open_settings_text varchar(255) DEFAULT 'Einstellungen anzeigen' NOT NULL,
+	iframe_button_allow_all_text text NOT NULL,
+	iframe_button_allow_one_text text NOT NULL,
+    iframe_button_reject_text text NOT NULL,
+	iframe_button_load_one_text text NOT NULL,
+	iframe_open_settings_text text NOT NULL,
 	iframe_button_load_one_description text NOT NULL,
 
 	iframe_color_consent_box_background varchar(10) DEFAULT '#D6D6D6' NOT NULL,
@@ -141,6 +141,10 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
     render_assets_inline tinyint(4) unsigned DEFAULT '0' NOT NULL,
     consider_do_not_track tinyint(4) unsigned DEFAULT '0' NOT NULL,
     domains_to_delete_cookies_for TEXT,
+	subdomain_support tinyint(4) DEFAULT '0',
+	overwrite_baseurl TEXT,
+	unified_cookie_name tinyint(4) DEFAULT '1',
+	disable_usage_statistics tinyint(4) DEFAULT '0',
 
 	-- TYPO3 related columns
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,

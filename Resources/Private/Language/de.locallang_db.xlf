@@ -502,7 +502,7 @@
 				<target><![CDATA[Link: "Einstellungen öffnen"]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_overwritten" approved="yes">
-				<source><![CDATA[Overwrite Settings Window Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
+				<source><![CDATA[Overwrite Iframe Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 				<target><![CDATA[Template des Einstellungsfensters überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_replacement_html" approved="yes">
@@ -560,7 +560,7 @@
 				<target><![CDATA[Externe Inhalte whitelisten. (Objekte, deren Quelle diese reguläre Ausdrücke entspricht, werden nicht ersetzt)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_overwritten" approved="yes">
-				<source><![CDATA[Overwrite Whitelist Template (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
+				<source><![CDATA[Overwrite Whitelist (Allows to change the template code below. If this is selected, changes in future updates are not automatically applied. Unset this option to reset the template below.)]]></source>
 				<target><![CDATA[Template des Einstellungsfensters überschreiben (Erlaubt die Änderung des untenstehenden Template-Codes. Änderungen in zukünftigen Updates werden dann nicht mehr automatisch übernommen. Deaktiviere diese Option, um das untenstehende Template zurückzusetzen.)]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_whitelist_regex" approved="yes">
@@ -594,6 +594,10 @@
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_accept_button" approved="yes">
 				<source><![CDATA[Accept Button]]></source>
 				<target><![CDATA[Akzeptieren-Button]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.multidomain_settings">
+				<source><![CDATA[Multidomain Settings]]></source>
+				<target><![CDATA[Multidomain-Einstellungen]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.palette.banner_general" approved="yes">
 				<source><![CDATA[General]]></source>
@@ -639,15 +643,33 @@
 				<source><![CDATA[Show the dialog again in the next user session if only essential cookies are accepted.]]></source>
 				<target><![CDATA[Zeigen Sie den Dialog in der nächsten Benutzersitzung erneut an, wenn nur wesentliche Cookies akzeptiert werden.]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.overwrite_baseurl" approved="yes">
+				<source><![CDATA[Overwrite Base-URL]]></source>
+				<target><![CDATA[Base-URL überschreiben.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.overwrite_baseurl.description" approved="yes">
+				<source><![CDATA[You can use this field to overwrite the URL from which the files are loaded in your website. If it is on another (sub)domain, please make sure to include it in your CORS policy headers.]]></source>
+				<target><![CDATA[Sie können dieses Feld verwenden, um die URL zu überschreiben, von der die Dateien auf Ihrer Website geladen werden. Wenn sie sich auf einer anderen (Sub-)Domain befindet, stellen Sie bitte sicher, dass Sie sie in Ihre CORS-Policy-Header aufnehmen.]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain" approved="yes">
 				<source><![CDATA[Override what domain this cookie is set for]]></source>
 				<target><![CDATA[Domain, für die der Cookie gesetzt werden soll, überschreiben]]></target>
 			</trans-unit>
-			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.bad_idea" approved="yes">
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.set_cookie_for_domain.description" approved="yes">
 				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
-Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example by writing example.com so that the configuration is used for both dev.example.com and www.example.com.]]></source>
+Here you can override the secondary domain that the cookie will be set for. The default is your website current domain, trimmed until the first dot. Example: www.example.com -> .example.com.]]></source>
 				<target><![CDATA[!!! Dies ist im Normalfall nicht DSVGO-konform. Setzen Sie dies auf eigenes Risiko !!!
-Ohne diese Einstellung gilt diese Konfiguration nur für die Domain, wo sie hinterlegt ist. Mit dieser Einstellung können Sie die Cookie-Konfiguration für mehrere Domains verwenden, bspw. indem sie example.com schreiben, sodass die Konfiguration sowohl für dev.example.com als auch www.example.com verwendet wird.]]></target>
+Hier können Sie die sekundäre Domain überschreiben, für die das Cookie gesetzt werden soll. Die Standardeinstellung ist die aktuelle Domäne Ihrer Website, die bis zum ersten Punkt gekürzt wird. Beispiel: www.example.com -> .example.com.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.subdomain_support" approved="yes">
+				<source><![CDATA[Support subomains]]></source>
+				<target><![CDATA[Subdomains unterstützen]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.subdomain_support.description" approved="yes">
+				<source><![CDATA[!!! In most cases this is not really GDPR compliant. Do at your own risk !!!
+Without this setting, this configuration only applies to the domain where it is stored. With this setting you can use the cookie configuration for multiple domains, for example if your domain is de.example.com so the configuration will be stored for both for both de.example.com and .example.com and thus will be valid also for en.example.com.]]></source>
+				<target><![CDATA[!!! Dies ist im Normalfall nicht DSVGO-konform. Setzen Sie dies auf eigenes Risiko !!!
+Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie gespeichert ist. Mit dieser Einstellung können Sie die Cookie-Konfiguration für mehrere Domänen verwenden, z. B. wenn Ihre Domäne de.example.com ist, wird die Konfiguration sowohl für de.example.com als auch für .example.com gespeichert und gilt somit auch für en.example.com.]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.show_button_close" approved="yes">
 				<source><![CDATA[Activate the close button in the template]]></source>
@@ -667,7 +689,7 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domain, wo sie hint
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.group" approved="yes">
 				<source><![CDATA[Other Scripts & Cookies]]></source>
-				<target><![CDATA[Weitere Skripte und Cookies]]></target>
+				<target><![CDATA[Weitere Skripte & Cookies]]></target>
 			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.tab.iframes" approved="yes">
 				<source><![CDATA[External content]]></source>
@@ -778,6 +800,18 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domain, wo sie hint
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.domains_to_delete_cookies_for" approved="yes">
 				<source><![CDATA[When a group is not accepted, also delete cookies from the following domains separated by newline. Cookies from the current domain are always automatically deleted.]]></source>
 				<target><![CDATA[Wenn eine Gruppe nicht akzeptiert wird, Cookies auch von den nachfolgenden, per Zeilenumbruch separierten, Domains löschen. Cookies von der aktuellen Domain werden immer automatisch gelöscht.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.unified_cookie_name" approved="yes">
+				<source><![CDATA[Unified Cookie Name]]></source>
+				<target><![CDATA[Einheitlicher Cookie-Name]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.unified_cookie_name.description" approved="yes">
+				<source><![CDATA[Unchecking this box would lead to having separate configurations for each language and site root. This would lead to visitors having to select their preferences for each different language and site root.]]></source>
+				<target><![CDATA[Das Deaktivieren dieses Häkchens würde dazu führen, dass für jede Sprache und jedes Site-Root separate Konfigurationen vorhanden sind. Dies würde dazu führen, dass die Besucher ihre Präferenzen für jede Sprache und jedes Site-Root auswählen müssten.]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_usage_statistics" approved="yes">
+				<source><![CDATA[Disable Usage Statistics and Tracability]]></source>
+				<target><![CDATA[Nutzungsstatistiken und Rückverfolgbarkeit deaktivieren]]></target>
 			</trans-unit>
 		</body>
 	</file>

@@ -42,9 +42,9 @@ class HandleVersionChange {
 	/**
 	 * Handles the version update
 	 *
-	 * @param $fieldArray
-	 * @param $table
-	 * @param $id
+	 * @param array $fieldArray
+	 * @param string $table
+	 * @param int $id
 	 * @param DataHandler $dataHandler
 	 * @throws \Doctrine\DBAL\Exception
 	 */
@@ -56,16 +56,17 @@ class HandleVersionChange {
 	) {
 		if (isset($fieldArray['update_version_checkbox']) && $fieldArray['update_version_checkbox']) {
 			$id = (int) $id;
-			$currentVersion = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
-			$sqlQuery = "UPDATE $table SET version = version + 1 WHERE uid = $id OR l10n_parent = $id";
 
-			if ($currentVersion < 8000000) {
-				$GLOBALS['TYPO3_DB']->sql_query($sqlQuery);
-			} else {
-				$connection = GeneralUtility::makeInstance(ConnectionPool::class)
-					->getConnectionForTable($table);
-				$connection->executeQuery($sqlQuery);
-			}
+			$currentVersionQuery = "SELECT max(IFNULL(version, 0)), pid FROM tx_sgcookieoptin_domain_model_optin
+				WHERE deleted = 0 AND pid = (SELECT pid FROM tx_sgcookieoptin_domain_model_optin WHERE uid = ?)";
+			$connection = GeneralUtility::makeInstance(ConnectionPool::class)
+				->getConnectionForTable($table);
+			list($currentVersion, $pid) = array_values($connection->executeQuery(
+				$currentVersionQuery,
+				[$id]
+			)->fetchAssociative());
+			$sqlQuery = "UPDATE tx_sgcookieoptin_domain_model_optin SET version = $currentVersion + 1 WHERE pid = $pid AND deleted = 0";
+			$connection->executeQuery($sqlQuery);
 
 			$fieldArray['update_version_checkbox'] = 0;
 		}

@@ -138,3 +138,21 @@ Content comes here
 ```
 
 3. From the TYPO3 Backend Page module edit the element's appearance and set the Frame Class "External Content"
+
+### Modify the generated JSON file
+
+You can do that by attaching to the hook `$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc']`.
+It sends an array $params with the following entries:
+- `pObj` = An instance of the StaticFileGenerationService. It contains the siteRootId as well as a few public methods that
+can come in handy.
+- `data` = A reference to the data array that will be written in the JSON file.
+- `languageUid` = The uid of the current language
+
+Example:
+```
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'][] =
+    function ($params) {
+        $params['data']['newDataEntry'] = 'newValue';
+    };
+```
+

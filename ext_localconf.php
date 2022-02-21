@@ -55,6 +55,13 @@ call_user_func(
             );
         }
 
+		// Add warning render type
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][] = [
+			'nodeName' => 'SgCookieOptinTCAWarningField',
+			'priority' => 40,
+			'class' => \SGalinski\SgCookieOptin\Backend\TCAWarningField::class,
+		];
+
 		// hook registration
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
 			\SGalinski\SgCookieOptin\Hook\GenerateFilesAfterTcaSave::class;
