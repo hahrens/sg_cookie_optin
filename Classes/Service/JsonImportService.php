@@ -181,6 +181,7 @@ class JsonImportService {
 			} else {
 				// we use this only for the internal language mapping lookup array
 				$groupIdentifier = $group['groupName'];
+				$groupId = '';
 			}
 
 			// store the mapping
@@ -273,9 +274,7 @@ class JsonImportService {
 		}
 
 		return $this->flexInsert(
-			$connectionPool, 'tx_sgcookieoptin_domain_model_group', [
-			'pid', 'description'
-		], $groupData
+			$connectionPool, 'tx_sgcookieoptin_domain_model_group', ['pid', 'description'], $groupData
 		);
 	}
 
@@ -341,11 +340,16 @@ class JsonImportService {
 	 * @param array $initialDataKeys
 	 * @param array $data
 	 * @return string
+	 * @throws \Doctrine\DBAL\DBALException
 	 */
 	protected function flexInsert(ConnectionPool $connectionPool, string $table, array $initialDataKeys, array $data
 	): string {
 		$initialData = [];
 		foreach ($initialDataKeys as $initialDataKey) {
+			if (!isset($data[$initialDataKey])) {
+				continue;
+			}
+
 			$initialData[$initialDataKey] = $data[$initialDataKey];
 			unset($data[$initialDataKey]);
 		}
