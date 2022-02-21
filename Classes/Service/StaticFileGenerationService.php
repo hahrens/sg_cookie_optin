@@ -916,14 +916,16 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		// Call pre-processing function for constructor:
-		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'])) {
+		if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc']) &&
+			is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'])
+		) {
 		   $_params = array(
 			   'pObj' => &$this,
 			   'data' => &$jsonDataArray,
 			   'languageUid' => $languageUid
 		   );
 		   foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'] as $_funcRef) {
-			  \TYPO3\CMS\Core\Utility\GeneralUtility::callUserFunction($_funcRef,$_params, $this);
+			  GeneralUtility::callUserFunction($_funcRef,$_params, $this);
 		   }
 		}
 
