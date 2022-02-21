@@ -42,9 +42,9 @@ class HandleVersionChange {
 	/**
 	 * Handles the version update
 	 *
-	 * @param $fieldArray
-	 * @param $table
-	 * @param $id
+	 * @param array $fieldArray
+	 * @param string $table
+	 * @param int $id
 	 * @param DataHandler $dataHandler
 	 * @throws \Doctrine\DBAL\Exception
 	 */
@@ -57,11 +57,14 @@ class HandleVersionChange {
 		if (isset($fieldArray['update_version_checkbox']) && $fieldArray['update_version_checkbox']) {
 			$id = (int) $id;
 
-			$currentVersionQuery = "SELECT max(IFNULL(version, 0)), pid FROM $table
-				WHERE deleted = 0 AND pid = (SELECT pid FROM $table WHERE uid = $id)";
+			$currentVersionQuery = "SELECT max(IFNULL(version, 0)), pid FROM tx_sgcookieoptin_domain_model_optin
+				WHERE deleted = 0 AND pid = (SELECT pid FROM tx_sgcookieoptin_domain_model_optin WHERE uid = ?)";
 			$connection = GeneralUtility::makeInstance(ConnectionPool::class)
 				->getConnectionForTable($table);
-			list($currentVersion, $pid) = array_values($connection->executeQuery($currentVersionQuery)->fetchAssociative());
+			list($currentVersion, $pid) = array_values($connection->executeQuery(
+				$currentVersionQuery,
+				[$id]
+			)->fetchAssociative());
 			$sqlQuery = "UPDATE $table SET version = $currentVersion + 1 WHERE pid = $pid AND deleted = 0";
 			$connection->executeQuery($sqlQuery);
 
