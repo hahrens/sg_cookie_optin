@@ -679,45 +679,46 @@ class StaticFileGenerationService implements SingletonInterface {
 			];
 		}
 
-		$pseudoElements = 0;
-		$groupIndex = 0;
-		foreach ($translatedData['iframe_cookies'] as $index => $cookieData) {
-			$iframeCookieData[] = [
-				'Name' => $cookieData['name'],
-				'Provider' => $cookieData['provider'],
-				'Purpose' => $cookieData['purpose'],
-				'Lifetime' => $cookieData['lifetime'],
-				'index' => $groupIndex,
-				'crdate' => $cookieData['crdate'],
-				'tstamp' => $cookieData['tstamp'],
-				'pseudo' => FALSE,
-			];
-			++$groupIndex;
-			$pseudoElements = $groupIndex % 3;
-		}
-
-		for ($index = 1; $index < $pseudoElements; ++$index) {
-			$iframeCookieData[] = [
-				'Name' => '',
-				'Provider' => '',
-				'Purpose' => '',
-				'Lifetime' => '',
-				'index' => $groupIndex,
-				'crdate' => '',
-				'tstamp' => '',
-				'pseudo' => TRUE,
-			];
-			++$groupIndex;
-		}
-
-		$iFrameGroup = [
-			'groupName' => 'iframes',
-			'label' => $translatedData['iframe_title'],
-			'description' => $translatedData['iframe_description'],
-			'required' => FALSE,
-			'cookieData' => $iframeCookieData,
-		];
 		if ((boolean) $translatedData['iframe_enabled']) {
+			$pseudoElements = 0;
+			$groupIndex = 0;
+			foreach ($translatedData['iframe_cookies'] as $index => $cookieData) {
+				$iframeCookieData[] = [
+					'Name' => $cookieData['name'],
+					'Provider' => $cookieData['provider'],
+					'Purpose' => $cookieData['purpose'],
+					'Lifetime' => $cookieData['lifetime'],
+					'index' => $groupIndex,
+					'crdate' => $cookieData['crdate'],
+					'tstamp' => $cookieData['tstamp'],
+					'pseudo' => FALSE,
+				];
+				++$groupIndex;
+				$pseudoElements = $groupIndex % 3;
+			}
+
+			for ($index = 1; $index < $pseudoElements; ++$index) {
+				$iframeCookieData[] = [
+					'Name' => '',
+					'Provider' => '',
+					'Purpose' => '',
+					'Lifetime' => '',
+					'index' => $groupIndex,
+					'crdate' => '',
+					'tstamp' => '',
+					'pseudo' => TRUE,
+				];
+				++$groupIndex;
+			}
+
+			$iFrameGroup = [
+				'groupName' => 'iframes',
+				'label' => $translatedData['iframe_title'],
+				'description' => $translatedData['iframe_description'],
+				'required' => FALSE,
+				'cookieData' => $iframeCookieData,
+			];
+
 			$cookieGroups[] = $iFrameGroup;
 		}
 
