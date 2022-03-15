@@ -72,7 +72,6 @@ class OptinController extends ActionController {
 		$this->initComponents();
 		$this->checkLicenseStatus();
 
-
 		session_start();
 		if (isset($_SESSION['tx_sgcookieoptin']['configurationChanged'])) {
 			unset($_SESSION['tx_sgcookieoptin']['configurationChanged']);
@@ -86,19 +85,19 @@ class OptinController extends ActionController {
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
 		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
-            $optIns = BackendService::getOptins($pageUid);
+			$optIns = BackendService::getOptins($pageUid);
 
-            if (count($optIns) > 1) {
-                $this->addFlashMessage(
-                    LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
-                    LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
-                    AbstractMessage::ERROR
-                );
-            }
+			if (count($optIns) > 1) {
+				$this->addFlashMessage(
+					LocalizationUtility::translate('backend.tooManyRecorsException.description', 'sg_cookie_optin'),
+					LocalizationUtility::translate('backend.tooManyRecorsException.header', 'sg_cookie_optin'),
+					AbstractMessage::ERROR
+				);
+			}
 
-            $this->view->assign('isSiteRoot', TRUE);
-            $this->view->assign('optins', $optIns);
-        }
+			$this->view->assign('isSiteRoot', TRUE);
+			$this->view->assign('optins', $optIns);
+		}
 
 		$this->view->assign('pages', BackendService::getPages());
 	}
@@ -187,6 +186,7 @@ class OptinController extends ActionController {
 		];
 		$uri = (string) $uriBuilder->buildUriFromRoute('record_edit', $params);
 		header('Location: ' . $uri);
+		exit;
 	}
 
 	/**
@@ -258,11 +258,18 @@ class OptinController extends ActionController {
 			$warningGroups = FALSE;
 			$warningScripts = FALSE;
 			$dataSummary = [];
-			foreach ($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'] as $languageId => $languageData) {
-				$groupsCounts[$languageId] = count($languageData['cookieGroups']);
-				foreach ($languageData['cookieGroups'] as $group) {
-					$cookiesCounts[$languageId] += (isset($group['cookieData'])) ? count($group['cookieData']) : 0;
-					$scriptsCounts[$languageId] += (isset($group['scriptData'])) ? count($group['scriptData']) : 0;
+			if (isset($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'])) {
+				foreach ($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'] as $languageId => $languageData) {
+					$groupsCounts[$languageId] = count($languageData['cookieGroups']);
+					foreach ($languageData['cookieGroups'] as $group) {
+						if (!isset($cookiesCounts[$languageId])) {
+							$cookiesCounts[$languageId] = 0;
+							$scriptsCounts[$languageId] = 0;
+						}
+
+						$cookiesCounts[$languageId] += isset($group['cookieData']) ? count($group['cookieData']) : 0;
+						$scriptsCounts[$languageId] += isset($group['scriptData']) ? count($group['scriptData']) : 0;
+					}
 				}
 			}
 

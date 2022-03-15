@@ -11,6 +11,7 @@
 var SgCookieOptin = {
 
 	COOKIE_NAME: 'cookie_optin',
+	LAST_PREFERENCES_COOKIE_NAME: 'cookie_optin_last_preferences',
 	COOKIE_GROUP_EXTERNAL_CONTENT: 'iframes',
 	COOKIE_GROUP_ESSENTIAL: 'essential',
 
@@ -40,6 +41,7 @@ var SgCookieOptin = {
 
 		SgCookieOptin.jsonData = JSON.parse(document.getElementById('cookieOptinData').innerHTML);
 		if (SgCookieOptin.jsonData) {
+			SgCookieOptin.setCookieNameBasedOnLanguage();
 			// https://plainjs.com/javascript/events/running-code-when-the-document-is-ready-15/
 			document.addEventListener('DOMContentLoaded', function() {
 				SgCookieOptin.initialize();
@@ -75,9 +77,21 @@ var SgCookieOptin = {
 		var showOptIn = SgCookieOptin.getParameterByName('showOptIn') == true;
 		var cookieValue = SgCookieOptin.getCookie(SgCookieOptin.COOKIE_NAME);
 		if (showOptIn || !SgCookieOptin.jsonData.settings.activate_testing_mode &&
-			(!cookieValue || SgCookieOptin.shouldShowBannerBasedOnLastPreferences())
+			(SgCookieOptin.shouldShowBannerBasedOnLastPreferences(cookieValue))
 		) {
 			SgCookieOptin.openCookieOptin(null, {hideBanner: false});
+		}
+	},
+
+	/**
+	 * Sets the sg_cookie_optin cookie name accordingly based on the current language settings
+	 */
+	setCookieNameBasedOnLanguage: function() {
+		if (!SgCookieOptin.jsonData.settings.unified_cookie_name) {
+			SgCookieOptin.COOKIE_NAME += '_' + SgCookieOptin.jsonData.settings.identifier + '_'
+				+ SgCookieOptin.jsonData.settings.language;
+			SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME += '_' + SgCookieOptin.jsonData.settings.identifier + '_'
+				+ SgCookieOptin.jsonData.settings.language;
 		}
 	},
 
@@ -316,8 +330,8 @@ var SgCookieOptin = {
 	shouldShowOptinBanner: function() {
 		// check doNotTrack
 		if (typeof SgCookieOptin.jsonData.settings.consider_do_not_track !== 'undefined'
-				&& SgCookieOptin.jsonData.settings.consider_do_not_track
-				&& typeof navigator.doNotTrack !== 'undefined' && navigator.doNotTrack === '1') {
+			&& SgCookieOptin.jsonData.settings.consider_do_not_track
+			&& typeof navigator.doNotTrack !== 'undefined' && navigator.doNotTrack === '1') {
 			console.log('Cookie Consent: DoNotTrack detected - Auto-OptOut');
 			return false;
 		}
@@ -332,7 +346,7 @@ var SgCookieOptin = {
 			&& SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex.trim() !== ''
 		) {
 			var regularExpressions = SgCookieOptin.jsonData.settings.cookiebanner_whitelist_regex.trim()
-				.split(/\r?\n/).map(function (value) {
+				.split(/\r?\n/).map(function(value) {
 					return new RegExp(value);
 				});
 			if (typeof regularExpressions === 'object' && regularExpressions.length > 0) {
@@ -448,10 +462,20 @@ var SgCookieOptin = {
 	 * This may be necessary if there are new groups or new cookies since the last preferences save,
 	 * or the user didn't select all preferences and the configured interval has expired
 	 *
+	 * @param {String} cookieValue
 	 * @returns {boolean}
 	 */
-	shouldShowBannerBasedOnLastPreferences: function() {
-		var lastPreferences = window.localStorage.getItem('SgCookieOptin.lastPreferences');
+	shouldShowBannerBasedOnLastPreferences: function(cookieValue) {
+		if (!cookieValue) {
+			return true;
+		}
+
+		if (SgCookieOptin.lastPreferencesFromCookie()) {
+			var lastPreferences = SgCookieOptin.getCookie(SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME);
+		} else {
+			var lastPreferences = window.localStorage.getItem('SgCookieOptin.lastPreferences');
+		}
+
 		if (!lastPreferences) {
 			return true;
 		}
@@ -497,7 +521,7 @@ var SgCookieOptin = {
 			if (!lastPreferences.isAll &&
 				typeof SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName !== 'undefined' &&
 				!SgCookieOptin.checkIsGroupAccepted(SgCookieOptin.jsonData.cookieGroups[groupIndex].groupName,
-				lastPreferences.cookieValue)
+					lastPreferences.cookieValue)
 				&& (new Date().getTime() / 1000) > (lastPreferences.timestamp + 24 * 60 * 60
 					* SgCookieOptin.jsonData.settings.banner_show_again_interval)) {
 				return true;
@@ -511,7 +535,7 @@ var SgCookieOptin = {
 	 *
 	 * @returns {string}
 	 */
-	getUserUuid: function () {
+	getUserUuid: function() {
 		var userUuid = window.localStorage.getItem('SgCookieOptin.userUuid');
 		if (!userUuid) {
 			userUuid = SgCookieOptin.generateUUID();
@@ -571,8 +595,23 @@ var SgCookieOptin = {
 			uuid: uuid,
 			identifier: SgCookieOptin.jsonData.settings.identifier
 		};
-		window.localStorage.setItem('SgCookieOptin.lastPreferences', JSON.stringify(lastPreferences));
+
+		if (SgCookieOptin.lastPreferencesFromCookie()) {
+			SgCookieOptin.setCookie(SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME, JSON.stringify(lastPreferences), 365)
+		} else {
+			window.localStorage.setItem('SgCookieOptin.lastPreferences', JSON.stringify(lastPreferences));
+		}
+
 		SgCookieOptin.saveLastPreferencesForStats(lastPreferences);
+	},
+
+	/**
+	 * Decides whether to read the last preferences from cookie or from local storage
+	 *
+	 * @returns {boolean}
+	 */
+	lastPreferencesFromCookie: function() {
+		return (SgCookieOptin.jsonData.settings.subdomain_support || SgCookieOptin.jsonData.settings.set_cookie_for_domain);
 	},
 
 	/**
@@ -581,6 +620,10 @@ var SgCookieOptin = {
 	 * @param lastPreferences
 	 */
 	saveLastPreferencesForStats: function(lastPreferences) {
+		if (SgCookieOptin.jsonData.settings.disable_usage_statistics) {
+			return;
+		}
+
 		var request = new XMLHttpRequest();
 		var formData = new FormData();
 		formData.append('lastPreferences', JSON.stringify(lastPreferences));
@@ -600,19 +643,19 @@ var SgCookieOptin = {
 	 * @returns {string}
 	 */
 	generateUUID: function() { // Public Domain/MIT
-	    var d = new Date().getTime();//Timestamp
-	    var d2 = (performance && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
-	    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-	        var r = Math.random() * 16;//random number between 0 and 16
-	        if(d > 0){//Use timestamp until depleted
-	            r = (d + r)%16 | 0;
-	            d = Math.floor(d/16);
-	        } else {//Use microseconds since page-load if supported
-	            r = (d2 + r)%16 | 0;
-	            d2 = Math.floor(d2/16);
-	        }
-	        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-	    });
+		var d = new Date().getTime();//Timestamp
+		var d2 = (performance && performance.now && (performance.now() * 1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+			var r = Math.random() * 16;//random number between 0 and 16
+			if (d > 0) {//Use timestamp until depleted
+				r = (d + r) % 16 | 0;
+				d = Math.floor(d / 16);
+			} else {//Use microseconds since page-load if supported
+				r = (d2 + r) % 16 | 0;
+				d2 = Math.floor(d2 / 16);
+			}
+			return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+		});
 	},
 
 	/**
@@ -660,9 +703,25 @@ var SgCookieOptin = {
 	 * @param cookieName
 	 */
 	deleteGroupCookie: function(cookieName) {
-		document.cookie = cookieName + '=; path=/; Max-Age=-99999999;';
+		var cookie = cookieName + '=; path=/; Max-Age=-99999999;';
+		document.cookie = cookie; // This is important in case the configuration that we test below has been changed
+		var currentHost = window.location.hostname;
+
+		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
+			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
+		} else if (SgCookieOptin.jsonData.settings.subdomain_support) {
+			var domainParts = currentHost.split('.');
+			if (domainParts.length > 2) {
+				domainParts.shift();
+				var hostnameToFirstDot = '.' + domainParts.join('.');
+				cookie += ';domain=' + hostnameToFirstDot;
+			}
+		}
+
+		document.cookie = cookie;
+
 		var additionalDomains = SgCookieOptin.jsonData.settings.domains_to_delete_cookies_for.trim()
-			.split(/\r?\n/).map(function (value) {
+			.split(/\r?\n/).map(function(value) {
 				return value.trim();
 			});
 
@@ -685,7 +744,7 @@ var SgCookieOptin = {
 	 */
 	addListeners: function(element, contentElement) {
 		var closeButtons = element.querySelectorAll('.sg-cookie-optin-box-close-button');
-		SgCookieOptin.addEventListenerToList(closeButtons, 'click', function () {
+		SgCookieOptin.addEventListenerToList(closeButtons, 'click', function() {
 			SgCookieOptin.acceptEssentialCookies();
 			SgCookieOptin.updateCookieList();
 			SgCookieOptin.handleScriptActivations();
@@ -699,7 +758,7 @@ var SgCookieOptin = {
 		SgCookieOptin.addEventListenerToList(openMoreLinks, 'click', SgCookieOptin.openCookieDetails);
 
 		var openSubListLink = element.querySelectorAll('.sg-cookie-optin-box-sublist-open-more-link');
-		SgCookieOptin.addEventListenerToList(openSubListLink, 'click', function (event) {
+		SgCookieOptin.addEventListenerToList(openSubListLink, 'click', function(event) {
 			SgCookieOptin.openSubList(event, contentElement);
 		});
 
@@ -739,7 +798,7 @@ var SgCookieOptin = {
 
 			if (!contentElement) {
 				SgCookieOptin.hideCookieOptIn();
-			}  else {
+			} else {
 				SgCookieOptin.showSaveConfirmation(contentElement);
 			}
 		});
@@ -1151,7 +1210,7 @@ var SgCookieOptin = {
 	 */
 	isContentWhiteListed: function(externalContent) {
 		var regularExpressions = SgCookieOptin.jsonData.mustacheData.iframeWhitelist.markup.trim()
-			.split(/\r?\n/).map(function (value) {
+			.split(/\r?\n/).map(function(value) {
 				return new RegExp(value);
 			});
 		if (typeof regularExpressions === 'object' && regularExpressions.length < 1) {
@@ -1284,7 +1343,7 @@ var SgCookieOptin = {
 		// Get the position of the element within its parent
 		var positionIndex = 0;
 		var child = externalContent;
-		while( (child = child.previousSibling) != null ) {
+		while ((child = child.previousSibling) != null) {
 			positionIndex++;
 		}
 		externalContent.setAttribute('data-iframe-position-index', positionIndex);
@@ -1612,11 +1671,22 @@ var SgCookieOptin = {
 		var d = new Date;
 		d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
 		var cookie = name + '=' + value + ';path=/';
-		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
+
+		var currentHost = window.location.hostname;
+		var cookieStringEnd = ';expires=' + d.toUTCString() + '; SameSite=None; Secure';
+
+		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
 			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
+		} else if (SgCookieOptin.jsonData.settings.subdomain_support) {
+			var domainParts = currentHost.split('.');
+			if (domainParts.length > 2) {
+				domainParts.shift();
+				var hostnameToFirstDot = '.' + domainParts.join('.');
+				cookie += ';domain=' + hostnameToFirstDot;
+			}
 		}
-		cookie += ';expires=' + d.toUTCString() + '; SameSite=None; Secure';
-		document.cookie = cookie;
+
+		document.cookie = cookie + cookieStringEnd;
 	},
 
 	/**
@@ -1627,11 +1697,22 @@ var SgCookieOptin = {
 	 */
 	setSessionCookie: function(name, value) {
 		var cookie = name + '=' + value + '; path=/';
-		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
+
+		var currentHost = window.location.hostname;
+		var cookieStringEnd = ';SameSite=None; Secure';
+
+		if (SgCookieOptin.jsonData.settings.set_cookie_for_domain && SgCookieOptin.jsonData.settings.set_cookie_for_domain.length > 0) {
 			cookie += ';domain=' + SgCookieOptin.jsonData.settings.set_cookie_for_domain;
+		} else if (SgCookieOptin.jsonData.settings.subdomain_support) {
+			var domainParts = currentHost.split('.');
+			if (domainParts.length > 2) {
+				domainParts.shift();
+				var hostnameToFirstDot = '.' + domainParts.join('.');
+				cookie += ';domain=' + hostnameToFirstDot;
+			}
 		}
-		cookie += ';SameSite=None; Secure';
-		document.cookie = cookie;
+
+		document.cookie = cookie + cookieStringEnd;
 	},
 
 	/**
@@ -1639,7 +1720,7 @@ var SgCookieOptin = {
 	 *
 	 * @param {string} cookieValue
 	 */
-	setCookieWrapper: function(cookieValue) {
+	setCookieWrapper: function(cookieValue, cookieName) {
 		var setCookieForSessionOnly = false;
 		if (SgCookieOptin.jsonData.settings.session_only_essential_cookies) {
 			var hasNonEssentialGroups = false;
@@ -1836,17 +1917,19 @@ var SgCookieOptin = {
 	 * Adds the Polyfill for the Window.CustomEvent
 	 * @returns {boolean}
 	 */
-	customEventPolyfill: function () {
-	  if ( typeof window.CustomEvent === "function" ) return false;
+	customEventPolyfill: function() {
+		if (typeof window.CustomEvent === "function") {
+			return false;
+		}
 
-	  function CustomEvent ( event, params ) {
-	    params = params || { bubbles: false, cancelable: false, detail: null };
-	    var evt = document.createEvent( 'CustomEvent' );
-	    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-	    return evt;
-	   }
+		function CustomEvent(event, params) {
+			params = params || {bubbles: false, cancelable: false, detail: null};
+			var evt = document.createEvent('CustomEvent');
+			evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+			return evt;
+		}
 
-	  window.CustomEvent = CustomEvent;
+		window.CustomEvent = CustomEvent;
 	}
 };
 

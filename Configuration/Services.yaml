@@ -12,3 +12,9 @@ services:
       - name: 'console.command'
         command: 'sg_cookie_optin:generate_static_files'
         description: 'Generates the necessary JavaScript, JSON and CSS files.'
+
+  SGalinski\SgCookieOptin\Command\DeleteUsageHistoryCommand:
+    tags:
+      - name: 'console.command'
+        command: 'sg_cookie_optin:delete_usage_history'
+        description: 'Deletes the optin usage history entries older than X days'

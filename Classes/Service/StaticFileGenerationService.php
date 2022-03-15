@@ -679,45 +679,46 @@ class StaticFileGenerationService implements SingletonInterface {
 			];
 		}
 
-		$pseudoElements = 0;
-		$groupIndex = 0;
-		foreach ($translatedData['iframe_cookies'] as $index => $cookieData) {
-			$iframeCookieData[] = [
-				'Name' => $cookieData['name'],
-				'Provider' => $cookieData['provider'],
-				'Purpose' => $cookieData['purpose'],
-				'Lifetime' => $cookieData['lifetime'],
-				'index' => $groupIndex,
-				'crdate' => $cookieData['crdate'],
-				'tstamp' => $cookieData['tstamp'],
-				'pseudo' => FALSE,
-			];
-			++$groupIndex;
-			$pseudoElements = $groupIndex % 3;
-		}
-
-		for ($index = 1; $index < $pseudoElements; ++$index) {
-			$iframeCookieData[] = [
-				'Name' => '',
-				'Provider' => '',
-				'Purpose' => '',
-				'Lifetime' => '',
-				'index' => $groupIndex,
-				'crdate' => '',
-				'tstamp' => '',
-				'pseudo' => TRUE,
-			];
-			++$groupIndex;
-		}
-
-		$iFrameGroup = [
-			'groupName' => 'iframes',
-			'label' => $translatedData['iframe_title'],
-			'description' => $translatedData['iframe_description'],
-			'required' => FALSE,
-			'cookieData' => $iframeCookieData,
-		];
 		if ((boolean) $translatedData['iframe_enabled']) {
+			$pseudoElements = 0;
+			$groupIndex = 0;
+			foreach ($translatedData['iframe_cookies'] as $index => $cookieData) {
+				$iframeCookieData[] = [
+					'Name' => $cookieData['name'],
+					'Provider' => $cookieData['provider'],
+					'Purpose' => $cookieData['purpose'],
+					'Lifetime' => $cookieData['lifetime'],
+					'index' => $groupIndex,
+					'crdate' => $cookieData['crdate'],
+					'tstamp' => $cookieData['tstamp'],
+					'pseudo' => FALSE,
+				];
+				++$groupIndex;
+				$pseudoElements = $groupIndex % 3;
+			}
+
+			for ($index = 1; $index < $pseudoElements; ++$index) {
+				$iframeCookieData[] = [
+					'Name' => '',
+					'Provider' => '',
+					'Purpose' => '',
+					'Lifetime' => '',
+					'index' => $groupIndex,
+					'crdate' => '',
+					'tstamp' => '',
+					'pseudo' => TRUE,
+				];
+				++$groupIndex;
+			}
+
+			$iFrameGroup = [
+				'groupName' => 'iframes',
+				'label' => $translatedData['iframe_title'],
+				'description' => $translatedData['iframe_description'],
+				'required' => FALSE,
+				'cookieData' => $iframeCookieData,
+			];
+
 			$cookieGroups[] = $iFrameGroup;
 		}
 
@@ -803,9 +804,14 @@ class StaticFileGenerationService implements SingletonInterface {
 			'cookiebanner_whitelist_regex' => (string) $translatedData['cookiebanner_whitelist_regex'],
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
 			'identifier' => $this->siteRoot,
-			'render_assets_inline' => (int) $translatedData['render_assets_inline'],
-			'consider_do_not_track' => (int) $translatedData['consider_do_not_track'],
+			'language' => $languageUid,
+			'render_assets_inline' => (boolean) $translatedData['render_assets_inline'],
+			'consider_do_not_track' => (boolean) $translatedData['consider_do_not_track'],
 			'domains_to_delete_cookies_for' => (string) $translatedData['domains_to_delete_cookies_for'],
+			'subdomain_support' => (boolean) $translatedData['subdomain_support'],
+			'overwrite_baseurl' => (string) $translatedData['overwrite_baseurl'],
+			'unified_cookie_name' => (boolean) $translatedData['unified_cookie_name'],
+			'disable_usage_statistics' => (boolean) $translatedData['disable_usage_statistics'],
 		];
 
 		$textEntries = [
@@ -909,6 +915,21 @@ class StaticFileGenerationService implements SingletonInterface {
 		if (defined('JSON_THROW_ON_ERROR')) {
 			$mask = constant('JSON_THROW_ON_ERROR') | JSON_PRETTY_PRINT | constant('JSON_INVALID_UTF8_SUBSTITUTE');
 		}
+
+		// Call pre-processing function for constructor:
+		if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc']) &&
+			is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'])
+		) {
+		   $_params = array(
+			   'pObj' => &$this,
+			   'data' => &$jsonDataArray,
+			   'languageUid' => $languageUid
+		   );
+		   foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'] as $_funcRef) {
+			  GeneralUtility::callUserFunction($_funcRef,$_params, $this);
+		   }
+		}
+
 		/** @noinspection JsonEncodingApiUsageInspection */
 		file_put_contents($file, json_encode($jsonDataArray, $mask));
 		GeneralUtility::fixPermissions($file);

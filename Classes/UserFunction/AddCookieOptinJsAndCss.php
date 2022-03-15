@@ -102,7 +102,11 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 						file_get_contents($sitePath . $file) . "</script>\n";
 				}
 
-				$fileUrl = $siteBaseUrl . $file . '?' . $cacheBuster;
+				if ($jsonData['settings']['overwrite_baseurl']) {
+					$overwrittenBaseUrl = $jsonData['settings']['overwrite_baseurl'];
+				}
+
+				$fileUrl = $overwrittenBaseUrl ?? $siteBaseUrl . $file . '?' . $cacheBuster;
 				return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
 					'</script>
 					<link rel="preload" as="script" href="' . $fileUrl . '" data-ignore="1">
@@ -162,12 +166,17 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		$jsonFile = $this->getJsonFilePath($folder, $rootPageId, $sitePath);
 		if ($jsonFile) {
 			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
+
 			if ($jsonData['settings']['render_assets_inline']) {
 				return '<style>' . file_get_contents($sitePath . $file) . "</style>\n";
 			}
+
+			if ($jsonData['settings']['overwrite_baseurl']) {
+				$overwrittenBaseUrl = $jsonData['settings']['overwrite_baseurl'];
+			}
 		}
 
-		$siteBaseUrl = BaseUrlService::getSiteBaseUrl($this->rootpage);
+		$siteBaseUrl = $overwrittenBaseUrl ?? BaseUrlService::getSiteBaseUrl($this->rootpage);
 		return '<link rel="preload" as="style" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all">' . "\n"
 			. '<link rel="stylesheet" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all">';
 	}
