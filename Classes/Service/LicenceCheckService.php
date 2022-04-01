@@ -403,7 +403,7 @@ class LicenceCheckService {
 	 * The timestamp of the key lifetime, if the given license key is valid, or -1 if invalid.
 	 *
 	 * @param string $licenseKey A license key, which should be validated.
-	 * @return
+	 * @return bool
 	 */
 	public static function isLicenseValid($licenseKey) {
 		if (!self::checkLicenseKeyStructure($licenseKey)) {
@@ -624,7 +624,7 @@ class LicenceCheckService {
 	/**
 	 * Returns one of the state constants of this class.
 	 *
-	 * @return boolean
+	 * @return int
 	 */
 	public static function checkKey() {
 		$key = ExtensionSettingsService::getSetting(ExtensionSettingsService::SETTING_LICENSE);

@@ -355,7 +355,6 @@ class OptinController extends ActionController {
 				$locale = LanguageService::getLocaleByFileName(
 					str_replace('.json', '', $file->getFilename())
 				);
-				/** @noinspection PhpIllegalArrayKeyTypeInspection */
 				$jsonData[$locale] = json_decode($contents, TRUE);
 			}
 

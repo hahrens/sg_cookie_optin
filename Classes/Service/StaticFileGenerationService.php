@@ -62,13 +62,13 @@ class StaticFileGenerationService implements SingletonInterface {
 	const TEMPLATE_STYLE_SHEET_NAME = 'cookieOptin.css';
 
 	/** @var int */
-	protected $siteRoot = NULL;
+	protected $siteRoot;
 
 	/**
 	 * Generates the JavaScript, JSON and CSS files for this site root
 	 *
 	 * @param int $siteRootId
-	 * @param $originalRecord
+	 * @param array|null $originalRecord
 	 * @throws \TYPO3\CMS\Core\Error\Http\PageNotFoundException
 	 * @throws \TYPO3\CMS\Core\Error\Http\ServiceUnavailableException
 	 * @throws \TYPO3\CMS\Core\Exception\SiteNotFoundException

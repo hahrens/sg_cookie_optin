@@ -37,6 +37,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * A command that can be used in the scheduler to delete the old history entries
  */
 class DeleteUsageHistoryCommand extends Command {
+	/** @var SymfonyStyle */
+	private $io;
 
 	/**
 	 * Configure the command by defining the name, options and arguments

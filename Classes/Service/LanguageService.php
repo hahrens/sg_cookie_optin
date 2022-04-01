@@ -79,7 +79,7 @@ class LanguageService {
 	 * Returns the languageUid and Locale by fileName
 	 *
 	 * @param string $fileName
-	 * @return array
+	 * @return string
 	 */
 	public static function getLocaleByFileName($fileName) {
 		$parts = explode(JsonImportService::LOCALE_SEPARATOR, $fileName);

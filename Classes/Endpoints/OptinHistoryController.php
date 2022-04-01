@@ -26,6 +26,7 @@ namespace SGalinski\SgCookieOptin\Endpoints;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SGalinski\SgCookieOptin\Exception\SaveOptinHistoryException;
 use SGalinski\SgCookieOptin\Service\OptinHistoryService;
@@ -41,7 +42,8 @@ class OptinHistoryController {
 	/**
 	 * Save the user's preferences for the statistics
 	 *
-	 * @param ResponseInterface $response
+	 * @param ServerRequestInterface $request
+	 * @param Response $response
 	 * @return ResponseInterface
 	 */
 	public function saveOptinHistory(ServerRequestInterface $request, Response $response) {
