@@ -436,16 +436,6 @@ class OptinController extends ActionController {
 		$newCookieKey = StringUtility::getUniqueId('NEW');
 		$data['tx_sgcookieoptin_domain_model_cookie'][$newCookieKey] = [
 			'pid' => $pid,
-			'name' => 'SgCookieOptin.userUuid',
-			'provider' => '',
-			'purpose' => JsonImportService::TEXT_ESSENTIAL_DEFAULT_UUID_PURPOSE,
-			'lifetime' => '1 Year',
-			'parent_optin' => $newOptinKey
-		];
-
-		$newCookieKey = StringUtility::getUniqueId('NEW');
-		$data['tx_sgcookieoptin_domain_model_cookie'][$newCookieKey] = [
-			'pid' => $pid,
 			'name' => 'SgCookieOptin.lastPreferences',
 			'provider' => '',
 			'purpose' => JsonImportService::TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE,
