@@ -533,11 +533,12 @@ var SgCookieOptin = {
 	/**
 	 * Gets the current user uuid
 	 *
+	 * @param {boolean} setIfEmpty
 	 * @returns {string}
 	 */
-	getUserUuid: function() {
+	getUserUuid: function(setIfEmpty = true) {
 		var userUuid = window.localStorage.getItem('SgCookieOptin.userUuid');
-		if (!userUuid) {
+		if (setIfEmpty && !userUuid && !SgCookieOptin.jsonData.settings.disable_usage_statistics) {
 			userUuid = SgCookieOptin.generateUUID();
 			window.localStorage.setItem('SgCookieOptin.userUuid', userUuid);
 		}
@@ -550,10 +551,14 @@ var SgCookieOptin = {
 	 * @param {HTMLElement} wrapper
 	 */
 	insertUserUuid: function(wrapper) {
-		var hashContainers = wrapper.querySelectorAll('.sg-cookie-optin-box-footer-user-hash');
-		for (var bannerIndex in hashContainers) {
-			if (typeof hashContainers[bannerIndex].innerText === 'string') {
-				hashContainers[bannerIndex].innerText = SgCookieOptin.getUserUuid();
+		var hashContainer = wrapper.querySelector('.sg-cookie-optin-box-footer-user-hash');
+		var uuid = SgCookieOptin.getUserUuid(false);
+		if (typeof hashContainer.innerText === 'string') {
+			if (uuid) {
+				hashContainer.innerText = uuid;
+			} else {
+				var hashContainerParent = wrapper.querySelector('.sg-cookie-optin-box-footer-user-hash-container');
+				hashContainerParent.style.display = 'none';
 			}
 		}
 	},
@@ -576,7 +581,6 @@ var SgCookieOptin = {
 			lastPreferences = {};
 		}
 
-		var uuid = SgCookieOptin.getUserUuid();
 		var isAll = true;
 		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
 			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
@@ -592,7 +596,6 @@ var SgCookieOptin = {
 			cookieValue: cookieValue,
 			isAll: isAll,
 			version: SgCookieOptin.jsonData.settings.version,
-			uuid: uuid,
 			identifier: SgCookieOptin.jsonData.settings.identifier
 		};
 
@@ -623,6 +626,8 @@ var SgCookieOptin = {
 		if (SgCookieOptin.jsonData.settings.disable_usage_statistics) {
 			return;
 		}
+
+		lastPreferences.uuid = SgCookieOptin.getUserUuid();
 
 		var request = new XMLHttpRequest();
 		var formData = new FormData();

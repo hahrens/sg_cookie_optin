@@ -43,6 +43,8 @@ class JsonImportService {
 	const TEXT_ESSENTIAL_DESCRIPTION = 'Essenzielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.';
 	const TEXT_IFRAME_DESCRIPTION = 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.';
 	const TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE = 'Dieses Cookie wird verwendet, um Ihre Cookie-Einstellungen für diese Website zu speichern.';
+	const TEXT_ESSENTIAL_DEFAULT_UUID_PURPOSE = 'Dieses Cookie wird verwendet, um ein Beweiss zu speichern, ob Sie Ihre Einwilligungen abgegeben haben.';
+	const TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE = 'Dieses Cookie wird verwendet, um Ihre Cookie-Einstellungen für diese Website zu speichern.';
 
 	/**
 	 * Separates the locale in the filename
