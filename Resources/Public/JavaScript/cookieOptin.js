@@ -12,6 +12,7 @@ var SgCookieOptin = {
 
 	COOKIE_NAME: 'cookie_optin',
 	LAST_PREFERENCES_COOKIE_NAME: 'cookie_optin_last_preferences',
+	LAST_PREFERENCES_LOCAL_STORAGE_NAME: 'SgCookieOptin.lastPreferences',
 	COOKIE_GROUP_EXTERNAL_CONTENT: 'iframes',
 	COOKIE_GROUP_ESSENTIAL: 'essential',
 
@@ -470,21 +471,7 @@ var SgCookieOptin = {
 			return true;
 		}
 
-		if (SgCookieOptin.lastPreferencesFromCookie()) {
-			var lastPreferences = SgCookieOptin.getCookie(SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME);
-		} else {
-			var lastPreferences = window.localStorage.getItem('SgCookieOptin.lastPreferences');
-		}
-
-		if (!lastPreferences) {
-			return true;
-		}
-
-		try {
-			lastPreferences = JSON.parse(lastPreferences);
-		} catch (e) { // we don't want to break the rest of the code if the JSON is malformed for some reason
-			return true;
-		}
+		var lastPreferences = SgCookieOptin.getLastPreferences();
 
 		if (typeof lastPreferences.timestamp === 'undefined') {
 			return true;
@@ -537,11 +524,14 @@ var SgCookieOptin = {
 	 * @returns {string}
 	 */
 	getUserUuid: function(setIfEmpty = true) {
-		var userUuid = window.localStorage.getItem('SgCookieOptin.userUuid');
+		var lastPreferences = SgCookieOptin.getLastPreferences();
+		var userUuid = lastPreferences.uuid;
 		if (setIfEmpty && !userUuid && !SgCookieOptin.jsonData.settings.disable_usage_statistics) {
 			userUuid = SgCookieOptin.generateUUID();
-			window.localStorage.setItem('SgCookieOptin.userUuid', userUuid);
+			lastPreferences.uuid = userUuid;
+			window.localStorage.setItem(SgCookieOptin.LAST_PREFERENCES_LOCAL_STORAGE_NAME, JSON.stringify(lastPreferences));
 		}
+
 		return userUuid;
 	},
 
@@ -552,12 +542,18 @@ var SgCookieOptin = {
 	 */
 	insertUserUuid: function(wrapper) {
 		var hashContainer = wrapper.querySelector('.sg-cookie-optin-box-footer-user-hash');
+		var hashContainerParent = wrapper.querySelector('.sg-cookie-optin-box-footer-user-hash-container');
+		if (SgCookieOptin.jsonData.settings.disable_usage_statistics) {
+			hashContainerParent.style.display = 'none';
+			return;
+		}
+
 		var uuid = SgCookieOptin.getUserUuid(false);
+
 		if (typeof hashContainer.innerText === 'string') {
 			if (uuid) {
 				hashContainer.innerText = uuid;
 			} else {
-				var hashContainerParent = wrapper.querySelector('.sg-cookie-optin-box-footer-user-hash-container');
 				hashContainerParent.style.display = 'none';
 			}
 		}
@@ -569,18 +565,6 @@ var SgCookieOptin = {
 	 * @param {string} cookieValue
 	 */
 	saveLastPreferences: function(cookieValue) {
-		var lastPreferences = window.localStorage.getItem('SgCookieOptin.lastPreferences');
-
-		if (lastPreferences === null) {
-			lastPreferences = {};
-		}
-
-		try {
-			lastPreferences = JSON.parse(lastPreferences);
-		} catch (e) {
-			lastPreferences = {};
-		}
-
 		var isAll = true;
 		for (var groupIndex in SgCookieOptin.jsonData.cookieGroups) {
 			if (!SgCookieOptin.jsonData.cookieGroups.hasOwnProperty(groupIndex)) {
@@ -591,18 +575,18 @@ var SgCookieOptin = {
 			}
 		}
 
-		lastPreferences = {
-			timestamp: Math.floor(new Date().getTime() / 1000),
-			cookieValue: cookieValue,
-			isAll: isAll,
-			version: SgCookieOptin.jsonData.settings.version,
-			identifier: SgCookieOptin.jsonData.settings.identifier
-		};
+		var lastPreferences = SgCookieOptin.getLastPreferences();
+
+		lastPreferences.timestamp = Math.floor(new Date().getTime() / 1000);
+		lastPreferences.cookieValue = cookieValue;
+		lastPreferences.isAll = isAll;
+		lastPreferences.version = SgCookieOptin.jsonData.settings.version;
+		lastPreferences.identifier = SgCookieOptin.jsonData.settings.identifier;
 
 		if (SgCookieOptin.lastPreferencesFromCookie()) {
 			SgCookieOptin.setCookie(SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME, JSON.stringify(lastPreferences), 365)
 		} else {
-			window.localStorage.setItem('SgCookieOptin.lastPreferences', JSON.stringify(lastPreferences));
+			window.localStorage.setItem(SgCookieOptin.LAST_PREFERENCES_LOCAL_STORAGE_NAME, JSON.stringify(lastPreferences));
 		}
 
 		SgCookieOptin.saveLastPreferencesForStats(lastPreferences);
@@ -1935,6 +1919,30 @@ var SgCookieOptin = {
 		}
 
 		window.CustomEvent = CustomEvent;
+	},
+
+	/**
+	 * Get the last preferences object in the local storage
+	 *
+	 * @return {Object}|undefined
+	 */
+	getLastPreferences() {
+		if (SgCookieOptin.lastPreferencesFromCookie()) {
+			var lastPreferences = SgCookieOptin.getCookie(SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME);
+		} else {
+			var lastPreferences = window.localStorage.getItem(SgCookieOptin.LAST_PREFERENCES_LOCAL_STORAGE_NAME);
+		}
+
+		if (!lastPreferences) {
+			return {};
+		}
+
+		try {
+			lastPreferences = JSON.parse(lastPreferences);
+			return lastPreferences;
+		} catch (e) { // we don't want to break the rest of the code if the JSON is malformed for some reason
+			return {};
+		}
 	}
 };
 
