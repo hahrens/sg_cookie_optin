@@ -1,4 +1,5 @@
 <?php
+
 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 	'SGalinski.sg_cookie_optin',
 	'OptIn',
