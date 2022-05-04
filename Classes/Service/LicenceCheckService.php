@@ -123,11 +123,6 @@ class LicenceCheckService {
 	const API_URL = 'https://shop.sgalinski.de/api/license';
 
 	/**
-	 * The current extension version
-	 */
-	const CURRENT_VERSION = '4.2';
-
-	/**
 	 * @var array
 	 */
 	private static $versionToReleaseTimestamp = [
@@ -150,7 +145,13 @@ class LicenceCheckService {
 		'4.2' => 1621515339, // 2021-05-20T12:55:39Z
 		'4.3' => 1633888545, // 2021-10-10T17:55:45Z
 		'4.4' => 1645475601, // 2022-02-21T21:34:44Z
+		'4.4.5' => 1651580776, // 2022-05-03T15:27:44Z
 	];
+
+	/**
+	 * The current extension version
+	 */
+	const CURRENT_VERSION = '4.4.5';
 
 	/**
 	 * @param mixed $validUntil A timestamp, which says the lifetime of this key.

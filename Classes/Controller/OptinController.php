@@ -432,6 +432,16 @@ class OptinController extends ActionController {
 			'parent_optin' => $newOptinKey
 		];
 
+		$newCookieKey = StringUtility::getUniqueId('NEW');
+		$data['tx_sgcookieoptin_domain_model_cookie'][$newCookieKey] = [
+			'pid' => $pid,
+			'name' => 'SgCookieOptin.lastPreferences',
+			'provider' => '',
+			'purpose' => JsonImportService::TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE,
+			'lifetime' => '1 Year',
+			'parent_optin' => $newOptinKey
+		];
+
 		$dataHandler = GeneralUtility::makeInstance(DataHandler::class);
 		$dataHandler->start($data, []);
 		$dataHandler->process_datamap();
