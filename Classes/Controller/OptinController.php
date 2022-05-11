@@ -436,7 +436,7 @@ class OptinController extends ActionController {
 		$data['tx_sgcookieoptin_domain_model_cookie'][$newCookieKey] = [
 			'pid' => $pid,
 			'name' => 'SgCookieOptin.lastPreferences',
-			'provider' => 'Site Owner',
+			'provider' => '',
 			'purpose' => JsonImportService::TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE,
 			'lifetime' => '1 Jahr',
 			'parent_optin' => $newOptinKey
