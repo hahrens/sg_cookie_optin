@@ -84,7 +84,7 @@ class OptinController extends ActionController {
 
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$pageInfo = BackendUtility::readPageAccess($pageUid, $GLOBALS['BE_USER']->getPagePermsClause(1));
-		if ($pageInfo && (int) $pageInfo['is_siteroot'] === 1) {
+		if ($pageInfo && isset($pageInfo['is_siteroot']) && (int) $pageInfo['is_siteroot'] === 1) {
 			$optIns = BackendService::getOptins($pageUid);
 
 			if (count($optIns) > 1) {
@@ -355,7 +355,6 @@ class OptinController extends ActionController {
 				$locale = LanguageService::getLocaleByFileName(
 					str_replace('.json', '', $file->getFilename())
 				);
-				/** @noinspection PhpIllegalArrayKeyTypeInspection */
 				$jsonData[$locale] = json_decode($contents, TRUE);
 			}
 

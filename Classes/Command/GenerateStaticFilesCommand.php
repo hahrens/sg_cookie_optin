@@ -40,6 +40,8 @@ use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class GenerateStaticFilesCommand extends Command {
+	/** @var SymfonyStyle */
+	private $io;
 
 	/**
 	 * Configure the command by defining the name, options and arguments

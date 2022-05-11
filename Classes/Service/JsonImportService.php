@@ -388,7 +388,7 @@ class JsonImportService {
 	 * @param int|null $defaultLanguageOptinId
 	 * @param string $groupIdentifier
 	 * @param ConnectionPool $connectionPool
-	 * @return mixed
+	 * @return string
 	 */
 	protected function addScript(
 		$pid, $script, $scriptIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $defaultLanguageOptinId,

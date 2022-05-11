@@ -36,6 +36,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Adds the Cookie Optin JavaScript if it's generated for the current page.
  */
 class GenerateFilesAfterTcaSave {
+	/** @var int */
+	private $siteRoot;
 
 	/**
 	 * Generates the files out of the TCA data.

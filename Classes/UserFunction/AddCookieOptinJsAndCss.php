@@ -43,7 +43,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * Adds the Cookie Optin JavaScript if it's generated for the current page.
  */
 class AddCookieOptinJsAndCss implements SingletonInterface {
-	/** @var int */
+	/** @var int|null */
 	protected $rootpage = NULL;
 
 	/**
