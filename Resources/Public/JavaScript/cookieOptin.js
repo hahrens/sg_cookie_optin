@@ -543,6 +543,12 @@ var SgCookieOptin = {
 	insertUserUuid: function(wrapper) {
 		var hashContainer = wrapper.querySelector('.sg-cookie-optin-box-footer-user-hash');
 		var hashContainerParent = wrapper.querySelector('.sg-cookie-optin-box-footer-user-hash-container');
+
+		// The banner does not have a hash container
+		if (!hashContainer || !hashContainerParent) {
+			return;
+		}
+
 		if (SgCookieOptin.jsonData.settings.disable_usage_statistics) {
 			hashContainerParent.style.display = 'none';
 			return;
