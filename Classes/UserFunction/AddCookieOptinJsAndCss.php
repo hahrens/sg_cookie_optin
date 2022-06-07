@@ -1,4 +1,4 @@
-<?php /** @noinspection ConstantMatcherInspection */
+<?php
 
 namespace SGalinski\SgCookieOptin\UserFunction;
 
@@ -80,55 +80,35 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 
 		$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin.js';
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
-		if (file_exists($sitePath . $file)) {
-			$jsonFile = $this->getJsonFilePath($folder, $rootPageId, $sitePath);
-			if ($jsonFile === NULL) {
-				return '';
-			}
+		$jsonFile = $this->getJsonFilePath($folder, $rootPageId, $sitePath);
+		if ($jsonFile === NULL) {
+			return '';
+		}
 
-			$cacheBuster = filemtime($sitePath . $file);
-			if (!$cacheBuster) {
-				$cacheBuster = '';
-			}
+		$cacheBuster = filemtime($sitePath . $file);
+		if (!$cacheBuster) {
+			$cacheBuster = '';
+		}
 
-			// we decode and encode again to remove the PRETTY_PRINT when rendering for better performance on the frontend
-			// for easier debugging, you can check the generated file in the fileadmin
-			// see https://gitlab.sgalinski.de/typo3/sg_cookie_optin/-/issues/118
-			$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
-			if (!$jsonData['settings']['disable_for_this_language']) {
-				if ($jsonData['settings']['render_assets_inline']) {
-					return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
-						"</script>\n" . '<script type="text/javascript" data-ignore="1">' .
-						file_get_contents($sitePath . $file) . "</script>\n";
-				}
-
-				if ($jsonData['settings']['overwrite_baseurl']) {
-					$overwrittenBaseUrl = $jsonData['settings']['overwrite_baseurl'];
-				}
-
-				$fileUrl = $overwrittenBaseUrl ?? $siteBaseUrl . $file . '?' . $cacheBuster;
+		// we decode and encode again to remove the PRETTY_PRINT when rendering for better performance on the frontend
+		// for easier debugging, you can check the generated file in the fileadmin
+		// see https://gitlab.sgalinski.de/typo3/sg_cookie_optin/-/issues/118
+		$jsonData = json_decode(file_get_contents($sitePath . $jsonFile), TRUE);
+		if (!$jsonData['settings']['disable_for_this_language']) {
+			if ($jsonData['settings']['render_assets_inline']) {
 				return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) .
-					'</script>
-					<link rel="preload" as="script" href="' . $fileUrl . '" data-ignore="1">
-					<script src="' . $fileUrl . '" data-ignore="1"></script>';
-			}
-		} else {
-			// Old including from version 2.X.X @todo remove in version 4.X.X
-			$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin_' .
-				$this->getLanguage() . '_v2.js';
-			if (!file_exists($sitePath . $file)) {
-				$file = $folder . 'siteroot-' . $rootPageId . '/' . 'cookieOptin_0_v2.js';
-				if (!file_exists($sitePath . $file)) {
-					return '';
-				}
+					"</script>\n" . '<script type="text/javascript" data-ignore="1" crossorigin="anonymous">' .
+					file_get_contents($sitePath . $file) . "</script>\n";
 			}
 
-			$cacheBuster = filemtime($sitePath . $file);
-			if (!$cacheBuster) {
-				$cacheBuster = '';
+			if ($jsonData['settings']['overwrite_baseurl']) {
+				$overwrittenBaseUrl = $jsonData['settings']['overwrite_baseurl'];
 			}
 
-			return '<script src="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" type="text/javascript" data-ignore="1"></script>';
+			$fileUrl = $overwrittenBaseUrl ?? $siteBaseUrl . $file . '?' . $cacheBuster;
+			return '<script id="cookieOptinData" type="application/json">' . json_encode($jsonData) . '</script>
+					<link rel="preload" as="script" href="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous">
+					<script src="' . $fileUrl . '" data-ignore="1" crossorigin="anonymous"></script>';
 		}
 	}
 
@@ -140,6 +120,8 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 	 * @param string $content
 	 * @param array $configuration
 	 * @return string
+	 * @throws AspectNotFoundException
+	 * @throws SiteNotFoundException
 	 */
 	public function addCSS($content, array $configuration) {
 		$rootPageId = $this->getRootPageId();
@@ -177,8 +159,8 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 		}
 
 		$siteBaseUrl = $overwrittenBaseUrl ?? BaseUrlService::getSiteBaseUrl($this->rootpage);
-		return '<link rel="preload" as="style" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all">' . "\n"
-			. '<link rel="stylesheet" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all">';
+		return '<link rel="preload" as="style" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous">' . "\n"
+			. '<link rel="stylesheet" href="' . $siteBaseUrl . $file . '?' . $cacheBuster . '" media="all" crossorigin="anonymous">' . "\n";
 	}
 
 	/**
