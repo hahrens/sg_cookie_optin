@@ -49,6 +49,12 @@ var SgCookieOptin = {
 			});
 			SgCookieOptin.isExternalGroupAccepted = SgCookieOptin.checkIsExternalGroupAccepted();
 			SgCookieOptin.checkForExternalContents();
+
+			if (SgCookieOptin.jsonData.settings.iframe_enabled && SgCookieOptin.isExternalGroupAccepted) {
+				document.addEventListener("DOMContentLoaded", function() {
+					SgCookieOptin.checkForDataAttributeExternalContents();
+				});
+			}
 		}
 	},
 
@@ -523,7 +529,7 @@ var SgCookieOptin = {
 	 * @param {boolean} setIfEmpty
 	 * @returns {string}
 	 */
-	getUserUuid: function(setIfEmpty = true) {
+	getUserUuid: function(setIfEmpty) {
 		var lastPreferences = SgCookieOptin.getLastPreferences();
 		var userUuid = lastPreferences.uuid;
 		if (setIfEmpty && !userUuid && !SgCookieOptin.jsonData.settings.disable_usage_statistics) {
@@ -617,7 +623,7 @@ var SgCookieOptin = {
 			return;
 		}
 
-		lastPreferences.uuid = SgCookieOptin.getUserUuid();
+		lastPreferences.uuid = SgCookieOptin.getUserUuid(true);
 
 		var request = new XMLHttpRequest();
 		var formData = new FormData();
@@ -1238,7 +1244,7 @@ var SgCookieOptin = {
 			return false;
 		}
 
-		if (SgCookieOptin.isUrlLocal(externalContent.getAttribute(attribute))) {
+		if (SgCookieOptin.isUrlLocal(externalContent.dataset['contentReplaceSrc'] || externalContent.getAttribute(attribute))) {
 			return true;
 		}
 
@@ -1329,9 +1335,10 @@ var SgCookieOptin = {
 			return;
 		}
 
+		var src = externalContent.dataset['contentReplaceSrc'] || externalContent.src;
 		// Skip iframes with no source
 		if (externalContent.tagName === 'IFRAME'
-			&& (!externalContent.src || externalContent.src.indexOf('chrome-extension') >= 0)) {
+			&& (!src || externalContent.src.indexOf('chrome-extension') >= 0)) {
 			return;
 		}
 
@@ -1353,7 +1360,7 @@ var SgCookieOptin = {
 		// Create the external content consent box DIV container
 		var container = document.createElement('DIV');
 		container.setAttribute('data-iframe-id', externalContentId);
-		container.setAttribute('data-src', externalContent.src);
+		container.setAttribute('data-content-replace-src', src);
 		container.setAttribute('style', 'height: ' + externalContent.offsetHeight + 'px;');
 		container.classList.add('sg-cookie-optin-iframe-consent');
 		container.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.iframeReplacement.markup);
@@ -1603,6 +1610,7 @@ var SgCookieOptin = {
 			parentNode.appendChild(externalContent);
 		}
 
+		SgCookieOptin.fixExternalContentAttributes(externalContent);
 		SgCookieOptin.emitExternalContentAcceptedEvent(externalContent);
 	},
 
@@ -1875,13 +1883,13 @@ var SgCookieOptin = {
 	 * Polyfill for the Element.matches and Element.closest
 	 */
 	closestPolyfill: function() {
-		const ElementPrototype = window.Element.prototype;
+		var ElementPrototype = window.Element.prototype;
 
 		if (typeof ElementPrototype.matches !== 'function') {
 			ElementPrototype.matches = ElementPrototype.msMatchesSelector || ElementPrototype.mozMatchesSelector || ElementPrototype.webkitMatchesSelector || function matches(selector) {
-				let element = this;
-				const elements = (element.document || element.ownerDocument).querySelectorAll(selector);
-				let index = 0;
+				var element = this;
+				var elements = (element.document || element.ownerDocument).querySelectorAll(selector);
+				var index = 0;
 
 				while (elements[index] && elements[index] !== element) {
 					++index;
@@ -1893,7 +1901,7 @@ var SgCookieOptin = {
 
 		if (typeof ElementPrototype.closest !== 'function') {
 			ElementPrototype.closest = function closest(selector) {
-				let element = this;
+				var element = this;
 
 				while (element && element.nodeType === 1) {
 					if (element.matches(selector)) {
@@ -1932,7 +1940,7 @@ var SgCookieOptin = {
 	 *
 	 * @return {Object}|undefined
 	 */
-	getLastPreferences() {
+	getLastPreferences: function() {
 		if (SgCookieOptin.lastPreferencesFromCookie()) {
 			var lastPreferences = SgCookieOptin.getCookie(SgCookieOptin.LAST_PREFERENCES_COOKIE_NAME);
 		} else {
@@ -1948,6 +1956,54 @@ var SgCookieOptin = {
 			return lastPreferences;
 		} catch (e) { // we don't want to break the rest of the code if the JSON is malformed for some reason
 			return {};
+		}
+	},
+
+	/**
+	 * Replaces the data- attribute placeholders for source URLs with actual attributes depending on the element type
+	 *
+	 * @param {HTMLElement}externalContent
+	 * @return {void}
+	 */
+	fixExternalContentAttributes: function(externalContent) {
+		switch (externalContent.tagName) {
+			case 'IFRAME':
+				return SgCookieOptin.fixExternalContentAttribute(externalContent, 'src');
+			case 'OBJECT':
+				return SgCookieOptin.fixExternalContentAttribute(externalContent, 'data');
+			default:
+				return;
+		}
+	},
+
+	/**
+	 * Replaces the data-src and data-data with actual src and data attributes
+	 *
+	 * @param {dom} externalContent
+	 * @param {string} attribute
+	 */
+	fixExternalContentAttribute: function(externalContent, attribute) {
+		if (externalContent.dataset['contentReplaceSrc']) {
+			externalContent.setAttribute(attribute, externalContent.dataset['contentReplaceSrc']);
+		}
+	},
+
+	/**
+	 * Checks if there are any external contents with data-src attributes and sets their real attributes to the
+	 * data-attribute value
+	 */
+	checkForDataAttributeExternalContents: function() {
+		if (SgCookieOptin.jsonData.settings.iframe_enabled && SgCookieOptin.isExternalGroupAccepted) {
+			var externalContents = document.querySelectorAll(SgCookieOptin.EXTERNAL_CONTENT_ELEMENT_SELECTOR);
+			if (externalContents.length > 0) {
+				for (var externalContentToFixIndex in externalContents) {
+					if (!externalContents.hasOwnProperty(externalContentToFixIndex)) {
+						continue;
+					}
+
+					SgCookieOptin.fixExternalContentAttributes(externalContents[externalContentToFixIndex]);
+				}
+			}
 		}
 	}
 };
