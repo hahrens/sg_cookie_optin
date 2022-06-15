@@ -486,11 +486,12 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @param array $scripts
 	 * @param int $languageUid
 	 * @param bool $minifyFile
+	 * @param string $overwrittenBaseUrl
 	 *
 	 * @return string
 	 */
 	protected function createActivationScriptFile(
-		$folder, $groupName, array $scripts, $languageUid = 0, $minifyFile = TRUE
+		$folder, $groupName, array $scripts, $languageUid = 0, $minifyFile = TRUE, $overwrittenBaseUrl = ''
 	) {
 		$content = '';
 		foreach ($scripts as $script) {
@@ -519,7 +520,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		GeneralUtility::fixPermissions($groupFile);
 		// $this->siteRoot cannot be null here, because this always gets called after the DataHandler logic where
 		// it is being set
-		return BaseUrlService::getSiteBaseUrl($this->siteRoot) . $file;
+		return ($overwrittenBaseUrl ?: BaseUrlService::getSiteBaseUrl($this->siteRoot)) . $file;
 	}
 
 	/**
@@ -614,7 +615,7 @@ class StaticFileGenerationService implements SingletonInterface {
 				'scriptData' => $essentialScriptData,
 				'loadingHTML' => $this->getActivationHTML($translatedData['essential_scripts']),
 				'loadingJavaScript' => $this->createActivationScriptFile(
-					$folder, 'essential', $translatedData['essential_scripts'], $languageUid, $minifyFiles
+					$folder, 'essential', $translatedData['essential_scripts'], $languageUid, $minifyFiles, $translatedData['overwrite_baseurl']
 				),
 			],
 		];
@@ -672,7 +673,7 @@ class StaticFileGenerationService implements SingletonInterface {
 				'scriptData' => $groupScriptData,
 				'loadingHTML' => $this->getActivationHTML($group['scripts']),
 				'loadingJavaScript' => $this->createActivationScriptFile(
-					$folder, $group['group_name'], $group['scripts'], $languageUid, $minifyFiles
+					$folder, $group['group_name'], $group['scripts'], $languageUid, $minifyFiles, $translatedData['overwrite_baseurl']
 				),
 				'crdate' => $group['crdate'],
 				'tstamp' => $group['tstamp'],
