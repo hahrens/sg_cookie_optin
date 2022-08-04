@@ -419,8 +419,7 @@ class StaticFileGenerationService implements SingletonInterface {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
 			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
-			$file = $resourceFactory->retrieveFileOrFolderObject('EXT:t3adminer/Resources/Public/Adminer/t3adminer.php');
-			$file->getPublicUrl();
+			$file = $resourceFactory->retrieveFileOrFolderObject(self::TEMPLATE_STYLE_SHEET_PATH_EXT.self::TEMPLATE_STYLE_SHEET_NAME);
 			$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
 				file_get_contents($sitePath . $file->getPublicUrl());
 		}
@@ -548,8 +547,7 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
 			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
-			$fileExt = $resourceFactory->retrieveFileOrFolderObject('EXT:t3adminer/Resources/Public/Adminer/t3adminer.php');
-			$fileExt->getPublicUrl();
+			$fileExt = $resourceFactory->retrieveFileOrFolderObject(self::TEMPLATE_JAVA_SCRIPT_PATH_EXT . self::TEMPLATE_JAVA_SCRIPT_NAME);
 			copy($sitePath .$fileExt->getPublicUrl(), $file);
 		}
 		else {
