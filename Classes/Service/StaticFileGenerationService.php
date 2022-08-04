@@ -54,11 +54,13 @@ class StaticFileGenerationService implements SingletonInterface {
 	const FOLDER_SITEROOT = 'siteroot-#PID#/';
 
 	const TEMPLATE_JAVA_SCRIPT_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/JavaScript/';
+	const TEMPLATE_JAVA_SCRIPT_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/JavaScript/';
 	const TEMPLATE_JAVA_SCRIPT_NAME = 'cookieOptin.js';
 
 	const TEMPLATE_JSON_NAME = 'cookieOptinData--#LANG#.json';
 
 	const TEMPLATE_STYLE_SHEET_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/StyleSheets/';
+	const TEMPLATE_STYLE_SHEET_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/StyleSheets/';
 	const TEMPLATE_STYLE_SHEET_NAME = 'cookieOptin.css';
 
 	/** @var int */
@@ -415,8 +417,17 @@ class StaticFileGenerationService implements SingletonInterface {
 	 */
 	protected function createCSSFile(array $data, $folder, array $cssData, $minifyFile = TRUE) {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
-		$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
-			file_get_contents($sitePath . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
+			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+			$file = $resourceFactory->retrieveFileOrFolderObject('EXT:t3adminer/Resources/Public/Adminer/t3adminer.php');
+			$file->getPublicUrl();
+			$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
+				file_get_contents($sitePath . $file->getPublicUrl());
+		}
+		else {
+			$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
+				file_get_contents($sitePath . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
+		}
 
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
 		$content .= " \n\n" . $templateService->getCSSContent(
@@ -534,7 +545,16 @@ class StaticFileGenerationService implements SingletonInterface {
 	protected function createJavaScriptFile($folder, $minifyFile = TRUE) {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . self::TEMPLATE_JAVA_SCRIPT_NAME;
-		copy($sitePath . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME, $file);
+
+		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
+			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+			$fileExt = $resourceFactory->retrieveFileOrFolderObject('EXT:t3adminer/Resources/Public/Adminer/t3adminer.php');
+			$fileExt->getPublicUrl();
+			copy($sitePath .$fileExt->getPublicUrl(), $file);
+		}
+		else {
+			copy($sitePath . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME, $file);
+		}
 
 		if ($minifyFile) {
 			$minificationService = GeneralUtility::makeInstance(MinificationService::class);
