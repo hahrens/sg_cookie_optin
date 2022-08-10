@@ -9,15 +9,14 @@
  * file that was distributed with this source code.
  */
 
-class ChildContext
-{
-    public $parent = array(
-        'child' => 'child works',
-    );
+class ChildContext {
+	public $parent = [
+		'child' => 'child works',
+	];
 
-    public $grandparent = array(
-        'parent' => array(
-            'child' => 'grandchild works',
-        ),
-    );
+	public $grandparent = [
+		'parent' => [
+			'child' => 'grandchild works',
+		],
+	];
 }

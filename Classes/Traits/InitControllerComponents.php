@@ -54,7 +54,9 @@ trait InitControllerComponents {
 			// - 1 because the flash message would show 00:00:00 instead of 23:59:59
 			$this->addFlashMessage(
 				LocalizationUtility::translate(
-					'backend.licenseKey.isInDemoMode.description', 'sg_cookie_optin', [
+					'backend.licenseKey.isInDemoMode.description',
+					'sg_cookie_optin',
+					[
 						date('H:i:s', mktime(0, 0, LicenceCheckService::getRemainingTimeInDemoMode() - 1))
 					]
 				),
@@ -68,18 +70,21 @@ trait InitControllerComponents {
 
 			if ($typo3Version < 9000000) {
 				$description = LocalizationUtility::translate(
-					'backend.licenseKey.notSet.description', 'sg_cookie_optin'
+					'backend.licenseKey.notSet.description',
+					'sg_cookie_optin'
 				);
 			} else {
 				$description = LocalizationUtility::translate(
-					'backend.licenseKey.notSet.descriptionTYPO3-9', 'sg_cookie_optin'
+					'backend.licenseKey.notSet.descriptionTYPO3-9',
+					'sg_cookie_optin'
 				);
 			}
 
 			if (LicenceCheckService::isInDevelopmentContext()) {
 				$description .= ' ' . LocalizationUtility::translate(
-						'backend.licenseKey.error.dev', 'sg_cookie_optin'
-					);
+					'backend.licenseKey.error.dev',
+					'sg_cookie_optin'
+				);
 			}
 
 			$this->addFlashMessage(
@@ -94,18 +99,21 @@ trait InitControllerComponents {
 
 			if ($typo3Version < 9000000) {
 				$description = LocalizationUtility::translate(
-					'backend.licenseKey.invalid.description', 'sg_cookie_optin'
+					'backend.licenseKey.invalid.description',
+					'sg_cookie_optin'
 				);
 			} else {
 				$description = LocalizationUtility::translate(
-					'backend.licenseKey.invalid.descriptionTYPO3-9', 'sg_cookie_optin'
+					'backend.licenseKey.invalid.descriptionTYPO3-9',
+					'sg_cookie_optin'
 				);
 			}
 
 			if (LicenceCheckService::isInDevelopmentContext()) {
 				$description .= ' ' . LocalizationUtility::translate(
-						'backend.licenseKey.error.dev', 'sg_cookie_optin'
-					);
+					'backend.licenseKey.error.dev',
+					'sg_cookie_optin'
+				);
 			}
 
 			$this->addFlashMessage(

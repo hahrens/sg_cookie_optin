@@ -9,12 +9,10 @@
  * file that was distributed with this source code.
  */
 
-class DoubleSection
-{
-    public function t()
-    {
-        return true;
-    }
+class DoubleSection {
+	public function t() {
+		return TRUE;
+	}
 
-    public $two = 'second';
+	public $two = 'second';
 }

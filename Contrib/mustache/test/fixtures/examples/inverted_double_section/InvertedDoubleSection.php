@@ -9,8 +9,7 @@
  * file that was distributed with this source code.
  */
 
-class InvertedDoubleSection
-{
-    public $t = false;
-    public $two = 'second';
+class InvertedDoubleSection {
+	public $t = FALSE;
+	public $two = 'second';
 }

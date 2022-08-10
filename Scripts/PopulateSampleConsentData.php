@@ -68,11 +68,13 @@ try {
 				$query = 'INSERT INTO ' . TABLE_NAME . '(' . implode(',', $keys)
 					. ") VALUES (" .
 					implode(
-						', ', array_map(
-						function ($paramKey) {
+						', ',
+						array_map(
+							function ($paramKey) {
 							return ':' . $paramKey;
-						}, $keys
-					)
+						},
+							$keys
+						)
 					) . ')';
 				$statement = $pdo->prepare($query);
 			}
@@ -84,7 +86,6 @@ try {
 	$pdo->query('CREATE TEMPORARY TABLE TEMP_' . TABLE_NAME . ' AS SELECT * FROM ' . TABLE_NAME);
 	$pdo->query('TRUNCATE TABLE ' . TABLE_NAME);
 	$pdo->query('INSERT INTO ' . TABLE_NAME . ' SELECT * FROM TEMP_' . TABLE_NAME . ' ORDER BY tstamp ASC');
-
 } catch (Exception $exception) {
 	echo $exception->getMessage();
 	die();
@@ -127,8 +128,7 @@ function createRows(int $pid, int $timestamp, array $groups, int $version, strin
 	return $rows;
 }
 
-function getUniqueId($prefix = '')
-{
-	$uniqueId = uniqid($prefix, true);
+function getUniqueId($prefix = '') {
+	$uniqueId = uniqid($prefix, TRUE);
 	return str_replace('.', '', $uniqueId);
 }

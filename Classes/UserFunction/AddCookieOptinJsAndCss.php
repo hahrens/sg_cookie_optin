@@ -179,7 +179,7 @@ class AddCookieOptinJsAndCss implements SingletonInterface {
 					continue;
 				}
 
-				$isSiteRoot = (boolean) $rootLineEntry['is_siteroot'];
+				$isSiteRoot = (bool) $rootLineEntry['is_siteroot'];
 				if (!$isSiteRoot) {
 					continue;
 				}

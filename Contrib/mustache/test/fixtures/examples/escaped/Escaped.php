@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-class Escaped
-{
-    public $title = '"Bear" > "Shark"';
+class Escaped {
+	public $title = '"Bear" > "Shark"';
 }

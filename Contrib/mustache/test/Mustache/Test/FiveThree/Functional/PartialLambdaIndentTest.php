@@ -13,82 +13,76 @@
  * @group lambdas
  * @group functional
  */
-class Mustache_Test_FiveThree_Functional_PartialLambdaIndentTest extends PHPUnit_Framework_TestCase
-{
-    public function testLambdasInsidePartialsAreIndentedProperly()
-    {
-        $src = <<<'EOS'
+class Mustache_Test_FiveThree_Functional_PartialLambdaIndentTest extends PHPUnit_Framework_TestCase {
+	public function testLambdasInsidePartialsAreIndentedProperly() {
+		$src = <<<'EOS'
 <fieldset>
   {{> input }}
 </fieldset>
 
 EOS;
-        $partial = <<<'EOS'
+		$partial = <<<'EOS'
 <input placeholder="{{# _t }}Enter your name{{/ _t }}">
 
 EOS;
 
-        $expected = <<<'EOS'
+		$expected = <<<'EOS'
 <fieldset>
   <input placeholder="ENTER YOUR NAME">
 </fieldset>
 
 EOS;
 
-        $m = new Mustache_Engine(array(
-            'partials' => array('input' => $partial),
-        ));
+		$m = new Mustache_Engine([
+			'partials' => ['input' => $partial],
+		]);
 
-        $tpl = $m->loadTemplate($src);
+		$tpl = $m->loadTemplate($src);
 
-        $data = new Mustache_Test_FiveThree_Functional_ClassWithLambda();
-        $this->assertEquals($expected, $tpl->render($data));
-    }
+		$data = new Mustache_Test_FiveThree_Functional_ClassWithLambda();
+		$this->assertEquals($expected, $tpl->render($data));
+	}
 
-    public function testLambdaInterpolationsInsidePartialsAreIndentedProperly()
-    {
-        $src = <<<'EOS'
+	public function testLambdaInterpolationsInsidePartialsAreIndentedProperly() {
+		$src = <<<'EOS'
 <fieldset>
   {{> input }}
 </fieldset>
 
 EOS;
-        $partial = <<<'EOS'
+		$partial = <<<'EOS'
 <input placeholder="{{ placeholder }}">
 
 EOS;
 
-        $expected = <<<'EOS'
+		$expected = <<<'EOS'
 <fieldset>
   <input placeholder="Enter your name">
 </fieldset>
 
 EOS;
 
-        $m = new Mustache_Engine(array(
-            'partials' => array('input' => $partial),
-        ));
+		$m = new Mustache_Engine([
+			'partials' => ['input' => $partial],
+		]);
 
-        $tpl = $m->loadTemplate($src);
+		$tpl = $m->loadTemplate($src);
 
-        $data = new Mustache_Test_FiveThree_Functional_ClassWithLambda();
-        $this->assertEquals($expected, $tpl->render($data));
-    }
+		$data = new Mustache_Test_FiveThree_Functional_ClassWithLambda();
+		$this->assertEquals($expected, $tpl->render($data));
+	}
 }
 
-class Mustache_Test_FiveThree_Functional_ClassWithLambda
-{
-    public function _t()
-    {
-        return function ($val) {
-            return strtoupper($val);
-        };
-    }
+class Mustache_Test_FiveThree_Functional_ClassWithLambda {
+	public function _t() {
+		return function ($val) {
+			return strtoupper($val);
+		};
+	}
 
-    public function placeholder()
-    {
-        return function () {
-            return 'Enter your name';
-        };
-    }
+	public function placeholder() {
+		return function () {
+			return 'Enter your name';
+		};
+	}
 }

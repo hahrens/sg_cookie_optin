@@ -37,7 +37,6 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * Consent Controller
  */
 class ConsentController extends ActionController {
-
 	use InitControllerComponents;
 
 	/**
@@ -57,11 +56,13 @@ class ConsentController extends ActionController {
 
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$this->view->assign(
-			'identifiers', OptinHistoryService::getItemIdentifiers(
-			[
+			'identifiers',
+			OptinHistoryService::getItemIdentifiers(
+				[
 				'pid' => $pageUid
 			]
-		));
+			)
+		);
 
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);

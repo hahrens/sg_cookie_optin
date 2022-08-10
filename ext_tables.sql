@@ -163,6 +163,9 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	l10n_parent int(11) DEFAULT '0' NOT NULL,
 	l10n_diffsource mediumblob,
 
+	-- DataMapProcessor -> fetchTranslationValues --> requires t3ver_wsid event without workspaces (Bug?)
+	t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
+
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY language (l10n_parent,sys_language_uid)
@@ -193,6 +196,9 @@ CREATE TABLE tx_sgcookieoptin_domain_model_group (
 	l10n_parent int(11) DEFAULT '0' NOT NULL,
 	l10n_diffsource mediumblob,
 
+	-- DataMapProcessor -> fetchTranslationValues --> requires t3ver_wsid event without workspaces (Bug?)
+	t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
+
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY parent_optin (parent_optin),
@@ -222,6 +228,9 @@ CREATE TABLE tx_sgcookieoptin_domain_model_script (
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,
 	l10n_parent int(11) DEFAULT '0' NOT NULL,
 	l10n_diffsource mediumblob,
+
+	-- DataMapProcessor -> fetchTranslationValues --> requires t3ver_wsid event without workspaces (Bug?)
+	t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
@@ -254,6 +263,9 @@ CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
 	sys_language_uid int(11) DEFAULT '0' NOT NULL,
 	l10n_parent int(11) DEFAULT '0' NOT NULL,
 	l10n_diffsource mediumblob,
+
+	-- DataMapProcessor -> fetchTranslationValues --> requires t3ver_wsid event without workspaces (Bug?)
+	t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),

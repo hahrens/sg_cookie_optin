@@ -39,7 +39,6 @@ use TYPO3\CMS\Recordlist\RecordList\DatabaseRecordList;
  * Class ControlViewHelper
  **/
 class ControlViewHelper extends \SgCookieAbstractViewHelper {
-
 	/**
 	 * Initialize the ViewHelper arguments
 	 */
@@ -75,13 +74,13 @@ class ControlViewHelper extends \SgCookieAbstractViewHelper {
 		/** @var DatabaseRecordList $databaseRecordList */
 		$databaseRecordList = GeneralUtility::makeInstance(DatabaseRecordList::class);
 		$pageInfo = BackendUtility::readPageAccess($row['pid'], $GLOBALS['BE_USER']->getPagePermsClause(1));
-        if (version_compare($currentTypo3Version, '11.0.0', '<')) {
-            $databaseRecordList->calcPerms = $GLOBALS['BE_USER']->calcPerms($pageInfo);
-        } else {
-            $permission = GeneralUtility::makeInstance(Permission::class);
-            $permission->set($GLOBALS['BE_USER']->calcPerms($pageInfo));
-            $databaseRecordList->calcPerms = $permission;
-        }
+		if (version_compare($currentTypo3Version, '11.0.0', '<')) {
+			$databaseRecordList->calcPerms = $GLOBALS['BE_USER']->calcPerms($pageInfo);
+		} else {
+			$permission = GeneralUtility::makeInstance(Permission::class);
+			$permission->set($GLOBALS['BE_USER']->calcPerms($pageInfo));
+			$databaseRecordList->calcPerms = $permission;
+		}
 
 		if (version_compare($currentTypo3Version, '7.0.0', '<')
 			&& ExtensionManagementUtility::isLoaded('gridelements')) {

@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-class InvertedSection
-{
-    public $repo = array();
+class InvertedSection {
+	public $repo = [];
 }

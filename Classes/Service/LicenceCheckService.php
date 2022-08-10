@@ -39,50 +39,49 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * @package SGalinski\SgCookieOptin\Service
  */
 class LicenceCheckService {
+	public const STATE_LICENSE_VALID = 2;
+	public const STATE_LICENSE_INVALID = 1;
+	public const STATE_LICENSE_NOT_SET = 0;
 
-	const STATE_LICENSE_VALID = 2;
-	const STATE_LICENSE_INVALID = 1;
-	const STATE_LICENSE_NOT_SET = 0;
-
-	const DEMO_MODE_KEY = 'demo_mode';
-	const DEMO_MODE_LIFETIME = 86400;
-	const DEMO_MODE_MAX_AMOUNT = 3;
+	public const DEMO_MODE_KEY = 'demo_mode';
+	public const DEMO_MODE_LIFETIME = 86400;
+	public const DEMO_MODE_MAX_AMOUNT = 3;
 
 	/**
 	 * The product key from ShopWare
 	 */
-	const PRODUCT_KEY = 'sg_cookie_optin';
+	public const PRODUCT_KEY = 'sg_cookie_optin';
 
 	/**
 	 * Namespace for the sys registry
 	 */
-	const REGISTRY_NAMESPACE = 'tx_sgcookieoptin';
+	public const REGISTRY_NAMESPACE = 'tx_sgcookieoptin';
 
 	/**
 	 * Keys for the sys registry
 	 */
-	const IS_KEY_VALID_KEY = 'isKeyValid';
-	const LAST_WARNING_TIMESTAMP_KEY = 'lastWarningTimestamp';
-	const HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY = 'hasValidLicenseUntilTimestamp';
-	const LICENSE_CHECKED_IN_VERSION_KEY = 'licenceCheckedInVersion';
-	const LAST_CHECKED_TIMESTAMP_KEY = 'lastCheckedTimestamp';
-	const LAST_AJAX_TIMESTAMP_KEY = 'lastAjaxTimestamp';
-	const LAST_LICENSE_KEY_CHECKED_KEY = 'lastLicenseKeyChecked';
+	public const IS_KEY_VALID_KEY = 'isKeyValid';
+	public const LAST_WARNING_TIMESTAMP_KEY = 'lastWarningTimestamp';
+	public const HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY = 'hasValidLicenseUntilTimestamp';
+	public const LICENSE_CHECKED_IN_VERSION_KEY = 'licenceCheckedInVersion';
+	public const LAST_CHECKED_TIMESTAMP_KEY = 'lastCheckedTimestamp';
+	public const LAST_AJAX_TIMESTAMP_KEY = 'lastAjaxTimestamp';
+	public const LAST_LICENSE_KEY_CHECKED_KEY = 'lastLicenseKeyChecked';
 
 	/**
 	 * Error codes
 	 */
-	const ERROR_INVALID_RESPONSE_CODE = -1;
-	const ERROR_INVALID_RESPONSE_DATA = -2;
-	const ERROR_INVALID_LICENSE_KEY = -3;
-	const ERROR_INVALID_LICENSE_STRUCTURE = -4;
-	const ERROR_TIMESTAMP_INVALID = -5;
-	const ERROR_LICENSE_CHECK_EXCEPTION = -6;
+	public const ERROR_INVALID_RESPONSE_CODE = -1;
+	public const ERROR_INVALID_RESPONSE_DATA = -2;
+	public const ERROR_INVALID_LICENSE_KEY = -3;
+	public const ERROR_INVALID_LICENSE_STRUCTURE = -4;
+	public const ERROR_TIMESTAMP_INVALID = -5;
+	public const ERROR_LICENSE_CHECK_EXCEPTION = -6;
 
 	/**
 	 * Earliest TYPO3 Version that we support
 	 */
-	const EARLIEST_SUPPORTED_VERSION = 8000000;
+	public const EARLIEST_SUPPORTED_VERSION = 8000000;
 
 	/**
 	 * Last response code from server
@@ -108,19 +107,19 @@ class LicenceCheckService {
 	/**
 	 * Check the license key once per how many days
 	 */
-	const AMOUNT_OF_DAYS_UNTIL_NEXT_CHECK = 1;
+	public const AMOUNT_OF_DAYS_UNTIL_NEXT_CHECK = 1;
 
 	/**
 	 * Show a warning if the license has expired but we are still in the same version once per how many days
 	 */
-	const AMOUNT_OF_DAYS_UNTIL_WARNING = 30;
+	public const AMOUNT_OF_DAYS_UNTIL_WARNING = 30;
 
 	/**
 	 * License server credentials
 	 */
-	const API_USER = 'license_check';
-	const API_PASSWORD = 'lGKLiHc5We6gBqsggVlwdLNoWv9CEKnWiy7cgMUO';
-	const API_URL = 'https://shop.sgalinski.de/api/license';
+	public const API_USER = 'license_check';
+	public const API_PASSWORD = 'lGKLiHc5We6gBqsggVlwdLNoWv9CEKnWiy7cgMUO';
+	public const API_URL = 'https://shop.sgalinski.de/api/license';
 
 	/**
 	 * @var array
@@ -153,7 +152,7 @@ class LicenceCheckService {
 	/**
 	 * The current extension version
 	 */
-	const CURRENT_VERSION = '4.5.0';
+	public const CURRENT_VERSION = '4.5.0';
 
 	/**
 	 * @param mixed $validUntil A timestamp, which says the lifetime of this key.
@@ -210,7 +209,6 @@ class LicenceCheckService {
 	 * @return bool
 	 */
 	public static function hasValidLicense() {
-
 		$licenseKey = self::getLicenseKey();
 		if (!self::shouldCheckKey($licenseKey)) {
 			return self::getValidLicense();
@@ -442,7 +440,9 @@ class LicenceCheckService {
 		try {
 			$requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
 			$response = $requestFactory->request(
-				self::API_URL, 'GET', [
+				self::API_URL,
+				'GET',
+				[
 					'auth' => [self::API_USER, self::API_PASSWORD],
 					'timeout' => 1,
 					'connect_timeout' => 1,
@@ -473,7 +473,9 @@ class LicenceCheckService {
 				. self::PRODUCT_KEY;
 			$requestFactory = GeneralUtility::makeInstance(RequestFactory::class);
 			$response = $requestFactory->request(
-				$url, 'GET', [
+				$url,
+				'GET',
+				[
 					'auth' => [self::API_USER, self::API_PASSWORD],
 					'timeout' => 1,
 					'connect_timeout' => 1,
@@ -549,14 +551,16 @@ class LicenceCheckService {
 	 * @param bool $isAjaxCheck
 	 * @return array
 	 */
-	public static function getLicenseCheckResponseData($isAjaxCheck = false) {
+	public static function getLicenseCheckResponseData($isAjaxCheck = FALSE) {
 		// if the key is empty - error
 		if (!self::getLicenseKey()) {
 			return [
 				'error' => 1,
 				'title' => LocalizationUtility::translate('backend.licenceCheck.error.title', 'sg_cookie_optin'),
 				'message' => LocalizationUtility::translate(
-					'backend.licenceCheck.noLicenseKey', 'sg_cookie_optin', [
+					'backend.licenceCheck.noLicenseKey',
+					'sg_cookie_optin',
+					[
 						LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')
 					]
 				)
@@ -569,7 +573,9 @@ class LicenceCheckService {
 				'error' => 1,
 				'title' => LocalizationUtility::translate('backend.licenceCheck.error.title', 'sg_cookie_optin'),
 				'message' => LocalizationUtility::translate(
-					'backend.licenceCheck.expiredError.message', 'sg_cookie_optin', [
+					'backend.licenceCheck.expiredError.message',
+					'sg_cookie_optin',
+					[
 						LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')
 					]
 				)
@@ -587,7 +593,6 @@ class LicenceCheckService {
 			}
 
 			if (!$isAjaxCheck || ($lastWarningTimestamp + self::AMOUNT_OF_DAYS_UNTIL_WARNING * 24 * 60 * 60 < $GLOBALS['EXEC_TIME'])) {
-
 				if ($isAjaxCheck) {
 					self::setLastWarningTimestamp($GLOBALS['EXEC_TIME']);
 				}
@@ -596,7 +601,9 @@ class LicenceCheckService {
 					'error' => 2,
 					'title' => LocalizationUtility::translate('backend.licenceCheck.warning.title', 'sg_cookie_optin'),
 					'message' => LocalizationUtility::translate(
-						'backend.licenceCheck.expiringWarning.message', 'sg_cookie_optin', [
+						'backend.licenceCheck.expiringWarning.message',
+						'sg_cookie_optin',
+						[
 							$date, LocalizationUtility::translate('backend.licenceCheck.shopLink', 'sg_cookie_optin')
 						]
 					)
@@ -609,7 +616,8 @@ class LicenceCheckService {
 		// 19.01.2038 == lifetime license
 		if ($date === '19.01.2038') {
 			$date = LocalizationUtility::translate(
-				'backend.licenceCheck.status.lifetime', 'sg_cookie_optin'
+				'backend.licenceCheck.status.lifetime',
+				'sg_cookie_optin'
 			);
 		}
 
@@ -617,7 +625,9 @@ class LicenceCheckService {
 			'error' => 0,
 			'title' => LocalizationUtility::translate('backend.licenceCheck.status.title', 'sg_cookie_optin'),
 			'message' => LocalizationUtility::translate(
-				'backend.licenceCheck.status.okMessage', 'sg_cookie_optin', [
+				'backend.licenceCheck.status.okMessage',
+				'sg_cookie_optin',
+				[
 					$date
 				]
 			)

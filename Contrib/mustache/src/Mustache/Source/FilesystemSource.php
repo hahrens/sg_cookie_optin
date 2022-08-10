@@ -17,61 +17,57 @@
  * It is more suitable for production use, and is used by default in the
  * ProductionFilesystemLoader.
  */
-class Mustache_Source_FilesystemSource implements Mustache_Source
-{
-    private $fileName;
-    private $statProps;
-    private $stat;
+class Mustache_Source_FilesystemSource implements Mustache_Source {
+	private $fileName;
+	private $statProps;
+	private $stat;
 
-    /**
-     * Filesystem Source constructor.
-     *
-     * @param string $fileName
-     * @param array  $statProps
-     */
-    public function __construct($fileName, array $statProps)
-    {
-        $this->fileName = $fileName;
-        $this->statProps = $statProps;
-    }
+	/**
+	 * Filesystem Source constructor.
+	 *
+	 * @param string $fileName
+	 * @param array  $statProps
+	 */
+	public function __construct($fileName, array $statProps) {
+		$this->fileName = $fileName;
+		$this->statProps = $statProps;
+	}
 
-    /**
-     * Get the Source key (used to generate the compiled class name).
-     *
-     * @throws RuntimeException when a source file cannot be read
-     *
-     * @return string
-     */
-    public function getKey()
-    {
-        $chunks = array(
-            'fileName' => $this->fileName,
-        );
+	/**
+	 * Get the Source key (used to generate the compiled class name).
+	 *
+	 * @throws RuntimeException when a source file cannot be read
+	 *
+	 * @return string
+	 */
+	public function getKey() {
+		$chunks = [
+			'fileName' => $this->fileName,
+		];
 
-        if (!empty($this->statProps)) {
-            if (!isset($this->stat)) {
-                $this->stat = @stat($this->fileName);
-            }
+		if (!empty($this->statProps)) {
+			if (!isset($this->stat)) {
+				$this->stat = @stat($this->fileName);
+			}
 
-            if ($this->stat === false) {
-                throw new RuntimeException(sprintf('Failed to read source file "%s".', $this->fileName));
-            }
+			if ($this->stat === FALSE) {
+				throw new RuntimeException(sprintf('Failed to read source file "%s".', $this->fileName));
+			}
 
-            foreach ($this->statProps as $prop) {
-                $chunks[$prop] = $this->stat[$prop];
-            }
-        }
+			foreach ($this->statProps as $prop) {
+				$chunks[$prop] = $this->stat[$prop];
+			}
+		}
 
-        return json_encode($chunks);
-    }
+		return json_encode($chunks);
+	}
 
-    /**
-     * Get the template Source.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return file_get_contents($this->fileName);
-    }
+	/**
+	 * Get the template Source.
+	 *
+	 * @return string
+	 */
+	public function getSource() {
+		return file_get_contents($this->fileName);
+	}
 }

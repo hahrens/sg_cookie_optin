@@ -34,7 +34,6 @@ use TYPO3\CMS\Core\SingletonInterface;
  * Class SGalinski\SgCookieOptin\Service\MinificationService
  */
 class MinificationService implements SingletonInterface {
-
 	/**
 	 * MinificationService constructor.
 	 *

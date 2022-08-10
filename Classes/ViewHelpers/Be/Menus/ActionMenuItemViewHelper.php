@@ -50,12 +50,18 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 		parent::initializeArguments();
 		$this->registerArgument('label', 'string', 'The label of the option tag', TRUE);
 		$this->registerArgument(
-			'controller', 'string', 'The controller to be associated with this ActionMenuItem', TRUE
+			'controller',
+			'string',
+			'The controller to be associated with this ActionMenuItem',
+			TRUE
 		);
 		$this->registerArgument('action', 'string', 'The action to be associated with this ActionMenuItem', TRUE);
 		$this->registerArgument(
-			'arguments', 'array',
-			'Additional controller arguments to be passed to the action when this ActionMenuItem is selected', FALSE, []
+			'arguments',
+			'array',
+			'Additional controller arguments to be passed to the action when this ActionMenuItem is selected',
+			FALSE,
+			[]
 		);
 		$this->registerArgument('selected', 'bool', 'True if the option item should be selected', FALSE, FALSE);
 		$this->registerArgument('simpleActionItem', 'bool', 'True if the option is a simple action item', FALSE, FALSE);
@@ -84,7 +90,8 @@ class ActionMenuItemViewHelper extends AbstractTagBasedViewHelper {
 				[
 					'controller' => $currentRequest->getControllerName(),
 					'action' => $currentRequest->getControllerActionName()
-				], $requestArguments
+				],
+				$requestArguments
 			)
 		);
 

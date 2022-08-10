@@ -35,20 +35,19 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * Class SGalinski\SgCookieOptin\Service\JsonImportService
  */
 class JsonImportService {
-
 	/**
 	 * Hardcoded default values that are reused on different places, including Import
 	 */
-	const TEXT_BANNER_DESCRIPTION = 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.';
-	const TEXT_ESSENTIAL_DESCRIPTION = 'Essenzielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.';
-	const TEXT_IFRAME_DESCRIPTION = 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.';
-	const TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE = 'Dieses Cookie wird verwendet, um Ihre Cookie-Einstellungen für diese Website zu speichern.';
-	const TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE = 'Dieser Wert speichert Ihre Consent-Einstellungen. Unter anderem eine zufällig generierte ID, für die historische Speicherung Ihrer vorgenommen Einstellungen, falls der Webseiten-Betreiber dies eingestellt hat.';
+	public const TEXT_BANNER_DESCRIPTION = 'Auf unserer Webseite werden Cookies verwendet. Einige davon werden zwingend benötigt, während es uns andere ermöglichen, Ihre Nutzererfahrung auf unserer Webseite zu verbessern.';
+	public const TEXT_ESSENTIAL_DESCRIPTION = 'Essenzielle Cookies werden für grundlegende Funktionen der Webseite benötigt. Dadurch ist gewährleistet, dass die Webseite einwandfrei funktioniert.';
+	public const TEXT_IFRAME_DESCRIPTION = 'Wir verwenden auf unserer Website externe Inhalte, um Ihnen zusätzliche Informationen anzubieten.';
+	public const TEXT_ESSENTIAL_DEFAULT_COOKIE_PURPOSE = 'Dieses Cookie wird verwendet, um Ihre Cookie-Einstellungen für diese Website zu speichern.';
+	public const TEXT_ESSENTIAL_DEFAULT_LAST_PREFERENCES_PURPOSE = 'Dieser Wert speichert Ihre Consent-Einstellungen. Unter anderem eine zufällig generierte ID, für die historische Speicherung Ihrer vorgenommen Einstellungen, falls der Webseiten-Betreiber dies eingestellt hat.';
 
 	/**
 	 * Separates the locale in the filename
 	 */
-	const LOCALE_SEPARATOR = '--';
+	public const LOCALE_SEPARATOR = '--';
 
 	/**
 	 * Stores the mapping data for the default language so that the next imported languages can have it's entities
@@ -105,9 +104,10 @@ class JsonImportService {
 		// flatten the data into one array to prepare it for SQL
 		$flatJsonData = [];
 		array_walk_recursive(
-			$jsonData, function ($value, $key) use (&$flatJsonData) {
-			$flatJsonData[$key] = $value;
-		}
+			$jsonData,
+			function ($value, $key) use (&$flatJsonData) {
+				$flatJsonData[$key] = $value;
+			}
 		);
 
 		// add required system data and remove junk from the JSON
@@ -132,7 +132,9 @@ class JsonImportService {
 		// store the optin object
 		$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
 		$optInId = $this->flexInsert(
-			$connectionPool, 'tx_sgcookieoptin_domain_model_optin', [
+			$connectionPool,
+			'tx_sgcookieoptin_domain_model_optin',
+			[
 			'pid',
 			'description',
 			'template_html',
@@ -169,7 +171,8 @@ class JsonImportService {
 			'iframe_button_load_one_text',
 			'iframe_open_settings_text',
 
-		], $flatJsonData
+		],
+			$flatJsonData
 		);
 
 		// Add Groups
@@ -177,7 +180,13 @@ class JsonImportService {
 			$groupIdentifier = $groupIndex;
 			if ($group['groupName'] !== 'essential' && $group['groupName'] !== 'iframes') {
 				$groupId = $this->addGroup(
-					$pid, $group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+					$pid,
+					$group,
+					$groupIndex,
+					$optInId,
+					$sysLanguageUid,
+					$defaultLanguageOptinId,
+					$connectionPool
 				);
 			} else {
 				// we use this only for the internal language mapping lookup array
@@ -202,8 +211,15 @@ class JsonImportService {
 					}
 					$cookieId = $this->addCookie(
 						$pid,
-						$cookie, $cookieIndex, $group['groupName'], $optInId, $groupId,
-						$sysLanguageUid, $groupIdentifier, $defaultLanguageOptinId, $connectionPool
+						$cookie,
+						$cookieIndex,
+						$group['groupName'],
+						$optInId,
+						$groupId,
+						$sysLanguageUid,
+						$groupIdentifier,
+						$defaultLanguageOptinId,
+						$connectionPool
 					);
 					if ($defaultLanguageOptinId === NULL) {
 						$this->defaultLanguageIdMappingLookup[$groupIdentifier]['cookies'][$cookieIndex] = $cookieId;
@@ -214,8 +230,16 @@ class JsonImportService {
 			if (isset($group['scriptData'])) {
 				foreach ($group['scriptData'] as $scriptIndex => $script) {
 					$scriptId = $this->addScript(
-						$pid, $script, $scriptIndex, $group['groupName'], $optInId, $groupId, $sysLanguageUid,
-						$defaultLanguageOptinId, $groupIdentifier, $connectionPool
+						$pid,
+						$script,
+						$scriptIndex,
+						$group['groupName'],
+						$optInId,
+						$groupId,
+						$sysLanguageUid,
+						$defaultLanguageOptinId,
+						$groupIdentifier,
+						$connectionPool
 					);
 					if ($defaultLanguageOptinId === NULL) {
 						$this->defaultLanguageIdMappingLookup[$groupIdentifier]['scripts'][$scriptIndex] = $scriptId;
@@ -256,7 +280,13 @@ class JsonImportService {
 	 * @return mixed
 	 */
 	protected function addGroup(
-		$pid, $group, $groupIndex, $optInId, $sysLanguageUid, $defaultLanguageOptinId, $connectionPool
+		$pid,
+		$group,
+		$groupIndex,
+		$optInId,
+		$sysLanguageUid,
+		$defaultLanguageOptinId,
+		$connectionPool
 	) {
 		$groupData = [
 			'pid' => $pid,
@@ -275,7 +305,10 @@ class JsonImportService {
 		}
 
 		return $this->flexInsert(
-			$connectionPool, 'tx_sgcookieoptin_domain_model_group', ['pid', 'description'], $groupData
+			$connectionPool,
+			'tx_sgcookieoptin_domain_model_group',
+			['pid', 'description'],
+			$groupData
 		);
 	}
 
@@ -295,8 +328,16 @@ class JsonImportService {
 	 * @return string
 	 */
 	protected function addCookie(
-		$pid, $cookie, $cookieIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $groupIdentifier,
-		$defaultLanguageOptinId, $connectionPool
+		$pid,
+		$cookie,
+		$cookieIndex,
+		$groupName,
+		$optInId,
+		$groupId,
+		$sysLanguageUid,
+		$groupIdentifier,
+		$defaultLanguageOptinId,
+		$connectionPool
 	): string {
 		$cookieData = [
 			'pid' => $pid,
@@ -326,9 +367,12 @@ class JsonImportService {
 		}
 
 		return $this->flexInsert(
-			$connectionPool, 'tx_sgcookieoptin_domain_model_cookie', [
+			$connectionPool,
+			'tx_sgcookieoptin_domain_model_cookie',
+			[
 			'pid', 'purpose'
-		], $cookieData
+		],
+			$cookieData
 		);
 	}
 
@@ -343,7 +387,11 @@ class JsonImportService {
 	 * @return string
 	 * @throws \Doctrine\DBAL\DBALException
 	 */
-	protected function flexInsert(ConnectionPool $connectionPool, string $table, array $initialDataKeys, array $data
+	protected function flexInsert(
+		ConnectionPool $connectionPool,
+		string $table,
+		array $initialDataKeys,
+		array $data
 	): string {
 		$initialData = [];
 		foreach ($initialDataKeys as $initialDataKey) {
@@ -391,8 +439,16 @@ class JsonImportService {
 	 * @return string
 	 */
 	protected function addScript(
-		$pid, $script, $scriptIndex, $groupName, $optInId, $groupId, $sysLanguageUid, $defaultLanguageOptinId,
-		$groupIdentifier, $connectionPool
+		$pid,
+		$script,
+		$scriptIndex,
+		$groupName,
+		$optInId,
+		$groupId,
+		$sysLanguageUid,
+		$defaultLanguageOptinId,
+		$groupIdentifier,
+		$connectionPool
 	): string {
 		$scriptData = [
 			'pid' => $pid,
@@ -417,9 +473,12 @@ class JsonImportService {
 		}
 
 		return $this->flexInsert(
-			$connectionPool, 'tx_sgcookieoptin_domain_model_script', [
+			$connectionPool,
+			'tx_sgcookieoptin_domain_model_script',
+			[
 			'pid', 'html', 'script'
-		], $scriptData
+		],
+			$scriptData
 		);
 	}
 
@@ -442,14 +501,17 @@ class JsonImportService {
 		}
 
 		$languagesJson = json_decode(
-			file_get_contents($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file']), TRUE
+			file_get_contents($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin']['tmp_name']['file']),
+			TRUE
 		);
 
 		if (!$languagesJson) {
 			throw new JsonImportException(
 				LocalizationUtility::translate(
-					'frontend.error.theImportedFileDoesNotContainProperlyFormattedJson', 'sg_cookie_optin'
-				), 103
+					'frontend.error.theImportedFileDoesNotContainProperlyFormattedJson',
+					'sg_cookie_optin'
+				),
+				103
 			);
 		}
 
@@ -477,7 +539,8 @@ class JsonImportService {
 		if (!$defaultFound) {
 			throw new JsonImportException(
 				LocalizationUtility::translate(
-					'frontend.jsonImport.error.pleaseUploadTheDefaultLanguageConfigurationFile', 'sg_cookie_optin'
+					'frontend.jsonImport.error.pleaseUploadTheDefaultLanguageConfigurationFile',
+					'sg_cookie_optin'
 				)
 			);
 		}

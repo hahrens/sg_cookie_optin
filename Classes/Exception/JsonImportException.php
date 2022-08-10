@@ -34,5 +34,4 @@ use RuntimeException;
  * @package SGalinski\SgCookieOptin\Exception
  */
 class JsonImportException extends RuntimeException {
-
 }

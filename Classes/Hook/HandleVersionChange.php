@@ -38,7 +38,6 @@ use TYPO3\CMS\Frontend\Page\PageGenerator;
  * Adds the Cookie Optin JavaScript if it's generated for the current page.
  */
 class HandleVersionChange {
-
 	/**
 	 * Handles the version update
 	 *

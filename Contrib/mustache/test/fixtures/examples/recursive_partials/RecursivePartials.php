@@ -9,14 +9,13 @@
  * file that was distributed with this source code.
  */
 
-class RecursivePartials
-{
-    public $name  = 'George';
-    public $child = array(
-        'name'  => 'Dan',
-        'child' => array(
-            'name'  => 'Justin',
-            'child' => false,
-        ),
-    );
+class RecursivePartials {
+	public $name = 'George';
+	public $child = [
+		'name' => 'Dan',
+		'child' => [
+			'name' => 'Justin',
+			'child' => FALSE,
+		],
+	];
 }

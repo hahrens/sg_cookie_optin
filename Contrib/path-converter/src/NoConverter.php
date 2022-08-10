@@ -11,13 +11,11 @@ namespace MatthiasMullie\PathConverter;
  * @copyright Copyright (c) 2015, Matthias Mullie. All rights reserved
  * @license MIT License
  */
-class NoConverter implements ConverterInterface
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function convert($path)
-    {
-        return $path;
-    }
+class NoConverter implements ConverterInterface {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function convert($path) {
+		return $path;
+	}
 }

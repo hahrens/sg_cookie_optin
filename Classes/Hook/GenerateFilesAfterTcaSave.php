@@ -85,7 +85,8 @@ class GenerateFilesAfterTcaSave {
 			$originalRecord = BackendUtility::getRecord(StaticFileGenerationService::TABLE_NAME, $uid);
 			if (isset($originalRecord['l10n_parent']) && (int) $originalRecord['l10n_parent'] > 0) {
 				$originalRecord = BackendUtility::getRecord(
-					StaticFileGenerationService::TABLE_NAME, (int) $originalRecord['l10n_parent']
+					StaticFileGenerationService::TABLE_NAME,
+					(int) $originalRecord['l10n_parent']
 				);
 			}
 		}

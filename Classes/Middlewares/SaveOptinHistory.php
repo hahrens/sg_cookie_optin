@@ -1,4 +1,5 @@
 <?php
+
 namespace SGalinski\SgCookieOptin\Middlewares;
 
 /***************************************************************
@@ -37,8 +38,7 @@ use TYPO3\CMS\Core\Http\JsonResponse;
  *
  * @package SGalinski\SgCookieOptin\Middlewares
  */
-class SaveOptinHistory implements MiddlewareInterface
-{
+class SaveOptinHistory implements MiddlewareInterface {
 	/**
 	 * Process an incoming server request.
 	 *
@@ -50,13 +50,12 @@ class SaveOptinHistory implements MiddlewareInterface
 	 * @param RequestHandlerInterface $handler
 	 * @return ResponseInterface
 	 */
-	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-    {
+	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 		$response = $handler->handle($request);
 		if (!isset($request->getQueryParams()['saveOptinHistory'], $request->getParsedBody()['lastPreferences'])) {
 			return $response;
 		}
 
 		return new JsonResponse(OptinHistoryService::saveOptinHistory($request->getParsedBody()['lastPreferences']));
-    }
+	}
 }

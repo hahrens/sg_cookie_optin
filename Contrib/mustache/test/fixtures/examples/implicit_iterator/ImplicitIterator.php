@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-class ImplicitIterator
-{
-    public $data = array('Donkey Kong', 'Luigi', 'Mario', 'Peach', 'Yoshi');
+class ImplicitIterator {
+	public $data = ['Donkey Kong', 'Luigi', 'Mario', 'Peach', 'Yoshi'];
 }

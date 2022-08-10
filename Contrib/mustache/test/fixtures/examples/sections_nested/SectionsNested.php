@@ -9,36 +9,34 @@
  * file that was distributed with this source code.
  */
 
-class SectionsNested
-{
-    public $name = 'Little Mac';
+class SectionsNested {
+	public $name = 'Little Mac';
 
-    public function enemies()
-    {
-        return array(
-            array(
-                'name'    => 'Von Kaiser',
-                'enemies' => array(
-                    array('name' => 'Super Macho Man'),
-                    array('name' => 'Piston Honda'),
-                    array('name' => 'Mr. Sandman'),
-                ),
-            ),
-            array(
-                'name'    => 'Mike Tyson',
-                'enemies' => array(
-                    array('name' => 'Soda Popinski'),
-                    array('name' => 'King Hippo'),
-                    array('name' => 'Great Tiger'),
-                    array('name' => 'Glass Joe'),
-                ),
-            ),
-            array(
-                'name'    => 'Don Flamenco',
-                'enemies' => array(
-                    array('name' => 'Bald Bull'),
-                ),
-            ),
-        );
-    }
+	public function enemies() {
+		return [
+			[
+				'name' => 'Von Kaiser',
+				'enemies' => [
+					['name' => 'Super Macho Man'],
+					['name' => 'Piston Honda'],
+					['name' => 'Mr. Sandman'],
+				],
+			],
+			[
+				'name' => 'Mike Tyson',
+				'enemies' => [
+					['name' => 'Soda Popinski'],
+					['name' => 'King Hippo'],
+					['name' => 'Great Tiger'],
+					['name' => 'Glass Joe'],
+				],
+			],
+			[
+				'name' => 'Don Flamenco',
+				'enemies' => [
+					['name' => 'Bald Bull'],
+				],
+			],
+		];
+	}
 }

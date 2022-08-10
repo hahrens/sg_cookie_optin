@@ -13,20 +13,17 @@
  * @group lambdas
  * @group functional
  */
-class Mustache_Test_FiveThree_Functional_ClosureQuirksTest extends PHPUnit_Framework_TestCase
-{
-    private $mustache;
+class Mustache_Test_FiveThree_Functional_ClosureQuirksTest extends PHPUnit_Framework_TestCase {
+	private $mustache;
 
-    public function setUp()
-    {
-        $this->mustache = new Mustache_Engine();
-    }
+	public function setUp() {
+		$this->mustache = new Mustache_Engine();
+	}
 
-    public function testClosuresDontLikeItWhenYouTouchTheirProperties()
-    {
-        $tpl = $this->mustache->loadTemplate('{{ foo.bar }}');
-        $this->assertEquals('', $tpl->render(array('foo' => function () {
-            return 'FOO';
-        })));
-    }
+	public function testClosuresDontLikeItWhenYouTouchTheirProperties() {
+		$tpl = $this->mustache->loadTemplate('{{ foo.bar }}');
+		$this->assertEquals('', $tpl->render(['foo' => function () {
+			return 'FOO';
+		}]));
+	}
 }

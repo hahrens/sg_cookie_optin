@@ -54,7 +54,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * Optin Controller
  */
 class OptinController extends ActionController {
-
 	use InitControllerComponents;
 
 	/**
@@ -122,7 +121,6 @@ class OptinController extends ActionController {
 	 * @return void
 	 */
 	public function showAction() {
-
 	}
 
 	/**
@@ -139,7 +137,8 @@ class OptinController extends ActionController {
 					LocalizationUtility::translate(
 						'jsonImport.error.theStoredImportedDataIsCorrupt',
 						'sg_cookie_optin'
-					), 101
+					),
+					101
 				);
 			}
 
@@ -153,7 +152,10 @@ class OptinController extends ActionController {
 			foreach ($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'] as $languageId => $jsonData) {
 				if ($languageId !== $defaultLanguageId) {
 					$jsonImportService->importJsonData(
-						$jsonData, $pid, $languageId, $defaultLanguageOptinId
+						$jsonData,
+						$pid,
+						$languageId,
+						$defaultLanguageOptinId
 					);
 				}
 			}
@@ -206,10 +208,12 @@ class OptinController extends ActionController {
 			if (count($optIns) > 0) {
 				$this->addFlashMessage(
 					LocalizationUtility::translate(
-						'backend.jsonImport.tooManyRecorsException.description', 'sg_cookie_optin'
+						'backend.jsonImport.tooManyRecorsException.description',
+						'sg_cookie_optin'
 					),
 					LocalizationUtility::translate(
-						'backend.jsonImport.tooManyRecorsException.header', 'sg_cookie_optin'
+						'backend.jsonImport.tooManyRecorsException.header',
+						'sg_cookie_optin'
 					),
 					AbstractMessage::INFO
 				);
@@ -228,7 +232,8 @@ class OptinController extends ActionController {
 		try {
 			if (!isset($_FILES['tx_sgcookieoptin_web_sgcookieoptinoptin'])) {
 				throw new JsonImportException(
-					LocalizationUtility::translate('frontend.error.noFileUploaded', 'sg_cookie_optin'), 104
+					LocalizationUtility::translate('frontend.error.noFileUploaded', 'sg_cookie_optin'),
+					104
 				);
 			}
 
@@ -239,11 +244,13 @@ class OptinController extends ActionController {
 				if (!isset($_SESSION['tx_sgcookieoptin']['importJsonData']['languageData'][$language['uid']])) {
 					$this->addFlashMessage(
 						LocalizationUtility::translate(
-							'backend.jsonImport.warnings.language.missing', 'sg_cookie_optin',
+							'backend.jsonImport.warnings.language.missing',
+							'sg_cookie_optin',
 							['lang' => $language['title'] . ' (' . $language['locale'] . ')']
 						),
 						LocalizationUtility::translate(
-							'backend.jsonImport.warnings.language.header', 'sg_cookie_optin'
+							'backend.jsonImport.warnings.language.header',
+							'sg_cookie_optin'
 						),
 						AbstractMessage::WARNING
 					);
@@ -315,7 +322,6 @@ class OptinController extends ActionController {
 			$this->view->assign('warningGroups', $warningGroups);
 			$this->view->assign('warningScripts', $warningScripts);
 			$this->view->assign('warningCookies', $warningCookies);
-
 		} catch (Exception $exception) {
 			$this->addFlashMessage(
 				$exception->getMessage(),

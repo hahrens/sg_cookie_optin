@@ -9,23 +9,20 @@
  * file that was distributed with this source code.
  */
 
-class Complex
-{
-    public $header = 'Colors';
+class Complex {
+	public $header = 'Colors';
 
-    public $item = array(
-        array('name' => 'red', 'current' => true, 'url' => '#Red'),
-        array('name' => 'green', 'current' => false, 'url' => '#Green'),
-        array('name' => 'blue', 'current' => false, 'url' => '#Blue'),
-    );
+	public $item = [
+		['name' => 'red', 'current' => TRUE, 'url' => '#Red'],
+		['name' => 'green', 'current' => FALSE, 'url' => '#Green'],
+		['name' => 'blue', 'current' => FALSE, 'url' => '#Blue'],
+	];
 
-    public function notEmpty()
-    {
-        return !($this->isEmpty());
-    }
+	public function notEmpty() {
+		return !($this->isEmpty());
+	}
 
-    public function isEmpty()
-    {
-        return count($this->item) === 0;
-    }
+	public function isEmpty() {
+		return count($this->item) === 0;
+	}
 }

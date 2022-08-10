@@ -9,15 +9,13 @@
  * file that was distributed with this source code.
  */
 
-class Simple
-{
-    public $name = 'Chris';
-    public $value = 10000;
+class Simple {
+	public $name = 'Chris';
+	public $value = 10000;
 
-    public function taxed_value()
-    {
-        return $this->value - ($this->value * 0.4);
-    }
+	public function taxed_value() {
+		return $this->value - ($this->value * 0.4);
+	}
 
-    public $in_ca = true;
+	public $in_ca = TRUE;
 }

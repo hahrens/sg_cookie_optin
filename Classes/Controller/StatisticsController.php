@@ -37,7 +37,6 @@ use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
  * Consent Controller
  */
 class StatisticsController extends ActionController {
-
 	use InitControllerComponents;
 
 	/**
@@ -56,11 +55,13 @@ class StatisticsController extends ActionController {
 
 		$pageUid = (int) GeneralUtility::_GP('id');
 		$this->view->assign(
-			'versions', OptinHistoryService::getVersions(
-			[
+			'versions',
+			OptinHistoryService::getVersions(
+				[
 				'pid' => $pageUid
 			]
-		));
+			)
+		);
 
 		if ($pageUid) {
 			$pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);

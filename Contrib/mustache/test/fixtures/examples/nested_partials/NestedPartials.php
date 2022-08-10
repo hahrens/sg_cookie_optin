@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-class NestedPartials
-{
-    public $val = 'FOURTH!';
+class NestedPartials {
+	public $val = 'FOURTH!';
 }

@@ -54,7 +54,9 @@ class BackendService {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows(
-				'*', 'pages', 'deleted=0 AND is_siteroot=1 AND t3ver_oid=0'
+				'*',
+				'pages',
+				'deleted=0 AND is_siteroot=1 AND t3ver_oid=0'
 			);
 		} else {
 			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
@@ -114,7 +116,9 @@ class BackendService {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows(
-				'*', 'tx_sgcookieoptin_domain_model_optin', 'deleted=0 AND sys_language_uid=0 AND pid=' . $pageUid
+				'*',
+				'tx_sgcookieoptin_domain_model_optin',
+				'deleted=0 AND sys_language_uid=0 AND pid=' . $pageUid
 			);
 		} else {
 			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);

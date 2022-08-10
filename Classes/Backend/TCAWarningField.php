@@ -33,7 +33,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * A TCA field used to display warnings inside a TCA form
  */
 class TCAWarningField extends AbstractFormElement {
-
 	/**
 	 * Handler for single nodes
 	 *

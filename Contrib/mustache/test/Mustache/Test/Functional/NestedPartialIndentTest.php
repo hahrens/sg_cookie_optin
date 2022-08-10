@@ -13,33 +13,30 @@
  * @group functional
  * @group partials
  */
-class Mustache_Test_Functional_NestedPartialIndentTest extends PHPUnit_Framework_TestCase
-{
-    /**
-     * @dataProvider partialsAndStuff
-     */
-    public function testNestedPartialsAreIndentedProperly($src, array $partials, $expected)
-    {
-        $m = new Mustache_Engine(array(
-            'partials' => $partials,
-        ));
-        $tpl = $m->loadTemplate($src);
-        $this->assertEquals($expected, $tpl->render());
-    }
+class Mustache_Test_Functional_NestedPartialIndentTest extends PHPUnit_Framework_TestCase {
+	/**
+	 * @dataProvider partialsAndStuff
+	 */
+	public function testNestedPartialsAreIndentedProperly($src, array $partials, $expected) {
+		$m = new Mustache_Engine([
+			'partials' => $partials,
+		]);
+		$tpl = $m->loadTemplate($src);
+		$this->assertEquals($expected, $tpl->render());
+	}
 
-    public function partialsAndStuff()
-    {
-        $partials = array(
-            'a' => ' {{> b }}',
-            'b' => ' {{> d }}',
-            'c' => ' {{> d }}{{> d }}',
-            'd' => 'D!',
-        );
+	public function partialsAndStuff() {
+		$partials = [
+			'a' => ' {{> b }}',
+			'b' => ' {{> d }}',
+			'c' => ' {{> d }}{{> d }}',
+			'd' => 'D!',
+		];
 
-        return array(
-            array(' {{> a }}', $partials, '   D!'),
-            array(' {{> b }}', $partials, '  D!'),
-            array(' {{> c }}', $partials, '  D!D!'),
-        );
-    }
+		return [
+			[' {{> a }}', $partials, '   D!'],
+			[' {{> b }}', $partials, '  D!'],
+			[' {{> c }}', $partials, '  D!D!'],
+		];
+	}
 }

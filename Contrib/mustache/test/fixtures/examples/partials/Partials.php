@@ -9,11 +9,10 @@
  * file that was distributed with this source code.
  */
 
-class Partials
-{
-    public $page = array(
-        'title'    => 'Page Title',
-        'subtitle' => 'Page Subtitle',
-        'content'  => 'Lorem ipsum dolor sit amet.',
-    );
+class Partials {
+	public $page = [
+		'title' => 'Page Title',
+		'subtitle' => 'Page Subtitle',
+		'content' => 'Lorem ipsum dolor sit amet.',
+	];
 }

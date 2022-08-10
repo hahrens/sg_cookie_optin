@@ -38,7 +38,6 @@ use TYPO3\CMS\Core\Http\Response;
  * @package SGalinski\SgCookieOptin\Endpoints
  */
 class OptinHistoryController {
-
 	/**
 	 * Save the user's preferences for the statistics
 	 *

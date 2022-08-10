@@ -41,9 +41,9 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * @package SGalinski\SgCookieOptin\Service
  */
 class OptinHistoryService {
-	const TYPE_GROUP = 1;
+	public const TYPE_GROUP = 1;
 
-	const TABLE_NAME = 'tx_sgcookieoptin_domain_model_user_preference';
+	public const TABLE_NAME = 'tx_sgcookieoptin_domain_model_user_preference';
 
 	/**
 	 * Saves the optin history
@@ -154,7 +154,7 @@ class OptinHistoryService {
 
 		if (!empty($parameters['countField'])) {
 			$select[] = 'COUNT(`' . $parameters['countField'] . '`) AS `count_' . $parameters['countField'] . '` ';
-		} else if ($isCount) {
+		} elseif ($isCount) {
 			$select[] = 'COUNT(*) ';
 		} else {
 			$select[] = '* ';
@@ -244,7 +244,8 @@ class OptinHistoryService {
 		$queryBuilder->from(self::TABLE_NAME)
 			->where(
 				$queryBuilder->expr()->eq(
-					'pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)
+					'pid',
+					$queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)
 				)
 			);
 
@@ -279,7 +280,8 @@ class OptinHistoryService {
 			->from(self::TABLE_NAME)
 			->where(
 				$queryBuilder->expr()->eq(
-					'pid', $queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)
+					'pid',
+					$queryBuilder->createNamedParameter((int) $parameters['pid'], PDO::PARAM_INT)
 				)
 			)
 			->addGroupBy('version')

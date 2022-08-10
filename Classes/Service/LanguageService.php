@@ -35,7 +35,6 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * Class SGalinski\SgCookieOptin\Service\LanguageService
  */
 class LanguageService {
-
 	/**
 	 * Returns all system languages.
 	 *

@@ -35,7 +35,6 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * Class EditLink
  **/
 class EditOnClickViewHelper extends \SgCookieAbstractViewHelper {
-
 	/**
 	 * Register the ViewHelper arguments
 	 */
@@ -58,12 +57,11 @@ class EditOnClickViewHelper extends \SgCookieAbstractViewHelper {
 		if (version_compare(VersionNumberUtility::getNumericTypo3Version(), '10.0.0', '>=')) {
 			$uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
 			$onclickScript = 'window.location.href=\'' . $uriBuilder->buildUriFromRoute(
-					'record_edit'
-				) . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI')) . '\'';
+				'record_edit'
+			) . $params . '&returnUrl=' . rawurlencode(GeneralUtility::getIndpEnv('REQUEST_URI')) . '\'';
 		} else {
 			$onclickScript = BackendUtility::editOnClick($params, '', -1);
 		}
 		return $onclickScript;
 	}
-
 }

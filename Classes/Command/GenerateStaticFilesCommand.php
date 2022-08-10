@@ -46,8 +46,7 @@ class GenerateStaticFilesCommand extends Command {
 	/**
 	 * Configure the command by defining the name, options and arguments
 	 */
-	protected function configure()
-	{
+	protected function configure() {
 		$this->setHelp('Generates the necessary JavaScript, JSON and CSS files.' . LF . 'If you want to get more detailed information, use the --verbose option.');
 		$this->setDescription('Generates the necessary JavaScript, JSON and CSS files.')
 			->addArgument(
@@ -64,8 +63,7 @@ class GenerateStaticFilesCommand extends Command {
 	 * @param OutputInterface $output
 	 * @return int error code
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output)
-	{
+	protected function execute(InputInterface $input, OutputInterface $output) {
 		try {
 			$this->io = new SymfonyStyle($input, $output);
 			$this->io->title($this->getDescription());

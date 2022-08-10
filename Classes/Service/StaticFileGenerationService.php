@@ -48,20 +48,19 @@ use TYPO3\CMS\Frontend\Page\PageGenerator;
  * Class SGalinski\SgCookieOptin\Service\TemplateService
  */
 class StaticFileGenerationService implements SingletonInterface {
+	public const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
 
-	const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
+	public const FOLDER_SITEROOT = 'siteroot-#PID#/';
 
-	const FOLDER_SITEROOT = 'siteroot-#PID#/';
+	public const TEMPLATE_JAVA_SCRIPT_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/JavaScript/';
+	public const TEMPLATE_JAVA_SCRIPT_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/JavaScript/';
+	public const TEMPLATE_JAVA_SCRIPT_NAME = 'cookieOptin.js';
 
-	const TEMPLATE_JAVA_SCRIPT_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/JavaScript/';
-	const TEMPLATE_JAVA_SCRIPT_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/JavaScript/';
-	const TEMPLATE_JAVA_SCRIPT_NAME = 'cookieOptin.js';
+	public const TEMPLATE_JSON_NAME = 'cookieOptinData--#LANG#.json';
 
-	const TEMPLATE_JSON_NAME = 'cookieOptinData--#LANG#.json';
-
-	const TEMPLATE_STYLE_SHEET_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/StyleSheets/';
-	const TEMPLATE_STYLE_SHEET_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/StyleSheets/';
-	const TEMPLATE_STYLE_SHEET_NAME = 'cookieOptin.css';
+	public const TEMPLATE_STYLE_SHEET_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/StyleSheets/';
+	public const TEMPLATE_STYLE_SHEET_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/StyleSheets/';
+	public const TEMPLATE_STYLE_SHEET_NAME = 'cookieOptin.css';
 
 	/** @var int */
 	protected $siteRoot;
@@ -107,7 +106,9 @@ class StaticFileGenerationService implements SingletonInterface {
 			$originalTSFE = $typoScriptFrontendController = $GLOBALS['TSFE'];
 			if (!($typoScriptFrontendController instanceof TypoScriptFrontendController)) {
 				$typoScriptFrontendController = $GLOBALS['TSFE'] = new TypoScriptFrontendController(
-					$GLOBALS['TYPO3_CONF_VARS'], $this->siteRoot, 0
+					$GLOBALS['TYPO3_CONF_VARS'],
+					$this->siteRoot,
+					0
 				);
 			}
 
@@ -219,7 +220,13 @@ class StaticFileGenerationService implements SingletonInterface {
 
 			$this->createJavaScriptFile($folderName, $minifyFiles);
 			$this->createJsonFile(
-				$folderName, $fullData, $translatedFullData, $cssData, $minifyFiles, $languageUid, $locale
+				$folderName,
+				$fullData,
+				$translatedFullData,
+				$cssData,
+				$minifyFiles,
+				$languageUid,
+				$locale
 			);
 		}
 
@@ -335,8 +342,12 @@ class StaticFileGenerationService implements SingletonInterface {
 			/** @var DatabaseConnection $database */
 			$database = $GLOBALS['TYPO3_DB'];
 			$rows = $database->exec_SELECTgetRows(
-				'*', $table, 'deleted=0 AND hidden=0 AND ' . $field . '=' . $parentUid .
-				($languageField ? ' AND ' . $languageField . '=0' : ''), '', 'sorting ASC'
+				'*',
+				$table,
+				'deleted=0 AND hidden=0 AND ' . $field . '=' . $parentUid .
+				($languageField ? ' AND ' . $languageField . '=0' : ''),
+				'',
+				'sorting ASC'
 			);
 		} else {
 			$connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
@@ -419,32 +430,35 @@ class StaticFileGenerationService implements SingletonInterface {
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
 			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
-			$file = $resourceFactory->retrieveFileOrFolderObject(self::TEMPLATE_STYLE_SHEET_PATH_EXT.self::TEMPLATE_STYLE_SHEET_NAME);
+			$file = $resourceFactory->retrieveFileOrFolderObject(self::TEMPLATE_STYLE_SHEET_PATH_EXT . self::TEMPLATE_STYLE_SHEET_NAME);
 			$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
 				file_get_contents($sitePath . $file->getPublicUrl());
-		}
-		else {
+		} else {
 			$content = '/* Base styles: ' . self::TEMPLATE_STYLE_SHEET_NAME . " */\n\n" .
 				file_get_contents($sitePath . self::TEMPLATE_STYLE_SHEET_PATH . self::TEMPLATE_STYLE_SHEET_NAME);
 		}
 
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
 		$content .= " \n\n" . $templateService->getCSSContent(
-				TemplateService::TYPE_TEMPLATE, $data['template_selection']
-			);
-		if ((boolean) $data['banner_enable'] || (int) $data['banner_force_min_width'] > 0) {
+			TemplateService::TYPE_TEMPLATE,
+			$data['template_selection']
+		);
+		if ((bool) $data['banner_enable'] || (int) $data['banner_force_min_width'] > 0) {
 			$content .= " \n\n" . $templateService->getCSSContent(
-					TemplateService::TYPE_BANNER, $data['banner_selection']
-				);
+				TemplateService::TYPE_BANNER,
+				$data['banner_selection']
+			);
 		}
 
-		if ((boolean) $data['iframe_enabled']) {
+		if ((bool) $data['iframe_enabled']) {
 			$content .= " \n\n" . $templateService->getCSSContent(
-					TemplateService::TYPE_IFRAME, $data['iframe_selection']
-				);
+				TemplateService::TYPE_IFRAME,
+				$data['iframe_selection']
+			);
 			$content .= " \n\n" . $templateService->getCSSContent(
-					TemplateService::TYPE_IFRAME_REPLACEMENT, $data['iframe_replacement_selection']
-				);
+				TemplateService::TYPE_IFRAME_REPLACEMENT,
+				$data['iframe_replacement_selection']
+			);
 		}
 
 		$keys = $data = [];
@@ -501,7 +515,12 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @return string
 	 */
 	protected function createActivationScriptFile(
-		$folder, $groupName, array $scripts, $languageUid = 0, $minifyFile = TRUE, $overwrittenBaseUrl = ''
+		$folder,
+		$groupName,
+		array $scripts,
+		$languageUid = 0,
+		$minifyFile = TRUE,
+		$overwrittenBaseUrl = ''
 	) {
 		$content = '';
 		foreach ($scripts as $script) {
@@ -548,9 +567,8 @@ class StaticFileGenerationService implements SingletonInterface {
 		if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '>')) {
 			$resourceFactory = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
 			$fileExt = $resourceFactory->retrieveFileOrFolderObject(self::TEMPLATE_JAVA_SCRIPT_PATH_EXT . self::TEMPLATE_JAVA_SCRIPT_NAME);
-			copy($sitePath .$fileExt->getPublicUrl(), $file);
-		}
-		else {
+			copy($sitePath . $fileExt->getPublicUrl(), $file);
+		} else {
 			copy($sitePath . self::TEMPLATE_JAVA_SCRIPT_PATH . self::TEMPLATE_JAVA_SCRIPT_NAME, $file);
 		}
 
@@ -578,7 +596,13 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @throws \JsonException
 	 */
 	protected function createJsonFile(
-		$folder, array $data, array $translatedData, array $cssData, $minifyFiles, $languageUid = 0, $locale = ''
+		$folder,
+		array $data,
+		array $translatedData,
+		array $cssData,
+		$minifyFiles,
+		$languageUid = 0,
+		$locale = ''
 	) {
 		$essentialCookieData = [];
 		$iframeCookieData = [];
@@ -633,7 +657,12 @@ class StaticFileGenerationService implements SingletonInterface {
 				'scriptData' => $essentialScriptData,
 				'loadingHTML' => $this->getActivationHTML($translatedData['essential_scripts']),
 				'loadingJavaScript' => $this->createActivationScriptFile(
-					$folder, 'essential', $translatedData['essential_scripts'], $languageUid, $minifyFiles, $translatedData['overwrite_baseurl']
+					$folder,
+					'essential',
+					$translatedData['essential_scripts'],
+					$languageUid,
+					$minifyFiles,
+					$translatedData['overwrite_baseurl']
 				),
 			],
 		];
@@ -691,14 +720,19 @@ class StaticFileGenerationService implements SingletonInterface {
 				'scriptData' => $groupScriptData,
 				'loadingHTML' => $this->getActivationHTML($group['scripts']),
 				'loadingJavaScript' => $this->createActivationScriptFile(
-					$folder, $group['group_name'], $group['scripts'], $languageUid, $minifyFiles, $translatedData['overwrite_baseurl']
+					$folder,
+					$group['group_name'],
+					$group['scripts'],
+					$languageUid,
+					$minifyFiles,
+					$translatedData['overwrite_baseurl']
 				),
 				'crdate' => $group['crdate'],
 				'tstamp' => $group['tstamp'],
 			];
 		}
 
-		if ((boolean) $translatedData['iframe_enabled']) {
+		if ((bool) $translatedData['iframe_enabled']) {
 			$pseudoElements = 0;
 			$groupIndex = 0;
 			foreach ($translatedData['iframe_cookies'] as $index => $cookieData) {
@@ -803,19 +837,19 @@ class StaticFileGenerationService implements SingletonInterface {
 		}
 
 		$settings = [
-			'banner_enable' => (boolean) $translatedData['banner_enable'],
+			'banner_enable' => (bool) $translatedData['banner_enable'],
 			'banner_force_min_width' => (int) $translatedData['banner_force_min_width'],
 			'version' => (int) $translatedData['version'],
 			'banner_position' => (int) $translatedData['banner_position'],
-			'banner_show_settings_button' => (boolean) $translatedData['banner_show_settings_button'],
+			'banner_show_settings_button' => (bool) $translatedData['banner_show_settings_button'],
 			'cookie_lifetime' => (int) $translatedData['cookie_lifetime'],
-			'session_only_essential_cookies' => (boolean) $translatedData['session_only_essential_cookies'],
-			'iframe_enabled' => (boolean) $translatedData['iframe_enabled'],
-			'minify_generated_data' => (boolean) $translatedData['minify_generated_data'],
-			'show_button_close' => (boolean) $translatedData['show_button_close'],
-			'activate_testing_mode' => (boolean) $translatedData['activate_testing_mode'],
-			'disable_powered_by' => (boolean) $translatedData['disable_powered_by'],
-			'disable_for_this_language' => (boolean) $translatedData['disable_for_this_language'],
+			'session_only_essential_cookies' => (bool) $translatedData['session_only_essential_cookies'],
+			'iframe_enabled' => (bool) $translatedData['iframe_enabled'],
+			'minify_generated_data' => (bool) $translatedData['minify_generated_data'],
+			'show_button_close' => (bool) $translatedData['show_button_close'],
+			'activate_testing_mode' => (bool) $translatedData['activate_testing_mode'],
+			'disable_powered_by' => (bool) $translatedData['disable_powered_by'],
+			'disable_for_this_language' => (bool) $translatedData['disable_for_this_language'],
 			'set_cookie_for_domain' => (string) $translatedData['set_cookie_for_domain'],
 			'save_history_webhook' => $baseUri .
 				((VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000) ?
@@ -824,13 +858,13 @@ class StaticFileGenerationService implements SingletonInterface {
 			'banner_show_again_interval' => (int) $translatedData['banner_show_again_interval'],
 			'identifier' => $this->siteRoot,
 			'language' => $languageUid,
-			'render_assets_inline' => (boolean) $translatedData['render_assets_inline'],
-			'consider_do_not_track' => (boolean) $translatedData['consider_do_not_track'],
+			'render_assets_inline' => (bool) $translatedData['render_assets_inline'],
+			'consider_do_not_track' => (bool) $translatedData['consider_do_not_track'],
 			'domains_to_delete_cookies_for' => (string) $translatedData['domains_to_delete_cookies_for'],
-			'subdomain_support' => (boolean) $translatedData['subdomain_support'],
+			'subdomain_support' => (bool) $translatedData['subdomain_support'],
 			'overwrite_baseurl' => (string) $translatedData['overwrite_baseurl'],
-			'unified_cookie_name' => (boolean) $translatedData['unified_cookie_name'],
-			'disable_usage_statistics' => (boolean) $translatedData['disable_usage_statistics'],
+			'unified_cookie_name' => (bool) $translatedData['unified_cookie_name'],
+			'disable_usage_statistics' => (bool) $translatedData['disable_usage_statistics'],
 		];
 
 		$textEntries = [
@@ -880,8 +914,11 @@ class StaticFileGenerationService implements SingletonInterface {
 				'template_overwritten' => $translatedData['template_overwritten'],
 				'template_selection' => $translatedData['template_selection'],
 				'markup' => $this->getRenderedMustacheTemplate(
-					$translatedData['template_overwritten'], $translatedData['template_html'],
-					$translatedData['template_selection'], TemplateService::TYPE_TEMPLATE, $jsonDataArray
+					$translatedData['template_overwritten'],
+					$translatedData['template_html'],
+					$translatedData['template_selection'],
+					TemplateService::TYPE_TEMPLATE,
+					$jsonDataArray
 				),
 			],
 			'banner' => [
@@ -889,8 +926,11 @@ class StaticFileGenerationService implements SingletonInterface {
 				'banner_overwritten' => $translatedData['banner_overwritten'],
 				'banner_selection' => $translatedData['banner_selection'],
 				'markup' => $this->getRenderedMustacheTemplate(
-					$translatedData['banner_overwritten'], $translatedData['banner_html'],
-					$translatedData['banner_selection'], TemplateService::TYPE_BANNER, $jsonDataArray
+					$translatedData['banner_overwritten'],
+					$translatedData['banner_html'],
+					$translatedData['banner_selection'],
+					TemplateService::TYPE_BANNER,
+					$jsonDataArray
 				),
 			],
 			'iframe' => [
@@ -898,8 +938,11 @@ class StaticFileGenerationService implements SingletonInterface {
 				'iframe_overwritten' => $translatedData['iframe_overwritten'],
 				'iframe_selection' => $translatedData['iframe_selection'],
 				'markup' => $this->getRenderedMustacheTemplate(
-					$translatedData['iframe_overwritten'], $translatedData['iframe_html'],
-					$translatedData['iframe_selection'], TemplateService::TYPE_IFRAME, $jsonDataArray
+					$translatedData['iframe_overwritten'],
+					$translatedData['iframe_html'],
+					$translatedData['iframe_selection'],
+					TemplateService::TYPE_IFRAME,
+					$jsonDataArray
 				),
 			],
 			'iframeReplacement' => [
@@ -907,8 +950,10 @@ class StaticFileGenerationService implements SingletonInterface {
 				'iframe_replacement_overwritten' => $translatedData['iframe_replacement_overwritten'],
 				'iframe_replacement_selection' => $translatedData['iframe_replacement_selection'],
 				'markup' => $this->getRenderedMustacheTemplate(
-					$translatedData['iframe_replacement_overwritten'], $translatedData['iframe_replacement_html'],
-					$translatedData['iframe_replacement_selection'], TemplateService::TYPE_IFRAME_REPLACEMENT,
+					$translatedData['iframe_replacement_overwritten'],
+					$translatedData['iframe_replacement_html'],
+					$translatedData['iframe_replacement_selection'],
+					TemplateService::TYPE_IFRAME_REPLACEMENT,
 					$jsonDataArray
 				),
 			],
@@ -917,8 +962,10 @@ class StaticFileGenerationService implements SingletonInterface {
 				'iframe_whitelist_overwritten' => $translatedData['iframe_whitelist_overwritten'],
 				'iframe_whitelist_selection' => $translatedData['iframe_whitelist_selection'],
 				'markup' => $this->getRenderedMustacheTemplate(
-					$translatedData['iframe_whitelist_overwritten'], $translatedData['iframe_whitelist_regex'],
-					$translatedData['iframe_whitelist_selection'], TemplateService::TYPE_IFRAME_WHITELIST,
+					$translatedData['iframe_whitelist_overwritten'],
+					$translatedData['iframe_whitelist_regex'],
+					$translatedData['iframe_whitelist_selection'],
+					TemplateService::TYPE_IFRAME_WHITELIST,
 					$jsonDataArray
 				),
 			],
@@ -926,9 +973,10 @@ class StaticFileGenerationService implements SingletonInterface {
 
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace(
-				'#LANG#', $locale . JsonImportService::LOCALE_SEPARATOR . $translatedData['sys_language_uid'],
-				self::TEMPLATE_JSON_NAME
-			);
+			'#LANG#',
+			$locale . JsonImportService::LOCALE_SEPARATOR . $translatedData['sys_language_uid'],
+			self::TEMPLATE_JSON_NAME
+		);
 
 		$mask = JSON_PRETTY_PRINT;
 		if (defined('JSON_THROW_ON_ERROR')) {
@@ -939,14 +987,14 @@ class StaticFileGenerationService implements SingletonInterface {
 		if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc']) &&
 			is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'])
 		) {
-		   $_params = array(
+			$_params = [
 			   'pObj' => &$this,
 			   'data' => &$jsonDataArray,
 			   'languageUid' => $languageUid
-		   );
-		   foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'] as $_funcRef) {
-			  GeneralUtility::callUserFunction($_funcRef,$_params, $this);
-		   }
+		   ];
+			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['sg_cookie_optin']['GenerateFilesAfterTcaSave']['preSaveJsonProc'] as $_funcRef) {
+				GeneralUtility::callUserFunction($_funcRef, $_params, $this);
+			}
 		}
 
 		/** @noinspection JsonEncodingApiUsageInspection */
@@ -966,10 +1014,14 @@ class StaticFileGenerationService implements SingletonInterface {
 	 * @return string
 	 */
 	protected function getRenderedMustacheTemplate(
-		$overwritten, $overwrittenTemplate, $templateSelection, $type, array $data
+		$overwritten,
+		$overwrittenTemplate,
+		$templateSelection,
+		$type,
+		array $data
 	) {
 		$templateService = GeneralUtility::makeInstance(TemplateService::class);
-		if ((boolean) $overwritten && $overwrittenTemplate) {
+		if ((bool) $overwritten && $overwrittenTemplate) {
 			$template = $overwrittenTemplate;
 		} else {
 			$template = $templateService->getMustacheContent((int) $type, (int) $templateSelection);

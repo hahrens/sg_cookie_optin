@@ -979,7 +979,7 @@ $configuration = [
 				'format' => 'html',
 				'eval' => 'trim',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => true
+				   'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -991,7 +991,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => true
+				   'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1016,7 +1016,7 @@ $configuration = [
 					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_selection.0', 0],
 				],
 				'behaviour' => [
-				   'allowLanguageSynchronization' => true
+				   'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1030,7 +1030,7 @@ $configuration = [
 				'format' => 'html',
 				'eval' => 'trim',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => true
+				   'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1042,7 +1042,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => true
+				   'allowLanguageSynchronization' => TRUE
 				],
 			],
 
@@ -1068,7 +1068,7 @@ $configuration = [
 					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_selection.0', 0],
 				],
 				'behaviour' => [
-				   'allowLanguageSynchronization' => true
+				   'allowLanguageSynchronization' => TRUE
 			   ]
 			],
 		],
@@ -1127,7 +1127,7 @@ $configuration = [
 					],
 				],
 				'behaviour' => [
-				   'allowLanguageSynchronization' => true
+				   'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1139,7 +1139,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => true
+				   'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1166,7 +1166,7 @@ $configuration = [
 					['LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.template_selection.1', 1],
 				],
 				'behaviour' => [
-				   'allowLanguageSynchronization' => true
+				   'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1268,7 +1268,7 @@ $configuration = [
 					],
 				],
 				'behaviour' => [
-				   'allowLanguageSynchronization' => true
+				   'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1280,7 +1280,7 @@ $configuration = [
 				'type' => 'check',
 				'default' => '0',
 				'behaviour' => [
-				   'allowLanguageSynchronization' => true
+				   'allowLanguageSynchronization' => TRUE
 				],
 			],
 		],
@@ -1616,7 +1616,7 @@ $configuration = [
 				'type' => 'text',
 				'renderType' => 't3editor',
 				'eval' => 'trim',
-                'default' => ''
+				'default' => ''
 			],
 		],
 		'cookiebanner_whitelist_regex' => [
@@ -1628,7 +1628,7 @@ $configuration = [
 				'type' => 'text',
 				'renderType' => 't3editor',
 				'eval' => 'trim',
-                'default' => ''
+				'default' => ''
 			],
 		],
 		'version' => [

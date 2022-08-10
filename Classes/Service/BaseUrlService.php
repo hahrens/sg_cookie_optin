@@ -39,7 +39,6 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * @package SGalinski\SgCookieOptin\Service
  */
 class BaseUrlService {
-
 	/**
 	 * Gets the base Url for this site root
 	 *

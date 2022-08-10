@@ -37,7 +37,7 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * Handles the template related changes in the TCA.
  */
 class HandleTemplateAfterTcaSave {
-	const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
+	public const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
 
 	/**
 	 * Hook method for updating the template field in the optin TCA
@@ -54,7 +54,11 @@ class HandleTemplateAfterTcaSave {
 	 * @throws \InvalidArgumentException
 	 */
 	public function processDatamap_afterDatabaseOperations(
-		$status, $table, $id, array $fieldArray, DataHandler $dataHandler
+		$status,
+		$table,
+		$id,
+		array $fieldArray,
+		DataHandler $dataHandler
 	) {
 		if (
 			($status !== 'update' && $status !== 'new') || $table !== self::TABLE_NAME ||
@@ -86,7 +90,8 @@ class HandleTemplateAfterTcaSave {
 				}
 
 				$template = $templateService->getMustacheContent(
-					TemplateService::TYPE_TEMPLATE, (int) $data['template_selection']
+					TemplateService::TYPE_TEMPLATE,
+					(int) $data['template_selection']
 				);
 			}
 
@@ -98,7 +103,8 @@ class HandleTemplateAfterTcaSave {
 				}
 
 				$bannerTemplate = $templateService->getMustacheContent(
-					TemplateService::TYPE_BANNER, (int) $data['banner_selection']
+					TemplateService::TYPE_BANNER,
+					(int) $data['banner_selection']
 				);
 			}
 
@@ -110,7 +116,8 @@ class HandleTemplateAfterTcaSave {
 				}
 
 				$iframeTemplate = $templateService->getMustacheContent(
-					TemplateService::TYPE_IFRAME, (int) $data['iframe_selection']
+					TemplateService::TYPE_IFRAME,
+					(int) $data['iframe_selection']
 				);
 			}
 
@@ -122,7 +129,8 @@ class HandleTemplateAfterTcaSave {
 				}
 
 				$iframeReplacementTemplate = $templateService->getMustacheContent(
-					TemplateService::TYPE_IFRAME_REPLACEMENT, (int) $data['iframe_replacement_selection']
+					TemplateService::TYPE_IFRAME_REPLACEMENT,
+					(int) $data['iframe_replacement_selection']
 				);
 			}
 
@@ -134,7 +142,8 @@ class HandleTemplateAfterTcaSave {
 				}
 
 				$iframeWhitelistTemplate = $templateService->getMustacheContent(
-					TemplateService::TYPE_IFRAME_WHITELIST, (int) $data['iframe_whitelist_selection']
+					TemplateService::TYPE_IFRAME_WHITELIST,
+					(int) $data['iframe_whitelist_selection']
 				);
 			}
 

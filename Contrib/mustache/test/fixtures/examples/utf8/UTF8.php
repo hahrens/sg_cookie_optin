@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-class UTF8
-{
-    public $test = '中文又来啦';
+class UTF8 {
+	public $test = '中文又来啦';
 }

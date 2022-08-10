@@ -9,7 +9,6 @@
  * file that was distributed with this source code.
  */
 
-class Blocks
-{
-    public $items = array(1, 2, 3);
+class Blocks {
+	public $items = [1, 2, 3];
 }

@@ -35,19 +35,19 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * Class SGalinski\SgCookieOptin\Service\TemplateService
  */
 class TemplateService implements SingletonInterface {
-	const TYPE_TEMPLATE = 0;
-	const TYPE_BANNER = 1;
-	const TYPE_IFRAME = 2;
-	const TYPE_IFRAME_REPLACEMENT = 3;
-	const TYPE_IFRAME_WHITELIST = 4;
+	public const TYPE_TEMPLATE = 0;
+	public const TYPE_BANNER = 1;
+	public const TYPE_IFRAME = 2;
+	public const TYPE_IFRAME_REPLACEMENT = 3;
+	public const TYPE_IFRAME_WHITELIST = 4;
 
-	const TEMPLATE_ID_DEFAULT = 0;
-	const TEMPLATE_ID_NEW = 1;
+	public const TEMPLATE_ID_DEFAULT = 0;
+	public const TEMPLATE_ID_NEW = 1;
 
-	const BANNER_TEMPLATE_ID_DEFAULT = 0;
-	const IFRAME_TEMPLATE_ID_DEFAULT = 0;
-	const IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT = 0;
-	const IFRAME_WHITELIST_TEMPLATE_ID_DEFAULT = 0;
+	public const BANNER_TEMPLATE_ID_DEFAULT = 0;
+	public const IFRAME_TEMPLATE_ID_DEFAULT = 0;
+	public const IFRAME_REPLACEMENT_TEMPLATE_ID_DEFAULT = 0;
+	public const IFRAME_WHITELIST_TEMPLATE_ID_DEFAULT = 0;
 
 	protected static $templateIdToNameMap = [
 		self::TYPE_TEMPLATE => [
@@ -95,7 +95,7 @@ class TemplateService implements SingletonInterface {
 			return '';
 		}
 
-		$mustacheEngine = new Mustache_Engine;
+		$mustacheEngine = new Mustache_Engine();
 		return $mustacheEngine->render($template, $marker);
 	}
 
@@ -112,7 +112,8 @@ class TemplateService implements SingletonInterface {
 		}
 
 		return $this->getHTMLFileContent(
-			self::$templateIdToNameMap[$type][$templateId], self::$templateIdToFolderMap[$type]
+			self::$templateIdToNameMap[$type][$templateId],
+			self::$templateIdToFolderMap[$type]
 		);
 	}
 
@@ -149,7 +150,8 @@ class TemplateService implements SingletonInterface {
 
 		$content = '/* File: ' . self::$templateIdToNameMap[$type][0] . " */\n\n" .
 			$this->getCSSFileContent(
-				self::$templateIdToNameMap[$type][0], self::$templateIdToFolderMap[$type]
+				self::$templateIdToNameMap[$type][0],
+				self::$templateIdToFolderMap[$type]
 			);
 		if ($templateId > 0) {
 			if (!isset(self::$templateIdToNameMap[$type][$templateId])) {
@@ -158,7 +160,8 @@ class TemplateService implements SingletonInterface {
 
 			$content .= '/* File: ' . self::$templateIdToNameMap[$type][$templateId] . " */\n\n" .
 				$this->getCSSFileContent(
-					self::$templateIdToNameMap[$type][$templateId], self::$templateIdToFolderMap[$type]
+					self::$templateIdToNameMap[$type][$templateId],
+					self::$templateIdToFolderMap[$type]
 				);
 		}
 

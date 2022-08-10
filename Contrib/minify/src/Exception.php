@@ -15,6 +15,5 @@ namespace MatthiasMullie\Minify;
  * @package Minify
  * @author Matthias Mullie <minify@mullie.eu>
  */
-abstract class Exception extends \Exception
-{
+abstract class Exception extends \Exception {
 }

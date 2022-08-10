@@ -32,7 +32,6 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * Class EditLink
  **/
 class IsVersionHigherThanViewHelper extends \SgCookieAbstractViewHelper {
-
 	/**
 	 * Register the ViewHelper arguments
 	 */
@@ -51,5 +50,4 @@ class IsVersionHigherThanViewHelper extends \SgCookieAbstractViewHelper {
 		$version = $this->arguments['version'];
 		return version_compare(VersionNumberUtility::getNumericTypo3Version(), $version, '>=');
 	}
-
 }

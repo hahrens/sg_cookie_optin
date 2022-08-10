@@ -1,4 +1,5 @@
 <?php
+
 if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '11.0.0', '<')) {
 	return [
 		'frontend' => [
