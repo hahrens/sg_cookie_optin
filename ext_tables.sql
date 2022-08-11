@@ -164,6 +164,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	l10n_diffsource mediumblob,
 
 	-- DataMapProcessor -> fetchTranslationValues --> requires t3ver_wsid event without workspaces (Bug?)
+	-- fixed in: https://review.typo3.org/c/Packages/TYPO3.CMS/+/75401
+	-- Remove this line at the end of 2022 again
 	t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
@@ -197,6 +199,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_group (
 	l10n_diffsource mediumblob,
 
 	-- DataMapProcessor -> fetchTranslationValues --> requires t3ver_wsid event without workspaces (Bug?)
+	-- fixed in: https://review.typo3.org/c/Packages/TYPO3.CMS/+/75401
+	-- Remove this line at the end of 2022 again
 	t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
@@ -230,6 +234,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_script (
 	l10n_diffsource mediumblob,
 
 	-- DataMapProcessor -> fetchTranslationValues --> requires t3ver_wsid event without workspaces (Bug?)
+	-- fixed in: https://review.typo3.org/c/Packages/TYPO3.CMS/+/75401
+	-- Remove this line at the end of 2022 again
 	t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
@@ -265,6 +271,8 @@ CREATE TABLE tx_sgcookieoptin_domain_model_cookie (
 	l10n_diffsource mediumblob,
 
 	-- DataMapProcessor -> fetchTranslationValues --> requires t3ver_wsid event without workspaces (Bug?)
+	-- fixed in: https://review.typo3.org/c/Packages/TYPO3.CMS/+/75401
+	-- Remove this line at the end of 2022 again
 	t3ver_wsid INT(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
