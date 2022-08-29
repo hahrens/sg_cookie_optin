@@ -3,10 +3,8 @@
     "type" : "typo3-cms-extension",
     "description" : "This extensions adds a cookie optin for the frontend.",
     "homepage" : "https://www.sgalinski.de",
-    "license" : [
-        "GPL-2.0-or-later"
-    ],
-    "version" : "4.5.3",
+    "license" : "GPL-2.0-or-later",
+    "version" : "4.6.0",
     "support" : {
         "issues" : "https://gitlab.sgalinski.de/typo3/sg_cookie_optin"
     },
