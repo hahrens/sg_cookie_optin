@@ -1096,7 +1096,6 @@ $configuration = [
 			'exclude' => TRUE,
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.overwrite_baseurl',
 			'description' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.overwrite_baseurl.description',
-			'l10n_mode' => 'exclude',
 			'config' => [
 				'type' => 'input',
 				'default' => '',
