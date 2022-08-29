@@ -826,14 +826,18 @@ class StaticFileGenerationService implements SingletonInterface {
 			++$index;
 		}
 
-		$baseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
-		if ((VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000)) {
-			$baseUri = $baseUrl;
+		if ($translatedData['overwrite_baseurl']) {
+			$baseUri = $translatedData['overwrite_baseurl'];
 		} else {
-			$siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
-			$site = $siteFinder->getSiteByPageId($this->siteRoot);
-			$pageRouter = GeneralUtility::makeInstance(PageRouter::class, $site);
-			$baseUri = $pageRouter->generateUri($this->siteRoot, ['_language' => $languageUid]);
+			$baseUrl = BaseUrlService::getSiteBaseUrl($this->siteRoot);
+			if ((VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 9000000)) {
+				$baseUri = $baseUrl;
+			} else {
+				$siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
+				$site = $siteFinder->getSiteByPageId($this->siteRoot);
+				$pageRouter = GeneralUtility::makeInstance(PageRouter::class, $site);
+				$baseUri = $pageRouter->generateUri($this->siteRoot, ['_language' => $languageUid]);
+			}
 		}
 
 		$settings = [
