@@ -902,7 +902,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'cookieGroups' => $cookieGroups,
 			'cssData' => $cssData,
 			'footerLinks' => $footerLinks,
-			'iFrameGroup' => $iFrameGroup,
+			'iFrameGroup' => $iFrameGroup ?? NULL,
 			'settings' => $settings,
 			'textEntries' => $textEntries,
 			'placeholders' => $placeholders
