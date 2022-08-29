@@ -1735,7 +1735,7 @@ var SgCookieOptin = {
 				}
 
 				var valueEntry = splitCookieValue[cookieValueIndex];
-				if (valueEntry.indexOf(SgCookieOptin.COOKIE_GROUP_ESSENTIAL) === 0 || valueEntry.indexOf(SgCookieOptin.COOKIE_GROUP_IFRAME) === 0) {
+				if (valueEntry.indexOf(SgCookieOptin.COOKIE_GROUP_ESSENTIAL) === 0 || valueEntry.indexOf(SgCookieOptin.COOKIE_GROUP_EXTERNAL_CONTENT) === 0) {
 					continue;
 				}
 
