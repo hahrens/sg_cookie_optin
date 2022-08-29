@@ -41,9 +41,9 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * @package SGalinski\SgCookieOptin\Service
  */
 class OptinHistoryService {
-	public const TYPE_GROUP = 1;
+	const TYPE_GROUP = 1;
 
-	public const TABLE_NAME = 'tx_sgcookieoptin_domain_model_user_preference';
+	const TABLE_NAME = 'tx_sgcookieoptin_domain_model_user_preference';
 
 	/**
 	 * Saves the optin history
@@ -120,7 +120,7 @@ class OptinHistoryService {
 		$tstamp = date('Y-m-d H:i:s', $GLOBALS['EXEC_TIME']);
 		$date = substr($tstamp, 0, 10);
 		foreach ($cookieValuePairs as $pair) {
-			[$groupName, $value] = explode(':', $pair);
+			list($groupName, $value) = explode(':', $pair);
 			$insertData[] = [
 				'user_hash' => $jsonInput['uuid'],
 				'version' => $jsonInput['version'],
@@ -298,7 +298,7 @@ class OptinHistoryService {
 	 * @return void
 	 * @throws \Doctrine\DBAL\Exception
 	 */
-	public static function deleteOlderThan(int $olderThan, int $pid): void {
+	public static function deleteOlderThan(int $olderThan, int $pid) {
 		$connection = GeneralUtility::makeInstance(ConnectionPool::class)
 			->getConnectionForTable(self::TABLE_NAME);
 		$query = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE tstamp < DATE_SUB(NOW(), INTERVAL ? DAY)';
