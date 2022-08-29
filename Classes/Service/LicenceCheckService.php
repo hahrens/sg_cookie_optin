@@ -39,49 +39,49 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  * @package SGalinski\SgCookieOptin\Service
  */
 class LicenceCheckService {
-	public const STATE_LICENSE_VALID = 2;
-	public const STATE_LICENSE_INVALID = 1;
-	public const STATE_LICENSE_NOT_SET = 0;
+	const STATE_LICENSE_VALID = 2;
+	const STATE_LICENSE_INVALID = 1;
+	const STATE_LICENSE_NOT_SET = 0;
 
-	public const DEMO_MODE_KEY = 'demo_mode';
-	public const DEMO_MODE_LIFETIME = 86400;
-	public const DEMO_MODE_MAX_AMOUNT = 3;
+	const DEMO_MODE_KEY = 'demo_mode';
+	const DEMO_MODE_LIFETIME = 86400;
+	const DEMO_MODE_MAX_AMOUNT = 3;
 
 	/**
 	 * The product key from ShopWare
 	 */
-	public const PRODUCT_KEY = 'sg_cookie_optin';
+	const PRODUCT_KEY = 'sg_cookie_optin';
 
 	/**
 	 * Namespace for the sys registry
 	 */
-	public const REGISTRY_NAMESPACE = 'tx_sgcookieoptin';
+	const REGISTRY_NAMESPACE = 'tx_sgcookieoptin';
 
 	/**
 	 * Keys for the sys registry
 	 */
-	public const IS_KEY_VALID_KEY = 'isKeyValid';
-	public const LAST_WARNING_TIMESTAMP_KEY = 'lastWarningTimestamp';
-	public const HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY = 'hasValidLicenseUntilTimestamp';
-	public const LICENSE_CHECKED_IN_VERSION_KEY = 'licenceCheckedInVersion';
-	public const LAST_CHECKED_TIMESTAMP_KEY = 'lastCheckedTimestamp';
-	public const LAST_AJAX_TIMESTAMP_KEY = 'lastAjaxTimestamp';
-	public const LAST_LICENSE_KEY_CHECKED_KEY = 'lastLicenseKeyChecked';
+	const IS_KEY_VALID_KEY = 'isKeyValid';
+	const LAST_WARNING_TIMESTAMP_KEY = 'lastWarningTimestamp';
+	const HAS_VALID_LICENSE_UNTIL_TIMESTAMP_KEY = 'hasValidLicenseUntilTimestamp';
+	const LICENSE_CHECKED_IN_VERSION_KEY = 'licenceCheckedInVersion';
+	const LAST_CHECKED_TIMESTAMP_KEY = 'lastCheckedTimestamp';
+	const LAST_AJAX_TIMESTAMP_KEY = 'lastAjaxTimestamp';
+	const LAST_LICENSE_KEY_CHECKED_KEY = 'lastLicenseKeyChecked';
 
 	/**
 	 * Error codes
 	 */
-	public const ERROR_INVALID_RESPONSE_CODE = -1;
-	public const ERROR_INVALID_RESPONSE_DATA = -2;
-	public const ERROR_INVALID_LICENSE_KEY = -3;
-	public const ERROR_INVALID_LICENSE_STRUCTURE = -4;
-	public const ERROR_TIMESTAMP_INVALID = -5;
-	public const ERROR_LICENSE_CHECK_EXCEPTION = -6;
+	const ERROR_INVALID_RESPONSE_CODE = -1;
+	const ERROR_INVALID_RESPONSE_DATA = -2;
+	const ERROR_INVALID_LICENSE_KEY = -3;
+	const ERROR_INVALID_LICENSE_STRUCTURE = -4;
+	const ERROR_TIMESTAMP_INVALID = -5;
+	const ERROR_LICENSE_CHECK_EXCEPTION = -6;
 
 	/**
 	 * Earliest TYPO3 Version that we support
 	 */
-	public const EARLIEST_SUPPORTED_VERSION = 8000000;
+	const EARLIEST_SUPPORTED_VERSION = 8000000;
 
 	/**
 	 * Last response code from server
@@ -107,19 +107,19 @@ class LicenceCheckService {
 	/**
 	 * Check the license key once per how many days
 	 */
-	public const AMOUNT_OF_DAYS_UNTIL_NEXT_CHECK = 1;
+	const AMOUNT_OF_DAYS_UNTIL_NEXT_CHECK = 1;
 
 	/**
 	 * Show a warning if the license has expired but we are still in the same version once per how many days
 	 */
-	public const AMOUNT_OF_DAYS_UNTIL_WARNING = 30;
+	const AMOUNT_OF_DAYS_UNTIL_WARNING = 30;
 
 	/**
 	 * License server credentials
 	 */
-	public const API_USER = 'license_check';
-	public const API_PASSWORD = 'lGKLiHc5We6gBqsggVlwdLNoWv9CEKnWiy7cgMUO';
-	public const API_URL = 'https://shop.sgalinski.de/api/license';
+	const API_USER = 'license_check';
+	const API_PASSWORD = 'lGKLiHc5We6gBqsggVlwdLNoWv9CEKnWiy7cgMUO';
+	const API_URL = 'https://shop.sgalinski.de/api/license';
 
 	/**
 	 * @var array
@@ -147,12 +147,16 @@ class LicenceCheckService {
 		'4.4.5' => 1651580776, // 2022-05-03T15:27:44Z
 		'4.4.6' => 1654122394, // Wed, 01 Jun 2022 22:26:34 GMT
 		'4.5.0' => 1655281313, // Wed, 15 Jun 2022 09:22:34 GMT
+		'4.5.1' => 1655281313, // Wed, 15 Jun 2022 09:22:34 GMT
+		'4.5.2' => 1655281313, // Wed, 15 Jun 2022 09:22:34 GMT
+		'4.5.3' => 1655281313, // Wed, 15 Jun 2022 09:22:34 GMT
+		'4.6.0' => 1661785282, // Mon Aug 29 2022 18:01:22 GMT+0300
 	];
 
 	/**
 	 * The current extension version
 	 */
-	public const CURRENT_VERSION = '4.5.0';
+	const CURRENT_VERSION = '4.6.0';
 
 	/**
 	 * @param mixed $validUntil A timestamp, which says the lifetime of this key.
