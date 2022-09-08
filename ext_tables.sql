@@ -39,7 +39,6 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	template_selection int(11) DEFAULT '0' NOT NULL,
 	disable_powered_by tinyint(4) unsigned DEFAULT '0' NOT NULL,
 
-
 	-- banner
 	banner_enable tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	banner_html text NOT NULL,
@@ -95,6 +94,11 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	color_full_button_close varchar(10) DEFAULT '#143D59' NOT NULL,
 	color_full_button_close_hover varchar(10) DEFAULT '#143D59' NOT NULL,
 	color_full_button_close_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
+
+	-- Fingerpring settings
+	color_fingerprint_background varchar(10) DEFAULT '#143D59' NOT NULL,
+	color_fingerprint_image varchar(10) DEFAULT '#FFFFFF' NOT NULL,
+	fingerprint_position int(6) DEFAULT 0 NOT NULL,
 
 	-- Essential group specific columns
 	essential_title text NOT NULL,

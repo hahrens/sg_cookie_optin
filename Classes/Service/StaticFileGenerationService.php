@@ -191,6 +191,8 @@ class StaticFileGenerationService implements SingletonInterface {
 			'banner_color_button_accept' => $fullData['banner_color_button_accept'],
 			'banner_color_button_accept_hover' => $fullData['banner_color_button_accept_hover'],
 			'banner_color_button_accept_text' => $fullData['banner_color_button_accept_text'],
+			'color_fingerprint_image' => $fullData['color_fingerprint_image'],
+			'color_fingerprint_background' => $fullData['color_fingerprint_background'],
 		];
 		$this->createCSSFile($fullData, $folderName, $cssData, $minifyFiles);
 
@@ -458,6 +460,13 @@ class StaticFileGenerationService implements SingletonInterface {
 			$content .= " \n\n" . $templateService->getCSSContent(
 				TemplateService::TYPE_IFRAME_REPLACEMENT,
 				$data['iframe_replacement_selection']
+			);
+		}
+
+		if ($data['fingerprint_position'] > 0) {
+			$content .= " \n\n" . $templateService->getCSSContent(
+				TemplateService::TYPE_FINGERPRINT,
+				TemplateService::IFRAME_FINGERPRINT_TEMPLATE_ID_DEFAULT
 			);
 		}
 
@@ -869,6 +878,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'overwrite_baseurl' => (string) $translatedData['overwrite_baseurl'],
 			'unified_cookie_name' => (bool) $translatedData['unified_cookie_name'],
 			'disable_usage_statistics' => (bool) $translatedData['disable_usage_statistics'],
+			'fingerprint_position' => (int) $translatedData['fingerprint_position'],
 		];
 
 		$textEntries = [

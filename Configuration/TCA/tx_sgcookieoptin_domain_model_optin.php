@@ -55,7 +55,7 @@ $configuration = [
 					--palette--;;update_version, header, description, save_confirmation_text, user_hash_text, --palette--;;accept_buttons_texts,
 					--palette--;;link_texts, --palette--;;cookie_texts, navigation,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.color,
-					--palette--;;template, --palette--;;color_general, --palette--;;color_notification,
+					--palette--;;template, --palette--;;color_general, --palette--;;fingerprint, --palette--;;color_notification,
 					--palette--;;color_checkbox, --palette--;;color_button, --palette--;;color_list,
 					--palette--;;color_table, disable_powered_by,
 				--div--;LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.tab.iframes,
@@ -113,6 +113,11 @@ $configuration = [
 		'color_list' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_lists',
 			'showitem' => 'color_list, color_list_text',
+		],
+		'fingerprint' => [
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint',
+			'showitem' => 'fingerprint_position, --linebreak--,
+			color_fingerprint_background, color_fingerprint_image'
 		],
 		'color_table' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.colors_tables',
@@ -1666,6 +1671,62 @@ $configuration = [
 				'default' => '0',
 			],
 		],
+		'fingerprint_position' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position',
+			'default' => 0,
+			'config' => [
+				'type' => 'select',
+				'renderType' => 'selectSingle',
+				'default' => 0,
+				'items' => [
+					[
+						'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.0',
+						0,
+					],
+					[
+						'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.1',
+						1,
+					],
+					[
+						'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.2',
+						2,
+					],
+					[
+						'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.3',
+						3,
+					],
+					[
+						'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint_position.4',
+						4,
+					],
+				]
+			]
+		],
+		'color_fingerprint_background' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_fingerprint_background',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#143D59',
+				'placeholder' => '#208A20',
+				'eval' => 'trim, required'
+			]
+		],
+		'color_fingerprint_image' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_fingerprint_image',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#FFFFFF',
+				'placeholder' => '#208A20',
+				'eval' => 'trim, required'
+			]
+		],
 	],
 ];
 
@@ -1743,7 +1804,12 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'banner_button_accept_text, banner_button_settings_text, banner_description, show_button_close,'
 		. 'activate_testing_mode, color_full_box, color_full_headline, color_full_text, color_full_button_close,'
 		. 'color_full_button_close_hover, color_full_button_close_text, color_table_header, save_confirmation_text,'
-		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist, iframe_whitelist_overwritten, iframe_whitelist_warning, iframe_whitelist_selection, iframe_whitelist_regex, subdomain_support, set_cookie_for_domain, domains_to_delete_cookies_for, cookiebanner_whitelist_regex, disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track, banner_show_again_interval, version, unified_cookie_name, disable_usage_statistics';
+		. 'color_confirmation_background, color_confirmation_text, session_only_essential_cookies, iframe_whitelist,'
+		. 'iframe_whitelist_overwritten, iframe_whitelist_warning, iframe_whitelist_selection, iframe_whitelist_regex,'
+		. 'subdomain_support, set_cookie_for_domain, domains_to_delete_cookies_for, cookiebanner_whitelist_regex,'
+		. 'disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track,'
+		. 'banner_show_again_interval, version, unified_cookie_name, disable_usage_statistics, fingerprint_position,'
+		. 'color_fingerprint_background, color_fingerprint_image';
 }
 
 return $configuration;

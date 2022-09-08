@@ -599,6 +599,33 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.disable_usage_statistics" approved="yes">
 				<source><![CDATA[Disable Usage Statistics and Tracability]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position" approved="yes">
+				<source><![CDATA[Fingerprint Icon Position]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position.0" approved="yes">
+				<source><![CDATA[None]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position.1" approved="yes">
+				<source><![CDATA[Bottom Left]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position.2" approved="yes">
+				<source><![CDATA[Bottom Right]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position.3" approved="yes">
+				<source><![CDATA[Top Left]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position.4" approved="yes">
+				<source><![CDATA[Top Right]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_fingerprint_background" approved="yes">
+				<source><![CDATA[Fingerprint Background Color]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_fingerprint_image" approved="yes">
+				<source><![CDATA[Fingerprint Image Color]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint" approved="yes">
+				<source><![CDATA[Fingerprint]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

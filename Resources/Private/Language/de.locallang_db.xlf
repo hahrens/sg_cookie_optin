@@ -813,6 +813,42 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<source><![CDATA[Disable Usage Statistics and Tracability]]></source>
 				<target><![CDATA[Nutzungsstatistiken und Rückverfolgbarkeit deaktivieren]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position" approved="yes">
+				<source><![CDATA[Fingerprint Icon Position]]></source>
+				<target><![CDATA[Fingerabdruck-Symbol Position]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position.0" approved="yes">
+				<source><![CDATA[None]]></source>
+				<target><![CDATA[Keine]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position.1" approved="yes">
+				<source><![CDATA[Bottom Left]]></source>
+				<target><![CDATA[Unten Links]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position.2" approved="yes">
+				<source><![CDATA[Bottom Right]]></source>
+				<target><![CDATA[Unten Rechts]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position.3" approved="yes">
+				<source><![CDATA[Top Left]]></source>
+				<target><![CDATA[Oben Links]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint_position.4" approved="yes">
+				<source><![CDATA[Top Right]]></source>
+				<target><![CDATA[Oben Rechts]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_fingerprint_background" approved="yes">
+				<source><![CDATA[Fingerprint Background Color]]></source>
+				<target><![CDATA[Fingerabdruck-Hintergrundfarbe]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_fingerprint_image" approved="yes">
+				<source><![CDATA[Fingerprint Image Color]]></source>
+				<target><![CDATA[Fingerabdruck Bildfarbe]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint" approved="yes">
+				<source><![CDATA[Fingerprint]]></source>
+				<target><![CDATA[Fingerabdruck]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
