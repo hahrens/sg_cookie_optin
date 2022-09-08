@@ -283,6 +283,7 @@ var SgCookieOptin = {
 		var fromBanner = typeof options == 'object' && options.fromBanner === true;
 
 		var wrapper = document.createElement('DIV');
+		wrapper.setAttribute('data-nosnippet', '');
 		wrapper.id = 'SgCookieOptin';
 
 		var forceBanner;
