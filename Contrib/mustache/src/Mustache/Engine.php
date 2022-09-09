@@ -22,12 +22,12 @@
  * @author Justin Hileman {@link http://justinhileman.com}
  */
 class Mustache_Engine {
-	public const VERSION = '2.13.0';
-	public const SPEC_VERSION = '1.1.2';
+	const VERSION = '2.13.0';
+	const SPEC_VERSION = '1.1.2';
 
-	public const PRAGMA_FILTERS = 'FILTERS';
-	public const PRAGMA_BLOCKS = 'BLOCKS';
-	public const PRAGMA_ANCHORED_DOT = 'ANCHORED-DOT';
+	const PRAGMA_FILTERS = 'FILTERS';
+	const PRAGMA_BLOCKS = 'BLOCKS';
+	const PRAGMA_ANCHORED_DOT = 'ANCHORED-DOT';
 
 	// Known pragmas
 	private static $knownPragmas = [

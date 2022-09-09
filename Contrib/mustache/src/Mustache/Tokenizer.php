@@ -16,25 +16,25 @@
  */
 class Mustache_Tokenizer {
 	// Finite state machine states
-	public const IN_TEXT = 0;
-	public const IN_TAG_TYPE = 1;
-	public const IN_TAG = 2;
+	const IN_TEXT = 0;
+	const IN_TAG_TYPE = 1;
+	const IN_TAG = 2;
 
 	// Token types
-	public const T_SECTION = '#';
-	public const T_INVERTED = '^';
-	public const T_END_SECTION = '/';
-	public const T_COMMENT = '!';
-	public const T_PARTIAL = '>';
-	public const T_PARENT = '<';
-	public const T_DELIM_CHANGE = '=';
-	public const T_ESCAPED = '_v';
-	public const T_UNESCAPED = '{';
-	public const T_UNESCAPED_2 = '&';
-	public const T_TEXT = '_t';
-	public const T_PRAGMA = '%';
-	public const T_BLOCK_VAR = '$';
-	public const T_BLOCK_ARG = '$arg';
+	const T_SECTION = '#';
+	const T_INVERTED = '^';
+	const T_END_SECTION = '/';
+	const T_COMMENT = '!';
+	const T_PARTIAL = '>';
+	const T_PARENT = '<';
+	const T_DELIM_CHANGE = '=';
+	const T_ESCAPED = '_v';
+	const T_UNESCAPED = '{';
+	const T_UNESCAPED_2 = '&';
+	const T_TEXT = '_t';
+	const T_PRAGMA = '%';
+	const T_BLOCK_VAR = '$';
+	const T_BLOCK_ARG = '$arg';
 
 	// Valid token types
 	private static $tagTypes = [
@@ -53,17 +53,17 @@ class Mustache_Tokenizer {
 	];
 
 	// Token properties
-	public const TYPE = 'type';
-	public const NAME = 'name';
-	public const OTAG = 'otag';
-	public const CTAG = 'ctag';
-	public const LINE = 'line';
-	public const INDEX = 'index';
-	public const END = 'end';
-	public const INDENT = 'indent';
-	public const NODES = 'nodes';
-	public const VALUE = 'value';
-	public const FILTERS = 'filters';
+	const TYPE = 'type';
+	const NAME = 'name';
+	const OTAG = 'otag';
+	const CTAG = 'ctag';
+	const LINE = 'line';
+	const INDEX = 'index';
+	const END = 'end';
+	const INDENT = 'indent';
+	const NODES = 'nodes';
+	const VALUE = 'value';
+	const FILTERS = 'filters';
 
 	private $state;
 	private $tagType;

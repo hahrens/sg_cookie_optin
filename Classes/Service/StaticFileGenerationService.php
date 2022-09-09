@@ -48,19 +48,19 @@ use TYPO3\CMS\Frontend\Page\PageGenerator;
  * Class SGalinski\SgCookieOptin\Service\TemplateService
  */
 class StaticFileGenerationService implements SingletonInterface {
-	public const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
+	const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
 
-	public const FOLDER_SITEROOT = 'siteroot-#PID#/';
+	const FOLDER_SITEROOT = 'siteroot-#PID#/';
 
-	public const TEMPLATE_JAVA_SCRIPT_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/JavaScript/';
-	public const TEMPLATE_JAVA_SCRIPT_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/JavaScript/';
-	public const TEMPLATE_JAVA_SCRIPT_NAME = 'cookieOptin.js';
+	const TEMPLATE_JAVA_SCRIPT_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/JavaScript/';
+	const TEMPLATE_JAVA_SCRIPT_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/JavaScript/';
+	const TEMPLATE_JAVA_SCRIPT_NAME = 'cookieOptin.js';
 
-	public const TEMPLATE_JSON_NAME = 'cookieOptinData--#LANG#.json';
+	const TEMPLATE_JSON_NAME = 'cookieOptinData--#LANG#.json';
 
-	public const TEMPLATE_STYLE_SHEET_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/StyleSheets/';
-	public const TEMPLATE_STYLE_SHEET_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/StyleSheets/';
-	public const TEMPLATE_STYLE_SHEET_NAME = 'cookieOptin.css';
+	const TEMPLATE_STYLE_SHEET_PATH = 'typo3conf/ext/sg_cookie_optin/Resources/Public/StyleSheets/';
+	const TEMPLATE_STYLE_SHEET_PATH_EXT = 'EXT:sg_cookie_optin/Resources/Public/StyleSheets/';
+	const TEMPLATE_STYLE_SHEET_NAME = 'cookieOptin.css';
 
 	/** @var int */
 	protected $siteRoot;

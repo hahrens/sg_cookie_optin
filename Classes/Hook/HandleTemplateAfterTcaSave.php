@@ -37,7 +37,7 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * Handles the template related changes in the TCA.
  */
 class HandleTemplateAfterTcaSave {
-	public const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
+	const TABLE_NAME = 'tx_sgcookieoptin_domain_model_optin';
 
 	/**
 	 * Hook method for updating the template field in the optin TCA

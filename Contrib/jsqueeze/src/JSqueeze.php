@@ -59,9 +59,7 @@ namespace Patchwork;
 */
 
 class JSqueeze {
-	public const
-
-	SPECIAL_VAR_PACKER = '(\$+[a-zA-Z_]|_[a-zA-Z0-9$])[a-zA-Z0-9_$]*';
+	const SPECIAL_VAR_PACKER = '(\$+[a-zA-Z_]|_[a-zA-Z0-9$])[a-zA-Z0-9_$]*';
 
 	public $charFreq;
 

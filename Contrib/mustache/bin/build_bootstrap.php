@@ -77,7 +77,7 @@ SymfonyClassCollectionLoader::load([
 class SymfonyClassCollectionLoader {
 	private static $loaded;
 
-	public const HEADER = <<<'EOS'
+	const HEADER = <<<'EOS'
 <?php
 
 /*

@@ -32,9 +32,9 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  * Class SGalinski\SgCookieOptin\Service\ExtensionSettingsService
  */
 class ExtensionSettingsService {
-	public const SETTING_LICENSE = 'key';
-	public const SETTING_FOLDER = 'folder';
-	public const SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT = 'hideModuleInProductionContext';
+	const SETTING_LICENSE = 'key';
+	const SETTING_FOLDER = 'folder';
+	const SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT = 'hideModuleInProductionContext';
 
 	/**
 	 * @var array Default settings mapped to constants.

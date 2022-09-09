@@ -177,7 +177,7 @@ class Mustache_Compiler {
 		return $code;
 	}
 
-	public const KLASS = '<?php
+	const KLASS = '<?php
 
         class %s extends Mustache_Template
         {
@@ -195,7 +195,7 @@ class Mustache_Compiler {
         %s
         }';
 
-	public const KLASS_NO_LAMBDAS = '<?php
+	const KLASS_NO_LAMBDAS = '<?php
 
         class %s extends Mustache_Template
         {%s
@@ -208,7 +208,7 @@ class Mustache_Compiler {
             }
         }';
 
-	public const STRICT_CALLABLE = 'protected $strictCallables = true;';
+	const STRICT_CALLABLE = 'protected $strictCallables = true;';
 
 	/**
 	 * Generate Mustache Template class PHP source.
@@ -229,14 +229,14 @@ class Mustache_Compiler {
 		return sprintf($this->prepare($klass, 0, FALSE, TRUE), $name, $callable, $code, $sections, $blocks);
 	}
 
-	public const BLOCK_VAR = '
+	const BLOCK_VAR = '
         $blockFunction = $context->findInBlock(%s);
         if (is_callable($blockFunction)) {
             $buffer .= call_user_func($blockFunction, $context);
         %s}
     ';
 
-	public const BLOCK_VAR_ELSE = '} else {%s';
+	const BLOCK_VAR_ELSE = '} else {%s';
 
 	/**
 	 * Generate Mustache Template inheritance block variable PHP source.
@@ -262,7 +262,7 @@ class Mustache_Compiler {
 		return sprintf($this->prepare(self::BLOCK_VAR, $level), $id, $else);
 	}
 
-	public const BLOCK_ARG = '%s => array($this, \'block%s\'),';
+	const BLOCK_ARG = '%s => array($this, \'block%s\'),';
 
 	/**
 	 * Generate Mustache Template inheritance block argument PHP source.
@@ -285,7 +285,7 @@ class Mustache_Compiler {
 		return sprintf($this->prepare(self::BLOCK_ARG, $level), $id, $key);
 	}
 
-	public const BLOCK_FUNCTION = '
+	const BLOCK_FUNCTION = '
         public function block%s($context)
         {
             $indent = $buffer = \'\';%s
@@ -312,13 +312,13 @@ class Mustache_Compiler {
 		return $key;
 	}
 
-	public const SECTION_CALL = '
+	const SECTION_CALL = '
         // %s section
         $value = $context->%s(%s);%s
         $buffer .= $this->section%s($context, $indent, $value);
     ';
 
-	public const SECTION = '
+	const SECTION = '
         private function section%s(Mustache_Context $context, $indent, $value)
         {
             $buffer = \'\';
@@ -386,7 +386,7 @@ class Mustache_Compiler {
 		return sprintf($this->prepare(self::SECTION_CALL, $level), $id, $method, $id, $filters, $key);
 	}
 
-	public const INVERTED_SECTION = '
+	const INVERTED_SECTION = '
         // %s inverted section
         $value = $context->%s(%s);%s
         if (empty($value)) {
@@ -412,8 +412,8 @@ class Mustache_Compiler {
 		return sprintf($this->prepare(self::INVERTED_SECTION, $level), $id, $method, $id, $filters, $this->walk($nodes, $level));
 	}
 
-	public const PARTIAL_INDENT = ', $indent . %s';
-	public const PARTIAL = '
+	const PARTIAL_INDENT = ', $indent . %s';
+	const PARTIAL = '
         if ($partial = $this->mustache->loadPartial(%s)) {
             $buffer .= $partial->renderInternal($context%s);
         }
@@ -442,7 +442,7 @@ class Mustache_Compiler {
 		);
 	}
 
-	public const PARENT = '
+	const PARENT = '
         if ($parent = $this->mustache->loadPartial(%s)) {
             $context->pushBlockContext(array(%s
             ));
@@ -451,7 +451,7 @@ class Mustache_Compiler {
         }
     ';
 
-	public const PARENT_NO_CONTEXT = '
+	const PARENT_NO_CONTEXT = '
         if ($parent = $this->mustache->loadPartial(%s)) {
             $buffer .= $parent->renderInternal($context, $indent);
         }
@@ -492,7 +492,7 @@ class Mustache_Compiler {
 		return $node[Mustache_Tokenizer::TYPE] === Mustache_Tokenizer::T_BLOCK_ARG;
 	}
 
-	public const VARIABLE = '
+	const VARIABLE = '
         $value = $this->resolveValue($context->%s(%s), $context);%s
         $buffer .= %s%s;
     ';
@@ -516,7 +516,7 @@ class Mustache_Compiler {
 		return sprintf($this->prepare(self::VARIABLE, $level), $method, $id, $filters, $this->flushIndent(), $value);
 	}
 
-	public const FILTER = '
+	const FILTER = '
         $filter = $context->%s(%s);
         if (!(%s)) {
             throw new Mustache_Exception_UnknownFilterException(%s);
@@ -546,8 +546,8 @@ class Mustache_Compiler {
 		return sprintf($this->prepare(self::FILTER, $level), $method, $filter, $callable, $msg, $this->getFilters($filters, $level));
 	}
 
-	public const LINE = '$buffer .= "\n";';
-	public const TEXT = '$buffer .= %s%s;';
+	const LINE = '$buffer .= "\n";';
+	const TEXT = '$buffer .= %s%s;';
 
 	/**
 	 * Generate Mustache Template output Buffer call PHP source.
@@ -587,8 +587,8 @@ class Mustache_Compiler {
 		return preg_replace("/\n( {8})?/", "\n" . str_repeat(' ', $bonus * 4), $text);
 	}
 
-	public const DEFAULT_ESCAPE = 'htmlspecialchars(%s, %s, %s)';
-	public const CUSTOM_ESCAPE = 'call_user_func($this->mustache->getEscape(), %s)';
+	const DEFAULT_ESCAPE = 'htmlspecialchars(%s, %s, %s)';
+	const CUSTOM_ESCAPE = 'call_user_func($this->mustache->getEscape(), %s)';
 
 	/**
 	 * Get the current escaper.
@@ -636,8 +636,8 @@ class Mustache_Compiler {
 		return 'findDot';
 	}
 
-	public const IS_CALLABLE = '!is_string(%s) && is_callable(%s)';
-	public const STRICT_IS_CALLABLE = 'is_object(%s) && is_callable(%s)';
+	const IS_CALLABLE = '!is_string(%s) && is_callable(%s)';
+	const STRICT_IS_CALLABLE = 'is_object(%s) && is_callable(%s)';
 
 	/**
 	 * Helper function to compile strict vs lax "is callable" logic.
@@ -652,7 +652,7 @@ class Mustache_Compiler {
 		return sprintf($tpl, $variable, $variable);
 	}
 
-	public const LINE_INDENT = '$indent . ';
+	const LINE_INDENT = '$indent . ';
 
 	/**
 	 * Get the current $indent prefix to write to the buffer.
