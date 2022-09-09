@@ -845,6 +845,10 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<source><![CDATA[Fingerprint Image Color]]></source>
 				<target><![CDATA[Fingerabdruck Bildfarbe]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_fingerprint_border" approved="yes">
+				<source><![CDATA[Fingerprint Border Color]]></source>
+				<target><![CDATA[Fingerabdruck Randfarbe]]></target>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint" approved="yes">
 				<source><![CDATA[Fingerprint]]></source>
 				<target><![CDATA[Fingerabdruck]]></target>

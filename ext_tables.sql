@@ -98,6 +98,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	-- Fingerpring settings
 	color_fingerprint_background varchar(10) DEFAULT '#143D59' NOT NULL,
 	color_fingerprint_image varchar(10) DEFAULT '#FFFFFF' NOT NULL,
+	color_fingerprint_border varchar(10) DEFAULT '#000000' NOT NULL,
 	fingerprint_position int(6) DEFAULT 0 NOT NULL,
 
 	-- Essential group specific columns

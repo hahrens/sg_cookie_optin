@@ -116,7 +116,7 @@ $configuration = [
 		],
 		'fingerprint' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.fingerprint',
-			'showitem' => 'fingerprint_position, --linebreak--,
+			'showitem' => 'fingerprint_position, color_fingerprint_border, --linebreak--,
 			color_fingerprint_background, color_fingerprint_image'
 		],
 		'color_table' => [
@@ -1727,6 +1727,18 @@ $configuration = [
 				'eval' => 'trim, required'
 			]
 		],
+		'color_fingerprint_border' => [
+			'exclude' => TRUE,
+			'l10n_mode' => 'exclude',
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.color_fingerprint_border',
+			'config' => [
+				'type' => 'input',
+				'renderType' => 'colorpicker',
+				'default' => '#000000',
+				'placeholder' => '#208A20',
+				'eval' => 'trim, required'
+			]
+		],
 	],
 ];
 
@@ -1809,7 +1821,7 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'subdomain_support, set_cookie_for_domain, domains_to_delete_cookies_for, cookiebanner_whitelist_regex,'
 		. 'disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track,'
 		. 'banner_show_again_interval, version, unified_cookie_name, disable_usage_statistics, fingerprint_position,'
-		. 'color_fingerprint_background, color_fingerprint_image';
+		. 'color_fingerprint_background, color_fingerprint_image, color_fingerprint_border';
 }
 
 return $configuration;

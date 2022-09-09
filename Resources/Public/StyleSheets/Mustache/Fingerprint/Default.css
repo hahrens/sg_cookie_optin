@@ -19,11 +19,14 @@
 	position: fixed;
 	background-color: ###color_fingerprint_background###;
 	color: ###color_fingerprint_image###;
+	box-shadow: 0 0 10px #848484;
 }
 
 .sg-cookie-optin-fingerprint-icon {
 	height: inherit;
 	padding: 12px;
+	margin-left: 1px;
+	margin-top: -1px;
 }
 
 .sg-cookie-optin-fingerprint.sg-cookie-optin-fingerprint-top-left {

@@ -193,6 +193,7 @@ class StaticFileGenerationService implements SingletonInterface {
 			'banner_color_button_accept_text' => $fullData['banner_color_button_accept_text'],
 			'color_fingerprint_image' => $fullData['color_fingerprint_image'],
 			'color_fingerprint_background' => $fullData['color_fingerprint_background'],
+			'color_fingerprint_border' => $fullData['color_fingerprint_border'],
 		];
 		$this->createCSSFile($fullData, $folderName, $cssData, $minifyFiles);
 

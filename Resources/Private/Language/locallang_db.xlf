@@ -623,6 +623,9 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_fingerprint_image" approved="yes">
 				<source><![CDATA[Fingerprint Image Color]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.color_fingerprint_border" approved="yes">
+				<source><![CDATA[Fingerprint Border Color]]></source>
+			</trans-unit>
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint" approved="yes">
 				<source><![CDATA[Fingerprint]]></source>
 			</trans-unit>
