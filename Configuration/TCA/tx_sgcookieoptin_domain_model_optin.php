@@ -158,7 +158,8 @@ $configuration = [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_replacement_template',
 			'showitem' => 'iframe_replacement_selection, iframe_replacement_overwritten, --linebreak--,
 				iframe_replacement_warning, --linebreak--,
-				iframe_replacement_html'
+				iframe_replacement_html, --linebreak--,
+				iframe_custom_templates'
 		],
 		'banner_general' => [
 			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.palette.banner_general',
@@ -1727,6 +1728,22 @@ $configuration = [
 				'eval' => 'trim, required'
 			]
 		],
+		'iframe_custom_templates' => [
+			'exclude' => TRUE,
+			'label' => 'LLL:EXT:sg_cookie_optin/Resources/Private/Language/locallang_db.xlf:tx_sgcookieoptin_domain_model_optin.iframe_custom_templates',
+			'config' => [
+				'type' => 'inline',
+				'foreign_table' => 'tx_sgcookieoptin_domain_model_template',
+				'foreign_field' => 'parent_optin',
+				'foreign_sortby' => 'sorting',
+				'appearance' => [
+					'showPossibleLocalizationRecords' => TRUE,
+					'showRemovedLocalizationRecords' => FALSE,
+					'showAllLocalizationLink' => TRUE,
+				],
+				'maxitems' => 99999,
+			],
+		],
 	],
 ];
 
@@ -1809,7 +1826,7 @@ if (version_compare(\TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo
 		. 'subdomain_support, set_cookie_for_domain, domains_to_delete_cookies_for, cookiebanner_whitelist_regex,'
 		. 'disable_powered_by, disable_for_this_language, render_assets_inline, consider_do_not_track,'
 		. 'banner_show_again_interval, version, unified_cookie_name, disable_usage_statistics, fingerprint_position,'
-		. 'color_fingerprint_background, color_fingerprint_image';
+		. 'color_fingerprint_background, color_fingerprint_image, iframe_custom_templates';
 }
 
 return $configuration;

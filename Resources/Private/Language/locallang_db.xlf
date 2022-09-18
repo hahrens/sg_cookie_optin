@@ -629,6 +629,15 @@ Without this setting, this configuration only applies to the domain where it is 
 			<trans-unit id="tx_sgcookieoptin_domain_model_optin.fingerprint" approved="yes">
 				<source><![CDATA[Fingerprint]]></source>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_template" approved="yes">
+				<source><![CDATA[Custom Template]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_template.identifier" approved="yes">
+				<source><![CDATA[Identifier]]></source>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_custom_templates" approved="yes">
+				<source><![CDATA[Custom Templates]]></source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

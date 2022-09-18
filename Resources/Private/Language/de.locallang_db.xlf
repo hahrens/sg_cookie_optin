@@ -853,6 +853,18 @@ Ohne diese Einstellung gilt diese Konfiguration nur für die Domäne, in der sie
 				<source><![CDATA[Fingerprint]]></source>
 				<target><![CDATA[Fingerabdruck]]></target>
 			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_template" approved="yes">
+				<source><![CDATA[Custom Template]]></source>
+				<target><![CDATA[Benutzerdefinierte Vorlage]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_template.identifier" approved="yes">
+				<source><![CDATA[Identifier]]></source>
+				<target><![CDATA[Identifikator]]></target>
+			</trans-unit>
+			<trans-unit id="tx_sgcookieoptin_domain_model_optin.iframe_custom_templates" approved="yes">
+				<source><![CDATA[Custom Templates]]></source>
+				<target><![CDATA[Benutzerdefinierte Vorlagen]]></target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

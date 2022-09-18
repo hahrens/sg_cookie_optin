@@ -986,6 +986,17 @@ class StaticFileGenerationService implements SingletonInterface {
 			],
 		];
 
+		$jsonDataArray['mustacheData']['customTemplates'] = [];
+		if (count($translatedData['iframe_custom_templates']) > 0) {
+			$templateService = GeneralUtility::makeInstance(TemplateService::class);
+			foreach ($translatedData['iframe_custom_templates'] as $customTemplate) {
+				$jsonDataArray['mustacheData']['customTemplates'][$customTemplate['identifier']] = [
+					'rendered' => $templateService->renderTemplate($customTemplate['replacement_html'], $jsonDataArray),
+					'mustache' => $customTemplate['replacement_html'],
+				];
+			}
+		}
+
 		$sitePath = defined('PATH_site') ? PATH_site : Environment::getPublicPath() . '/';
 		$file = $sitePath . $folder . str_replace(
 			'#LANG#',

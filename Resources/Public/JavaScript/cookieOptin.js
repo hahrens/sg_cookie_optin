@@ -1370,7 +1370,7 @@ var SgCookieOptin = {
 		container.setAttribute('data-content-replace-src', src);
 		container.setAttribute('style', 'height: ' + externalContent.offsetHeight + 'px;');
 		container.classList.add('sg-cookie-optin-iframe-consent');
-		container.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.iframeReplacement.markup);
+		SgCookieOptin.insertExternalContentReplacementHTML(externalContent, container);
 
 		// Add event Listeners to the consent buttons
 		var externalContentConsentAccept = container.querySelectorAll('.sg-cookie-optin-iframe-consent-accept');
@@ -1416,6 +1416,34 @@ var SgCookieOptin = {
 			}
 		});
 		container.dispatchEvent(externalContentReplacedEvent);
+	},
+
+	/**
+	 * Inserts the external content replacement HTML
+	 *
+	 * @param {HTMLElement} externalContent
+	 * @param {HTMLElement} container
+	 */
+	insertExternalContentReplacementHTML: function (externalContent, container) {
+		if (typeof externalContent.dataset.sgCookieOptinReplacementTemplate !== 'undefined') {
+			var template = SgCookieOptin.jsonData.mustacheData.customTemplates[
+				externalContent.dataset.sgCookieOptinReplacementTemplate
+			];
+
+			if (template) {
+				container.insertAdjacentHTML('afterbegin', template.rendered);
+				return;
+			} else {
+				console.log('Sg Cookie Optin: Template ' + externalContent.dataset.sgCookieOptinReplacementTemplate
+				+ ' not found!');
+			}
+		}
+
+		if (typeof externalContent.dataset.sgCookieOptinBackgroundImage !== 'undefined') {
+			container.style.backgroundImage = 'url(' + externalContent.dataset.sgCookieOptinBackgroundImage + ')';
+		}
+
+		container.insertAdjacentHTML('afterbegin', SgCookieOptin.jsonData.mustacheData.iframeReplacement.markup);
 	},
 
 	/**
@@ -2065,6 +2093,9 @@ var SgCookieOptin = {
 
 		fingerprintContainer.classList.add('sg-cookie-optin-fingerprint');
 		fingerprintContainer.classList.add('sg-cookie-optin-fingerprint-' + iconPositionClass);
+		fingerprintContainer.addEventListener('click', function (e) {
+			SgCookieOptin.openCookieOptin();
+		});
 
 		fingerprintContainer.innerHTML = '<svg fill="currentColor" class="sg-cookie-optin-fingerprint-icon" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\n' +
 			'\t viewBox="0 0 512 512" xml:space="preserve">\n' +

@@ -136,6 +136,7 @@ CREATE TABLE tx_sgcookieoptin_domain_model_optin (
 	iframe_color_button_load_one_hover varchar(10) DEFAULT '#2E6B96' NOT NULL,
 	iframe_color_button_load_one_text varchar(10) DEFAULT '#FFFFFF' NOT NULL,
 	iframe_color_open_settings varchar(10) DEFAULT '#373737' NOT NULL,
+	iframe_custom_templates int(11) DEFAULT '0' NOT NULL,
 
 	-- Settings
 	cookie_lifetime int(11) DEFAULT '365' NOT NULL,
@@ -286,4 +287,31 @@ CREATE TABLE tx_sgcookieoptin_domain_model_user_preference (
 	KEY consent (pid, user_hash, item_type, item_identifier, date),
     KEY statistics (pid, item_type, item_identifier, is_accepted, version, date),
     KEY version (version, pid)
+);
+
+--
+-- Table structure for table 'tx_sgcookieoptin_domain_model_template'
+--
+CREATE TABLE tx_sgcookieoptin_domain_model_template (
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) unsigned DEFAULT '0' NOT NULL,
+
+	identifier varchar(255) DEFAULT '' NOT NULL,
+	replacement_html text NOT NULL,
+	parent_optin int(11) DEFAULT '0' NOT NULL,
+
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
+	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
+	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	cruser_id int(11) unsigned DEFAULT '0' NOT NULL,
+	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l10n_parent int(11) DEFAULT '0' NOT NULL,
+	l10n_diffsource mediumblob,
+
+	PRIMARY KEY (uid),
+	KEY parent (pid),
+	KEY parent_optin (parent_optin),
+	KEY language (l10n_parent,sys_language_uid)
 );

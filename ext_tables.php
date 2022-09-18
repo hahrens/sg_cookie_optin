@@ -40,6 +40,9 @@ call_user_func(
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
 				'tx_sgcookieoptin_domain_model_cookie'
 			);
+			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::allowTableOnStandardPages(
+				'tx_sgcookieoptin_domain_model_template'
+			);
 
 			$hideModuleInProductionContext = \SGalinski\SgCookieOptin\Service\ExtensionSettingsService::getSetting(
 				\SGalinski\SgCookieOptin\Service\ExtensionSettingsService::SETTING_HIDE_MODULE_IN_PRODUCTION_CONTEXT

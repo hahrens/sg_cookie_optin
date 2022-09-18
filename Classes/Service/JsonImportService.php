@@ -92,6 +92,7 @@ class JsonImportService {
 		$cookieGroups = $jsonData['cookieGroups'];
 		$iframeGroup = $jsonData['iFrameGroup'];
 		$footerLinks = $jsonData['footerLinks'];
+		$customTemplates = $jsonData['mustacheData']['customTemplates'];
 
 		if (!is_array($footerLinks)) {
 			$footerLinks = [];
@@ -100,6 +101,7 @@ class JsonImportService {
 		unset($jsonData['cookieGroups']);
 		unset($jsonData['iFrameGroup']);
 		unset($jsonData['footerLinks']);
+		unset($jsonData['mustacheData']);
 
 		// flatten the data into one array to prepare it for SQL
 		$flatJsonData = [];
@@ -175,6 +177,28 @@ class JsonImportService {
 			$flatJsonData
 		);
 
+		// Add Templates
+		$templateIndex = 0;
+		foreach ($customTemplates as $identifier => $template) {
+			$template['identifier'] = $identifier;
+			$templateId = $this->addCustomTemplate(
+				$pid,
+				$template,
+				$templateIndex,
+				$optInId,
+				$sysLanguageUid,
+				$defaultLanguageOptinId,
+				$connectionPool
+			);
+
+			// store the mapping
+			if ($defaultLanguageOptinId === NULL) {
+				$this->defaultLanguageIdMappingLookup['templates'][$templateIndex] = $templateId;
+			}
+
+			$templateIndex++;
+		}
+
 		// Add Groups
 		foreach ($cookieGroups as $groupIndex => $group) {
 			$groupIdentifier = $groupIndex;
@@ -226,6 +250,7 @@ class JsonImportService {
 					}
 				}
 			}
+
 			// Add Scripts
 			if (isset($group['scriptData'])) {
 				foreach ($group['scriptData'] as $scriptIndex => $script) {
@@ -479,6 +504,54 @@ class JsonImportService {
 			'pid', 'html', 'script'
 		],
 			$scriptData
+		);
+	}
+
+	/**
+	 * Adds a custom template entry in the database
+	 *
+	 * @param int $pid
+	 * @param array $template
+	 * @param int $templateIndex
+	 * @param int $optInId
+	 * @param int|null $sysLanguageUid
+	 * @param int|null $defaultLanguageOptinId
+	 * @param string $groupIdentifier
+	 * @param ConnectionPool $connectionPool
+	 * @return string
+	 */
+	protected function addCustomTemplate(
+		$pid,
+		$template,
+		$templateIndex,
+		$optInId,
+		$sysLanguageUid,
+		$defaultLanguageOptinId,
+		$connectionPool
+	): string {
+		$templateData = [
+			'pid' => $pid,
+			'cruser_id' => $GLOBALS['BE_USER']->user[$GLOBALS['BE_USER']->userid_column],
+			'identifier' => $template['identifier'],
+			'replacement_html' => $template['mustache'],
+			'sorting' => $templateIndex + 1,
+			'parent_optin' => $optInId,
+			'crdate' => $GLOBALS['EXEC_TIME'],
+			'tstamp' => $GLOBALS['EXEC_TIME'],
+		];
+
+		if ($defaultLanguageOptinId !== NULL) {
+			$templateData['sys_language_uid'] = $sysLanguageUid;
+			$templateData['l10n_parent'] = $this->defaultLanguageIdMappingLookup['templates'][$templateIndex];
+		}
+
+		return $this->flexInsert(
+			$connectionPool,
+			'tx_sgcookieoptin_domain_model_template',
+			[
+			'pid', 'identifier', 'replacement_html'
+		],
+			$templateData
 		);
 	}
 
